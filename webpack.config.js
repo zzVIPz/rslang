@@ -13,7 +13,7 @@ module.exports = (env, options) => {
     watch: !isProduction,
     entry: {
       index: ['./src/index.js', './src/sass/index.scss'],
-      main: ['./src/pages/main/main.js', './src/sass/main.scss'],
+      main: ['./src/js/main.js', './src/sass/main.scss'],
     },
     output: {
       path: path.join(__dirname, '/dist'),
@@ -60,6 +60,7 @@ module.exports = (env, options) => {
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
+        template: 'index.html',
         chunks: ['index'],
       }),
       new HtmlWebpackPlugin({
@@ -69,7 +70,7 @@ module.exports = (env, options) => {
       }),
       new CopyPlugin([
         { from: 'src/assets/images', to: 'src/assets/images' },
-        { from: 'src/assets/media', to: 'src/assets/media' },
+        // { from: 'src/assets/media', to: 'src/assets/media' },
         { from: 'src/assets/svg', to: 'src/assets/svg' },
       ]),
       new MiniCssExtractPlugin({
