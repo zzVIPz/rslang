@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "https://github.com/rolling-scopes-school/tasks/blob/master/tasks/rslang/rslang.md",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "firebase": "^7.15.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/plugin-transform-runtime": "^7.9.6",

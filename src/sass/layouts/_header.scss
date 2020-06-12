@@ -1,0 +1,13 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  background-color: $color-header;
+
+  transition: background-color 0.2s cubic-bezier(0, -1.85, 0.27, 1.75);
+}
