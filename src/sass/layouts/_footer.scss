@@ -7,7 +7,7 @@
   justify-content: space-between;
   height: 47px;
 
-  background-color: $color-header;
+  background-image: $color-header;
   .contacts {
     .link {
       display: flex;
@@ -28,10 +28,5 @@
         contrast(104%);
       }
     }
-  }
-}
-@media (max-width: 550px) {
-  .contacts {
-    display: none;
   }
 }

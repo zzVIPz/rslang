@@ -9,20 +9,31 @@
 
 <body>
   <header class="header">
-    <h1 class="title">RS Lang</h1>
-    <div class="auth">
-      <button class="auth__button log-in" title="Log into an existing account">Log In</button>
-      <button class="auth__button sing-up" title="Create a new account">Sing Up</button>
+    <div class="wrapper">
+      <div class="logo"></div>
+      <div class="auth">
+        <button class="auth__button log-in" title="Log into an existing account">Log In</button>
+        <button class="auth__button sing-up" title="Create a new account">Sing Up</button>
+      </div>
     </div>
+
   </header>
   <main class="main">
+    <div class="title__wrapper">
+      <h1 class="title">RS<span>Lang</span></h1>
+    </div>
     <form class="form">
+      <input class="user-name" type="text" placeholder="Name (Required)" required autofocus>
+      <div class="user-name-error-message">Please, enter your name</div>
       <input id="email" type="email" placeholder="E-mail (Required)" required autofocus>
+      <div class="email-error-message">Please, enter valid email - "example@mail.com"</div>
       <input id="password" type="password" placeholder="Password (Required)" required autocomplete="on">
+      <div class="password-error-message">Your password should be at least 6 characters</div>
+      <input class="form__button" type="button" value="Log In">
+      <p class="form__login-message">Don't have an account?<span class="form__login-selection">Sign up</span></p>
     </form>
 
   </main>
-
   <footer class="footer">
     <div class="contacts">
       <a class="link" href="https://telegram.me/zzVIPz" target="_blank">

@@ -9,8 +9,15 @@
 @import "base/base";
 
 //  Components
+@import "components/logo";
+@import "components/wrapper";
+@import "components/auth-tool";
+@import "components/form";
+
 // Layout
 @import "layouts/header";
 @import "layouts/main";
 @import "layouts/footer";
+
 // pages
+@import "pages/index";
