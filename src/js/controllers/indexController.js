@@ -1,5 +1,3 @@
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
 import BaseController from './baseController';
 import checkEmail from '../utils/checkEmail';
 
@@ -12,9 +10,7 @@ class indexController extends BaseController {
   }
 
   init() {
-    firebase.initializeApp(this.firebaseConfig);
-    this.auth = firebase.auth();
-    console.log('firebase', firebase);
+    console.log('firebase', this.database);
     console.log('auth', this.auth);
     this.email = document.getElementById('email');
     this.password = document.getElementById('password');
@@ -25,17 +21,31 @@ class indexController extends BaseController {
   }
 
   addListeners() {
-    // this.addBtnLogInClickHandler();
-    // this.addBtnSignUpClickHandler();
+    this.addBtnLogOutClickHandler();
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        //todo: show modal on refresh
+        console.log('user', user);
+        // const { uid } = user;
+        // const { email } = user;
+      } else {
+        console.log('user log out');
+      }
+    });
+  }
+
+  addBtnLogOutClickHandler() {
+    const btn = document.querySelector('.log-out');
+    btn.addEventListener('click', () => {
+      super.logout();
+    });
   }
 
   addLoginSelectionClickHandler() {
     this.loginSelection.addEventListener('click', () => {
-      this.email.value = '';
-      this.name.value = '';
-      this.password.value = '';
+      this.setDefaultState();
       if (this.mode) {
         this.view.setText(this.model.existingUserText);
 
@@ -47,33 +57,52 @@ class indexController extends BaseController {
     });
   }
 
-  // addBtnSignUpClickHandler() {
-  //   const btnSignUp = document.querySelector('.sing-up');
-  //   btnSignUp.addEventListener('click', () => {
-  //     const promise = this.auth.createUserWithEmailAndPassword(
-  //       this.email.value,
-  //       this.password.value,
-  //     );
-  //     console.log('promise'.promise);
-  //     promise.catch((e) => console.log(e.message));
-  //     console.log('Sing Up!');
-  //   });
-  // }
-
-  // addBtnLogInClickHandler() {
-  //   const btnLogIn = document.querySelector('.log-in');
-  //   btnLogIn.addEventListener('click', () => {
-  //     const promise = this.auth.signInWithEmailAndPassword(this.email.value, this.password.value);
-  //     promise.catch((e) => console.log(e.message));
-  //   });
-  // }
+  setDefaultState() {
+    this.email.value = '';
+    this.name.value = '';
+    this.password.value = '';
+    if (this.messageEmail) {
+      this.messageEmail.classList.remove('email-error-message--active');
+    }
+    if (this.messageName) {
+      this.messageName.classList.remove('user-name-error-message--active');
+    }
+    if (this.messagePassword) {
+      this.messagePassword.classList.remove('password-error-message--active');
+    }
+  }
 
   addBtnFormClickHandler() {
     this.formButton.addEventListener('click', () => {
       if (!this.checkUserData()) {
-        const promise = this.auth.signInWithEmailAndPassword(this.email.value, this.password.value);
-        promise.catch((e) => console.log(e.message));
+        if (this.mode) {
+          this.auth
+            .signInWithEmailAndPassword(this.email.value, this.password.value)
+            .catch((error) => {
+              console.log(error.code, error.message);
+              this.view.showModalMessage(this.model.modal, error);
+            });
+        } else {
+          this.auth
+            .createUserWithEmailAndPassword(this.email.value, this.password.value)
+            .then(() => {
+              const userId = this.auth.currentUser.uid;
+              this.writeUserData(userId, this.email.value, this.name.value, this.password.value);
+            })
+            .catch((error) => {
+              console.log(error.code, error.message);
+              this.view.showModalMessage(this.model.modal, error);
+            });
+        }
       }
+    });
+  }
+
+  writeUserData(userId, email, username, password) {
+    this.database.ref(`users/${userId}`).set({
+      username,
+      email,
+      password,
     });
   }
 
@@ -97,36 +126,42 @@ class indexController extends BaseController {
   }
 
   showNameErrorMessage() {
-    const message = document.querySelector('.user-name-error-message');
-    message.classList.add('email-error-message--active');
+    this.messageName = document.querySelector('.user-name-error-message');
+    this.messageName.classList.add('user-name-error-message--active');
     this.name.focus();
     this.name.addEventListener('input', () => {
       if (this.email.value) {
-        message.classList.remove('email-error-message--active');
+        this.messageName.classList.remove('user-name-error-message--active');
       }
     });
   }
 
   showEmailErrorMessage() {
-    const message = document.querySelector('.email-error-message');
-    message.classList.add('email-error-message--active');
+    this.messageEmail = document.querySelector('.email-error-message');
+    this.messageEmail.classList.add('email-error-message--active');
     this.email.focus();
     this.email.addEventListener('input', () => {
       if (checkEmail(this.email.value)) {
-        message.classList.remove('email-error-message--active');
+        this.messageEmail.classList.remove('email-error-message--active');
       }
     });
   }
 
   showPasswordErrorMessage() {
-    const message = document.querySelector('.password-error-message');
-    message.classList.add('password-error-message--active');
+    this.messagePassword = document.querySelector('.password-error-message');
+    this.messagePassword.classList.add('password-error-message--active');
     this.password.focus();
     this.password.addEventListener('input', () => {
       if (this.password.value.length > 5) {
-        message.classList.remove('password-error-message--active');
+        this.messagePassword.classList.remove('password-error-message--active');
       }
     });
+  }
+
+  setSetTimeout() {
+    this.modalTimer = setTimeout(() => {
+      this.removeModalWindow();
+    }, 5000);
   }
 }
 
