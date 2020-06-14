@@ -4,7 +4,8 @@ const INDEX_MODEL = {
   modal: `
   <div class="modal">
     <div class="modal__button-close"></div>
-    <p class="modal__message">{message}</p>
+    <p class="modal__title">{title}</p>
+    <p class="modal__description">{description}</p>
   </div>`,
 };
 

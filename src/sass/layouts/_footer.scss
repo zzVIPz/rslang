@@ -4,29 +4,8 @@
   z-index: 1;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   height: 47px;
 
   background-image: $color-header;
-  .contacts {
-    .link {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding: 0 20px;
-
-      color: $color-contacts;
-      text-decoration: none;
-
-      img {
-        height: 20px;
-        margin-right: 10px;
-      }
-      &:hover {
-        cursor: pointer;
-        filter: invert(52%) sepia(75%) saturate(7181%) hue-rotate(199deg) brightness(98%)
-        contrast(104%);
-      }
-    }
-  }
 }

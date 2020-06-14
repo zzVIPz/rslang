@@ -1,17 +1,19 @@
 import BaseController from './baseController';
 import checkEmail from '../utils/checkEmail';
+import checkPassword from '../utils/checkPassword';
 
 class indexController extends BaseController {
   constructor(model, view) {
     super();
     this.model = model;
     this.view = view;
-    this.mode = 1;
   }
 
   init() {
     console.log('firebase', this.database);
     console.log('auth', this.auth);
+    this.mode = 1;
+    this.modal = true;
     this.email = document.getElementById('email');
     this.password = document.getElementById('password');
     this.name = document.querySelector('.user-name');
@@ -26,10 +28,8 @@ class indexController extends BaseController {
     this.addLoginSelectionClickHandler();
     this.auth.onAuthStateChanged((user) => {
       if (user) {
-        //todo: show modal on refresh
-        console.log('user', user);
-        // const { uid } = user;
-        // const { email } = user;
+        // todo: show modal on refresh
+        console.log('user log in');
       } else {
         console.log('user log out');
       }
@@ -78,9 +78,13 @@ class indexController extends BaseController {
         if (this.mode) {
           this.auth
             .signInWithEmailAndPassword(this.email.value, this.password.value)
+            .then(() => {
+              this.showMainPage();
+            })
             .catch((error) => {
               console.log(error.code, error.message);
               this.view.showModalMessage(this.model.modal, error);
+              this.closeModalWindow();
             });
         } else {
           this.auth
@@ -88,14 +92,29 @@ class indexController extends BaseController {
             .then(() => {
               const userId = this.auth.currentUser.uid;
               this.writeUserData(userId, this.email.value, this.name.value, this.password.value);
+              this.showMainPage();
             })
             .catch((error) => {
               console.log(error.code, error.message);
               this.view.showModalMessage(this.model.modal, error);
+              this.closeModalWindow();
             });
         }
       }
     });
+  }
+
+  showMainPage() {
+    window.location.href = '../pages/main.html';
+    // document.location.replace('../pages/main.html');
+  }
+
+  closeModalWindow() {
+    if (this.modal) {
+      this.modal = false;
+      this.addButtonCloseModalClickHandler();
+    }
+    this.setSetTimeout();
   }
 
   writeUserData(userId, email, username, password) {
@@ -114,7 +133,7 @@ class indexController extends BaseController {
         this.showNameErrorMessage();
       }
     }
-    if (this.password.value.length < 6) {
+    if (!checkPassword(this.password.value)) {
       errorCounter += 1;
       this.showPasswordErrorMessage();
     }
@@ -152,16 +171,33 @@ class indexController extends BaseController {
     this.messagePassword.classList.add('password-error-message--active');
     this.password.focus();
     this.password.addEventListener('input', () => {
-      if (this.password.value.length > 5) {
+      if (checkPassword(this.password.value)) {
         this.messagePassword.classList.remove('password-error-message--active');
       }
+    });
+  }
+
+  addButtonCloseModalClickHandler() {
+    const closeBtn = document.querySelector('.modal__button-close');
+
+    closeBtn.addEventListener('click', () => {
+      clearTimeout(this.modalTimer);
+      this.removeModalWindow();
     });
   }
 
   setSetTimeout() {
     this.modalTimer = setTimeout(() => {
       this.removeModalWindow();
-    }, 5000);
+    }, 3000);
+  }
+
+  removeModalWindow() {
+    const modal = document.querySelector('.modal');
+    clearTimeout(this.modalTimer);
+    if (modal) {
+      modal.remove();
+    }
   }
 }
 

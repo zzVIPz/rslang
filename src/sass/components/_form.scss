@@ -19,7 +19,7 @@
 
     visibility: hidden;
 
-    @include font($size: 1.3rem, $weight: normal, $color: red);
+    @include font($size: 1.1rem, $weight: normal, $color: red);
   }
 
   .email-error-message--active,

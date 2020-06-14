@@ -24,25 +24,13 @@
     cursor: pointer;
   }
 
-  &__message {
-    color: red;
-
-    @include font($size: 1.25rem, $height: 1.45rem, $weight: normal);
-  }
-
   &__title {
     text-align: center;
 
-    @include font($size: 2rem, $height: 1.45rem, $weight: bold);
+    @include font($size: 1.25rem, $height: 1.45rem, $weight: normal, $color: red);
   }
 
   &__description {
-    @include font($size: 1.5rem, $height: 1.7rem, $weight: normal, $style: italic);
-  }
-
-  &__subtitle {
-    color: red;
-
-    @include font($size: 1.7rem, $height: 1.7rem, $weight: normal);
+    @include font($size: 1.1rem, $height: 1.3rem, $weight: normal, $style: italic);
   }
 }
