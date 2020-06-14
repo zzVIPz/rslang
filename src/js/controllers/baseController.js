@@ -19,8 +19,20 @@ class BaseController {
     this.database = firebase.database();
   }
 
+  authStateChangedHandler() {
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        // todo: show modal on refresh
+        console.log('user log in');
+      } else {
+        console.log('user log out');
+      }
+    });
+  }
+
   logout() {
     this.auth.signOut();
+    document.location.replace('../index.html');
   }
 }
 
