@@ -12,6 +12,7 @@ class indexController extends BaseController {
   init() {
     console.log('firebase', this.database);
     console.log('auth', this.auth);
+    super.authStateChangedHandler();
     this.mode = 1;
     this.modal = true;
     this.email = document.getElementById('email');
@@ -23,24 +24,8 @@ class indexController extends BaseController {
   }
 
   addListeners() {
-    this.addBtnLogOutClickHandler();
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        // todo: show modal on refresh
-        console.log('user log in');
-      } else {
-        console.log('user log out');
-      }
-    });
-  }
-
-  addBtnLogOutClickHandler() {
-    const btn = document.querySelector('.log-out');
-    btn.addEventListener('click', () => {
-      super.logout();
-    });
   }
 
   addLoginSelectionClickHandler() {
@@ -105,8 +90,7 @@ class indexController extends BaseController {
   }
 
   showMainPage() {
-    window.location.href = '../pages/main.html';
-    // document.location.replace('../pages/main.html');
+    document.location.replace('../pages/main.html');
   }
 
   closeModalWindow() {
