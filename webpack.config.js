@@ -14,6 +14,8 @@ module.exports = (env, options) => {
     entry: {
       index: ['./src/index.js', './src/sass/index.scss'],
       main: ['./src/js/main.js', './src/sass/main.scss'],
+      about: ['./src/sass/about.scss'],
+      promo: ['./src/sass/promo.scss'],
     },
     output: {
       path: path.join(__dirname, '/dist'),
@@ -34,7 +36,11 @@ module.exports = (env, options) => {
         },
         {
           test: /\.scss$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [
+            MiniCssExtractPlugin.loader,
+            { loader: 'css-loader', options: { url: false, sourceMap: true } },
+            'sass-loader',
+          ],
         },
         {
           test: /\.(png|svg|jpe?g|gif)$/,
@@ -67,6 +73,16 @@ module.exports = (env, options) => {
         filename: 'pages/main.html',
         template: 'src/pages/main.html',
         chunks: ['main'],
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'pages/about.html',
+        template: 'src/pages/about.html',
+        chunks: ['about'],
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'pages/promo.html',
+        template: 'src/pages/promo.html',
+        chunks: ['promo'],
       }),
       new CopyPlugin([
         { from: 'src/assets/images', to: 'src/assets/images' },

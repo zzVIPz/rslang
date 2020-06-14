@@ -1,3 +1,7 @@
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+
 class BaseController {
   constructor() {
     this.firebaseConfig = {
@@ -10,6 +14,13 @@ class BaseController {
       appId: '1:839023755415:web:4b216318c83fa4c68969d2',
       measurementId: 'G-3YELKYH44D',
     };
+    firebase.initializeApp(this.firebaseConfig);
+    this.auth = firebase.auth();
+    this.database = firebase.database();
+  }
+
+  logout() {
+    this.auth.signOut();
   }
 }
 

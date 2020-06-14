@@ -4,10 +4,11 @@
   z-index: 1;
 
   display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 20px;
 
-  background-color: $color-header;
+  background-image: $color-header;
 
   transition: background-color 0.2s cubic-bezier(0, -1.85, 0.27, 1.75);
 }
