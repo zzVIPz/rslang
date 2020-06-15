@@ -1,29 +1,21 @@
-import BaseController from './baseController';
+import FirebaseModel from '../models/firebaseModel';
+import MainView from '../views/mainView';
 
-class mainController extends BaseController {
-  constructor(model, view) {
-    super();
-    this.model = model;
-    this.view = view;
+export default class MainController {
+  constructor() {
+    this.firebaseModel = new FirebaseModel();
+    this.mainView = new MainView();
   }
 
   init() {
-    console.log('firebase', this.database);
-    console.log('auth', this.auth);
-    super.authStateChangedHandler();
-    this.addListeners();
+    this.firebaseModel.onAuthStateChangedHandler();
+    this.mainView.addListeners();
+    this.subscribeToEvents();
   }
 
-  addListeners() {
-    this.addBtnLogOutClickHandler();
-  }
-
-  addBtnLogOutClickHandler() {
-    const btn = document.querySelector('.log-out');
-    btn.addEventListener('click', () => {
-      super.logout();
-    });
+  subscribeToEvents() {
+    this.mainView.onLogOut = () => {
+      this.firebaseModel.onLogOut();
+    };
   }
 }
-
-export default mainController;
