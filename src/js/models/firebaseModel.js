@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-class BaseController {
+export default class FirebaseModel {
   constructor() {
     this.firebaseConfig = {
       apiKey: 'AIzaSyCoqpTfOVB0Ooc_1PXQBIjYafAK3Lr3woY',
@@ -19,9 +19,26 @@ class BaseController {
     this.database = firebase.database();
   }
 
-  logout() {
+  onAuthStateChangedHandler() {
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        // todo: show modal on refresh
+        console.log('user log in');
+      } else {
+        console.log('user log out');
+      }
+    });
+  }
+
+  writeUserData(email, username, password) {
+    this.database.ref(`users/${this.auth.currentUser.uid}`).set({
+      username,
+      email,
+      password,
+    });
+  }
+
+  onLogOut() {
     this.auth.signOut();
   }
 }
-
-export default BaseController;
