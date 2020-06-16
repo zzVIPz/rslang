@@ -1,0 +1,16 @@
+.keyboard__container {
+  position: absolute;
+  bottom: 100px;
+  z-index: 10;
+
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1020px;
+  margin: auto;
+
+  cursor: move;
+
+  &--active {
+    display: block;
+  }
+}

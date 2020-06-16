@@ -1,0 +1,67 @@
+.keyboard {
+  &__btn {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    border: 1px solid red;
+    border-radius: 5px;
+    cursor: pointer;
+
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+
+     -khtml-user-select: none; /* Konqueror */
+    @include font($size: 1.4rem, $height: 2.6rem, $weight: normal);
+    -webkit-touch-callout: none; /* iOS Safari */
+    &-active {
+      background-color: blue;
+    }
+    &:hover {
+      outline: none;
+      box-shadow: 0 0 9px 4px #b9b9b9;
+
+      @extend %transition;
+    }
+  }
+}
+.backspace,
+.capslock {
+  width: 10%;
+
+  text-overflow: hidden;
+}
+
+.shiftleft {
+  width: 12%;
+}
+
+.shiftright {
+  width: calc(13% - 1px);
+}
+
+.enter {
+  width: 12%;
+}
+
+.tab {
+  width: 8%;
+}
+
+[data-btn-code="Space"] {
+  width: 44%;
+}
+
+@media (max-width: 920px) {
+  .main {
+    .button__keyboard,
+    .keyboard__container {
+      display: none;
+    }
+  }
+}

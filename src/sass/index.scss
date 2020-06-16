@@ -23,3 +23,8 @@
 
 // pages
 @import "pages/index";
+
+//todo подключаем стили игры на страницу, где ее будем рисовать
+@import "layouts/keyboard-container";
+@import "components/keyboard";
+@import "components/keyboard-button";

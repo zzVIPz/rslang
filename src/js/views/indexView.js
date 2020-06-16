@@ -2,8 +2,21 @@ import CONST_INDEX_VIEW from '../constants/constIndexView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
 
+//todo: импортируем нашу игру
+import KeyboardController from '../games/keyboard-module/Controller';
+import KeyboardModel from '../games/keyboard-module/Model';
+import KeyboardView from '../games/keyboard-module/View';
+//  в папку sass кладем наши стили для игры:
+//_keyboard-container
+//_keyboard
+//_keyboard-button
+//todo: --------
+
 export default class IndexView {
   constructor() {
+    //todo: берем кнопку
+    this.btnDrawGame = document.querySelector('.button-draw-game');
+
     this.loginMessage = document.querySelector('.form__login-message');
     this.formButton = document.querySelector('.form__button');
     this.name = document.querySelector('.user-name');
@@ -38,9 +51,23 @@ export default class IndexView {
   }
 
   addListeners() {
+    //todo: вешаем лиссенер
+    this.addBtbDrawGame();
+
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
   }
+
+  //todo: чистим контейнер, куда заапендим игру
+  addBtbDrawGame() {
+    this.btnDrawGame.addEventListener('click', () => {
+      this.main.innerText = '';
+      // рендерим нашу игру
+      this.keyboard = new KeyboardController(KeyboardModel, new KeyboardView());
+      this.keyboard.init();
+    });
+  }
+  //todo: -------
 
   addLoginSelectionClickHandler() {
     this.loginSelection.addEventListener('click', () => {
