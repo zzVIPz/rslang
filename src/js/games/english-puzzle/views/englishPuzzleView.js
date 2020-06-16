@@ -16,7 +16,6 @@ export default class EnglishPuzzleView {
     this.englishPuzzleModel.data.forEach((el) => {
       const elem = document.createElement('div');
       elem.textContent = el.word;
-      console.log(elem);
       document.querySelector('.mockData').append(elem);
     });
   }
