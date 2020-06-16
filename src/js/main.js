@@ -1,10 +1,9 @@
 import MainController from './controllers/mainController';
-import Controller from './games/savannah-game/Controller';
-import Model from './games/savannah-game/Model';
+import SavannahController from './games/savannah-game/Controller';
 
 window.onload = () => {
   const app = new MainController();
   app.init();
-  const savannah = new Controller(new Model());
+  const savannah = new SavannahController();
   savannah.clickSavannahBtn();
 };

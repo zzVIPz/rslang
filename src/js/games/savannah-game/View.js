@@ -21,7 +21,7 @@ class SavannahView {
         <label class="rating__label" for="star6" title="text"></label>
       </div>
       <div class="rating__text">
-        Уровень сложность
+        Уровень сложности
       </div>
     </div>
     <div class="app__content">
@@ -39,6 +39,24 @@ class SavannahView {
     </div>
     <div class="app__footer"></div>
   </div>`;
+
+    this.preloader = `
+    <div class="preloader__conatiner"> 
+        <div class="countdown">3</div>
+        <div class="preloader">
+          <div class="item-1"></div>
+          <div class="item-2"></div>
+          <div class="item-3"></div>
+          <div class="item-4"></div>
+          <div class="item-5"></div>
+        </div>
+        <div class="preloader__info">
+          <img class="keyboard" src="../src/assets/images/keyboard.png">
+          <span class="preloader__info_text">Используй клавиши 1, 2, 3 и 4, чтобы дать быстрый ответ</span>
+        </div>
+    </div>
+
+  `;
   }
 
   displayModal() {
@@ -53,6 +71,10 @@ class SavannahView {
 
   renderGameLayout() {
     return this.savannahGame;
+  }
+
+  renderPreloader() {
+    return this.preloader;
   }
 }
 

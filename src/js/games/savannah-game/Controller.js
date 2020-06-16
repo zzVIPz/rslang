@@ -1,8 +1,9 @@
 import SavannahView from './View';
+import SavannahModel from './Model';
 
-class Controller {
-  constructor(model) {
-    this.model = model;
+class SavannahController {
+  constructor() {
+    this.model = new SavannahModel();
     this.view = new SavannahView();
   }
 
@@ -10,38 +11,58 @@ class Controller {
     this.mainContainer = document.querySelector('.main');
     this.mainContainer.innerHTML = this.view.renderGameLayout();
     this.addListeners();
-    // this.changeDifficultyLevel();
   }
 
   addListeners() {
     console.log('level', this.model.addLevel(2));
     this.closeBtn = document.querySelector('.close');
     this.cancelBtn = document.querySelector('.app__modal__box_cancel');
+    this.backToMianBtn = document.querySelector('.app__button_close');
+    this.startBtn = document.querySelector('.app__button');
     this.rating = document.querySelectorAll('.rating__input');
     this.openModal();
     this.closeModal();
+    this.backToMainPage();
+    this.clickStartGameBtn();
   }
 
   openModal() {
-    console.log(this.closeBtn);
-    if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => {
-        this.view.displayModal();
-      });
-    }
+    this.closeBtn.addEventListener('click', () => {
+      this.view.displayModal();
+    });
   }
 
   closeModal() {
-    if (this.cancelBtn) {
-      this.cancelBtn.addEventListener('click', () => {
-        this.view.hideModal();
-      });
-    }
+    this.cancelBtn.addEventListener('click', () => {
+      this.view.hideModal();
+    });
   }
 
-  /*   changeDifficultyLevel() {
-    console.log(this.rating);
-  } */
+  backToMainPage() {
+    this.backToMianBtn.addEventListener('click', () => {
+      this.mainContainer.innerHTML = '';
+    });
+  }
+
+  clickStartGameBtn() {
+    this.startBtn.addEventListener('click', () => {
+      this.addPreloader();
+      setTimeout(this.preloaderCountDown.bind(this), 1000);
+    });
+  }
+
+  addPreloader() {
+    this.appContent = document.querySelector('.app__content');
+    this.appContent.innerHTML = this.view.renderPreloader();
+  }
+
+  preloaderCountDown() {
+    const countNumber = this.model.countTillThree();
+    if (countNumber > 0) {
+      document.querySelector('.countdown').innerHTML = countNumber;
+      setTimeout(this.preloaderCountDown.bind(this), 1000);
+    }
+  }
 
   clickSavannahBtn() {
     this.savannahBtn = document.querySelector('.savannah-game');
@@ -51,4 +72,4 @@ class Controller {
   }
 }
 
-export default Controller;
+export default SavannahController;
