@@ -1,0 +1,29 @@
+.app__content {
+    position: absolute;
+    top: 50%;
+    margin-top: -150px;
+    height: 300px;
+    text-align: center;
+    right: 0;
+    left: 0;
+    &__title {
+        font-size: 40px;
+        font-weight: 300;
+        line-height: 1;
+        margin-bottom: 60px;
+        color: $text-color;
+        opacity: .9;
+        text-transform: uppercase;
+        letter-spacing: 13px;
+    }
+    &__text {
+        max-width: 565px;
+        margin: 0 auto 58px;
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 300;
+        color: $text-color;
+        text-shadow: 0px 2px 7px white;
+        opacity: .8;
+    }
+}

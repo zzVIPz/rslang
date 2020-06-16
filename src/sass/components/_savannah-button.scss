@@ -1,0 +1,31 @@
+.app__button {
+    display: inline-block;
+    cursor: pointer;
+    appearance: none;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+    text-align: center;
+    padding: 19px 15px 21px;
+    text-decoration: none!important;
+    min-width: 162px;
+    color: #fff;
+    background: $main-color;
+    border: none;
+    border-radius: 10px;
+    transition: all .15s ease;
+    outline: none;
+    &:hover {
+        color: $main-color;
+        background: #fff;
+        border: 1px solid $main-color;
+    }
+    &_close {
+        padding: 11px 0;
+        width: 200px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 48px;
+    }
+}

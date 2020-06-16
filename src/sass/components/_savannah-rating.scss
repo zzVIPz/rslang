@@ -1,0 +1,56 @@
+.app__rating {
+    position: relative;
+    height: 40px;
+    width: 100%;
+}
+
+.rating {
+    position: absolute;
+    top:20px;
+    right: 0;
+    transform: translate(-40%, -50%) rotateY(180deg);
+    display: flex;
+    &__input {
+        display: none;
+    }
+    &__label {
+        display: block;
+        cursor: pointer;
+        width: 25px;
+        &:before {
+            content: '★';
+            position: relative;
+            display: block;
+            font-size: 30px;
+            color: $main-color;
+        }
+        &:after {
+            content: '★';
+            position: absolute;
+            display: block;
+            font-size: 30px;
+            color: gold;
+            top: 0;
+            opacity: 0;
+            transform: .3s;
+            text-shadow: 0 2px 5px rgba(0,0,0,.5);
+        }
+    }
+    &__text {
+        position: absolute;
+        top: 40px;
+        right: 47px;
+        font-size: 18px;
+        font-weight: 300;
+        color: $text-color;
+        text-shadow: 0px 2px 7px white;
+        opacity: .8;
+    }
+}
+
+.rating__label:hover:after,
+.rating__label:hover ~ .rating__label:after,
+.rating__input:checked ~ .rating__label:after
+ {
+    opacity: 1;
+}
