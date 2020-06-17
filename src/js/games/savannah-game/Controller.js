@@ -40,6 +40,7 @@ class SavannahController {
   backToMainPage() {
     this.backToMianBtn.addEventListener('click', () => {
       this.mainContainer.innerHTML = '';
+      document.body.style.backgroundImage = 'none';
     });
   }
 
@@ -51,12 +52,14 @@ class SavannahController {
   }
 
   addPreloader() {
+    // this.view.renderAudio();
     this.appContent = document.querySelector('.app__content');
+    document.getElementById('app').removeChild(document.querySelector('.app__rating'));
     this.appContent.innerHTML = this.view.renderPreloader();
   }
 
   preloaderCountDown() {
-    const countNumber = this.model.countTillThree();
+    const countNumber = this.model.countTillOne();
     if (countNumber > 0) {
       document.querySelector('.countdown').innerHTML = countNumber;
       setTimeout(this.preloaderCountDown.bind(this), 1000);
@@ -64,9 +67,11 @@ class SavannahController {
   }
 
   clickSavannahBtn() {
-    this.savannahBtn = document.querySelector('.savannah-game');
+    this.savannahBtn = document.querySelector('[data-name="savannah"]');
     this.savannahBtn.addEventListener('click', () => {
       this.init();
+      document.body.style.backgroundImage = 'url("../src/assets/images/savannah-bg.svg")';
+      document.body.classList.add('app__background');
     });
   }
 }
