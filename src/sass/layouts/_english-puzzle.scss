@@ -1,0 +1,46 @@
+.english-puzzle {
+  width: 1200px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  &__right-side {
+    display: flex;
+  }
+  &__btn {
+    width: 40px;
+    height: 40px;
+    background-color: green;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+}
+
+.tips {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sentences {
+  margin-top: 20px;
+}
+
+.playground {
+  height: 40px;
+  margin-top: 20px;
+  border: 1px solid black;
+}
+
+.play-buttons {
+  margin-top: 20px;
+  position: relative;
+  left: 400px;
+}
+
+.english-puzzle__btn {
+  width: 200px;
+  height: 40px;
+}
