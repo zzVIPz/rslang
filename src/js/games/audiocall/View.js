@@ -7,7 +7,7 @@ class AudiocallView {
             <div class="container-game__trainings-audiocall" style="background-position-y: 100%;">
                 <div>
                     <div class="container-game__trainings-audiocall__close"></div>
-                    <div class="container-game__trainings-audiocall__intro" style="display: none;">
+                    <div class="container-game__trainings-audiocall__intro">
                         <div class="container-game__trainings-audiocall__intro-title">
                             <span>Аудиовызов</span>
                         </div>
@@ -22,7 +22,10 @@ class AudiocallView {
                     </div>
                 </div>
                 <div class="container-game__trainings-audiocall__answers">
-                    <div class="container-game__trainings-audiocall__answers__sound-btn"></div>
+                    <div class="container-game__trainings-audiocall__speaker-container">
+                        <div class="container-game__trainings-audiocall__circle"></div>
+                        <i class="container-game__trainings-audiocall__sound-btn"></i>
+                    </div>
                     <div class="container-game__trainings-audiocall__answer">восхищение
                         <span class="container-game__trainings-audiocall__number">1</span>
                     </div>
@@ -39,7 +42,7 @@ class AudiocallView {
                     <div class="container-game__trainings-audiocall__answer">рассуждение
                         <span class="container-game__trainings-audiocall__number">4</span>
                     </div>
-                    <a class="container-game__trainings-audiocall__answer-btn">
+                    <a class="container-game__trainings-audiocall__answer-btn no-answer-btn">
                         <span>Не знаю :(</span>
                     </a>
                 </div>
