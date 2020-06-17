@@ -2,8 +2,13 @@ import CONST_INDEX_VIEW from '../constants/constIndexView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
 
+/* todo: */
+import AudiocallController from '../games/audiocall/Controller';
+
 export default class IndexView {
   constructor() {
+    // todo: берем кнопку
+    this.audiocallBtn = document.querySelector('.audiocall-game');
     this.loginMessage = document.querySelector('.form__login-message');
     this.formButton = document.querySelector('.form__button');
     this.name = document.querySelector('.user-name');
@@ -38,8 +43,20 @@ export default class IndexView {
   }
 
   addListeners() {
+    //todo: вешаем лиссенер
+    this.addAudiocallBtn();
+
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
+  }
+
+  addAudiocallBtn() {
+    this.audiocallBtn.addEventListener('click', () => {
+      this.main.innerText ='';
+      //render
+      const audiocall = new AudiocallController();
+      audiocall.init();
+    });
   }
 
   addLoginSelectionClickHandler() {
