@@ -3,10 +3,12 @@ const CONST_MAIN_VIEW = {
     'main-page',
     'dictionary',
     'statistics',
-    'games-1',
-    'games-2',
-    'games-3',
-    'games-4',
+    'speakit',
+    'english-puzzle',
+    'savannah',
+    'audiocall',
+    'sprint',
+    'new-game',
     'promo-page',
     'about-team',
     'log-out',
@@ -14,8 +16,8 @@ const CONST_MAIN_VIEW = {
   getModalTemplate: (key) => `
   <li class="navigation__item">
     <a class="navigation__link" data-name=${key} href="#${key}">${key
-  .replace('-', ' ')
-  .toUpperCase()}</a>
+    .replace('-', ' ')
+    .toUpperCase()}</a>
   </li>`,
 };
 
