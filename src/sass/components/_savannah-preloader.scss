@@ -1,73 +1,79 @@
-$color-1: #3D7B80;
-$color-2: #77B1A9;
-$color-3: #B1E6D1;
-$color-4: #77B1A9;
-$color-5: #3D7B80;
-
+$color-1: #3d7b80;
+$color-2: #77b1a9;
+$color-3: #b1e6d1;
+$color-4: #77b1a9;
+$color-5: #3d7b80;
 $color: $color-1, $color-2, $color-3, $color-4, $color-5;
 
 @mixin anim() {
   @keyframes scale {
     0% {
-        transform: scale(1);
+      transform: scale(1);
     }
     50%,
     75% {
       transform: scale(2.5);
     }
-    78%, 100% {
+    78%,
+    100% {
       opacity: 0;
     }
   }
 }
 
-.preloader__conatiner{
+.preloader__conatiner {
   margin-top: 70px;
 }
 
 .preloader {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    width: 200px;
-    overflow: hidden;
-    animation-delay: 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  animation-delay: 1s;
   &__info {
     width: 70%;
-    text-align: center;
     height: 50px;
     margin: 0 auto;
     margin-top: 20px;
+
+    text-align: center;
     color: $text-color;
   }
 }
 
 @for $i from 1 through 5 {
   .item-#{$i} {
-    width: 20px;
-    height: 20px;
-    background: #f583a1;
-    border-radius: 50%;
-    @include anim();
-    background-color: nth($color, $i);
-    margin: 7px;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 20px;
+    height: 20px;
+    margin: 7px;
 
+    background: #f583a1;
+    background-color: nth($color, $i);
+    border-radius: 50%;
+
+@include anim();
     &:before {
-      content: '';
+      content: "";
+
       width: 20px;
       height: 20px;
-      border-radius: 50%;
+
       background-color: nth($color, $i);
+      border-radius: 50%;
+      transform: scale(1);
       opacity: 0.7;
+
+      transition: 0.5s all ease;
       animation: scale 2s infinite cubic-bezier(0, 0, 0.49, 1.02);
       animation-delay: 200ms * $i;
-      transition: 0.5s all ease;
-      transform: scale(1);
     }
   }
 }
@@ -76,14 +82,15 @@ $color: $color-1, $color-2, $color-3, $color-4, $color-5;
   width: 100px;
   height: 20px;
   margin: 0 auto;
+
   font-size: 2.5em;
   text-align: center;
   color: $text-color;
 }
 
 .keyboard {
-  width: 30px;
   display: block;
+  width: 30px;
   margin: 0 auto;
   margin-bottom: 10px;
 }

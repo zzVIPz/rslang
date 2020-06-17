@@ -14,7 +14,6 @@ class SavannahController {
   }
 
   addListeners() {
-    console.log('level', this.model.addLevel(2));
     this.closeBtn = document.querySelector('.close');
     this.cancelBtn = document.querySelector('.app__modal__box_cancel');
     this.backToMianBtn = document.querySelector('.app__button_close');

@@ -5,11 +5,6 @@ class SavannahModel {
     };
   }
 
-  addLevel(amountOfStars) {
-    this.difficultyLevel.level = 0 + amountOfStars;
-    return this.difficultyLevel.level;
-  }
-
   countTillThree() {
     this.preloaderNumber = Number(document.querySelector('.countdown').innerHTML);
     if (this.preloaderNumber > 0) {
