@@ -8,6 +8,9 @@ export default class MainView {
     this.header = document.querySelector('.header');
     this.headerNavigation = document.querySelector('.header__navigation');
     this.navigation = document.querySelector('.navigation');
+    this.userTool = document.querySelector('.user-tool');
+    this.speaker = document.querySelector('.user-tool__button-speaker');
+    this.settings = document.querySelector('.user-tool__button-settings');
   }
 
   init() {
@@ -17,10 +20,10 @@ export default class MainView {
   }
 
   addListeners() {
-    this.addBtnLogOutClickHandler();
     this.addBurgerMenuClickHandler();
     this.addNavigationLinkClickHandler();
     this.addOverlayPressHandler();
+    this.addUserToolHandler();
   }
 
   renderMenu() {
@@ -30,12 +33,27 @@ export default class MainView {
     });
   }
 
+  addUserToolHandler() {
+    this.userTool.addEventListener('click', (e) => {
+      const { target } = e;
+      if (target.classList.contains('user-tool__button-log-out')) {
+        this.onLogOutClick();
+      }
+      if (target.classList.contains('user-tool__button-speaker')) {
+        this.onBtnSpeakerClick();
+      }
+      if (target.classList.contains('user-tool__button-settings')) {
+        this.onBtnSettingsClick();
+      }
+    });
+  }
+
   addNavigationLinkClickHandler() {
     this.navigation.addEventListener('click', (event) => {
       const dataName = event.target.dataset.name;
       // todo refactor after final menu elements
       if (dataName === 'log-out') {
-        this.onLogOut();
+        this.onLogOutClick();
         this.showIndexPage();
       }
       if (!event.target.classList.contains('navigation')) {
@@ -89,16 +107,16 @@ export default class MainView {
     }
   }
 
-  addBtnLogOutClickHandler() {
-    const btn = document.querySelector('.log-out');
-    btn.addEventListener('click', () => {
-      this.onLogOut();
-      this.showIndexPage();
-    });
+  onBtnSpeakerClick() {
+    this.speaker.classList.toggle('user-tool__button-speaker--active');
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  showIndexPage() {
+  onBtnSettingsClick() {
+    this.settings.classList.toggle('user-tool__button-settings--active');
+  }
+
+  onLogOutClick() {
+    this.onLogOut();
     document.location.replace('../index.html');
   }
 }

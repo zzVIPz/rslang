@@ -1,0 +1,44 @@
+.user-tool {
+  right: 60px;
+
+  margin-right: 40px;
+
+  &__button-speaker {
+    background: url(../assets/svg/speaker.svg) center/36px no-repeat;
+  }
+
+  &__button-settings {
+    background: url(../assets/svg/settings.svg) center/33px no-repeat;
+  }
+
+  &__button-log-out {
+    background: url(../assets/svg/logout.svg) center/30px no-repeat;
+  }
+
+  &__button-speaker--active {
+    background: url(../assets/svg/speaker-active.svg) center/38px no-repeat;
+  }
+
+  &__button-settings--active {
+    background: url(../assets/svg/settings-active.svg) center/33px no-repeat;
+  }
+
+  &__button-speaker:hover,
+  &__button-settings:hover,
+  &__button-log-out:hover {
+    transform: scale(1.05, 1.05);
+  }
+
+  .icon {
+    width: 45px;
+    height: 45px;
+    margin-left: 10px;
+
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+  }
+}
