@@ -13,12 +13,14 @@ const CONST_MAIN_VIEW = {
     'about-team',
     'log-out',
   ],
-  getModalTemplate: (key) => `
-  <li class="navigation__item">
-    <a class="navigation__link" data-name=${key} href="#${key}">${key
-  .replace('-', ' ')
-  .toUpperCase()}</a>
-  </li>`,
+  getModalTemplate: (key) => {
+    const formattedKey = key.replace('-', ' ').toUpperCase();
+    return `
+      <li class="navigation__item">
+        <a class="navigation__link" data-name=${key} href="#${key}">${formattedKey}</a>
+      </li>`;
+  },
+  getMedia: (key) => `https://raw.githubusercontent.com/zzvipz/rslang-data/master/${key}`,
 };
 
 export default CONST_MAIN_VIEW;
