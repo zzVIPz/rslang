@@ -5,18 +5,18 @@ const savannahGame = `
     </div>
     <div class="app__rating">
       <div class="rating">
-        <input class="rating__input" type="radio" id="star1" name="star"/>
-        <label class="rating__label" for="star1" title="text"></label>
-        <input class="rating__input" type="radio" id="star2" name="star"/>
-        <label class="rating__label" for="star2" title="text"></label>
-        <input class="rating__input" type="radio" id="star3" name="star"/>
-        <label class="rating__label" for="star3" title="text"></label>
-        <input class="rating__input" type="radio" id="star4" name="star"/>
-        <label class="rating__label" for="star4" title="text"></label>
-        <input class="rating__input" type="radio" id="star5" name="star"/>
-        <label class="rating__label" for="star5" title="text"></label>
-        <input class="rating__input" type="radio" id="star6" name="star"/>
-        <label class="rating__label" for="star6" title="text"></label>
+        <input class="rating__input" type="radio" id="star-5" name="star"/>
+        <label class="rating__label" for="star-5" title="text"></label>
+        <input class="rating__input" type="radio" id="star-4" name="star"/>
+        <label class="rating__label" for="star-4" title="text"></label>
+        <input class="rating__input" type="radio" id="star-3" name="star"/>
+        <label class="rating__label" for="star-3" title="text"></label>
+        <input class="rating__input" type="radio" id="star-2" name="star"/>
+        <label class="rating__label" for="star-2" title="text"></label>
+        <input class="rating__input" type="radio" id="star-1" name="star"/>
+        <label class="rating__label" for="star-1" title="text"></label>
+        <input class="rating__input" type="radio" id="star-0" name="star"/>
+        <label class="rating__label" for="star-0" title="text"></label>
       </div>
       <div class="rating__text">
         Уровень сложности
@@ -61,13 +61,6 @@ const lives = `
 <span id="life-5">❤</span>
 `;
 
-const translations = `
-<span id="tranlastion-1">1 Любовь</span>
-<span id="tranlastion-2">2 Работа</span>
-<span id="tranlastion-3">3 Жизнь</span>
-<span id="tranlastion-4">4 Еда</span>
-`;
-
 const sparkles = `
 <div class="sparkle sparkle-circle-one"></div>
 <div class="sparkle sparkle-circle-two"></div>
@@ -80,5 +73,5 @@ const sparkles = `
   `;
 
 export {
-  savannahGame, preloader, lives, translations, sparkles,
+  savannahGame, preloader, lives, sparkles,
 };

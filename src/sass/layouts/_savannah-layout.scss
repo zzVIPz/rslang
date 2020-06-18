@@ -9,7 +9,7 @@
 
   width: 50px;
   height: 50px;
-  margin-left: -20px;
+  margin-left: -50px;
 
   font-size: 2em;
   color: $text-color;
@@ -22,10 +22,10 @@
 .app__content__translation-box {
   position: absolute;
   top: 50%;
-  left: 50%;
 
   display: flex;
-  margin-left: -305px;
+  justify-content: center;
+  width: 100%;
 
   font-size: 1.5em;
   color: $text-color;
@@ -34,7 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 140px;
+    width: 30%;
     height: 50px;
     margin-right: 20px;
 

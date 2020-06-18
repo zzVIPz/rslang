@@ -10,6 +10,7 @@ class SavannahController {
   init() {
     this.mainContainer = document.querySelector('.main');
     this.mainContainer.innerHTML = this.view.renderGameLayout();
+    this.mockData = '';
     this.addListeners();
   }
 
@@ -22,7 +23,9 @@ class SavannahController {
     this.openModal();
     this.closeModal();
     this.backToMainPage();
+    this.view.getLevelsId();
     this.clickStartGameBtn();
+    // this.getDataByChoosingLevel();
   }
 
   openModal() {
@@ -48,6 +51,11 @@ class SavannahController {
     this.startBtn.addEventListener('click', () => {
       this.addPreloader();
       setTimeout(this.preloaderCountDown.bind(this), 1000);
+      this.model.fetchData(this.view.level, 0)
+        .then((data) => {
+          this.wordsArr = data.words;
+          this.translationArr = data.translation;
+        });
     });
   }
 
@@ -58,7 +66,7 @@ class SavannahController {
   }
 
   preloaderCountDown() {
-    const countNumber = this.model.countTillOne();
+    const countNumber = this.view.countTillOne(this.wordsArr, this.translationArr);
     if (countNumber > 0) {
       document.querySelector('.countdown').innerHTML = countNumber;
       setTimeout(this.preloaderCountDown.bind(this), 1000);
@@ -72,6 +80,19 @@ class SavannahController {
       document.body.classList.add('app__background');
     });
   }
+
+  // Working with data
+/*   getDataByChoosingLevel() {
+    this.stars = document.querySelector('.rating');
+    this.stars.addEventListener('click', ({ target }) => {
+      this.level = this.view.getLevelsId(target);
+      if (this.level) {
+        this.model.fetchData(this.level, 0).then((data) => {
+          this.words = data;
+        });
+      }
+    });
+  } */
 }
 
 export default SavannahController;

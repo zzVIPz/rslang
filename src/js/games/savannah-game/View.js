@@ -1,6 +1,8 @@
 import {
-  savannahGame, preloader, lives, translations, sparkles,
+  savannahGame, preloader, lives, sparkles,
 } from './constSavannah';
+import getDifficultyLevelId from './savannah-utils/getDifficultyLevelID';
+import SavannahModel from './Model';
 
 class SavannahView {
   constructor() {
@@ -13,6 +15,7 @@ class SavannahView {
     this.cristalBox = document.createElement('div');
     this.sparklesBox = document.createElement('div');
     this.muteLine = document.createElement('div');
+    this.model = new SavannahModel();
   }
 
   displayModal() {
@@ -32,13 +35,25 @@ class SavannahView {
     return this.preloader;
   }
 
-  renderCountDownFinished(mainWord) {
+  countTillOne(arr, translationArr) {
+    this.preloaderNumber = Number(document.querySelector('.countdown').innerHTML);
+    if (this.preloaderNumber > 0) {
+      this.preloaderNumber -= 1;
+    }
+    if (this.preloaderNumber < 1) {
+      this.randomWord = this.model.generateRandomWord(arr);
+      this.renderCountDownFinished(this.randomWord, translationArr);
+    }
+    return this.preloaderNumber;
+  }
+
+  renderCountDownFinished(mainWord, arr) {
     this.appContent = document.querySelector('.app__content');
     this.appContent.innerHTML = '';
     this.renderHeader();
     this.renderFlyingWord(mainWord);
     this.moveWord();
-    this.renderTranslation();
+    this.renderTranslation(arr);
     this.rendercristal();
     this.renderSparkles();
     this.renderMuteMusicNote();
@@ -82,9 +97,14 @@ class SavannahView {
     }
   }
 
-  renderTranslation() {
+  renderTranslation(arr) {
+    const fourAnswersWordsArr = this.model.generateTranslation(arr);
     this.translationBox.className = 'app__content__translation-box';
-    this.translationBox.innerHTML = translations;
+    const spanArr = [];
+    fourAnswersWordsArr.forEach((item, index) => {
+      spanArr.push(`<span id="tranlastion-${index + 1}">${index + 1} ${item}</span>`);
+    });
+    this.translationBox.innerHTML = spanArr.join('');
     this.appContent.appendChild(this.translationBox);
   }
 
@@ -106,6 +126,16 @@ class SavannahView {
     this.musicIcon = document.querySelector('.music__icon');
     this.musicIcon.addEventListener('click', () => {
       this.muteLine.classList.toggle('visible');
+    });
+  }
+
+  // Working with Data
+  getLevelsId() {
+    this.stars = document.querySelector('.rating');
+    this.stars.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('rating__input')) {
+        this.level = getDifficultyLevelId(target);
+      }
     });
   }
 }
