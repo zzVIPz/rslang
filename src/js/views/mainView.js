@@ -20,6 +20,7 @@ export default class MainView {
     this.addBtnLogOutClickHandler();
     this.addBurgerMenuClickHandler();
     this.addNavigationLinkClickHandler();
+    this.addOverlayPressHandler();
   }
 
   renderMenu() {
@@ -37,7 +38,17 @@ export default class MainView {
         this.onLogOut();
         this.showIndexPage();
       }
-      this.toggleMenuProperty();
+      if (!event.target.classList.contains('navigation')) {
+        this.toggleMenuProperty();
+      }
+    });
+  }
+
+  addOverlayPressHandler() {
+    this.headerNavigation.addEventListener('click', (event) => {
+      if (event.target.classList.contains('header__navigation--active')) {
+        this.toggleMenuProperty();
+      }
     });
   }
 
@@ -73,7 +84,7 @@ export default class MainView {
       }, 170);
     } else {
       // todo: think about overflow hidden
-      document.body.style.width = `${document.body.offsetWidth}px`;
+      // document.body.style.width = `${document.body.offsetWidth}px`;
       this.headerNavigation.classList.add('header__navigation--active');
     }
   }
