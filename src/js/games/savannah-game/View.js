@@ -1,7 +1,6 @@
 import {
   savannahGame, preloader, lives, translations, sparkles,
 } from './constSavannah';
-// import audio from '../../../assets/audio/round-starts.mp3';
 
 class SavannahView {
   constructor() {
@@ -109,17 +108,6 @@ class SavannahView {
       this.muteLine.classList.toggle('visible');
     });
   }
-/*   renderAudio() {
-    this.appContent = document.querySelector('.app__content');
-    this.roundAudio = document.createElement('audio');
-    this.roundAudio.src = audio;
-    this.roundAudio.style.display = 'none';
-    this.roundAudio.autoplay = false;
-    this.roundAudio.onended = () => {
-      this.roundAudio.remove();
-    };
-    this.appContent.appendChild(this.roundAudio);
-  } */
 }
 
 export default SavannahView;

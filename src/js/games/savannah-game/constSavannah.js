@@ -1,5 +1,5 @@
 const savannahGame = `
-<div id="app">
+<div class="app">
     <div class="app__header">
       <a href="#" class="close"></a>
     </div>

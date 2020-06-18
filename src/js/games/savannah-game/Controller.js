@@ -40,7 +40,7 @@ class SavannahController {
   backToMainPage() {
     this.backToMianBtn.addEventListener('click', () => {
       this.mainContainer.innerHTML = '';
-      document.body.style.backgroundImage = 'none';
+      document.body.classList.remove('app__background');
     });
   }
 
@@ -52,9 +52,8 @@ class SavannahController {
   }
 
   addPreloader() {
-    // this.view.renderAudio();
     this.appContent = document.querySelector('.app__content');
-    document.getElementById('app').removeChild(document.querySelector('.app__rating'));
+    document.querySelector('.app').removeChild(document.querySelector('.app__rating'));
     this.appContent.innerHTML = this.view.renderPreloader();
   }
 
@@ -70,7 +69,6 @@ class SavannahController {
     this.savannahBtn = document.querySelector('[data-name="savannah"]');
     this.savannahBtn.addEventListener('click', () => {
       this.init();
-      document.body.style.backgroundImage = 'url("../src/assets/images/savannah-bg.svg")';
       document.body.classList.add('app__background');
     });
   }
