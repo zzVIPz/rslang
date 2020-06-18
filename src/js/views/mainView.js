@@ -1,9 +1,8 @@
-import CONST_INDEX_VIEW from '../constants/constMainView';
+import { CONST_MAIN_VIEW as constMainView, getModalTemplate } from '../constants/constMainView';
 
 export default class MainView {
   constructor() {
     this.onLogOut = null;
-    this.constMainView = CONST_INDEX_VIEW;
     this.burgerMenu = document.querySelector('.burger-menu');
     this.header = document.querySelector('.header');
     this.headerNavigation = document.querySelector('.header__navigation');
@@ -27,8 +26,8 @@ export default class MainView {
   }
 
   renderMenu() {
-    this.constMainView.menuItems.forEach((link) => {
-      const template = this.constMainView.getModalTemplate(link);
+    constMainView.menuItems.forEach((link) => {
+      const template = getModalTemplate(link);
       this.navigation.innerHTML += template;
     });
   }
