@@ -9,7 +9,7 @@ class AudiocallController {
 
   init() {
     this.view.render();
-    // this.addListeners();
+    this.view.addListeners();
     // this.mainContainer = document.querySelector('.main');
     // this.mainContainer.innerHTML = this.view.renderGameLayout();
   }
