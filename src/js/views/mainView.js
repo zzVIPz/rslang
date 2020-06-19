@@ -1,13 +1,15 @@
-import CONST_INDEX_VIEW from '../constants/constMainView';
+import { CONST_MAIN_VIEW as constMainView, getModalTemplate } from '../constants/constMainView';
 
 export default class MainView {
   constructor() {
     this.onLogOut = null;
-    this.constMainView = CONST_INDEX_VIEW;
     this.burgerMenu = document.querySelector('.burger-menu');
     this.header = document.querySelector('.header');
     this.headerNavigation = document.querySelector('.header__navigation');
     this.navigation = document.querySelector('.navigation');
+    this.userTool = document.querySelector('.user-tool');
+    this.speaker = document.querySelector('.user-tool__button-speaker');
+    this.settings = document.querySelector('.user-tool__button-settings');
   }
 
   init() {
@@ -17,15 +19,31 @@ export default class MainView {
   }
 
   addListeners() {
-    this.addBtnLogOutClickHandler();
     this.addBurgerMenuClickHandler();
     this.addNavigationLinkClickHandler();
+    this.addOverlayPressHandler();
+    this.addUserToolHandler();
   }
 
   renderMenu() {
-    this.constMainView.menuItems.forEach((link) => {
-      const template = this.constMainView.getModalTemplate(link);
+    constMainView.menuItems.forEach((link) => {
+      const template = getModalTemplate(link);
       this.navigation.innerHTML += template;
+    });
+  }
+
+  addUserToolHandler() {
+    this.userTool.addEventListener('click', (e) => {
+      const { target } = e;
+      if (target.classList.contains('user-tool__button-log-out')) {
+        this.onLogOutClick();
+      }
+      if (target.classList.contains('user-tool__button-speaker')) {
+        this.onBtnSpeakerClick();
+      }
+      if (target.classList.contains('user-tool__button-settings')) {
+        this.onBtnSettingsClick();
+      }
     });
   }
 
@@ -34,10 +52,20 @@ export default class MainView {
       const dataName = event.target.dataset.name;
       // todo refactor after final menu elements
       if (dataName === 'log-out') {
-        this.onLogOut();
+        this.onLogOutClick();
         this.showIndexPage();
       }
-      this.toggleMenuProperty();
+      if (!event.target.classList.contains('navigation')) {
+        this.toggleMenuProperty();
+      }
+    });
+  }
+
+  addOverlayPressHandler() {
+    this.headerNavigation.addEventListener('click', (event) => {
+      if (event.target.classList.contains('header__navigation--active')) {
+        this.toggleMenuProperty();
+      }
     });
   }
 
@@ -73,21 +101,21 @@ export default class MainView {
       }, 170);
     } else {
       // todo: think about overflow hidden
-      document.body.style.width = `${document.body.offsetWidth}px`;
+      // document.body.style.width = `${document.body.offsetWidth}px`;
       this.headerNavigation.classList.add('header__navigation--active');
     }
   }
 
-  addBtnLogOutClickHandler() {
-    const btn = document.querySelector('.log-out');
-    btn.addEventListener('click', () => {
-      this.onLogOut();
-      this.showIndexPage();
-    });
+  onBtnSpeakerClick() {
+    this.speaker.classList.toggle('user-tool__button-speaker--active');
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  showIndexPage() {
+  onBtnSettingsClick() {
+    this.settings.classList.toggle('user-tool__button-settings--active');
+  }
+
+  onLogOutClick() {
+    this.onLogOut();
     document.location.replace('../index.html');
   }
 }
