@@ -15,9 +15,7 @@ const CONST_MAIN_VIEW = {
   ],
   getModalTemplate: (key) => `
   <li class="navigation__item">
-    <a class="navigation__link" data-name=${key} href="#${key}">${key
-  .replace('-', ' ')
-  .toUpperCase()}</a>
+    <a class="navigation__link" data-name=${key} href="#${key}">${key.replace('-', ' ').toUpperCase()}</a>
   </li>`,
 };
 

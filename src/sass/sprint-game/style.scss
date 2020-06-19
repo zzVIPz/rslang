@@ -1,10 +1,15 @@
-$border-color: #616161;
-$primary-color: #9E9E9E;
+@import "_font";
+@import "_normalizer";
+@import "_variables";
 
 .sprint-container{
   height: 500px;
   width: 600px;
   margin: 5% auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
   border-radius: 8px;
   box-shadow: 0px 3px 6px 0px $border-color;
   overflow: hidden;
@@ -18,8 +23,7 @@ $primary-color: #9E9E9E;
   position: absolute;
   top: 20px;
   left:20px;
-  text-align: center;
-}
+  }
 .sprint-marks-line{
   display: flex;
   justify-content: center;
@@ -31,9 +35,6 @@ $primary-color: #9E9E9E;
   border: 1px solid $border-color;
   border-radius: 50%;
   margin: 0 1%;
-}
-.sprint-points-line{
-  text-align: center;
 }
 
 .sprint-picture-block{
@@ -52,7 +53,7 @@ $primary-color: #9E9E9E;
   border-bottom: dotted 2px $border-color;
 }
 .sprint-word{
-  text-align: center;
+   margin-bottom: 1%;
 }
 .sprint-controlls{
   display: flex;
@@ -61,7 +62,6 @@ $primary-color: #9E9E9E;
   height: 25%;
 }
 .sprint-button{
-  min-width: 162px;
   padding: 19px 15px 21px;
   box-shadow: 0px 2px 5px 0px $border-color;
   border: none;
@@ -71,7 +71,44 @@ $primary-color: #9E9E9E;
 }
 .sprint-button--wrong{
   background-color: red;
+  min-width: 162px;
 }
 .sprint-button--right{
   background-color: green;
+  min-width: 162px;
+}
+
+// statistics
+
+.sprint-result-header{
+  margin-top: 5%;
+  }
+.sprint-statistics{
+  align-self: stretch;
+ }
+
+.sprint-result-controlls{
+  height: 25%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 5%;
+}
+
+// sart
+
+.sprint-start-header{
+  margin-top: 5%;
+  text-transform: uppercase;
+  font-size: 3rem;
+}
+.sprint-game-descr{
+  margin-bottom: 1%;
+}
+.sprint-start-controlls {
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }

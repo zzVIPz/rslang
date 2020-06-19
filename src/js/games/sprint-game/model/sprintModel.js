@@ -1,4 +1,4 @@
-import GAME_DATA from '../../../models/mockData';
+import GAME_DATA from './mockData';
 
 export default class SprintModel {
   constructor() {
