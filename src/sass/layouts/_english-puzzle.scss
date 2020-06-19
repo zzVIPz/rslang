@@ -113,3 +113,15 @@ label:last-child {
   background-size: cover;
   background-color: rgba(0, 0, 0, 0);;
 }
+
+.ep-wrongPosition {
+  border-color: red;
+}
+
+.ep-rightPosition {
+  border-color: #3be03b;
+}
+
+.ep-hidden {
+  display: none;
+}

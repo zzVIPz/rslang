@@ -31,10 +31,11 @@ const template = `
           <p class="ep-tips__text-translate">Some text from current sentence<p>
         </div>
         <div class="mockData"></div>
-        <div class="ep-playground ep-sentences ep-sentences_active"></div>
+        <div id="playground" class="ep-playground ep-sentences ep-sentences_active"></div>
         <div class="ep-play__buttons">
-          <button class="ep-play__btn" name="skip">I don't know</button>
-          <button class="ep-play__btn" name="check">Check</button>
+          <button id="skipBtn" class="ep-play__btn" name="skip">I don't know</button>
+          <button id="checkBtn" class="ep-play__btn ep-hidden" name="check">Check</button>
+          <button id="continueBtn" class="ep-play__btn ep-hidden" name="continue">Continue</button>
         </div>
       </div>
       `;
