@@ -73,6 +73,9 @@
     background-color: #8ddad5;
     box-shadow: 2px 2px 3px 1px #00cdac;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 /* change selector to classname */

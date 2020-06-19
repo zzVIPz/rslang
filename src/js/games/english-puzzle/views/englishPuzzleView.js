@@ -1,3 +1,4 @@
+import { Sortable, Plugins } from '@shopify/draggable';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import Template from './template';
 
@@ -9,32 +10,55 @@ export default class EnglishPuzzleView {
 
   render() {
     document.querySelector('.main').innerHTML = this.template;
-    // const sentences = this.englishPuzzleModel.getSentences();
-    // sentences.forEach((el) => {
-    //   const elem = document.createElement('div');
-    //   elem.classList.add('ep-sentences');
-    //   elem.textContent = `${sentences.indexOf(el) + 1} ${el}`;
-    //   document.querySelector('.mockData').append(elem);
-    // });
-
     const splitSentences = this.englishPuzzleModel.getSplitSentences();
-    splitSentences.forEach((sentence) => {
+    this.shuffle(splitSentences[0]);
+
+    splitSentences.forEach((sentence, id1) => {
       const elem = document.createElement('div');
+      const playground = document.querySelector('.ep-playground');
+      if (id1 === 0) {
+        elem.classList.add('ep-sentences_active');
+      }
       elem.classList.add('ep-sentences');
       elem.textContent = splitSentences.indexOf(sentence) + 1;
       document.querySelector('.mockData').append(elem);
       sentence.forEach((word) => {
         const elem2 = document.createElement('div');
         elem2.classList.add('ep-sentences-word');
-        elem2.textContent = word;
-        elem.append(elem2);
+        elem2.classList.add('Block--isDraggable');
+        elem2.textContent = word.wordName;
+        elem2.dataset.line = word.line;
+        elem2.dataset.pos = word.pos;
+        if (id1 === 0) {
+          playground.append(elem2);
+        }
       });
     });
-    this.addDragAndDropListener();
+    this.addDragAndDrop();
   }
 
   // eslint-disable-next-line class-methods-use-this
-  addDragAndDropListener() {
-    const firstDiv = document.querySelector('.ep-sentences-word');
+  addDragAndDrop() {
+    const classes = {
+      draggable: 'Block--isDraggable',
+      capacity: 'draggable-container-parent--capacity',
+    };
+    const containers = document.querySelectorAll('.ep-sentences_active');
+    if (containers.length === 0) {
+      return false;
+    }
+    const sortable = new Sortable(containers, {
+      draggable: `.${classes.draggable}`,
+      mirror: {
+        constrainDimensions: true,
+      },
+      plugins: [Plugins.ResizeMirror],
+    });
+    return sortable;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  shuffle(array) {
+    array.sort(() => Math.random() - 0.5);
   }
 }

@@ -1,4 +1,4 @@
-const template =  `
+const template = `
       <div class="english-puzzle">
         <div class="ep-controls">
           <div class="ep-controls__left-side">
@@ -31,7 +31,7 @@ const template =  `
           <p class="ep-tips__text-translate">Some text from current sentence<p>
         </div>
         <div class="mockData"></div>
-        <div class="ep-playground"></div>
+        <div class="ep-playground ep-sentences ep-sentences_active"></div>
         <div class="ep-play__buttons">
           <button class="ep-play__btn" name="skip">I don't know</button>
           <button class="ep-play__btn" name="check">Check</button>

@@ -17,9 +17,20 @@ export default class EnglishPuzzleModel {
   getSplitSentences() {
     const splitSentences = [];
     const sentences = this.getSentences();
-    sentences.forEach((el) => {
+
+    sentences.forEach((el, id) => {
       const currentSplitSentence = el.split(' ');
-      splitSentences.push(currentSplitSentence);
+
+      const currentSplitSentenceData = [];
+      currentSplitSentence.forEach((el2, id2) => {
+        const wordObj = {};
+        wordObj.wordName = el2;
+        wordObj.line = id;
+        wordObj.pos = id2;
+        currentSplitSentenceData.push(wordObj);
+      });
+
+      splitSentences.push(currentSplitSentenceData);
     });
     return splitSentences;
   }
