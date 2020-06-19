@@ -2,10 +2,9 @@ import {
   savannahGame, preloader, lives, sparkles,
 } from './constSavannah';
 import getDifficultyLevelId from './savannah-utils/getDifficultyLevelID';
-import SavannahModel from './Model';
 
 class SavannahView {
-  constructor() {
+  constructor(model) {
     this.savannahGame = savannahGame;
     this.preloader = preloader;
     this.livesBox = document.createElement('div');
@@ -15,7 +14,10 @@ class SavannahView {
     this.cristalBox = document.createElement('div');
     this.sparklesBox = document.createElement('div');
     this.muteLine = document.createElement('div');
-    this.model = new SavannahModel();
+    this.model = model;
+    this.backgroundPositionY = 100;
+    this.cristalWidth = 30;
+    this.removeDigits = /\d/g;
   }
 
   displayModal() {
@@ -37,13 +39,18 @@ class SavannahView {
 
   countTillOne(arr, translationArr) {
     this.preloaderNumber = Number(document.querySelector('.countdown').innerHTML);
+
     if (this.preloaderNumber > 0) {
       this.preloaderNumber -= 1;
     }
+
     if (this.preloaderNumber < 1) {
       this.randomWord = this.model.generateRandomWord(arr);
       this.renderCountDownFinished(this.randomWord, translationArr);
+      console.log('Words Array:', arr);
+      console.log('Random word:', this.randomWord);
     }
+
     return this.preloaderNumber;
   }
 
@@ -70,6 +77,7 @@ class SavannahView {
     this.appHeader.appendChild(this.livesBox);
     this.appHeader.appendChild(this.musicBox);
     this.musicBox.appendChild(this.muteLine);
+
     return this.appHeader;
   }
 
@@ -101,8 +109,9 @@ class SavannahView {
     const fourAnswersWordsArr = this.model.generateTranslation(arr);
     this.translationBox.className = 'app__content__translation-box';
     const spanArr = [];
+
     fourAnswersWordsArr.forEach((item, index) => {
-      spanArr.push(`<span id="tranlastion-${index + 1}">${index + 1} ${item}</span>`);
+      spanArr.push(`<span class="translation-${index + 1}"><span class="keyboard-num">${index + 1}</span>${item}</span>`);
     });
     this.translationBox.innerHTML = spanArr.join('');
     this.appContent.appendChild(this.translationBox);
@@ -119,7 +128,7 @@ class SavannahView {
   renderSparkles() {
     this.sparklesBox.className = 'sparkle-container';
     this.sparklesBox.innerHTML = sparkles;
-    this.appContent.appendChild(this.sparklesBox);
+    this.cristalBox.appendChild(this.sparklesBox);
   }
 
   renderMuteMusicNote() {
@@ -129,7 +138,6 @@ class SavannahView {
     });
   }
 
-  // Working with Data
   getLevelsId() {
     this.stars = document.querySelector('.rating');
     this.stars.addEventListener('click', ({ target }) => {
@@ -137,6 +145,53 @@ class SavannahView {
         this.level = getDifficultyLevelId(target);
       }
     });
+  }
+
+  moveBackground() {
+    this.backgroundPositionY -= 5;
+    document.body.style.backgroundPositionY = `${this.backgroundPositionY}%`;
+  }
+
+  resizeCristal() {
+    this.cristalWidth += 1;
+    this.cristalBox.style.width = `${this.cristalWidth}px`;
+  }
+
+  highlightAnswer(element, isRight) {
+    if (isRight) {
+      element.classList.add('correct-answer');
+    } else {
+      element.classList.add('wrong-answer');
+    }
+
+    return this;
+  }
+
+  removeHighlight(element, isRight) {
+    if (isRight) {
+      element.classList.remove('correct-answer');
+    } else {
+      element.classList.remove('wrong-answer');
+    }
+
+    return this;
+  }
+
+  getClickedWord(code) {
+    const keyCode = code.match(this.removeDigits)[0];
+    if (keyCode >= 1 && keyCode <= 4) {
+      return document.querySelector(`.translation-${keyCode}`);
+    }
+
+    return false;
+  }
+
+  removeLives(wrongAnswer) {
+    if (wrongAnswer <= 5) {
+      document.getElementById(`life-${wrongAnswer}`).classList.add('hidden');
+    }
+
+    return this;
   }
 }
 

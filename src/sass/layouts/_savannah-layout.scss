@@ -48,12 +48,20 @@
   }
 }
 
+span .keyboard-num {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+
+  font-size: .5em;
+}
+
 .cristal {
   position: absolute;
   bottom: -96px;
   left: 50%;
 
-  width: 40px;
+  width: 30px;
   margin-left: -20px;
   &__img {
     width: 100%;
@@ -75,6 +83,10 @@
   display: block;
 }
 
+.hidden {
+  display: none;
+}
+
 .hideBackgroundImg {
   background-image: none;
 }
@@ -85,5 +97,5 @@
   background-position-x: center;
   background-position-y: 100%;
 
-  // transition: all 1s ease;
+  transition: all 1s ease;
 }
