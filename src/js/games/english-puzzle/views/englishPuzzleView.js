@@ -1,58 +1,40 @@
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
+import Template from './template';
 
 export default class EnglishPuzzleView {
   constructor() {
-    this.template = `
-      <div class="english-puzzle">
-        <div class="controls">
-          <div class="controls__left-side">
-            <label>
-              Level
-              <select name="levelSelect">
-                <option value="value1">1</option> 
-                <option value="value2" selected>2</option>
-                <option value="value3">3</option>
-              </select>
-            </label>
-            <label>
-              Page
-              <select name="pageSelect">
-                <option value="value1">1</option> 
-                <option value="value2">2</option>
-                <option value="value3" selected>3</option>
-              </select>
-            </label>
-          </div>
-          <div class="controls__right-side">
-            <div class="controls__btn"></div>
-            <div class="controls__btn"></div>
-            <div class="controls__btn"></div>
-            <div class="controls__btn"></div>
-          </div>
-        </div>
-        <div class="tips">
-          <div class="controls__btn"></div>
-          <p class="text-translate">Some text<p>
-        </div>
-        <div class="mockData"></div>
-        <div class="playground"></div>
-        <div class="play-buttons">
-          <button class="english-puzzle__btn" name="skip">I don't know</button>
-          <button class="english-puzzle__btn" name="check">Check</button>
-        </div>
-      </div>
-      `;
+    this.template = Template;
     this.englishPuzzleModel = new EnglishPuzzleModel();
   }
 
   render() {
     document.querySelector('.main').innerHTML = this.template;
-    const sentences = this.englishPuzzleModel.getSentences();
-    sentences.forEach((el) => {
+    // const sentences = this.englishPuzzleModel.getSentences();
+    // sentences.forEach((el) => {
+    //   const elem = document.createElement('div');
+    //   elem.classList.add('ep-sentences');
+    //   elem.textContent = `${sentences.indexOf(el) + 1} ${el}`;
+    //   document.querySelector('.mockData').append(elem);
+    // });
+
+    const splitSentences = this.englishPuzzleModel.getSplitSentences();
+    splitSentences.forEach((sentence) => {
       const elem = document.createElement('div');
-      elem.classList.add('sentences');
-      elem.textContent = el;
+      elem.classList.add('ep-sentences');
+      elem.textContent = splitSentences.indexOf(sentence) + 1;
       document.querySelector('.mockData').append(elem);
+      sentence.forEach((word) => {
+        const elem2 = document.createElement('div');
+        elem2.classList.add('ep-sentences-word');
+        elem2.textContent = word;
+        elem.append(elem2);
+      });
     });
+    this.addDragAndDropListener();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  addDragAndDropListener() {
+    const firstDiv = document.querySelector('.ep-sentences-word');
   }
 }

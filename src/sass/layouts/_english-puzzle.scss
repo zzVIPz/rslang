@@ -2,7 +2,7 @@
   width: 1200px;
 }
 
-.controls {
+.ep-controls {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
@@ -15,32 +15,98 @@
     background-color: green;
     border-radius: 5px;
     margin-right: 10px;
+    background-color: #00cdac;
+    color: #fff;
+    border-radius: 5px;
+    &:hover {
+      background-color: #8ddad5;
+      box-shadow: 2px 2px 3px 1px #00cdac;
+      cursor: pointer;
+    }
   }
 }
 
-.tips {
+.ep-tips {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.sentences {
-  margin-top: 20px;
+.mockData {
+  display: flex;
+  flex-direction: column;
 }
 
-.playground {
+.ep-sentences {
+  margin-top: 20px;
+  display: flex;
+  &-word {
+    border: 1px solid black;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+}
+
+.ep-playground {
   height: 40px;
   margin-top: 20px;
   border: 1px solid black;
+  border-radius: 5px;
 }
 
-.play-buttons {
+.ep-play__buttons {
   margin-top: 20px;
   position: relative;
   left: 400px;
 }
 
-.english-puzzle__btn {
+.ep-play__btn {
   width: 200px;
   height: 40px;
+  background-color: #00cdac;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  &:hover {
+    background-color: #8ddad5;
+    box-shadow: 2px 2px 3px 1px #00cdac;
+  }
+}
+
+/* change selector to classname */
+select {
+  width: 60px;
+  text-align-last: center;
+}
+
+label:last-child {
+  margin-left: 20px;  
+}
+
+.autospeech {
+  background-image: url(/src/assets/images/ep-icons/ep-audio.png);
+  background-size: cover;
+}
+
+.tips {
+  background-image: url(/src/assets/images/ep-icons/ep-tip.png);
+  background-size: cover;
+}
+
+.speechsentence {
+  background-image: url(/src/assets/images/ep-icons/ep-melody.png);
+  background-size: cover;
+}
+
+.bg-image {
+  background-image: url(/src/assets/images/ep-icons/ep-gallery.png);
+  background-size: cover;
+}
+
+.autospeech-grey {
+  background-image: url(/src/assets/images/ep-icons/ep-audio-grey.png);
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0);;
 }

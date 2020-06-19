@@ -13,4 +13,14 @@ export default class EnglishPuzzleModel {
     });
     return sentences;
   }
+
+  getSplitSentences() {
+    const splitSentences = [];
+    const sentences = this.getSentences();
+    sentences.forEach((el) => {
+      const currentSplitSentence = el.split(' ');
+      splitSentences.push(currentSplitSentence);
+    });
+    return splitSentences;
+  }
 }
