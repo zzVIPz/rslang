@@ -1,0 +1,74 @@
+.english-puzzle {
+  width: 100%;
+}
+
+.ep-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  &__right-side {
+    display: flex;
+  }
+}
+
+.ep-tips {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ep-board {
+  display: flex;
+  flex-direction: column;
+  &__line {
+    display: flex;
+    margin-top: 20px;
+  }
+}
+
+.ep-sentences-word {
+  width: 100px;
+  height: 20px;
+
+  text-align: center;
+
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.ep-play__field {
+  height: 40px;
+  margin-top: 20px;
+
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.ep-play__buttons {
+  position: relative;
+  left: 400px;
+
+  margin-top: 20px;
+}
+
+.ep-select {
+  width: 60px;
+
+  text-align-last: center;
+}
+
+.ep-label:last-child {
+  margin-left: 20px;
+}
+
+.ep-wrongPosition {
+  border-color: red;
+}
+
+.ep-rightPosition {
+  border-color: #3be03b;
+}
+
+.ep-hidden {
+  display: none;
+}

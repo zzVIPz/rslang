@@ -1,0 +1,42 @@
+.ep__button {
+  width: 200px;
+  height: 40px;
+
+  color: #ffffff;
+
+  background-color: #00cdac;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    background-color: #8ddad5;
+    box-shadow: 2px 2px 3px 1px #00cdac;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.tips__button {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+
+  background-size: cover;
+  &_autospeech {
+    background-image: url(/src/assets/images/ep-icons/ep-audio.png);
+  }
+  &_autospeech-grey {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url(/src/assets/images/ep-icons/ep-audio-grey.png);;
+  }
+  &_translate {
+    background-image: url(/src/assets/images/ep-icons/ep-tip.png);
+  }
+  &_speech {
+    background-image: url(/src/assets/images/ep-icons/ep-melody.png);
+  }
+  &_background {
+    background-image: url(/src/assets/images/ep-icons/ep-gallery.png);
+  }
+}
