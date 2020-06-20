@@ -1,4 +1,4 @@
-import DATA_FOR_GAMES from '../../../models/mockData';
+import DATA_FOR_GAMES from './mockData';
 
 export default class EnglishPuzzleModel {
   constructor() {
