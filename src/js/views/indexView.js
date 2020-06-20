@@ -158,7 +158,7 @@ export default class IndexView {
   setSetTimeout() {
     this.modalTimer = setTimeout(() => {
       this.removeModalWindow();
-    }, 3000);
+    }, 3500);
   }
 
   removeModalWindow() {
