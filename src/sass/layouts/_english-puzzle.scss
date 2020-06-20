@@ -32,24 +32,37 @@
   flex-direction: column;
 }
 
-.mockData {
+.ep-board {
   display: flex;
   flex-direction: column;
 }
 
-.ep-sentences {
-  margin-top: 20px;
-  display: flex;
-  &-word {
+// .ep-sentences {
+//   margin-top: 20px;
+//   display: flex;
+//   &-word {
+//     border: 1px solid black;
+//     width: 100px;
+//     height: 20px;
+//     text-align: center;
+//     cursor: pointer;
+//   }
+// }
+
+.ep-sentences-word {
     border: 1px solid black;
     width: 100px;
     height: 20px;
     text-align: center;
     cursor: pointer;
-  }
 }
 
-.ep-playground {
+.ep-board__line {
+  margin-top: 20px;
+  display: flex;
+}
+
+.ep-play__field {
   height: 40px;
   margin-top: 20px;
   border: 1px solid black;

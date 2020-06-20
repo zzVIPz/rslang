@@ -1,28 +1,35 @@
 import { Sortable, Plugins } from '@shopify/draggable';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import Template from './template';
+import shuffle from '../helpers/shuffle';
 
 export default class EnglishPuzzleView {
   constructor() {
     this.template = Template;
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.currentSentence = 0;
+    this.domElements = {};
   }
 
   render() {
     document.querySelector('.main').innerHTML = this.template;
-    const splitSentences = this.englishPuzzleModel.getSplitSentences();
-    this.shuffle(splitSentences[this.currentSentence]);
+    this.domElements.skipButton = document.getElementById('skipBtn');
+    this.domElements.checkButton = document.getElementById('checkBtn');
+    this.domElements.continueBtn = document.getElementById('continueBtn');
+    this.domElements.playField = document.getElementById('playField');
 
-    splitSentences.forEach((sentence, id1) => {
+    const splitSentences = this.englishPuzzleModel.getSplitSentences();
+    shuffle(splitSentences[this.currentSentence]);
+
+    splitSentences.forEach((sentence, idSentence) => {
       const elem = document.createElement('div');
-      const playground = document.querySelector('.ep-playground');
-      if (id1 === this.currentSentence) {
-        elem.classList.add('ep-sentences_active');
+      if (idSentence === this.currentSentence) {
+        elem.classList.add('ep-board__line_active');
+        elem.classList.add('drag-container');
       }
-      elem.classList.add('ep-sentences');
+      elem.classList.add('ep-board__line');
       elem.textContent = splitSentences.indexOf(sentence) + 1;
-      document.querySelector('.mockData').append(elem);
+      document.querySelector('.ep-board').append(elem);
       sentence.forEach((word) => {
         const elem2 = document.createElement('div');
         elem2.classList.add('ep-sentences-word');
@@ -30,28 +37,24 @@ export default class EnglishPuzzleView {
         elem2.textContent = word.wordName;
         elem2.dataset.line = word.line;
         elem2.dataset.pos = word.pos;
-        if (id1 < this.currentSentence) {
+        if (idSentence < this.currentSentence) {
           elem.append(elem2);
         }
-        if (id1 === this.currentSentence) {
-          playground.append(elem2);
+        if (idSentence === this.currentSentence) {
+          this.domElements.playField.append(elem2);
         }
       });
     });
+    this.domElements.activeLine = document.querySelector('.ep-board__line_active');
     this.addDragAndDrop();
     this.addListeners();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   addDragAndDrop() {
-    const playground = document.getElementById('playground');
-    const checkButton = document.getElementById('checkBtn');
-    const skipButton = document.getElementById('skipBtn');
     const classes = {
       draggable: 'Block--isDraggable',
-      capacity: 'draggable-container-parent--capacity',
     };
-    const containers = document.querySelectorAll('.ep-sentences_active');
+    const containers = document.querySelectorAll('.drag-container');
     if (containers.length === 0) {
       return false;
     }
@@ -63,58 +66,48 @@ export default class EnglishPuzzleView {
       plugins: [Plugins.ResizeMirror],
     });
     sortable.on('drag:stop', () => {
-      if (playground.childNodes.length === 1) {
-        checkButton.classList.remove('ep-hidden');
-        skipButton.classList.add('ep-hidden');
+      if (this.domElements.playField.childNodes.length === 1) {
+        this.domElements.checkButton.classList.remove('ep-hidden');
+        this.domElements.skipButton.classList.add('ep-hidden');
       }
     });
     return sortable;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  shuffle(array) {
-    array.sort(() => Math.random() - 0.5);
-  }
-
   addListeners() {
-    const skipButton = document.getElementById('skipBtn');
-    const checkButton = document.getElementById('checkBtn');
-    const continueBtn = document.getElementById('continueBtn');
-    const activeLine = document.querySelector('.ep-sentences_active');
-    const playground = document.getElementById('playground');
-
-    checkButton.addEventListener('click', () => {
+    this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;
-      activeLine.childNodes.forEach((el, id) => {
-        if (id !== 0) {
-          el.classList.remove('ep-wrongPosition');
-          el.classList.remove('ep-rightPosition');
-          if (id !== +el.dataset.pos + 1) {
-            el.classList.add('ep-wrongPosition');
+      this.domElements.activeLine.childNodes.forEach((word, idWord) => {
+        if (idWord !== 0) {
+          word.classList.remove('ep-wrongPosition');
+          word.classList.remove('ep-rightPosition');
+          if (idWord !== +word.dataset.pos + 1) {
+            word.classList.add('ep-wrongPosition');
             mistakes += 1;
           } else {
-            el.classList.add('ep-rightPosition');
+            word.classList.add('ep-rightPosition');
           }
         }
       });
+
       if (mistakes === 0
-         && activeLine.childNodes.length > 1
-          && playground.childNodes.length === 0) {
-        continueBtn.classList.remove('ep-hidden');
-        checkButton.classList.add('ep-hidden');
-        skipButton.classList.add('ep-hidden');
+         && this.domElements.activeLine.childNodes.length > 1
+          && this.domElements.playField.childNodes.length === 0) {
+        this.domElements.continueBtn.classList.remove('ep-hidden');
+        this.domElements.checkButton.classList.add('ep-hidden');
+        this.domElements.skipButton.classList.add('ep-hidden');
       } else {
-        skipButton.classList.remove('ep-hidden');
+        this.domElements.skipButton.classList.remove('ep-hidden');
       }
     });
 
-    continueBtn.addEventListener('click', () => {
+    this.domElements.continueBtn.addEventListener('click', () => {
       this.currentSentence += 1;
-      continueBtn.classList.add('ep-hidden');
+      this.domElements.continueBtn.classList.add('ep-hidden');
       this.render();
     });
 
-    skipButton.addEventListener('click', () => {
+    this.domElements.skipButton.addEventListener('click', () => {
       this.currentSentence += 1;
       this.render();
     });
