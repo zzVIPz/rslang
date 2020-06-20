@@ -1,25 +1,19 @@
-import { getUserSetting } from '../constants/constMainView';
+import getCorrectUrl from '../utils/getCorrectUrl';
+import getUserSetting from '../utils/getUserSetting';
+import { DEFAULT_USER } from '../constants/constMainView';
 
 export default class MainModel {
   constructor() {
     this.accessData = JSON.parse(localStorage.accessKey);
-    this.currentUser = {
-      username: null,
-      cardsTotal: 10,
-      cardsNew: 5,
-      studyMode: 'mixed',
-      learningWordsMode: 'mixed',
-      transcription: true,
-      associativePicture: true,
-      btnKnow: true,
-      btnDifficult: true,
-    };
+    this.userId = this.accessData.userId;
+    this.token = this.accessData.token;
+    this.currentUser = DEFAULT_USER;
   }
 
   async init() {
     if (this.accessData.username) {
       this.currentUser.username = this.accessData.username;
-      await this.setUserSettings(this.accessData.userId, getUserSetting(this.currentUser));
+      await this.setUserSettings(this.userId, getUserSetting(this.currentUser));
     }
   }
 
@@ -29,7 +23,7 @@ export default class MainModel {
 
   async updateUserSettings(userData) {
     this.currentUser = userData;
-    await this.setUserSettings(this.accessData.userId, getUserSetting(userData));
+    await this.setUserSettings(this.userId, getUserSetting(userData));
   }
 
   async setUserSettings(userId, settings) {
@@ -39,7 +33,7 @@ export default class MainModel {
         method: 'PUT',
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${this.accessData.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -50,6 +44,13 @@ export default class MainModel {
     console.log('setUserSettings', content);
   }
 
+  async getWords(user) {
+    this.url = getCorrectUrl(user.currentPage, user.currentGroup, user.cardsTotal);
+    const rawResponse = await fetch(this.url);
+    const content = await rawResponse.json();
+    return content;
+  }
+
   async getUserSettings(userId) {
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
@@ -57,7 +58,7 @@ export default class MainModel {
         method: 'GET',
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${this.accessData.token}`,
+          Authorization: `Bearer ${this.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -73,9 +74,9 @@ export default class MainModel {
       localStorage.accessKey = JSON.stringify(this.accessData);
       return this.currentUser;
     }
-    const response = await this.getUserSettings(this.accessData.userId);
-    console.log('getUser', this.currentUser);
+    const response = await this.getUserSettings(this.userId);
     this.currentUser = response;
+    console.log('getUser', this.currentUser);
     return this.currentUser;
   }
 

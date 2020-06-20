@@ -1,3 +1,4 @@
+import Swiper from 'swiper';
 import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
@@ -10,12 +11,24 @@ export default class MainController {
   }
 
   async init() {
+    this.swiper = new Swiper('.swiper-container', {
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'progressbar',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
     this.firebaseModel.onAuthStateChangedHandler();
     this.mainModel.init();
-    this.mainView.init();
     this.accessData = this.mainModel.getAccessData();
-    if (this.accessData.username) {
-      this.user = await this.mainModel.getUser();
+    const { username } = this.accessData;
+    this.user = await this.mainModel.getUser();
+    this.mainView.init(this.user, this.swiper);
+    this.mainView.renderMain(this.user);
+    if (username) {
       this.mainView.showSettingsModal(this.user);
     }
     this.subscribeToEvents();
