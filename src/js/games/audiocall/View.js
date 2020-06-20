@@ -63,7 +63,7 @@ class AudiocallView {
 
       playAudio() {
         this.playAudioBtn.addEventListener('click', () => {
-          // sound('surprised.mp3');
+          this.sound('/* тут ссылка на слово */');
           setTimeout(() => {
             document.querySelector('.small-circle').style.transform = 'scale(0.53)';
             document.querySelector('.big-circle').style.transform = 'scale(0.81)';
@@ -89,6 +89,15 @@ class AudiocallView {
             document.querySelector('.big-circle').style.transform = 'scale(0.7)';
           }, 2500);
         });
+      }
+
+      sound(src) {
+        let audio = new Audio(); 
+        audio.src = src; 
+        audio.autoplay = true; 
+        audio.onloadedmetadata = function() {
+            console.log(audio.duration);
+          };
       }
 
       async getWords(page, group) {
