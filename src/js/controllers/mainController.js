@@ -9,7 +9,7 @@ export default class MainController {
 
   init() {
     this.firebaseModel.onAuthStateChangedHandler();
-    this.mainView.addListeners();
+    this.mainView.init();
     this.subscribeToEvents();
   }
 

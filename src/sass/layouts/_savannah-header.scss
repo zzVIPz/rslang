@@ -1,0 +1,47 @@
+.app__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  height: 46px;
+  padding: 0 20px;
+
+  transition: background-color 0.2s cubic-bezier(0, -1.85, 0.27, 1.75);
+}
+
+.lives {
+  position: absolute;
+  top: 18px;
+  right: 54px;
+
+  font-size: 1.2em;
+  color: $main-color;
+}
+
+.music {
+  position: absolute;
+  top: 5px;
+  left: 0;
+
+  width: 30px;
+
+  &__icon {
+    width: 100%;
+
+    cursor: pointer;
+  }
+  &__line {
+    display: none;
+    position: absolute;
+    top: 3px;
+    left: 14px;
+
+    width: 3px;
+    height: 30px;
+
+    background-color: black;
+    transform: rotate(-38deg);
+  }
+}
