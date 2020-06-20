@@ -45,7 +45,7 @@ const audiocallGame = `
           </div>
           <div class="container-game__kit-layer">
               <div class="container-game__crossword-modal">
-                  <div class="container-game__modal" id="modal-layout" style="display: none;">
+                  <div class="container-game__modal" id="modal-layout">
                       <div class="container-game__modal__header"></div>
                       <div class="container-game__modal__body">
                           <div class="container-game__modal__close-body" id="modal-close"></div>

@@ -214,7 +214,7 @@ main {
 		z-index: 999;
 		padding: 36px 16px 16px;
 		background-color: rgba(0, 0, 0, .6);
-		display: flex;
+		display: none;
 		justify-content: center;
 		align-items: flex-start;
 		border-radius: 0;
@@ -239,16 +239,13 @@ main {
 			cursor: pointer;
 			width: 20px;
 			height: 20px;
-			background-image: url(close-icon.svg);
+			background-image: url(../assets/svg/close-icon.svg);
 			background-position: 50%;
 			background-size: contain;
 			background-repeat: no-repeat;
 		}
 		&__footer {
 			margin-top: 14px;
-		}
-		&__close-body {
-			display: none;
 		}
 	}
 	&__crossword-modal__cont {
@@ -316,10 +313,19 @@ main {
 	-webkit-transform: scale(0.7);
 	transform: scale(0.7);
 }
-media screen and (max-width:830px) {
-	container-game__trainings-audiocall__answer: hover ;
-	background-color: transparent;
+.hide {
+	display: none;
 }
-media screen and (max-width: 544px) {
-	width: 288px;
+.show-flex {
+	display: flex;
 }
+.show {
+	display: block;
+}
+// media screen and (max-width:830px) {
+// 	container-game__trainings-audiocall__answer: hover ;
+// 	background-color: transparent;
+// }
+// media screen and (max-width: 544px) {
+// 	width: 288px;
+// }
