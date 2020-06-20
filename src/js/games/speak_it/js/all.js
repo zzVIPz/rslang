@@ -25,7 +25,7 @@
         <input type="text" class="inner not_display">
         <div class="words_container"></div>
         <div class="button_container">
-        <button class="button restart">Restart</button>
+        <button class="button restart">More Words</button>
         <button class="button speak">Speak Please</button>
         <button class="button finish">Finish</button>
     </div>`;
@@ -79,16 +79,9 @@ var Pagination = {
         var a = Pagination.e.getElementsByTagName('a');
         for (var i = 0; i < a.length; i++) {
             if (+a[i].innerHTML === Pagination.page) a[i].className = 'current';
-            a[i].addEventListener('click', Pagination.Click, false);
+            a[i].addEventListener('click', controller.chooseGroup, false);
         }
     },
-
-    Click: function() {
-        Pagination.page = +this.innerHTML;
-        Pagination.Start();
-        console.log(Pagination.page)
-    },
-
 };
 
 var init = function() {
@@ -143,9 +136,6 @@ const view = {
         view.image.style.backgroundImage = url
     },
 
-    toggleSpinner() {
-        this.spinner.classList.toggle('opacity');
-    },
     showTranslation(translate) {
         view.translation.innerText = translate;
     },
@@ -178,10 +168,10 @@ const view = {
 
     viewWords(arrayWords, arrayTranscripts, arrayAudios) {
         for(let i = 0 ; i < 10 ; i++){
-            this.words[i].innerText = arrayWords[i];
-            this.words[i].id = `${i}`;
-            this.transcriptions[i].innerText = arrayTranscripts[i];
-            let audioURL = model.createSoundURL(arrayAudios[i])
+            this.words[i].innerText = arrayWords[model.arrayNumders[i]];
+            this.words[i].id = `${model.arrayNumders[i]}`;
+            this.transcriptions[i].innerText = arrayTranscripts[model.arrayNumders[i]];
+            let audioURL = model.createSoundURL(arrayAudios[model.arrayNumders[i]])
             this.listens[i].src = audioURL;
         }
     },
@@ -199,14 +189,16 @@ const view = {
     },
 
     selectCard(card) {
+        
+
         let numerCardInArray;
         if(card){
             numerCardInArray = card.querySelector('.word').id;
             let audio = card.querySelector('.listen').src
         this.playSound(audio);
         }else{
-            numerCardInArray = 0;
-            controller.cards[numerCardInArray].classList.add('choosen');
+            numerCardInArray = model.arrayNumders[0];
+            controller.cards[0].classList.add('choosen');
             this.showTranslation(model.datasWordTranslate[numerCardInArray]);
             this.viewWords(model.datasWords, model.datasTranscription, model.datasAudios);
         }
@@ -228,9 +220,7 @@ const view = {
 
 // -------------------------------------model------------------------------------------
 const model = {
-    group: 0,
-    page: 0,
-    isFirstTenWords: true,
+    arrayNumders: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
     datasWords: [],
     datasImages: [],
     datasAudios: [],
@@ -257,7 +247,26 @@ const model = {
         .then(response => response.json())
     },
 
+    resetDatas() {
+        this.datasWords = [];
+        this.datasImages = [];
+        this.datasAudios = [];
+        this.datasAudioMeaning = [];
+        this.datasAudioExample = [];
+        this.datasTextMeaning = [];
+        this.datasTextExample = [];
+        this.datasTranscription = [];
+        this.datasTextExampleTranslate = [];
+        this.datasTextMeaningTranslate = [];
+        this.datasWordTranslate = [];
+    },
+
+    shuffle(array) {
+        array.sort(() => Math.random() - 0.5);
+    },
+
     extractAllDatas(json) {
+        this.shuffle(this.arrayNumders);
         for (let i = 0 ; i < json.length ; i ++){
             this.datasWords.push(json[i].word);
             this.datasImages.push(json[i].image);
@@ -276,20 +285,27 @@ const model = {
     SpeechRecognition() {
         this.recognitionMod = !this.recognitionMod;
         if (this.recognitionMod){
-            view.toggleSpinner();
             recognition.addEventListener('result', e => {
                 const result = Array.from(e.results)
                         .map(result => result[0])
                         .map(result => result.transcript)
                         .join('')
-                        view.recognition(result)
+                        view.recognition(result);
                         recognition.stop();
-                        view.toggleSpinner();
+                        this.checkResult();
             })
             recognition.start()
         }else{
             recognition.stop();
         }
+    },
+
+    setRandomStartPage() {
+        return Math.floor(Math.random() * (29));
+    },
+
+    checkResult() {
+        
     },
 }
 
@@ -304,27 +320,23 @@ const controller = {
     cards: Array.from(document.querySelectorAll('.card')),
     containerOver: document.querySelector('.container_over'),
     examples: Array.from(document.querySelectorAll('.examples')),
-    // cardOver: document.querySelector('.card_over'),
 
     addListeners() {
-        this.onload();
+        this.firstLoad();
         this.restartPage();
         this.chooseCard();
         this.speakMic();
         this.rotateCard();
        
-   },
-
+    },
    addListenersPlayExamles() {
     this.playExample();
-   },
-
+    },
    playExample() {
     this.examples.forEach(example => example.addEventListener('click', function() {
         view.playSound(this.id);
     }))
-   },
-
+    },
    rotateCard() {
     this.containerOver.onmouseover = function() {
         this.querySelector('.card_over').classList.add('rotate');
@@ -334,22 +346,21 @@ const controller = {
         this.querySelector('.card_over').classList.remove('rotate')
     };
 
-   },
-
-   onload() {
-    window.onload = async () => {
+    },
+   async onload() {
+        controller.cards.forEach(card => card.classList.remove('choosen'));
+        this.startPage = model.setRandomStartPage();
+        model.resetDatas();
         const gettingJson = await model.getJson(this.startGroup, this.startPage);
         model.extractAllDatas(gettingJson);
         view.selectCard();
-    }
-   },
-
+    },
+    firstLoad() {
+        window.onload = () => this.onload()
+    },
    restartPage() {
-    this.buttonRestart.onclick = () => {
-        // this.onload()
-    };
-   },
-
+    this.buttonRestart.onclick = () => this.onload();
+    },
     chooseCard() {
         this.cards.forEach(card => card.addEventListener('click', function(event) {
             controller.cards.forEach(card => card.classList.remove('choosen'));
@@ -357,14 +368,19 @@ const controller = {
             view.selectCard(this);
             view.checkInput();
         }));
-   },
-  
+    },
    speakMic() {
     this.buttonSpeak.onclick = () => {
         view.changeInput();
         model.SpeechRecognition();
     };
-   },
+    },
+   chooseGroup() {
+    Pagination.page = +this.innerHTML;
+    Pagination.Start();
+    controller.startGroup = Pagination.page - 1;
+    controller.onload();
+    },
 }
 
 controller.addListeners()
