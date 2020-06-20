@@ -19,8 +19,6 @@ export default class MainModel {
   async init() {
     if (this.accessData.username) {
       this.currentUser.username = this.accessData.username;
-      delete this.accessData.username;
-      localStorage.accessKey = JSON.stringify(this.accessData);
       await this.setUserSettings(this.accessData.userId, getUserSetting(this.currentUser));
     }
   }
@@ -70,7 +68,9 @@ export default class MainModel {
   }
 
   async getUser() {
-    if (this.accessData.name) {
+    if (this.accessData.username) {
+      delete this.accessData.username;
+      localStorage.accessKey = JSON.stringify(this.accessData);
       return this.currentUser;
     }
     const response = await this.getUserSettings(this.accessData.userId);

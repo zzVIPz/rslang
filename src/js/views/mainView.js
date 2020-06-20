@@ -101,6 +101,7 @@ export default class MainView {
   }
 
   checkUserState() {
+    //todo need refactor, becouse user's properties will change
     const totalCards = document.getElementById('cards-amount');
     const wordAmount = document.getElementById('word-amount');
     const modeSelect = document.querySelector('.settings__study-select');
@@ -109,8 +110,8 @@ export default class MainView {
     const associativePicture = document.getElementById('associative-picture');
     const btnKnow = document.getElementById('button-i-know');
     const btnDifficult = document.getElementById('button-difficult');
-    const user = {
-      username: this.user.username,
+    const user = JSON.parse(JSON.stringify(this.user));
+    Object.assign(user, {
       cardsTotal: +totalCards.value,
       cardsNew: +wordAmount.value,
       studyMode: modeSelect.options[modeSelect.selectedIndex].value,
@@ -119,7 +120,7 @@ export default class MainView {
       associativePicture: associativePicture.checked,
       btnKnow: btnKnow.checked,
       btnDifficult: btnDifficult.checked,
-    };
+    });
     if (JSON.stringify(this.user) !== JSON.stringify(user)) return user;
     return false;
   }

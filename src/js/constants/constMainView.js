@@ -32,21 +32,21 @@ const getUserSetting = (userData) => ({
 
 const getModalSettingsTemplate = (user) => `
 <div class="settings">
-  <h3 class="settings__title">Welcome, ${user.name}</h3>
+  <h3 class="settings__title">Welcome, ${user.username}</h3>
   <p class="settings__subtitle">Here you can set up your study profile</p>
   <div class="settings__cards-amount wrapper">
     <label class="settings__label" for="cards-amount">Choose the total number of cards per day (5 - 100):</label>
     <input class="settings__input" type="number" id="cards-amount" min="5" max="100" value="${
-  user.cardsTotal
-}">
+      user.cardsTotal
+    }">
   </div>
   <div class="settings__word-amount wrapper">
     <label class="settings__label" for="word-amount">
       Choose the number of new words per day (5 - the total number of cards per day):
     </label>
     <input class="settings__input" type="number" id="word-amount" min="5" max="${
-  user.cardsTotal
-}" value="${user.cardsNew}">
+      user.cardsTotal
+    }" value="${user.cardsNew}">
   </div>
   <div class="settings__study-mode wrapper">
     <p class="settings__description">Which study mode do you prefer?</p>
@@ -87,6 +87,4 @@ const getModalSettingsTemplate = (user) => `
   </div>
 </div>`;
 
-export {
-  CONST_MAIN_VIEW, getNavLinkTemplate, getUserSetting, getModalSettingsTemplate,
-};
+export { CONST_MAIN_VIEW, getNavLinkTemplate, getUserSetting, getModalSettingsTemplate };
