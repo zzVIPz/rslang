@@ -1,5 +1,6 @@
 import { CONST_MAIN_VIEW as constMainView, getModalTemplate } from '../constants/constMainView';
 
+
 export default class MainView {
   constructor() {
     this.onLogOut = null;
