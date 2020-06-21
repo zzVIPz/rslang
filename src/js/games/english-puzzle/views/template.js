@@ -21,7 +21,7 @@ const template = `
           </div>
           <div class="ep-controls__right-side">
             <div class="ep__button tips__button tips__button_autospeech"></div>
-            <div class="ep__button tips__button tips__button_translate"></div>
+            <div id="tipTranslate" class="ep__button tips__button tips__button_translate"></div>
             <div class="ep__button tips__button tips__button_speech"></div>
             <div class="ep__button tips__button tips__button_background"></div>
           </div>

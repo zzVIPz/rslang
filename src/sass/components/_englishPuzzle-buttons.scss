@@ -23,6 +23,10 @@
   margin-right: 10px;
 
   background-size: cover;
+
+  &_active {
+    background-color: #8ddad5;
+  }
   &_autospeech {
     background-image: url(/src/assets/images/ep-icons/ep-audio.png);
   }

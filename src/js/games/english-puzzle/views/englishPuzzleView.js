@@ -9,6 +9,7 @@ export default class EnglishPuzzleView {
     this.template = Template;
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.currentSentence = 0;
+    this.showTipTranslate = true;
     this.domElements = {};
   }
 
@@ -19,12 +20,13 @@ export default class EnglishPuzzleView {
     this.domElements.continueBtn = document.getElementById('continueBtn');
     this.domElements.playField = document.getElementById('playField');
     this.domElements.sentenceTranslate = document.getElementById('sentenceTranslate');
+    this.domElements.tipTranslate = document.getElementById('tipTranslate');
     const parentWidth = this.domElements.playField.offsetWidth;
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
 
     this.domElements.sentenceTranslate
       .textContent = splitSentencesData[this.currentSentence].translate;
-
+    this.showTip();
     shuffle(splitSentencesData[this.currentSentence].splitSentence);
 
     splitSentencesData.forEach((el, id) => {
@@ -53,9 +55,20 @@ export default class EnglishPuzzleView {
         }
       });
     });
+
     this.domElements.activeLine = document.querySelector('.ep-board__line_active');
     this.addDragAndDrop();
     this.addListeners();
+  }
+
+  showTip() {
+    if (this.showTipTranslate === true) {
+      this.domElements.tipTranslate.classList.add('tips__button_active');
+      this.domElements.sentenceTranslate.classList.remove('ep-transparent');
+    } else {
+      this.domElements.tipTranslate.classList.remove('tips__button_active');
+      this.domElements.sentenceTranslate.classList.add('ep-transparent');
+    }
   }
 
   addDragAndDrop() {
@@ -118,6 +131,35 @@ export default class EnglishPuzzleView {
     this.domElements.skipButton.addEventListener('click', () => {
       this.currentSentence += 1;
       this.render();
+    });
+
+    this.domElements.tipTranslate.addEventListener('click', () => {
+      if (this.showTipTranslate === true) {
+        this.showTipTranslate = false;
+      } else {
+        this.showTipTranslate = true;
+      }
+      this.showTip();
+    });
+
+    this.domElements.playField.addEventListener('click', (event) => {
+      if (event.target.classList.contains('Block--isDraggable')) {
+        this.domElements.activeLine.append(event.target);
+      }
+      if (this.domElements.playField.childNodes.length === 0) {
+        this.domElements.checkButton.classList.remove('ep-hidden');
+        this.domElements.skipButton.classList.add('ep-hidden');
+      }
+    });
+
+    this.domElements.activeLine.addEventListener('click', (event) => {
+      if (event.target.classList.contains('Block--isDraggable')) {
+        this.domElements.playField.append(event.target);
+      }
+      if (this.domElements.playField.childNodes.length !== 0) {
+        this.domElements.checkButton.classList.add('ep-hidden');
+        this.domElements.skipButton.classList.remove('ep-hidden');
+      }
     });
   }
 }
