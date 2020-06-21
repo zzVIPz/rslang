@@ -4,7 +4,8 @@
   "description": "https://github.com/rolling-scopes-school/tasks/blob/master/tasks/rslang/rslang.md",
   "main": "index.js",
   "dependencies": {
-    "firebase": "^7.15.1"
+    "firebase": "^7.15.1",
+    "swiper": "^5.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
