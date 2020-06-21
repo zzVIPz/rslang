@@ -1,8 +1,27 @@
 /* ----------------------------------pagination------------------------------ */
-#pagination {
-    height: 25px;
-    margin-top: 15px;
-    float: left;
+.pagination {
+    float: right;
+    border: 2px solid red;
+    margin-right: 25px;
+}
+.level{
+    width: 300px;
+    height: 35px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+}
+.level > p{
+    width: 20px;
+    background-color: snow;
+}
+.choose{
+    background-color: tomato!important;
+}
+.result{
+    color: wheat;
+    line-height: 35px;
+    font-size: 25px;
 }
 #pagination a, #pagination i {
     display: inline-block;
@@ -34,6 +53,14 @@
     background-color: #DFDFDF;
     background-image:         linear-gradient(top, #D0D0D0, #EBEBEB);
 }
+/* -------------------------------------Preloading--------------------------------------- */
+.gogogo{
+    width: 200px;
+    height: 75px;
+    background-color: brown;
+    margin: auto;
+}
+
 /* ---------------------------WORDS CONTAINER------------------------------------ */
 .image{
     width: 423px;
@@ -49,7 +76,8 @@
 	height: 380px;
 	background: transparent;
     /* border-radius: 8px; */
-    display: inline-block;
+    margin: auto;
+    /* display: inline-block; */
 }
 .card_over {
     position: relative;
@@ -126,6 +154,30 @@
 }
 .inner_container{
     display: flex;
+    width: 300px;
+    /* justify-content: space-between; */
+    margin: auto;
+}
+.icon{
+    margin: 13px auto;
+    width: 33px;
+    height: 33px;
+    background-size: 33px;
+    /* background-position: 5px 0; */
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.mic{
+    background-image: url(../mic1.png);
+}
+.mic:hover{
+    background-image: url(../mic2.png);
+}
+.clear{
+    background-image: url(../clear1.png);
+}
+.clear:hover{
+    background-image: url(../clear2.png);
 }
 .inner{
     margin: 13px auto;
@@ -145,12 +197,8 @@
     font-size: 22px;
     box-shadow: 0 5px 2px -2px gray;
     text-shadow: 0 1px 1px #FFF;
-    background-image: url(../microphone.png);
-    background-size: 33px;
-    background-position: 5px 0;
-    background-repeat: no-repeat;
-
 }
+
 .not_display{
     display: none;
 }
@@ -160,6 +208,7 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin: auto;
 }
 .card{
     cursor: pointer;
@@ -178,8 +227,12 @@
     width: 35px;
     height: 35px;
     margin-top: 20px;
-    background-image: url(../speak.png);
+    background-image: url(../list1.png);
     background-size: 35px;
+    cursor: pointer;
+}
+.word_listen:hover{
+    background-image: url(../list2.png);
 }
 .word_look{
     margin-top: 10px

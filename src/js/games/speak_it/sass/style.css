@@ -6,6 +6,8 @@ body {
     background-image: linear-gradient(-225deg, #fffeff 0%, #d7fffe 100%);
     background-size: cover;
     background-blend-mode: multiply, multiply;
+    background-image: url(../assets/images/savannah-bg.svg);
+    background-size: 100%;
   }
 footer, header{
     position: sticky;
@@ -26,14 +28,9 @@ header {
     top: 0;
 }
 .container {
-    /* display: flex;
-    justify-content: center; */
-    /* width: 100%; */
     max-width: 1200px;
-    /* min-height: calc(100vh - 93px); */
-    margin: 0 auto;
-    /* padding: 0 10px; */
-    /* text-align: center; */
+    /* margin: auto; */
+   
   }
 *{
     padding: 0;

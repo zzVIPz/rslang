@@ -1,5 +1,5 @@
 import { CONST_MAIN_VIEW as constMainView, getModalTemplate } from '../constants/constMainView';
-
+import g1 from '../games/speak_it/js/all'//DELETE
 
 export default class MainView {
   constructor() {
@@ -75,6 +75,11 @@ export default class MainView {
       this.toggleMenuProperty();
       this.setActiveLink();
     });
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    document.querySelector('a[data-name="speakit"]').onclick = () => {
+      g1()
+    }
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   }
 
   setActiveLink() {
