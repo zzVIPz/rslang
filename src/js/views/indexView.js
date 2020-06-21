@@ -2,8 +2,13 @@ import CONST_INDEX_VIEW from '../constants/constIndexView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
 
+/* todo:  */
+import EnglishPuzzleController from '../games/english-puzzle/controllers/englishPuzzleController';
+
 export default class IndexView {
   constructor() {
+    // todo: берем кнопку
+    this.btnDrawGame = document.querySelector('.button-draw-game');
     this.loginMessage = document.querySelector('.form__login-message');
     this.formButton = document.querySelector('.form__button');
     this.name = document.querySelector('.user-name');
@@ -38,8 +43,20 @@ export default class IndexView {
   }
 
   addListeners() {
+    // todo: вешаем лиссенер
+    this.addBtbDrawGame();
+
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
+  }
+
+  addBtbDrawGame() {
+    this.btnDrawGame.addEventListener('click', () => {
+      this.main.innerText = '';
+      // рендерим нашу игру
+      const englishPuzzle = new EnglishPuzzleController();
+      englishPuzzle.init();
+    });
   }
 
   addLoginSelectionClickHandler() {
