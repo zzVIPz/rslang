@@ -5,33 +5,42 @@ export default class EnglishPuzzleModel {
     this.data = DATA_FOR_GAMES;
   }
 
-  getSentences() {
-    const sentences = [];
+  getSentencesData() {
+    const sentencesData = [];
     this.data.forEach((el) => {
+      const currentSentenceData = {};
       const currentSentence = el.textExample.replace(/<[^<>]+>/g, '');
-      sentences.push(currentSentence);
+      currentSentenceData.sentence = currentSentence;
+      currentSentenceData.translate = el.textExampleTranslate;
+      sentencesData.push(currentSentenceData);
     });
-    return sentences;
+    return sentencesData;
   }
 
-  getSplitSentences() {
-    const splitSentences = [];
-    const sentences = this.getSentences();
+  getSplitSentencesData() {
+    const splitSentencesData = [];
+    const sentencesData = this.getSentencesData();
 
-    sentences.forEach((el, id) => {
-      const currentSplitSentence = el.split(' ');
-
-      const currentSplitSentenceData = [];
+    sentencesData.forEach((el, id) => {
+      const currentSplitSentence = el.sentence.split(' ');
+      const currentSplitSentenceObj = {};
+      const currentSplitSentenceArr = [];
+      let lettersCount = 0;
       currentSplitSentence.forEach((el2, id2) => {
         const wordObj = {};
         wordObj.wordName = el2;
         wordObj.line = id;
         wordObj.pos = id2;
-        currentSplitSentenceData.push(wordObj);
+        wordObj.length = el2.length;
+        lettersCount += el2.length;
+        currentSplitSentenceArr.push(wordObj);
       });
-
-      splitSentences.push(currentSplitSentenceData);
+      currentSplitSentenceObj.splitSentence = currentSplitSentenceArr;
+      currentSplitSentenceObj.translate = el.translate;
+      currentSplitSentenceObj.lettersCount = lettersCount;
+      splitSentencesData.push(currentSplitSentenceObj);
     });
-    return splitSentences;
+    console.log(splitSentencesData);
+    return splitSentencesData;
   }
 }

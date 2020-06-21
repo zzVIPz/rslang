@@ -28,7 +28,7 @@ const template = `
         </div>
         <div class="ep-tips">
           <div class="ep__button tips__button tips__button_autospeech-grey"></div>
-          <p class="ep-tips__text-translate">Some text from current sentence<p>
+          <p id="sentenceTranslate" class="ep-tips__text-translate"><p>
         </div>
         <div class="ep-board"></div>
         <div id="playField" class="ep-play__field ep-board__line drag-container"></div>

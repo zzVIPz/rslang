@@ -2,6 +2,7 @@ import { Sortable, Plugins } from '@shopify/draggable';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import Template from './template';
 import shuffle from '../helpers/shuffle';
+import getElementWidth from '../helpers/getElementWidth';
 
 export default class EnglishPuzzleView {
   constructor() {
@@ -17,30 +18,37 @@ export default class EnglishPuzzleView {
     this.domElements.checkButton = document.getElementById('checkBtn');
     this.domElements.continueBtn = document.getElementById('continueBtn');
     this.domElements.playField = document.getElementById('playField');
+    this.domElements.sentenceTranslate = document.getElementById('sentenceTranslate');
+    const parentWidth = this.domElements.playField.offsetWidth;
+    const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
 
-    const splitSentences = this.englishPuzzleModel.getSplitSentences();
-    shuffle(splitSentences[this.currentSentence]);
+    this.domElements.sentenceTranslate
+      .textContent = splitSentencesData[this.currentSentence].translate;
 
-    splitSentences.forEach((sentence, idSentence) => {
+    shuffle(splitSentencesData[this.currentSentence].splitSentence);
+
+    splitSentencesData.forEach((el, id) => {
       const elem = document.createElement('div');
-      if (idSentence === this.currentSentence) {
+      if (id === this.currentSentence) {
         elem.classList.add('ep-board__line_active');
         elem.classList.add('drag-container');
       }
       elem.classList.add('ep-board__line');
-      elem.textContent = splitSentences.indexOf(sentence) + 1;
+      elem.textContent = splitSentencesData.indexOf(el) + 1;
       document.querySelector('.ep-board').append(elem);
-      sentence.forEach((word) => {
+      el.splitSentence.forEach((word) => {
         const elem2 = document.createElement('div');
+        const elWidth = getElementWidth(parentWidth, el.lettersCount, word.length);
+        elem2.style.width = `${elWidth}px`;
         elem2.classList.add('ep-sentences-word');
         elem2.classList.add('Block--isDraggable');
         elem2.textContent = word.wordName;
         elem2.dataset.line = word.line;
         elem2.dataset.pos = word.pos;
-        if (idSentence < this.currentSentence) {
+        if (id < this.currentSentence) {
           elem.append(elem2);
         }
-        if (idSentence === this.currentSentence) {
+        if (id === this.currentSentence) {
           this.domElements.playField.append(elem2);
         }
       });
