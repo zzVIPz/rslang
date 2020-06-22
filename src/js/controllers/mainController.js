@@ -1,34 +1,24 @@
-import Swiper from 'swiper';
 import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
+import getCurrentUserState from '../utils/getCurrentUserState';
+import { MENU_ITEMS_NAMES } from '../constants/constMainView';
 
 export default class MainController {
   constructor() {
     this.firebaseModel = new FirebaseModel();
     this.mainModel = new MainModel();
-    this.mainView = new MainView(this.mainModel);
+    this.mainView = new MainView();
   }
 
   async init() {
-    this.swiper = new Swiper('.swiper-container', {
-      pagination: {
-        el: '.swiper-pagination',
-        type: 'progressbar',
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
     this.firebaseModel.onAuthStateChangedHandler();
     this.mainModel.init();
+    this.mainView.init();
     this.accessData = this.mainModel.getAccessData();
-    const { username } = this.accessData;
-    this.user = await this.mainModel.getUser();
-    this.mainView.init(this.user, this.swiper);
+    this.user = await this.mainModel.getUser(this.accessData.userId, this.accessData.token);
     this.mainView.renderMain(this.user);
-    if (username) {
+    if (this.accessData.username) {
       this.mainView.showSettingsModal(this.user);
     }
     this.subscribeToEvents();
@@ -37,6 +27,69 @@ export default class MainController {
   subscribeToEvents() {
     this.mainView.onLogOut = () => {
       this.firebaseModel.onLogOut();
+    };
+
+    this.mainView.onBurgerMenuClick = () => {
+      this.mainView.toggleMenuProperty();
+      this.mainView.setActiveLink();
+    };
+
+    this.mainView.onNavigationLinkClick = (e) => {
+      const dataName = e.target.dataset.name;
+      if (dataName === MENU_ITEMS_NAMES.mainPage) {
+        this.mainView.renderMain(this.user);
+      }
+      if (dataName === MENU_ITEMS_NAMES.logOut) {
+        this.mainView.onLogOut();
+        this.mainView.showIndexPage();
+      }
+    };
+
+    this.mainView.onBtnStartClick = async (user) => {
+      const wordsList = await this.mainModel.getWords(
+        user.currentPage,
+        user.currentGroup,
+        user.cardsTotal,
+      );
+      this.mainView.renderSwiper();
+      this.mainView.renderCards(wordsList, user);
+    };
+
+    this.mainView.onButtonAcceptClick = () => {
+      const currentUserState = getCurrentUserState();
+      const copyUser = JSON.parse(JSON.stringify(this.user));
+      Object.assign(copyUser, currentUserState);
+      if (JSON.stringify(this.user) !== JSON.stringify(copyUser)) {
+        this.user = copyUser;
+        this.mainModel.updateUserSettings(copyUser);
+        this.mainView.renderMain(copyUser);
+      }
+      this.mainView.closeSettingsModal();
+    };
+
+    this.mainView.onButtonCancelClick = () => {
+      this.mainView.closeSettingsModal();
+    };
+
+    this.mainView.onBtnSettingsClick = () => {
+      this.mainView.showSettingsModal(this.user);
+    };
+
+    this.mainView.onLogOutClick = () => {
+      this.mainView.onLogOut();
+      this.mainView.showIndexPage();
+    };
+
+    this.mainView.onOverlayClick = () => {
+      this.mainView.toggleMenuProperty();
+    };
+
+    this.mainView.onBtnSpeakerClick = () => {
+      this.mainView.changeBtnSpeakerIcon();
+    };
+
+    this.mainView.onInputComplete = () => {
+      this.mainView.checkUserInput();
     };
   }
 }

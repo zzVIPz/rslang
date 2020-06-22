@@ -1,17 +1,33 @@
-const MENU_ITEMS_NAMES = [
-  'main-page',
-  'dictionary',
-  'statistics',
-  'speakit',
-  'english-puzzle',
-  'savannah',
-  'audiocall',
-  'sprint',
-  'new-game',
-  'promo-page',
-  'about-team',
-  'log-out',
-];
+const MENU_ITEMS_NAMES = {
+  mainPage: 'main-page',
+  dictionary: 'dictionary',
+  statistics: 'statistics',
+  speakit: 'speakit',
+  englishPuzzle: 'english-puzzle',
+  audiocall: 'audiocall',
+  savannah: 'savannah',
+  sprint: 'sprint',
+  newGame: 'new-game',
+  promoPage: 'promo-page',
+  aboutTeam: 'about-team',
+  logOut: 'log-out',
+};
+
+const DEFAULT_USER_SETTINGS = {
+  cardsTotal: 10,
+  cardsNew: 5,
+  currentGroup: 0,
+  currentPage: 0,
+  studyMode: 'MIXED',
+  learningWordsMode: 'MIXED',
+  transcription: true,
+  associativePicture: true,
+  wordPronunciation: true,
+  meaningPronunciation: true,
+  examplePronunciation: true,
+  btnKnow: true,
+  btnDifficult: true,
+};
 
 const SETTING_MODAL_TEXT = {
   title: 'Welcome,',
@@ -63,21 +79,4 @@ const SWIPER_TEMPLATE = `
     <div class="swiper-button-next"></div>
   </div>`;
 
-const DEFAULT_USER = {
-  username: null,
-  cardsTotal: 10,
-  cardsNew: 5,
-  currentGroup: 0,
-  currentPage: 0,
-  studyMode: 'mixed',
-  learningWordsMode: 'mixed',
-  transcription: true,
-  associativePicture: true,
-  wordPronunciation: true,
-  meaningPronunciation: true,
-  examplePronunciation: true,
-  btnKnow: true,
-  btnDifficult: true,
-};
-
-export { MENU_ITEMS_NAMES, SETTING_MODAL_TEXT, MAIN_TEXT, SWIPER_TEMPLATE, DEFAULT_USER };
+export { MENU_ITEMS_NAMES, SETTING_MODAL_TEXT, MAIN_TEXT, SWIPER_TEMPLATE, DEFAULT_USER_SETTINGS };

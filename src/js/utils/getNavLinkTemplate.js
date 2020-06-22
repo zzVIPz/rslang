@@ -1,7 +1,7 @@
 export default function getNavLinkTemplate(key) {
-  const formattedKey = key.replace('-', ' ').toUpperCase();
+  const formattedKey = key.replace('-', ' ');
   return `
     <li class="navigation__item">
-      <a class="navigation__link" data-name=${key} href="#${key}">${formattedKey}</a>
+      <a class="navigation__link" data-name=${key} href="#${key}">${formattedKey.toUpperCase()}</a>
     </li>`;
 }

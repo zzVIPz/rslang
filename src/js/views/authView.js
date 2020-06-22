@@ -1,4 +1,4 @@
-import { LOGIN_FORM_TEXT } from '../constants/constAuthView';
+import LOGIN_FORM_TEXT from '../constants/constAuthView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
 import getModalErrorTemplate from '../utils/getModalErrorTemplate';
@@ -85,10 +85,7 @@ export default class IndexView {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  showMainPage() {
-    document.location.replace('../pages/main.html');
-  }
+  showMainPage = () => document.location.replace('../pages/main.html');
 
   closeModalWindow() {
     if (this.modal) {

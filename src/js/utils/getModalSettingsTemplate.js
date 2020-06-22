@@ -1,5 +1,4 @@
 export default function getModalSettingsTemplate(user, settings) {
-  console.log(user, settings);
   return `
   <div class="settings animate__animated animate__backInDown">
     <h3 class="settings__title">${settings.title} ${user.username}</h3>
