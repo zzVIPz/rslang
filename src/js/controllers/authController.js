@@ -1,6 +1,6 @@
 import FirebaseModel from '../models/firebaseModel';
 import AuthModel from '../models/authModel';
-import IndexView from '../views/indexView';
+import IndexView from '../views/authView';
 
 export default class IndexController {
   constructor() {
@@ -21,11 +21,10 @@ export default class IndexController {
       this.indexView.showModalMessage(e);
       this.indexView.closeModalWindow();
     };
-    const getRequestObject = (email, password) => ({ email: `${email}`, password: `${password}` });
     this.indexView.onSignIn = async (email, password) => {
       try {
         await this.firebaseModel.auth.signInWithEmailAndPassword(email, password);
-        await this.authModel.loginUser(getRequestObject(email, password));
+        await this.authModel.loginUser({ email, password });
         this.indexView.showMainPage();
       } catch (e) {
         onError(e);
@@ -35,7 +34,7 @@ export default class IndexController {
       try {
         await this.firebaseModel.auth.createUserWithEmailAndPassword(email, password);
         this.firebaseModel.writeUserData(email, name, password);
-        const requestObject = getRequestObject(email, password);
+        const requestObject = { email, password };
         await this.authModel.createUser(requestObject);
         await this.authModel.loginUser(requestObject, name);
         this.indexView.showMainPage();

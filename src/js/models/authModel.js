@@ -30,7 +30,7 @@ export default class AuthModel {
     this.formattedData = data;
     delete this.formattedData.message;
     if (name) {
-      this.formattedData.name = name;
+      this.formattedData.username = name;
     }
     localStorage.accessKey = JSON.stringify(this.formattedData);
   }
