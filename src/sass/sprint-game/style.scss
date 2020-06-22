@@ -1,7 +1,3 @@
-@import "_font";
-@import "_normalizer";
-@import "_variables";
-
 .sprint-container{
   height: 500px;
   width: 600px;
@@ -11,13 +7,13 @@
   justify-content: space-between;
   text-align: center;
   border-radius: 8px;
-  box-shadow: 0px 3px 6px 0px $border-color;
+  box-shadow: 0px 3px 6px 0px #616161;
   overflow: hidden;
 }
 .sprint-header{
   position: relative;
   height: 25%;
-  background-color: $primary-color;
+  background-color: #9E9E9E;
 }
 .sprint-score{
   position: absolute;
@@ -32,16 +28,19 @@
 .sprint-mark{
   height: 20px;
   width: 20px;
-  border: 1px solid $border-color;
+  border: 1px solid #616161;
   border-radius: 50%;
   margin: 0 1%;
+}
+.activated{
+  background-color: green;
 }
 
 .sprint-picture-block{
   height: 20%;
   width:20%;
   margin:  0 auto;
-  border-bottom: solid 1px $border-color;
+  border-bottom: solid 1px #616161;
   }
 .sprint-display{
   display: flex;
@@ -50,7 +49,7 @@
   margin:  0 auto;
   flex-direction: column;
   justify-content: center;
-  border-bottom: dotted 2px $border-color;
+  border-bottom: dotted 2px #616161;
 }
 .sprint-word{
    margin-bottom: 1%;
@@ -63,7 +62,7 @@
 }
 .sprint-button{
   padding: 19px 15px 21px;
-  box-shadow: 0px 2px 5px 0px $border-color;
+  box-shadow: 0px 2px 5px 0px #616161;
   border: none;
   border-radius: 10px;
   outline: none;
@@ -112,3 +111,4 @@
   align-items: center;
 
 }
+

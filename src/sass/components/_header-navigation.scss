@@ -7,10 +7,10 @@
   height: 100vh;
   padding: 0;
 
-  background-color: rgba(45, 48, 58, 0.4);
+  background-color: rgba(45, 48, 58, .4);
   opacity: 0;
 
-  transition: opacity ease-in-out 0.5s;
+  transition: opacity ease-in-out .5s;
 
   &--active {
     left: 0;
@@ -29,18 +29,17 @@
   width: 320px;
   height: 100vh;
   margin: 0;
-  padding-left: 100px;
+  padding-left: 55px;
 
   background: $color-navigation-background;
-  box-shadow: 15px 0 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 15px 0 25px rgba(0, 0, 0, .2);
 
-  transition: all 0.5s ease;
+  transition: all .5s ease;
 
   &__item {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 
     font-size: 2.5rem;
-    line-height: 1.85rem;
   }
 
   &__link {
@@ -57,13 +56,13 @@
 
       border-bottom: 1px solid $color-navigation-link-active;
 
-      transition: all 0.5s ease;
+      transition: all .5s ease;
     }
   }
 
   &--active {
     left: 0;
 
-    transition: all 0.5s ease;
+    transition: all .5s ease;
   }
 }

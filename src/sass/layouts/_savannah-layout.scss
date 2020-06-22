@@ -1,0 +1,89 @@
+.app {
+  // min-height: 100vh;
+  width: 100%;
+}
+
+.flying-word {
+  position: absolute;
+  left: 50%;
+
+  width: 50px;
+  height: 50px;
+  margin-left: -20px;
+
+  font-size: 2em;
+  color: $text-color;
+  &_hide {
+    display: none;
+  }
+}
+
+
+.app__content__translation-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  display: flex;
+  margin-left: -305px;
+
+  font-size: 1.5em;
+  color: $text-color;
+  ;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 50px;
+    margin-right: 20px;
+
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+
+      background: #3d7c807a;
+    }
+  }
+}
+
+.cristal {
+  position: absolute;
+  bottom: -96px;
+  left: 50%;
+
+  width: 40px;
+  margin-left: -20px;
+  &__img {
+    width: 100%;
+
+    animation: mover 1s infinite  alternate;
+
+    @keyframes mover {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+  }
+}
+
+.visible {
+  display: block;
+}
+
+.hideBackgroundImg {
+  background-image: none;
+}
+
+.app__background {
+  background-image: url("/src/assets/images/savannah-bg.svg");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 100%;
+
+  // transition: all 1s ease;
+}

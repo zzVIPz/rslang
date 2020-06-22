@@ -1,4 +1,5 @@
 @import "base/normalize";
+@import "base/animate";
 
 // Abstract
 @import "abstract/constants";
@@ -11,12 +12,28 @@
 //  Components
 @import "components/auth-tool";
 @import "components/wrapper";
+@import "components/container";
 @import "components/burger-menu";
 @import "components/header-navigation";
+@import "components/user-tool";
+@import "components/swiper";
+
 // Layout
+
 @import "layouts/header";
 @import "layouts/main";
 @import "layouts/footer";
+@import "layouts/modal-settings";
 // pages
-// sprint-game
-@import "sprint-game/style.scss"
+
+// savannah-game
+@import "abstract/savannah-constants";
+@import "components/savannah-button";
+@import "components/savannah-closeBtn";
+@import "components/savannah-rating";
+@import "components/savannah-preloader";
+@import "layouts/savannah-header";
+@import "layouts/savannah-modal";
+@import "layouts/savannah-startPage";
+@import "layouts/savannah-layout";
+@import "components/savannah-sparkles";
