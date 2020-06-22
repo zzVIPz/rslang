@@ -17,20 +17,21 @@ const gameLayout = ` <div class="sprint-container">
     <div class="sprint-mark"></div>
   </div>
   <div class="sprint-points-line">
-    <span>+40</span> очков за слово
+    +40 очков за слово
   </div>
   <div class="sprint-timer">--</div>
 </div>
 <div class="sprint-picture-block"></div>
 <div class="sprint-display">
-  <div class="sprint-word">word</div>
-  <div class="sprint-word sprint-word--translation">слово</div>
+  <div id="word" class="sprint-word">word</div>
+  <div id="translation" class="sprint-word sprint-word--translation">слово</div>
 </div>
 <div class="sprint-controlls">
   <button id="wrong" class="sprint-button sprint-button--wrong">неверно</button>
   <button id="right" class="sprint-button sprint-button--right">верно</button>
 </div>
 </div>`;
+
 const finalStatLayout = `  <div class="sprint-container">
 <h2 class="sprint-result-header">Ваш результат</h2>
 <div class="sprint-statistics">

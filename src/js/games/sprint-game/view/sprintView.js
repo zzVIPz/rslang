@@ -18,13 +18,33 @@ export default class SprintView {
     this.mainContainer.insertAdjacentHTML('beforeend', this.gameLayout);
   }
 
-  showTime(time) {
-    this.timer = document.querySelector('.sprint-timer');
-    this.timer.innerHTML = time;
+  renderGameData(score, word, wordTranslate, points, rightAnswersCount) {
+    this.score = score;
+    this.word = word;
+    this.wordTranslate = wordTranslate;
+    this.points = points;
+    this.rightAnswersCount = rightAnswersCount;
+    document.querySelector('.sprint-score').innerHTML = this.score;
+    document.querySelector('#word').innerHTML = this.word;
+    document.querySelector('#translation').innerHTML = this.wordTranslate;
+    document.querySelector('.sprint-points-line').innerHTML = `+${this.points} очков за слово`;
+    const marks = document.querySelectorAll('.sprint-mark');
+    const activatedMarks = document.querySelectorAll('.sprint-mark');
+    if (this.rightAnswersCount > 0 && this.rightAnswersCount < 4) {
+      marks[this.rightAnswersCount - 1].classList.add('activated');
+    } else if (activatedMarks || this.rightAnswersCount === 4) {
+      activatedMarks.forEach((el) => el.classList.remove('activated'));
+    }
   }
 
-  showFinalStat() {
+  showTime(time) {
+    this.timer = document.querySelector('.sprint-timer');
+    if (this.timer) { this.timer.innerHTML = time; }
+  }
+
+  showFinalStat(score) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
+    document.querySelector('.sprint-final-score').innerHTML = score;
   }
 }
