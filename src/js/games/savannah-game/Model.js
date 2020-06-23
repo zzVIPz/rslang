@@ -1,4 +1,5 @@
 import shuffleArray from './savannah-utils/shaffle';
+import MainModel from '../../models/mainModel';
 
 class SavannahModel {
   constructor() {
@@ -10,14 +11,30 @@ class SavannahModel {
     this.removeDigitsRegExp = /\d/g;
     this.rightAnswer = 0;
     this.wrongAnswer = 0;
+    this.mainModel = new MainModel();
   }
 
-  async fetchData(difficultyLevel, round) {
+  /* async fetchData(difficultyLevel, round) {
     this.mockDataJSON = await fetch(`${this.wordsUrl}group=${difficultyLevel}&page=${round}`);
     this.mockData = await this.mockDataJSON.json();
     this.getWordsAndTranslation(this.mockData);
 
     return { words: this.wordsArr, translation: this.translation };
+  } */
+  async fetchWords(chosenLevel, chosenRound) {
+    this.currentUser = await this.mainModel.getUser();
+    if (chosenLevel) {
+      this.currentUser.currentGroup = chosenLevel;
+      this.currentUser.currentPage = chosenRound;
+    }
+
+    if (chosenRound) {
+      this.currentUser.currentPage = chosenRound;
+    }
+
+    console.log('My user:', this.currentUser);
+    const data = await this.mainModel.getWords(this.currentUser);
+    return data;
   }
 
   getWordsAndTranslation(data) {

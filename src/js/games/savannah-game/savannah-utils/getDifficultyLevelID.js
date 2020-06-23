@@ -1,6 +1,6 @@
-const getDifficultyLevelId = (el) => {
+const getDifficultyLevelRoundId = (el) => {
   const getIdRegExp = /\d/;
-  return (el.id).match(getIdRegExp)[0];
+  return Number((el.id).match(getIdRegExp)[0]);
 };
 
-export default getDifficultyLevelId;
+export default getDifficultyLevelRoundId;

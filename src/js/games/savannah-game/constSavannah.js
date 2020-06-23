@@ -3,25 +3,6 @@ const savannahGame = `
     <div class="app__header">
       <a href="#" class="close"></a>
     </div>
-    <div class="app__rating">
-      <div class="rating">
-        <input class="rating__input" type="radio" id="star-5" name="star"/>
-        <label class="rating__label" for="star-5" title="text"></label>
-        <input class="rating__input" type="radio" id="star-4" name="star"/>
-        <label class="rating__label" for="star-4" title="text"></label>
-        <input class="rating__input" type="radio" id="star-3" name="star"/>
-        <label class="rating__label" for="star-3" title="text"></label>
-        <input class="rating__input" type="radio" id="star-2" name="star"/>
-        <label class="rating__label" for="star-2" title="text"></label>
-        <input class="rating__input" type="radio" id="star-1" name="star"/>
-        <label class="rating__label" for="star-1" title="text"></label>
-        <input class="rating__input" type="radio" id="star-0" name="star"/>
-        <label class="rating__label" for="star-0" title="text"></label>
-      </div>
-      <div class="rating__text">
-        Уровень сложности
-      </div>
-    </div>
     <div class="app__content">
       <div class="app__content__title">Саванна</div>
       <div class="app__content__text">Тренировка Саванна развивает словарный запас. Попробуй сам.</div>
@@ -36,6 +17,27 @@ const savannahGame = `
       </div>
     </div>
   </div>`;
+
+const groupRound = `
+  <div class="rating__row rating__group">
+    <label class="group star" id="0"></label>
+    <label class="group star" id="1"></label>
+    <label class="group star" id="2"></label>
+    <label class="group star" id="3"></label>
+    <label class="group star" id="4"></label>
+    <label class="group star" id="5"></label>
+  </div>
+  <div class="text">Уровень сложности</div>
+  <div class="rating__row rating__round">
+    <label class="round star" id="0"></label>
+    <label class="round star" id="1"></label>
+    <label class="round star" id="2"></label>
+    <label class="round star" id="3"></label>
+    <label class="round star" id="4"></label>
+    <label class="round star" id="5"></label>
+  </div>
+  <div class="text text_round">Раунд</div>
+`;
 
 const preloader = `
 <div class="preloader__conatiner"> 
@@ -73,5 +75,5 @@ const sparkles = `
   `;
 
 export {
-  savannahGame, preloader, lives, sparkles,
+  savannahGame, preloader, lives, sparkles, groupRound,
 };
