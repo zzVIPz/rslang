@@ -13,6 +13,10 @@ const MENU_ITEMS_NAMES = {
   logOut: 'log-out',
 };
 
+const HASH_VALUES = {
+  training: '#training',
+};
+
 const DEFAULT_USER_SETTINGS = {
   cardsTotal: 10,
   cardsNew: 5,
@@ -58,6 +62,12 @@ const SETTING_MODAL_TEXT = {
   btnCancel: 'CANCEL',
 };
 
+const WORD_LEARNING_MODES = [
+  SETTING_MODAL_TEXT.textSelect.word,
+  SETTING_MODAL_TEXT.textSelect.textMeaning,
+  SETTING_MODAL_TEXT.textSelect.textExample,
+];
+
 const MAIN_TEXT = {
   title: 'Dear,',
   subtitle: 'Your goals for today:',
@@ -79,4 +89,12 @@ const SWIPER_TEMPLATE = `
     <div class="swiper-button-next"></div>
   </div>`;
 
-export { MENU_ITEMS_NAMES, SETTING_MODAL_TEXT, MAIN_TEXT, SWIPER_TEMPLATE, DEFAULT_USER_SETTINGS };
+export {
+  MENU_ITEMS_NAMES,
+  HASH_VALUES,
+  SETTING_MODAL_TEXT,
+  MAIN_TEXT,
+  SWIPER_TEMPLATE,
+  DEFAULT_USER_SETTINGS,
+  WORD_LEARNING_MODES,
+};

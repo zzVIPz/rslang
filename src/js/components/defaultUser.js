@@ -2,7 +2,7 @@ export default class User {
   constructor(name, id, token, settings) {
     this.username = name;
     this.userId = id;
-    this.userId = token;
+    this.token = token;
     this.cardsTotal = settings.cardsTotal;
     this.cardsNew = settings.cardsNew;
     this.currentGroup = settings.currentGroup;

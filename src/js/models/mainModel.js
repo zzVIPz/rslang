@@ -1,7 +1,7 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
 import getRequestBody from '../utils/getRequestBody';
 import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
-import User from '../classes/defaultUser';
+import User from '../components/defaultUser';
 
 export default class MainModel {
   constructor() {
@@ -21,7 +21,7 @@ export default class MainModel {
       );
       await this.setUserSettings(
         this.currentUser.userId,
-        this.currentUser.userToken,
+        this.currentUser.token,
         getRequestBody(this.currentUser),
       );
     }
@@ -33,29 +33,29 @@ export default class MainModel {
 
   async updateUserSettings(user) {
     this.currentUser = user;
-    await this.setUserSettings(user.userId, user.userToken, getRequestBody(user));
+    await this.setUserSettings(user.userId, user.token, getRequestBody(user));
   }
 
-  async getUser(userId, userToken) {
+  async getUser(userId, token) {
     if (this.accessData.username) {
       delete this.accessData.username;
       localStorage.accessKey = JSON.stringify(this.accessData);
       return this.currentUser;
     }
-    const response = await this.getUserSettings(userId, userToken);
+    const response = await this.getUserSettings(userId, token);
     this.currentUser = response;
     console.log('getUser', this.currentUser);
     return this.currentUser;
   }
 
-  async setUserSettings(userId, userToken, settings) {
+  async setUserSettings(userId, token, settings) {
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
       {
         method: 'PUT',
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${userToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -73,14 +73,14 @@ export default class MainModel {
     return content;
   }
 
-  async getUserSettings(userId, userToken) {
+  async getUserSettings(userId, token) {
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
       {
         method: 'GET',
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${userToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -89,6 +89,4 @@ export default class MainModel {
     const content = await this.rawResponse.json();
     return JSON.parse(content.optional.user);
   }
-
-  getMedia = (key) => `https://raw.githubusercontent.com/zzvipz/rslang-data/master/${key}`;
 }

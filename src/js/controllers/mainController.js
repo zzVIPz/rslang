@@ -2,7 +2,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
-import { MENU_ITEMS_NAMES } from '../constants/constMainView';
+import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
 
 export default class MainController {
   constructor() {
@@ -20,6 +20,7 @@ export default class MainController {
     this.mainView.renderMain(this.user);
     if (this.accessData.username) {
       this.mainView.showSettingsModal(this.user);
+      this.mainView.addSettingsModalListeners();
     }
     this.subscribeToEvents();
   }
@@ -39,6 +40,37 @@ export default class MainController {
       if (dataName === MENU_ITEMS_NAMES.mainPage) {
         this.mainView.renderMain(this.user);
       }
+      if (dataName === MENU_ITEMS_NAMES.dictionary) {
+        // add dictionary
+      }
+      if (dataName === MENU_ITEMS_NAMES.statistics) {
+        // add statistics
+      }
+      if (dataName === MENU_ITEMS_NAMES.speakit) {
+        // add speakit
+      }
+      if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
+        // add englishPuzzle
+      }
+      if (dataName === MENU_ITEMS_NAMES.audiocall) {
+        // add audiocall
+      }
+      if (dataName === MENU_ITEMS_NAMES.savannah) {
+        // add savannah
+      }
+      if (dataName === MENU_ITEMS_NAMES.sprint) {
+        // add sprint
+      }
+      if (dataName === MENU_ITEMS_NAMES.newGame) {
+        // add newGame
+      }
+      if (dataName === MENU_ITEMS_NAMES.promoPage) {
+        window.open('./promo.html');
+      }
+
+      if (dataName === MENU_ITEMS_NAMES.aboutTeam) {
+        window.open('./about.html');
+      }
       if (dataName === MENU_ITEMS_NAMES.logOut) {
         this.mainView.onLogOut();
         this.mainView.showIndexPage();
@@ -46,6 +78,7 @@ export default class MainController {
     };
 
     this.mainView.onBtnStartClick = async (user) => {
+      window.location.hash = HASH_VALUES.training;
       const wordsList = await this.mainModel.getWords(
         user.currentPage,
         user.currentGroup,
@@ -62,7 +95,9 @@ export default class MainController {
       if (JSON.stringify(this.user) !== JSON.stringify(copyUser)) {
         this.user = copyUser;
         this.mainModel.updateUserSettings(copyUser);
-        this.mainView.renderMain(copyUser);
+        if (!window.location.hash) {
+          this.mainView.renderMain(copyUser);
+        }
       }
       this.mainView.closeSettingsModal();
     };
@@ -73,6 +108,7 @@ export default class MainController {
 
     this.mainView.onBtnSettingsClick = () => {
       this.mainView.showSettingsModal(this.user);
+      this.mainView.addSettingsModalListeners();
     };
 
     this.mainView.onLogOutClick = () => {
@@ -90,6 +126,10 @@ export default class MainController {
 
     this.mainView.onInputComplete = () => {
       this.mainView.checkUserInput();
+    };
+
+    this.mainView.onModalClick = (e) => {
+      this.mainView.toggleCardsClasses(e);
     };
   }
 }

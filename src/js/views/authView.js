@@ -91,8 +91,8 @@ export default class IndexView {
     if (this.modal) {
       this.modal = false;
       this.addButtonCloseModalClickHandler();
+      this.setTimeoutModalClose();
     }
-    this.setSetTimeout();
   }
 
   checkUserData() {
@@ -155,17 +155,16 @@ export default class IndexView {
     });
   }
 
-  setSetTimeout() {
+  setTimeoutModalClose() {
     this.modalTimer = setTimeout(() => {
       this.removeModalWindow();
     }, 3500);
   }
 
-  removeModalWindow() {
+  removeModalWindow = () => {
     const modal = document.querySelector('.modal');
-    clearTimeout(this.modalTimer);
     if (modal) {
       modal.remove();
     }
-  }
+  };
 }

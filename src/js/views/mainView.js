@@ -5,10 +5,11 @@ import {
   MAIN_TEXT,
   SWIPER_TEMPLATE,
 } from '../constants/constMainView';
-import getCardTemplate from '../utils/getCardTemplate';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
+import toggleClass from '../utils/toggleClass';
+import Card from '../components/card';
 
 export default class MainView {
   constructor() {
@@ -29,19 +30,10 @@ export default class MainView {
     this.speaker = document.querySelector('.user-tool__button-speaker');
     this.settings = document.querySelector('.user-tool__button-settings');
     this.main = document.querySelector('.main');
+    this.swiper = null;
   }
 
   init() {
-    this.swiper = new Swiper('.swiper-container', {
-      pagination: {
-        el: '.swiper-pagination',
-        type: 'progressbar',
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
     this.renderMenu();
     this.links = document.querySelectorAll('.navigation__link');
     this.addListeners();
@@ -65,12 +57,26 @@ export default class MainView {
 
   renderSwiper() {
     this.main.innerHTML = SWIPER_TEMPLATE;
+    if (!this.swiper) {
+      this.swiper = new Swiper('.swiper-container', {
+        pagination: {
+          type: 'progressbar',
+          el: '.swiper-pagination',
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    } else {
+      this.swiper.removeAllSlides();
+    }
   }
 
-  renderCards(cards, user) {
-    cards.forEach((card) => {
-      const cardTemplate = getCardTemplate(card, user);
-      // this.swiper.appendSlide(cardTemplate);
+  renderCards(words, user) {
+    words.forEach((word) => {
+      const card = new Card(word, user);
+      this.swiper.appendSlide(card.renderTemplate());
     });
   }
 
@@ -88,6 +94,14 @@ export default class MainView {
     modal.classList.add('settings__overlay');
     modal.innerHTML = formattedTemplate;
     this.main.append(modal);
+  }
+
+  addSettingsModalListeners() {
+    const modal = document.querySelector('.settings');
+    modal.addEventListener('click', (e) => {
+      this.onModalClick(e);
+    });
+
     this.totalCards = document.getElementById('cards-amount');
     this.totalCards.addEventListener('focusout', () => {
       this.onInputComplete();
@@ -197,6 +211,22 @@ export default class MainView {
       this.headerNavigation.classList.add('header__navigation--active');
     }
   }
+
+  toggleCardsClasses = (e) => {
+    const { target } = e;
+    if (target.id === 'transcription') {
+      toggleClass('.card__transcription');
+    }
+    if (target.id === 'associative-picture') {
+      toggleClass('.card__image-container');
+    }
+    if (target.id === 'button-i-know') {
+      toggleClass('.card__know');
+    }
+    if (target.id === 'button-difficult') {
+      toggleClass('.card__study');
+    }
+  };
 
   changeBtnSpeakerIcon() {
     this.speaker.classList.toggle('user-tool__button-speaker--active');
