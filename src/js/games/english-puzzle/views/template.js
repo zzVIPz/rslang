@@ -23,12 +23,12 @@ const template = `
             <div class="ep__button tips__button tips__button_autospeech"></div>
             <div id="tipTranslate" class="ep__button tips__button tips__button_translate"></div>
             <div class="ep__button tips__button tips__button_speech"></div>
-            <div class="ep__button tips__button tips__button_background"></div>
+            <div id="tipBackground" class="ep__button tips__button tips__button_background"></div>
           </div>
         </div>
         <div class="ep-tips">
           <div class="ep__button tips__button tips__button_autospeech-grey"></div>
-          <p id="sentenceTranslate" class="ep-tips__text-translate"><p>
+          <p id="sentenceTranslate" class="ep-tips__text-translate"></p>
         </div>
         <div class="ep-board"></div>
         <div id="playField" class="ep-play__field ep-board__line drag-container"></div>
@@ -37,6 +37,7 @@ const template = `
           <button id="checkBtn" class="ep__button ep-hidden" name="check">Check</button>
           <button id="continueBtn" class="ep__button ep-hidden" name="continue">Continue</button>
         </div>
+        <canvas id="canvas"></canvas>
       </div>
       `;
 

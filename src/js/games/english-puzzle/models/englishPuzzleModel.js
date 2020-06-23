@@ -40,7 +40,6 @@ export default class EnglishPuzzleModel {
       currentSplitSentenceObj.lettersCount = lettersCount;
       splitSentencesData.push(currentSplitSentenceObj);
     });
-    console.log(splitSentencesData);
     return splitSentencesData;
   }
 }
