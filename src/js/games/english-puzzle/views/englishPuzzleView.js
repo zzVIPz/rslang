@@ -1,4 +1,4 @@
-import { Sortable, Plugins } from '@shopify/draggable';
+import { Sortable } from '@shopify/draggable';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import Template from './template';
 import shuffle from '../helpers/shuffle';
@@ -12,6 +12,8 @@ export default class EnglishPuzzleView {
     this.showTipTranslate = true;
     this.tipBackground = false;
     this.domElements = {};
+    this.img = new Image();
+    this.img.src = '/src/assets/images/ep-icons/scream.jpg';
   }
 
   render() {
@@ -25,25 +27,36 @@ export default class EnglishPuzzleView {
     this.domElements.tipBackground = document.getElementById('tipBackground');
     const parentWidth = this.domElements.playField.offsetWidth;
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
+    const lineNumbersWrapper = document.querySelector('.ep-numbers');
 
-    // this.createPuzzle(300, 0);
+    if (this.currentSentence < 10) {
+      this.domElements.sentenceTranslate
+        .textContent = splitSentencesData[this.currentSentence].translate;
+    }
 
-    this.domElements.sentenceTranslate
-      .textContent = splitSentencesData[this.currentSentence].translate;
     this.showTip();
     this.showTipBackground();
-    // shuffle(splitSentencesData[this.currentSentence].splitSentence);
 
     splitSentencesData.forEach((el, id) => {
       const elem = document.createElement('div');
       let posCounter = 0;
 
+      if (this.currentSentence === 10 && id === 0) {
+        elem.classList.add('ep-board__line_active');
+        elem.classList.add('drag-container');
+      }
       if (id === this.currentSentence) {
         elem.classList.add('ep-board__line_active');
         elem.classList.add('drag-container');
       }
+      // console.log(id, this.currentSentence);
       elem.classList.add('ep-board__line');
-      elem.textContent = splitSentencesData.indexOf(el) + 1;
+
+      const lineNumberBlock = document.createElement('div');
+      lineNumberBlock.classList.add('ep-board__line_number');
+      lineNumberBlock.textContent = splitSentencesData.indexOf(el) + 1;
+      lineNumbersWrapper.append(lineNumberBlock);
+
       document.querySelector('.ep-board').append(elem);
       el.splitSentence.forEach((word) => {
         const elem2 = document.createElement('div');
@@ -51,11 +64,12 @@ export default class EnglishPuzzleView {
         elem2.style.width = `${elWidth}px`;
         elem2.classList.add('ep-sentences-word');
         elem2.classList.add('Block--isDraggable');
-        // elem2.textContent = word.wordName;
+        elem2.textContent = word.wordName;
 
         elem2.dataset.line = word.line;
         elem2.dataset.pos = word.pos;
         const puzzle = document.createElement('canvas');
+        puzzle.classList.add('Block--isClickable');
         this.createPuzzle(puzzle, elem2, elWidth);
 
         if (id < this.currentSentence) {
@@ -79,13 +93,18 @@ export default class EnglishPuzzleView {
   // eslint-disable-next-line class-methods-use-this
   createPuzzle(canvas, parentElement, length) {
     const parent = parentElement;
-    // const puzzle = document.createElement('canvas');
     const puzzle = canvas;
     const ctx = puzzle.getContext('2d');
     puzzle.height = 50;
     puzzle.width = length + 16;
     ctx.lineWidth = 2;
+    // if (state === 1) {
+    //   ctx.strokeStyle = '#FF0000';
+    // } else if (state === 2) {
+    //   ctx.strokeStyle = '#00FF00';
+    // } else {
     ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
+    // }
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(puzzle.width - (Math.sqrt(2) / 2 + 1) * 10, 0);
@@ -96,14 +115,10 @@ export default class EnglishPuzzleView {
     ctx.lineTo(puzzle.width - (Math.sqrt(2) / 2 + 1) * 10, 50);
     ctx.lineTo(0, 50);
 
-    // if (index === 0) {
-    //   ctx.lineTo(0, 0);
-    // } else {
     ctx.lineTo(0, 33);
     ctx.arc(5, 25, 10, (3 / 4) * Math.PI, (5 / 4) * Math.PI, true);
     ctx.lineTo(0, 17);
     ctx.lineTo(0, 0);
-    // }
 
     ctx.fillStyle = '#9A3FD5';
     ctx.fill();
@@ -111,35 +126,18 @@ export default class EnglishPuzzleView {
     ctx.stroke();
     ctx.clip();
 
-    // this.fillPuzzle(puzzle, imgWidth, pos);
-
-    /** todo: или вложенным текстом + рассчитать центр */
-    // const textPos = (length - 36) / 2;
-    // ctx.font = '22px Verdana';
-    // ctx.fillText(text, textPos, 20);
-
     parent.append(puzzle);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   fillPuzzle(puzzle, imgWidth, pos, indexString, text, state) {
     const ctx = puzzle.getContext('2d');
     ctx.beginPath();
     ctx.moveTo(0, 0);
     if (state === true) {
-      const img = new Image();
-      img.src = '/src/assets/images/ep-icons/scream.jpg';
-
-      img.onload = () => {
-        const ratio = img.naturalWidth / img.naturalHeight;
-        img.width = imgWidth + ((Math.sqrt(2) / 2 + 1) * 10);
-        img.height = img.width / ratio;
-        ctx.drawImage(img, -pos, -50 * indexString, img.width, img.height);
-        ctx.font = '20px Verdana';
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.fillText(text, puzzle.width / 2, (puzzle.height / 2) + 6);
-      };
+      const ratio = this.img.naturalWidth / this.img.naturalHeight;
+      this.img.width = imgWidth + ((Math.sqrt(2) / 2 + 1) * 10);
+      this.img.height = this.img.width / ratio;
+      ctx.drawImage(this.img, -pos, -50 * indexString, this.img.width, this.img.height);
     }
     ctx.font = '20px Verdana';
     ctx.fillStyle = '#fff';
@@ -178,10 +176,10 @@ export default class EnglishPuzzleView {
       mirror: {
         constrainDimensions: true,
       },
-      plugins: [Plugins.ResizeMirror],
+      // plugins: [Plugins.ResizeMirror],
     });
     sortable.on('drag:stop', () => {
-      if (this.domElements.playField.childNodes.length === 1) {
+      if (this.domElements.playField.childNodes.length === 2) {
         this.domElements.checkButton.classList.remove('ep-hidden');
         this.domElements.skipButton.classList.add('ep-hidden');
       }
@@ -193,16 +191,16 @@ export default class EnglishPuzzleView {
     this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;
       this.domElements.activeLine.childNodes.forEach((word, idWord) => {
-        if (idWord !== 0) {
-          word.classList.remove('ep-wrongPosition');
-          word.classList.remove('ep-rightPosition');
-          if (idWord !== +word.dataset.pos + 1) {
-            word.classList.add('ep-wrongPosition');
-            mistakes += 1;
-          } else {
-            word.classList.add('ep-rightPosition');
-          }
+        // if (idWord !== 0) {
+        word.classList.remove('ep-wrongPosition');
+        word.classList.remove('ep-rightPosition');
+        if (idWord !== +word.dataset.pos) {
+          word.classList.add('ep-wrongPosition');
+          mistakes += 1;
+        } else {
+          word.classList.add('ep-rightPosition');
         }
+        // }
       });
 
       if (mistakes === 0
@@ -223,8 +221,14 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.skipButton.addEventListener('click', () => {
-      this.currentSentence += 1;
-      this.render();
+      if (this.currentSentence === 10) {
+        alert('Round end!');
+        this.currentSentence = 0;
+        this.render();
+      } else {
+        this.currentSentence += 1;
+        this.render();
+      }
     });
 
     this.domElements.tipTranslate.addEventListener('click', () => {
@@ -246,8 +250,8 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.playField.addEventListener('click', (event) => {
-      if (event.target.classList.contains('Block--isDraggable')) {
-        this.domElements.activeLine.append(event.target);
+      if (event.target.classList.contains('Block--isClickable')) {
+        this.domElements.activeLine.append(event.target.parentElement);
       }
       if (this.domElements.playField.childNodes.length === 0) {
         this.domElements.checkButton.classList.remove('ep-hidden');
@@ -256,8 +260,8 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.activeLine.addEventListener('click', (event) => {
-      if (event.target.classList.contains('Block--isDraggable')) {
-        this.domElements.playField.append(event.target);
+      if (event.target.classList.contains('Block--isClickable')) {
+        this.domElements.playField.append(event.target.parentElement);
       }
       if (this.domElements.playField.childNodes.length !== 0) {
         this.domElements.checkButton.classList.add('ep-hidden');

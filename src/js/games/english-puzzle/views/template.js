@@ -30,14 +30,18 @@ const template = `
           <div class="ep__button tips__button tips__button_autospeech-grey"></div>
           <p id="sentenceTranslate" class="ep-tips__text-translate"></p>
         </div>
-        <div class="ep-board"></div>
-        <div id="playField" class="ep-play__field ep-board__line drag-container"></div>
+        <div class="ep-board-wrapper">
+          <div class="ep-numbers"></div>
+          <div class="ep-board"></div>
+        </div>
+        <div class="ep-wrapper">
+          <div id="playField" class="ep-play__field ep-board__line drag-container"></div>
+        </div>
         <div class="ep-play__buttons">
           <button id="skipBtn" class="ep__button" name="skip">I don't know</button>
           <button id="checkBtn" class="ep__button ep-hidden" name="check">Check</button>
           <button id="continueBtn" class="ep__button ep-hidden" name="continue">Continue</button>
         </div>
-        <canvas id="canvas"></canvas>
       </div>
       `;
 

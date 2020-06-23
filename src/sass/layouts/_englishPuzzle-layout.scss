@@ -20,28 +20,89 @@
 .ep-board {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid lightpink;
   &__line {
+    width: calc(100% + 22px);
     display: flex;
-    margin-top: 20px;
+    margin-left: -20px;
+    height: 53px;
+    overflow: hidden;
+    border-bottom:  1px solid lightpink;
+    &:last-child {
+      border: none;
+    }
+    &:focus {
+      outline: none;
+    }
+    &_number {
+      height: 25px;
+      width: 25px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      padding-top: 6px;
+      // margin-bottom: 10px;
+      // margin-top: 17px;
+      // margin-right: 10px;
+      margin: 17px 10px 10px 0px; 
+    }
   }
+}
+
+.ep-board-wrapper {
+  display: flex;
+}
+
+.ep-numbers {
+  display: flex;
+  flex-direction: column;
+}
+
+.ep-wrapper {
+  overflow: hidden;
+  width: calc(100% - 35px);
+  margin-left: 35px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid lightpink;
 }
 
 .ep-sentences-word {
   width: 100px;
-  height: 32px;
-
+  height: 52px;
+  line-height: 52px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #9A3FD5;
   text-align: center;
 
-  border: 1px solid black;
+  border: 1px solid white;
   cursor: pointer;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+.Block--isClickable {
+  position: relative;
+  top: -52px;
+}
+
+.Block--isClickable:focus {
+  outline: none;
 }
 
 .ep-play__field {
-  height: 40px;
-  margin-top: 20px;
+  // height: 40px;
+  // margin-top: 20px;
 
-  border: 1px solid black;
-  border-radius: 5px;
+  // border: 1px solid black;
+  // border-radius: 5px;
 }
 
 .ep-play__buttons {
