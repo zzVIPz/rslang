@@ -1,0 +1,50 @@
+@import "speak_it-constants";
+.close {
+    top: 5px;
+}
+.raiting_container {
+    position: absolute;
+    right: 0;
+    top: 90px;
+}
+.raiting_row{
+    display: flex;
+    @extend %raiting_row;
+}
+.text{
+    @extend %text;
+    color: $color_text_hover;
+    @extend %raiting_row;
+    top: 40px;
+    right: 47px;
+}
+.result{
+    @extend %raiting_row;
+    display: flex;
+}
+.group, .round{
+    display: block;
+    width: 25px;
+    cursor: pointer; 
+    position: relative;
+    font-size: 30px;
+}
+.gold{
+    color: $color_star_choose;
+  }
+  .gold_strong{
+    color: $color_star_choose!important;
+  }
+  .star{
+    color: $color_star_main;
+  }
+.ress{
+    float: right;
+}
+  .app__modal__box {
+    margin: auto;
+    
+}
+.app__modal{
+  display: block;
+}

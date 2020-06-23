@@ -1,0 +1,52 @@
+@import "speak_it-constants";
+.translation{
+    margin: 12px auto;
+    height: 24px;
+    color: #f8e7e7;
+    text-shadow: 0 1px 1px #888787;
+    font: bold 24px arial, helvetica, sans-serif;
+    line-height: 24px;
+    border-bottom: 1px solid black;
+    @extend %box_shadow;
+    width: max-content;
+}
+.inner_container{
+    display: flex;
+    width: 300px;
+    margin: auto;
+}
+.icon{
+    width: 33px;
+    height: 33px;
+    background-size: 33px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.mic{
+    background-image: url(../assets/svg/mic1.png);
+}
+.mic:hover{
+    background-image: url(../assets/svg/mic2.png);
+}
+.clear{
+    background-image: url(../assets/svg/clear1.png);
+}
+.clear:hover{
+    background-image: url(../assets/svg/clear2.png);
+}
+.inner{
+    margin: 13px auto;
+    width: 25vw;
+    height: 22px;
+    display: block;
+    border: 0;
+    max-width: 1140px; 
+    text-align: center;
+    text-shadow: 0 1px 1px $color_shadow;
+    @extend %text;
+    border-bottom: 1px solid black;
+    @extend %box_shadow;
+}
+.not_display{
+    display: none!important;
+}

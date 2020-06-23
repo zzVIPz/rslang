@@ -1,0 +1,19 @@
+$color_button: #269CE9;
+$color_text: rgb(44, 30, 30);
+$color_text_hover: rgb(248, 231, 231);
+$color_star_main: #00c49d;
+$color_star_choose: #ffd900;
+$color_shadow: rgb(136, 135, 135);
+$color_button_hover: #6fbbee;
+$color_text_notactive: rgba(17, 34, 43, 0.7);
+%text{
+    font: bold 18px arial, helvetica, sans-serif;
+    line-height: 18px;
+}
+%box_shadow{
+    box-shadow: 0px 9px 6px -4px rgba(0, 0, 0, 0.62);
+}
+%raiting_row{
+    width: 230px;
+    height: 25px;
+}

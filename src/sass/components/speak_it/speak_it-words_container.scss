@@ -1,0 +1,48 @@
+@import "speak_it-constants";
+.words_container{
+    max-width: 900px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: auto;
+}
+.card{
+    cursor: pointer;
+    margin: 10px 10px;
+    width: 150px;
+    height: 70px;
+    border: 1px solid rgb(27, 27, 27);
+    @extend %box_shadow;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    transition: all 0.6s ease;
+    
+    
+}
+.word_listen{
+    width: 35px;
+    height: 35px;
+    margin-top: 20px;
+    background-image: url(../assets/svg/list1.png);  
+    background-size: 35px;
+    cursor: pointer; 
+}
+.word_listen:hover{
+    background-image: url(../assets/svg/list2.png);
+}
+.word_look{
+    margin-top: 10px;
+    @extend %text;
+    font-size: 16px!important;
+    font-weight: initial!important;
+}
+.word_look > p{
+    margin: 5px;
+    text-align: center;
+}
+.choosen{
+    border: 1px solid $color_shadow;
+    box-shadow: 0 1px 1px $color_shadow;
+}
