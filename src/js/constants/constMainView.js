@@ -78,7 +78,8 @@ const DEFAULT_USER = {
   examplePronunciation: true,
   btnKnow: true,
   btnDifficult: true,
->>>>>>> 0332ece7c5527498565b6dcbc4b711ae332de021
 };
 
-export { MENU_ITEMS_NAMES, SETTING_MODAL_TEXT, MAIN_TEXT, SWIPER_TEMPLATE, DEFAULT_USER };
+export {
+  MENU_ITEMS_NAMES, SETTING_MODAL_TEXT, MAIN_TEXT, SWIPER_TEMPLATE, DEFAULT_USER,
+};
