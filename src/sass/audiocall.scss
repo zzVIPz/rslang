@@ -73,7 +73,7 @@ main {
         text-transform: uppercase;
         letter-spacing: 3px;
 
-        opacity: 0.8;
+        opacity: .8;
 
         -webkit-font-smoothing: antialiased;
       }
@@ -86,7 +86,7 @@ main {
         line-height: 24px;
         color: $var3;
 
-        opacity: 0.8;
+        opacity: .8;
       }
     }
     &__intro-btn,
@@ -107,7 +107,7 @@ main {
       border-radius: 4px;
       cursor: pointer;
 
-      transition: all 0.35s ease;
+      transition: all .35s ease;
 
       -webkit-appearance: none;
          -moz-appearance: none;
@@ -144,26 +144,23 @@ main {
       border-radius: 2px;
       cursor: pointer;
 
-      transition: all 0.15s ease;
+      transition: all .15s ease;
 
       -webkit-user-select: none;
          -moz-user-select: none;
           -ms-user-select: none;
               user-select: none;
       &:hover {
-        background: hsla(0, 0%, 100%, 0.1);
+        background: hsla(0, 0%, 100%, .1);
       }
       &__m-answer-false {
         text-decoration: line-through;
 
         background: $var8;
-        opacity: 0.7;
+        opacity: .7;
       }
       &__m-answer-true {
         background: $var9;
-      }
-      &:hover {
-        background-color: transparent;
       }
     }
     &__number {
@@ -174,7 +171,7 @@ main {
       font-weight: 300;
       font-size: 16px;
 
-      opacity: 0.79;
+      opacity: .79;
     }
     &__speaker-container {
       position: relative;
@@ -204,7 +201,7 @@ main {
       height: 32px;
       margin: 0 auto;
 
-      background-image: url(../assets/svg/speaker.svg);
+      background-image: url(../assets/svg/speaker-for-audiocall.svg);
       background-repeat: no-repeat;
       background-position: center center;
       background-size: contain;
@@ -216,7 +213,7 @@ main {
       bottom: 0;
       left: 0;
 
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, .2);
       border-radius: 50%;
     }
     &__number {
@@ -250,7 +247,7 @@ main {
     max-width: 100%;
     padding: 36px 16px 16px;
 
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, .6);
     border-radius: 0;
     &__header {
       position: absolute;
@@ -293,7 +290,7 @@ main {
 
     background-color: $var3;
     border-radius: 8px;
-    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.16);
+    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, .16);
   }
   &__crossword-modal__title {
     font-weight: 700;
@@ -339,32 +336,100 @@ main {
     cursor: pointer;
   }
 }
-.small-circle {
-  -webkit-transform: scale(0.7);
-          transform: scale(0.7);
+.raiting-container {
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+.app__rating {
+  position: relative;
 
-  -webkit-transition: -webkit-transform 0.14s ease-out;
-          transition: -webkit-transform 0.14s ease-out;
-          transition:         transform 0.14s ease-out;
-          transition:         transform 0.14s ease-out, -webkit-transform 0.14s ease-out;
+  width: 100%;
+  height: 40px;
+}
+.rating {
+  position: absolute;
+  top: 20px;
+  right: 0;
+
+  display: flex;
+
+  transform: translate(-40%, -50%) rotateY(180deg);
+  &__input {
+    display: none;
+  }
+  &__label {
+    display: block;
+    width: 25px;
+
+    cursor: pointer;
+    &:before {
+      content: "★";
+      position: relative;
+
+      display: block;
+
+      font-size: 30px;
+      color: #014776;
+    }
+    &:after {
+      content: "★";
+      position: absolute;
+      top: 0;
+
+      display: block;
+
+      font-size: 30px;
+      color: gold;
+
+      transform: .3s;
+      opacity: 0;
+    }
+  }
+  &__text {
+    position: absolute;
+    top: 40px;
+    right: 47px;
+
+    font-weight: 300;
+    font-size: 18px;
+    color: $var3;
+
+    opacity: .8;
+  }
+}
+
+.rating__label:hover:after,
+.rating__label:hover ~ .rating__label:after,
+.rating__input:checked ~ .rating__label:after {
+  opacity: 1;
+}
+.small-circle {
+  -webkit-transform: scale(.7);
+          transform: scale(.7);
+
+  -webkit-transition: -webkit-transform .14s ease-out;
+          transition: -webkit-transform .14s ease-out;
+          transition:         transform .14s ease-out;
+          transition:         transform .14s ease-out, -webkit-transform .14s ease-out;
 }
 .big-circle {
-  -webkit-transform: scale(0.7);
-          transform: scale(0.7);
+  -webkit-transform: scale(.7);
+          transform: scale(.7);
 
-  -webkit-transition: -webkit-transform 0.16s ease-in;
-          transition: -webkit-transform 0.16s ease-in;
-          transition:         transform 0.16s ease-in;
-          transition:         transform 0.16s ease-in, -webkit-transform 0.16s ease-in;
+  -webkit-transition: -webkit-transform .16s ease-in;
+          transition: -webkit-transform .16s ease-in;
+          transition:         transform .16s ease-in;
+          transition:         transform .16s ease-in, -webkit-transform .16s ease-in;
 }
 .hide {
-	display: none;
+  display: none;
 }
 .show {
-	display: block;
+  display: block;
 }
 .show-flex {
-	display: flex;
+  display: flex;
 }
 // media screen and (max-width:830px) {
 // 	container-game__trainings-audiocall__answer: hover ;

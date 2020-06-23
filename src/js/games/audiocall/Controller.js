@@ -10,8 +10,13 @@ class AudiocallController {
   init() {
     this.view.render();
     this.view.addListeners();
-    // this.mainContainer = document.querySelector('.main');
-    // this.mainContainer.innerHTML = this.view.renderGameLayout();
+  }
+
+  clickAudiocallBtn() {
+    this.audiocallBtn = document.querySelector('[data-name="audiocall"]');
+    this.audiocallBtn.addEventListener('click', () => {
+      this.init();
+    });
   }
 }
 

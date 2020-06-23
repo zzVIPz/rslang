@@ -3,6 +3,39 @@ const audiocallGame = `
             <div class="container-game__trainings-audiocall" style="background-position-y: 100%;">
                 <div>
                     <div class="container-game__trainings-audiocall__close"></div>
+                    <div class="raiting-container">
+                    <div class="app__rating">
+                        <div class="rating">
+                            <div>
+                                <input class="rating__input" type="radio" id="star6" name="star"/>
+                                <label class="rating__label" for="star6" title="level-6" data-level="5"></label>
+                            </div>
+                            <div>
+                                <input class="rating__input" type="radio" id="star5" name="star"/>
+                                <label class="rating__label" for="star5" title="level-5" data-level="4"></label>
+                            </div>
+                            <div>
+                                <input class="rating__input" type="radio" id="star4" name="star"/>
+                                <label class="rating__label" for="star4" title="level-4" data-level="3"></label>
+                            </div>
+                            <div>
+                                <input class="rating__input" type="radio" id="star3" name="star"/>
+                                <label class="rating__label" for="star3" title="level-3" data-level="2"></label>
+                            </div>
+                            <div>
+                                <input class="rating__input" type="radio" id="star2" name="star"/>
+                                <label class="rating__label" for="star2" title="level-2" data-level="1"></label>
+                            </div>
+                            <div>
+                                <input class="rating__input" type="radio" id="star1" name="star"/>
+                                <label class="rating__label" for="star1" title="level-1" data-level="0"></label>
+                            </div>
+                        </div>
+                        <div class="rating__text">
+                            <span>Уровень сложности</span>
+                        </div>
+                    </div>
+                    </div>
                     <div class="container-game__trainings-audiocall__intro">
                         <div class="container-game__trainings-audiocall__intro-title">
                             <span>Аудиовызов</span>
@@ -24,20 +57,20 @@ const audiocallGame = `
                         <div class="container-game__trainings-audiocall__circle big-circle"></div>
                     </div>
                     <div>
-                    <div class="container-game__trainings-audiocall__answer" id="answer-1">восхищение
+                    <div class="container-game__trainings-audiocall__answer" id="answer-1">
                         <span class="container-game__trainings-audiocall__number">1</span>
                     </div>
                     <div
                         class="container-game__trainings-audiocall__answer container-game__trainings-audiocall__answer__m-answer-false" id="answer-2">
-                        освещение
+                        
                         <span class="container-game__trainings-audiocall__number">2</span>
                     </div>
                     <div
                         class="container-game__trainings-audiocall__answer container-game__trainings-audiocall__answer__m-answer-true" id="answer-3">
-                        стремление
+                        
                         <span class="container-game__trainings-audiocall__number">3</span>
                     </div>
-                    <div class="container-game__trainings-audiocall__answer" id="answer-4">рассуждение
+                    <div class="container-game__trainings-audiocall__answer" id="answer-4">
                         <span class="container-game__trainings-audiocall__number">4</span>
                     </div>
                     </div>

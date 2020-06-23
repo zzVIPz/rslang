@@ -1,11 +1,11 @@
 // import AudiocallModel from './Model';
 import audiocallGame from './constAudiocall';
-import CONST_MAIN_VIEW from '../../constants/constMainView';
+// import MainModel from '../../models/mainModel';
 
 class AudiocallView {
     constructor() {
       this.template = audiocallGame;
-        // this.model = new AudiocallModel();
+      // this.model = new AudiocallModel();
     }
     
     render() {
@@ -14,6 +14,8 @@ class AudiocallView {
 
     addListeners() {
       this.mainContainer =  document.querySelector('.main');
+      this.raitingContainer =  document.querySelector('.raiting-container');
+      this.levelButtons =  document.querySelector('.rating');
       this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
       this.startBtn = document.querySelector('.container-game__trainings-audiocall__intro-btn');
       this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers');
@@ -23,7 +25,7 @@ class AudiocallView {
       this.cancelModalWindow = document.querySelector('.container-game__crossword-modal__cancel');
       this.closeBtnModalGame = document.querySelector('.container-game__crossword-modal__btn-close');
       this.playAudioBtn = document.querySelector('.container-game__trainings-audiocall__speaker-container');
-       
+      
       this.clickStartGameBtn();
       this.openModal();
       this.closeModal();
@@ -33,8 +35,8 @@ class AudiocallView {
         clickStartGameBtn() {
             this.startBtn.addEventListener('click', () => {
                 this.introPage.classList.add('hide');
+                this.raitingContainer.classList.add('hide');
                 this.gamePage.classList.add('show');
-                this.getWords(2,0);
             });
         }
 
@@ -60,6 +62,15 @@ class AudiocallView {
           this.mainContainer.innerHTML = '';
         });
       }
+
+      levelSelection() {
+        this.levelButtons.addEventListener('click', (event) => {
+          event.preventDefault();
+          
+          console.log(event.target.dataset.level);
+        });
+      }
+
 
       playAudio() {
         this.playAudioBtn.addEventListener('click', () => {
@@ -90,7 +101,7 @@ class AudiocallView {
           }, 2500);
         });
       }
-
+      
       sound(src) {
         let audio = new Audio(); 
         audio.src = src; 
@@ -99,13 +110,6 @@ class AudiocallView {
             console.log(audio.duration);
           };
       }
-
-      async getWords(page, group) {
-        const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${page}&group=${group}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        console.log(data);
-      };
   }
   
   export default AudiocallView;

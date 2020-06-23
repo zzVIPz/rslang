@@ -43,20 +43,8 @@ export default class IndexView {
   }
 
   addListeners() {
-    //todo: вешаем лиссенер
-    this.addAudiocallBtn();
-
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
-  }
-
-  addAudiocallBtn() {
-    this.audiocallBtn.addEventListener('click', () => {
-      this.main.innerText ='';
-      //render
-      const audiocall = new AudiocallController();
-      audiocall.init();
-    });
   }
 
   addLoginSelectionClickHandler() {
