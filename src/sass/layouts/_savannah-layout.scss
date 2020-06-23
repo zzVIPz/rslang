@@ -21,7 +21,7 @@
 
 .app__content__translation-box {
   position: absolute;
-  top: 50%;
+  top: 35%;
 
   display: flex;
   justify-content: center;
@@ -49,8 +49,8 @@
 }
 
 span .keyboard-num {
-  width: 10px;
-  height: 10px;
+  max-width: 10px;
+  min-height: 10px;
   margin: 0;
 
   font-size: .5em;
@@ -58,7 +58,7 @@ span .keyboard-num {
 
 .cristal {
   position: absolute;
-  bottom: -96px;
+  bottom: -35px;
   left: 50%;
 
   width: 30px;
@@ -98,4 +98,16 @@ span .keyboard-num {
   background-position-y: 100%;
 
   transition: all 1s ease;
+}
+
+.bang {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 2px;
+  height: 18px;
+  margin-left: -6px;
+
+  background: $text-color;
 }

@@ -17,10 +17,13 @@ class SavannahView {
     this.cristalBox = document.createElement('div');
     this.sparklesBox = document.createElement('div');
     this.muteLine = document.createElement('div');
+    this.bang = document.createElement('div');
     this.model = model;
     this.backgroundPositionY = 100;
     this.cristalWidth = 30;
     this.removeDigits = /\d/g;
+    this.wordsPerLevelAPI = 600;
+    this.maxRound = 6;
   }
 
   displayModal() {
@@ -40,7 +43,7 @@ class SavannahView {
     return this.preloader;
   }
 
-  countTillOne(arr, translationArr) {
+  countTillOne() {
     this.preloaderNumber = Number(document.querySelector('.countdown').innerHTML);
 
     if (this.preloaderNumber > 0) {
@@ -48,25 +51,29 @@ class SavannahView {
     }
 
     if (this.preloaderNumber < 1) {
-      this.randomWord = this.model.generateRandomWord(arr);
-      this.renderCountDownFinished(this.randomWord, translationArr);
-      console.log('Words Array:', arr);
-      console.log('Random word:', this.randomWord);
+      this.randomEngWord = this.model.wordsArr[this.model.randomArrOfIndexes[this.model.count]];
+      this.renderCountDownFinished();
+      console.log('Random word:', this.randomEngWord);
     }
 
     return this.preloaderNumber;
   }
 
-  renderCountDownFinished(mainWord, arr) {
+  renderCountDownFinished() {
     this.appContent = document.querySelector('.app__content');
     this.appContent.innerHTML = '';
     this.renderHeader();
-    this.renderFlyingWord(mainWord);
-    this.moveWord();
-    this.renderTranslation(arr);
+    this.renderPlayingPage();
     this.rendercristal();
+    this.renderBang();
     this.renderSparkles();
     this.renderMuteMusicNote();
+  }
+
+  renderPlayingPage() {
+    this.renderFlyingWord();
+    this.moveWord();
+    this.renderTranslation();
   }
 
   renderRating() {
@@ -90,32 +97,58 @@ class SavannahView {
     return this.appHeader;
   }
 
-  renderFlyingWord(mainWord) {
+  renderFlyingWord() {
     this.flyingWordBox.className = 'flying-word';
     this.flyingWordBox.innerHTML = `
-    <span id="main-word">${mainWord}</span>`;
+    <span id="main-word">${this.randomEngWord}</span>`;
     this.appContent.appendChild(this.flyingWordBox);
   }
 
   moveWord() {
-    this.elem = document.querySelector('.flying-word');
-    this.elem.classList.remove('flying-word_hide');
+    this.flyingWord = document.querySelector('.flying-word');
+    this.flyingWord.classList.remove('flying-word_hide');
     this.pos = -100;
     this.id = setInterval(this.frame.bind(this), 20);
   }
 
   frame() {
-    if (this.pos === 200) {
+    const rightAnswer = true;
+
+    if (this.pos === 150 && this.model.isGameOn) {
       clearInterval(this.id);
-      this.elem.classList.add('flying-word_hide');
+      this.flyingWord.classList.add('flying-word_hide');
+      this.correctHTMLEl = this.findCorrectAnswerHTMLel();
+      this.model.wrongAnswer += 1;
+
+      this.removeLives();
+      this.highlightAnswer(this.correctHTMLEl, rightAnswer);
+
+      setTimeout(this.removeHighlight.bind(this), 1000, this.correctHTMLEl, rightAnswer);
+      setTimeout(this.nextWord.bind(this), 1000);
     } else {
       this.pos += 1;
-      this.elem.style.top = `${this.pos}px`;
+      this.flyingWord.style.top = `${this.pos}px`;
     }
   }
 
-  renderTranslation(arr) {
-    const fourAnswersWordsArr = this.model.generateTranslation(arr);
+  bangOnRightAnswer() {
+    this.bang.classList.remove('hidden');
+    this.bangPos = 300;
+    this.bangId = setInterval(this.bangFrame.bind(this), 1);
+  }
+
+  bangFrame() {
+    if (this.bangPos === -100 && this.model.isGameOn) {
+      clearInterval(this.bangId);
+      this.bang.classList.add('hidden');
+    } else {
+      this.bangPos -= 5;
+      this.bang.style.top = `${this.bangPos}px`;
+    }
+  }
+
+  renderTranslation() {
+    const fourAnswersWordsArr = this.model.generateTranslation();
     this.translationBox.className = 'app__content__translation-box';
     const spanArr = [];
 
@@ -127,11 +160,15 @@ class SavannahView {
   }
 
   rendercristal() {
-    this.appFooter = document.querySelector('.app__footer');
     this.cristalBox.className = 'cristal';
     this.cristalBox.innerHTML = `
     <img class="cristal__img" src="../src/assets/images/cristal.png">`;
     this.appContent.appendChild(this.cristalBox);
+  }
+
+  renderBang() {
+    this.bang.className = 'bang hidden';
+    this.appContent.appendChild(this.bang);
   }
 
   renderSparkles() {
@@ -161,13 +198,16 @@ class SavannahView {
     starsRound.addEventListener('click', ({ target }) => {
       if (target.classList.contains('round')) {
         this.round = getDifficultyLevelRoundId(target);
-        this.round = this.round * 5 + randomIntegerForPages();
+        const totalPages = Math.trunc(this.wordsPerLevelAPI / this.model.currentUser.cardsTotal);
+        const pagesPerRound = Math.trunc(totalPages / this.maxRound);
+        this.round = this.round * pagesPerRound + randomIntegerForPages(pagesPerRound);
+        console.log('round', this.round);
       }
     });
   }
 
   moveBackground() {
-    this.backgroundPositionY -= 5;
+    this.backgroundPositionY -= this.model.moveBackgroundPercentage;
     document.body.style.backgroundPositionY = `${this.backgroundPositionY}%`;
   }
 
@@ -196,6 +236,11 @@ class SavannahView {
     return this;
   }
 
+  findCorrectAnswerHTMLel() {
+    this.answerId = this.model.findCorrectAnswerId();
+    return document.querySelector(`.translation-${this.answerId}`);
+  }
+
   getClickedWord(key) {
     this.keyCode = +key;
     if (this.keyCode >= 1 && this.keyCode <= 4) {
@@ -205,12 +250,27 @@ class SavannahView {
     return false;
   }
 
-  removeLives(wrongAnswer) {
-    if (wrongAnswer <= 5) {
-      document.getElementById(`life-${wrongAnswer}`).classList.add('hidden');
+  removeLives() {
+    console.log(this.model.wrongAnswer);
+    if (this.model.wrongAnswer <= 5) {
+      document.getElementById(`life-${this.model.wrongAnswer}`).classList.add('hidden');
+      if (this.model.wrongAnswer === 5) {
+        this.model.isGameOn = false;
+        console.log('Modal Page');
+      }
     }
-
     return this;
+  }
+
+  nextWord() {
+    if (this.model.count < this.model.wordsArr.length) {
+      if (this.model.isGameOn) {
+        this.randomEngWord = this.model.wordsArr[this.model.randomArrOfIndexes[this.model.count]];
+        this.renderPlayingPage();
+      }
+    } else {
+      console.log('Modal Page');
+    }
   }
 }
 

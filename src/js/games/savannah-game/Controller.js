@@ -11,6 +11,7 @@ class SavannahController {
     this.savannahBtn = document.querySelector('.savannah');
     this.savannahBtn.addEventListener('click', () => {
       this.init();
+      this.model.getCurrUser();
       document.body.classList.add('app__background');
       document.body.style.backgroundPositionY = '100%';
     });
@@ -54,6 +55,7 @@ class SavannahController {
 
   backToMainPage() {
     this.backToMianBtn.addEventListener('click', () => {
+      this.model.isGameOn = false;
       this.mainContainer.innerHTML = '';
       window.location.href = '#main-page';
       this.mainPage = document.querySelector('[data-name="main-page"]');
@@ -67,6 +69,7 @@ class SavannahController {
 
   clickStartGameBtn() {
     this.startBtn.addEventListener('click', () => {
+      window.removeEventListener('keyup', this.onKeyUp);
       this.chosenLevel = this.view.level;
       this.chosenRound = this.view.round;
       console.log('Chosen round:', this.chosenRound);
@@ -75,6 +78,7 @@ class SavannahController {
       this.model.fetchWords(this.chosenLevel, this.chosenRound)
         .then((data) => {
           this.model.getWordsAndTranslation(data);
+          // todo do we need it?
           this.wordsArr = this.model.wordsArr;
           this.translationArr = this.model.translation;
         });
@@ -88,7 +92,7 @@ class SavannahController {
   }
 
   preloaderCountDown() {
-    this.countNumber = this.view.countTillOne(this.wordsArr, this.translationArr);
+    this.countNumber = this.view.countTillOne();
 
     if (this.countNumber > 0) {
       document.querySelector('.countdown').innerHTML = this.countNumber;
@@ -97,17 +101,6 @@ class SavannahController {
       this.gameMode();
     }
   }
-
-  /* clickSavannahBtn() {
-    console.log(document.querySelectorAll('.navigation__link'));
-    this.savannahBtn = document.querySelector('[data-name="savannah"]');
-    console.log(this.savannahBtn);
-    this.savannahBtn.addEventListener('click', () => {
-      this.init();
-      document.body.classList.add('app__background');
-      document.body.style.backgroundPositionY = '100%';
-    });
-  } */
 
   // Working with data
   gameMode() {
@@ -127,18 +120,38 @@ class SavannahController {
 
       if (result === rightAnswer) {
         console.log('it is correct answer');
-        this.view.moveBackground();
-        this.view.resizeCristal();
-        this.view.highlightAnswer(translationEl, rightAnswer);
-        setTimeout(this.view.removeHighlight.bind(this), 1000, translationEl, rightAnswer);
+        this.rightTranslationActions(translationEl, rightAnswer);
       } else {
         console.log('it is wrong answer');
         console.log(this.model.wrongAnswer);
-        this.view.highlightAnswer(translationEl, false);
-        setTimeout(this.view.removeHighlight.bind(this), 1000, translationEl, wrongAnswer);
-        this.view.removeLives(this.model.wrongAnswer);
+        this.wrongTranslationActions(translationEl, wrongAnswer, rightAnswer);
       }
+
+      setTimeout(this.view.nextWord.bind(this.view), 1000);
     }
+  }
+
+  rightTranslationActions(translationEl, rightAnswer) {
+    this.view.moveBackground();
+    this.view.resizeCristal();
+    this.view.highlightAnswer(translationEl, rightAnswer);
+    clearInterval(this.view.id);
+    this.view.flyingWord.classList.add('flying-word_hide');
+    this.view.bangOnRightAnswer();
+
+    setTimeout(this.view.removeHighlight.bind(this), 1000, translationEl, rightAnswer);
+  }
+
+  wrongTranslationActions(translationEl, wrongAnswer, rightAnswer) {
+    this.correctHTMLEl = this.view.findCorrectAnswerHTMLel();
+    this.view.highlightAnswer(translationEl, wrongAnswer);
+    this.view.highlightAnswer(this.correctHTMLEl, rightAnswer);
+    clearInterval(this.view.id);
+    this.view.flyingWord.classList.add('flying-word_hide');
+
+    setTimeout(this.view.removeHighlight.bind(this), 1000, translationEl, wrongAnswer);
+    setTimeout(this.view.removeHighlight.bind(this), 1000, this.correctHTMLEl, rightAnswer);
+    this.view.removeLives(this.model.wrongAnswer);
   }
 
   clickTranslation() {

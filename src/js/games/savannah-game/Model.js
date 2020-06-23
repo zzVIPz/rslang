@@ -14,15 +14,13 @@ class SavannahModel {
     this.mainModel = new MainModel();
   }
 
-  /* async fetchData(difficultyLevel, round) {
-    this.mockDataJSON = await fetch(`${this.wordsUrl}group=${difficultyLevel}&page=${round}`);
-    this.mockData = await this.mockDataJSON.json();
-    this.getWordsAndTranslation(this.mockData);
-
-    return { words: this.wordsArr, translation: this.translation };
-  } */
-  async fetchWords(chosenLevel, chosenRound) {
+  async getCurrUser() {
     this.currentUser = await this.mainModel.getUser();
+  }
+
+  async fetchWords(chosenLevel, chosenRound) {
+    this.totalCards = this.currentUser.cardsTotal;
+    this.moveBackgroundPercentage = 100 / this.totalCards;
     if (chosenLevel) {
       this.currentUser.currentGroup = chosenLevel;
       this.currentUser.currentPage = chosenRound;
@@ -32,7 +30,6 @@ class SavannahModel {
       this.currentUser.currentPage = chosenRound;
     }
 
-    console.log('My user:', this.currentUser);
     const data = await this.mainModel.getWords(this.currentUser);
     return data;
   }
@@ -40,33 +37,25 @@ class SavannahModel {
   getWordsAndTranslation(data) {
     this.wordsArr = data.map((el) => el.word);
     this.translation = data.map((el) => el.wordTranslate);
+    this.randomArrOfIndexes = this.randomArrAndShuffle(this.wordsArr.length);
+    this.isGameOn = true;
   }
 
+  // todo utils
   randomArrAndShuffle(n) {
     this.arr = [...Array(n).keys()];
 
     return shuffleArray(this.arr);
   }
 
-  generateRandomWord(arr) {
-    this.randomArr = this.randomArrAndShuffle(arr.length);
-    console.log('Random numbers Arr:', this.randomArr);
-    this.randomWord = arr[this.randomArr[this.count]];
-
-    return this.randomWord;
-  }
-
-  generateTranslation(arr) {
-    console.log('Translation arr', arr);
-    this.correctAnswer = arr[this.randomArr[this.count]];
-    console.log('correct', this.correctAnswer);
+  generateTranslation() {
+    console.log('Translation arr', this.translation);
+    this.correctAnswer = this.translation[this.randomArrOfIndexes[this.count]];
+    console.log('Correct Answer', this.correctAnswer);
     this.answersArr = [this.correctAnswer];
-    const newArr = [...arr];
-    const index = newArr.indexOf(this.correctAnswer);
+    const newArr = [...this.translation];
 
-    if (index > -1) {
-      newArr.splice(index, 1);
-    }
+    newArr.splice(this.randomArrOfIndexes[this.count], 1);
 
     const shortArr = this.randomArrAndShuffle(newArr.length).slice(0, 3);
     shortArr.forEach((element) => {
@@ -74,9 +63,13 @@ class SavannahModel {
     });
     this.answersArr = shuffleArray(this.answersArr);
     this.count += 1;
-    console.log('Answers:', this.answersArr);
+    console.log('4 Answers:', this.answersArr);
 
     return this.answersArr;
+  }
+
+  findCorrectAnswerId() {
+    return this.answersArr.indexOf(this.correctAnswer) + 1;
   }
 
   isRightTranslation(chosenTranslation) {
