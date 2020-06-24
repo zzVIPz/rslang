@@ -10,6 +10,7 @@ export default class User {
     this.studyMode = settings.studyMode;
     this.learningWordsMode = settings.learningWordsMode;
     this.transcription = settings.transcription;
+    this.translate = settings.translate;
     this.associativePicture = settings.associativePicture;
     this.wordPronunciation = settings.wordPronunciation;
     this.meaningPronunciation = settings.meaningPronunciation;

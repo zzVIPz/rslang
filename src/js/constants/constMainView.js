@@ -14,7 +14,7 @@ const MENU_ITEMS_NAMES = {
 };
 
 const HASH_VALUES = {
-  training: '#training',
+  training: 'training',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -24,6 +24,7 @@ const DEFAULT_USER_SETTINGS = {
   currentPage: 0,
   studyMode: 'MIXED',
   learningWordsMode: 'MIXED',
+  translate: true,
   transcription: true,
   associativePicture: true,
   wordPronunciation: true,
@@ -52,6 +53,7 @@ const SETTING_MODAL_TEXT = {
     mixed: 'MIXED',
   },
   transcription: 'Show word transcription',
+  translate: 'Show translate',
   associativePicture: 'Show associative picture',
   btnKnow: "Show button 'I know'",
   btnDifficult: "Show button 'Difficult'",

@@ -1,3 +1,4 @@
+import Swiper from 'swiper';
 import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
@@ -9,6 +10,7 @@ export default class MainController {
     this.firebaseModel = new FirebaseModel();
     this.mainModel = new MainModel();
     this.mainView = new MainView();
+    this.swiper = null;
   }
 
   async init() {
@@ -78,14 +80,17 @@ export default class MainController {
     };
 
     this.mainView.onBtnStartClick = async (user) => {
-      window.location.hash = HASH_VALUES.training;
       const wordsList = await this.mainModel.getWords(
         user.currentPage,
         user.currentGroup,
         user.cardsTotal,
       );
-      this.mainView.renderSwiper();
-      this.mainView.renderCards(wordsList, user);
+
+      this.mainView.renderSwiperTemplate();
+      this.initSwiper();
+      this.mainView.renderCards(wordsList, user, this.swiper);
+      this.mainView.setFocusToInput();
+      window.location.hash = HASH_VALUES.training;
     };
 
     this.mainView.onButtonAcceptClick = () => {
@@ -129,7 +134,27 @@ export default class MainController {
     };
 
     this.mainView.onModalClick = (e) => {
-      this.mainView.toggleCardsClasses(e);
+      this.mainView.toggleCardsLayout(e);
     };
+  }
+
+  initSwiper() {
+    if (!this.swiper) {
+      this.swiper = new Swiper('.swiper-container', {
+        pagination: {
+          type: 'progressbar',
+          el: '.swiper-pagination',
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+      this.swiper.on('slideChange', () => {
+        this.mainView.setFocusToInput();
+      });
+    } else {
+      this.swiper.removeAllSlides();
+    }
   }
 }

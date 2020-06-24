@@ -4,6 +4,7 @@ export default function getCurrentUserState() {
   const modeSelect = document.querySelector('.settings__study-select');
   const textSelect = document.querySelector('.settings__text-select');
   const transcription = document.getElementById('transcription');
+  const translate = document.getElementById('translate');
   const associativePicture = document.getElementById('associative-picture');
   const wordPronunciation = document.getElementById('word-pronunciation');
   const examplePronunciation = document.getElementById('example-pronunciation');
@@ -16,6 +17,7 @@ export default function getCurrentUserState() {
     studyMode: modeSelect.options[modeSelect.selectedIndex].value,
     learningWordsMode: textSelect.options[textSelect.selectedIndex].value,
     transcription: transcription.checked,
+    translate: translate.checked,
     associativePicture: associativePicture.checked,
     wordPronunciation: wordPronunciation.checked,
     examplePronunciation: examplePronunciation.checked,

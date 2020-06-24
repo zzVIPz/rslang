@@ -1,4 +1,3 @@
-import Swiper from 'swiper';
 import {
   MENU_ITEMS_NAMES,
   SETTING_MODAL_TEXT,
@@ -8,8 +7,8 @@ import {
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
-import toggleClass from '../utils/toggleClass';
-import Card from '../components/card';
+import toggleDisplay from '../utils/toggleDisplay';
+import Card from '../components/card/cardController';
 
 export default class MainView {
   constructor() {
@@ -30,7 +29,6 @@ export default class MainView {
     this.speaker = document.querySelector('.user-tool__button-speaker');
     this.settings = document.querySelector('.user-tool__button-settings');
     this.main = document.querySelector('.main');
-    this.swiper = null;
   }
 
   init() {
@@ -55,25 +53,31 @@ export default class MainView {
     });
   }
 
-  renderSwiper() {
+  renderSwiperTemplate() {
     this.main.innerHTML = SWIPER_TEMPLATE;
-    if (!this.swiper) {
-      this.swiper = new Swiper('.swiper-container', {
-        pagination: {
-          type: 'progressbar',
-          el: '.swiper-pagination',
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
+  }
+
+  setFocusToInput(currentSlide = this.getCurrentSlide()) {
+    if (currentSlide) {
+      const nodes = currentSlide.querySelectorAll('.card__input-container');
+      nodes.forEach((node) => {
+        if (!node.classList.contains('hidden')) {
+          setTimeout(() => {
+            node.querySelector('.card__input-text').focus();
+          }, 300);
+        }
       });
-    } else {
-      this.swiper.removeAllSlides();
     }
   }
 
-  renderCards(words, user) {
+  getCurrentSlide() {
+    const ind = this.swiper.realIndex;
+    const card = this.swiper.slides[ind];
+    return card;
+  }
+
+  renderCards(words, user, swiper) {
+    this.swiper = swiper;
     words.forEach((word) => {
       const card = new Card(word, user);
       this.swiper.appendSlide(card.renderTemplate());
@@ -212,19 +216,22 @@ export default class MainView {
     }
   }
 
-  toggleCardsClasses = (e) => {
+  toggleCardsLayout = (e) => {
     const { target } = e;
     if (target.id === 'transcription') {
-      toggleClass('.card__transcription');
+      toggleDisplay('.card__transcription');
+    }
+    if (target.id === 'translate') {
+      toggleDisplay('.card__text-translate', 'translate-hidden');
     }
     if (target.id === 'associative-picture') {
-      toggleClass('.card__image-container');
+      toggleDisplay('.card__image-container');
     }
     if (target.id === 'button-i-know') {
-      toggleClass('.card__know');
+      toggleDisplay('.card__know');
     }
     if (target.id === 'button-difficult') {
-      toggleClass('.card__study');
+      toggleDisplay('.card__study');
     }
   };
 

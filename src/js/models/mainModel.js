@@ -1,7 +1,7 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
 import getRequestBody from '../utils/getRequestBody';
 import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
-import User from '../components/defaultUser';
+import User from '../components/defaultUser/defaultUser';
 
 export default class MainModel {
   constructor() {

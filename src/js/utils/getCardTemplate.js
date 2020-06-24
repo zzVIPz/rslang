@@ -1,5 +1,6 @@
 import getMediaUrl from './getMediaUrl';
 import getRandomInteger from './getRandomInteger';
+import getFormattedString from './getFormattedString';
 import { SETTING_MODAL_TEXT, WORD_LEARNING_MODES } from '../constants/constMainView';
 
 const CARD_TEXT = {
@@ -8,9 +9,12 @@ const CARD_TEXT = {
   btnToStudy: 'TO STUDY',
   btnShowAnswer: 'SHOW ANSWER',
   btnCheck: 'CHECK',
+  pattern: '[A-Za-z]',
 };
 
 export default function getCardTemplate(card, settings) {
+  console.log(card);
+  console.log(settings);
   let wordMode = true;
   let textMeaningMode = true;
   let textExampleMode = true;
@@ -32,20 +36,33 @@ export default function getCardTemplate(card, settings) {
     wordMode = !wordMode;
     textMeaningMode = !textMeaningMode;
   }
+  const word = getFormattedString(card.word, wordMode);
+  const textMeaning = getFormattedString(card.textMeaning, textMeaningMode);
+  const textExample = getFormattedString(card.textExample, textExampleMode);
+
   return `
   <div class="swiper-slide card container">
     <p class="card__state">${CARD_TEXT.newWord}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
     </div>
-    <p class="card__text ${wordMode ? '' : 'hidden'}">${card.word}</p>
+    ${word}
     <p class="card__transcription ${settings.transcription ? '' : 'hidden'}">
       ${card.transcription}</p>
-    <p class="card__text ${wordMode ? '' : 'hidden'}">${card.wordTranslate}</p>
-    <p class="card__text ${textMeaningMode ? '' : 'hidden'}">${card.textMeaning}</p>
-    <p class="card__text ${textMeaningMode ? '' : 'hidden'}">${card.textMeaningTranslate}</p>
-    <p class="card__text ${textExampleMode ? '' : 'hidden'}">${card.textExample}</p>
-    <p class="card__text ${textExampleMode ? '' : 'hidden'}">${card.textExampleTranslate}</p>
+    <p class="card__text-translate ${wordMode && settings.translate ? '' : 'hidden'}
+        ${settings.translate ? '' : 'translate-hidden'}">
+      ${card.wordTranslate}
+    </p>
+    ${textMeaning}
+    <p class="card__text-translate ${textMeaningMode && settings.translate ? '' : 'hidden'}
+        ${settings.translate ? '' : 'translate-hidden'}">
+      ${card.textMeaningTranslate}
+    </p>
+    ${textExample}
+    <p class="card__text-translate ${textExampleMode && settings.translate ? '' : 'hidden'}
+         ${settings.translate ? '' : 'translate-hidden'}">
+      ${card.textExampleTranslate}
+    </p>
     <div class ="card__buttons-container">
       <button class="card__know ${settings.btnKnow ? '' : 'hidden'}">
         ${CARD_TEXT.btnBeFamiliar}

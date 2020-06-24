@@ -41,10 +41,13 @@ export default function getModalSettingsTemplate(user, settings) {
         </option>
       </select>
     </div>
+    <div class="settings__translate settings__wrapper">
+      <input type="checkbox" id="translate" ${user.translate ? 'checked' : ''}>
+      <label class="settings__label" for="translate">${settings.translate}</label>
+    </div>
     <div class="settings__transcription settings__wrapper">
       <input type="checkbox" id="transcription" ${user.transcription ? 'checked' : ''}>
       <label class="settings__label" for="transcription">${settings.transcription}</label>
-
     </div>
     <div class="settings__associative-picture settings__wrapper">
       <input type="checkbox" id="associative-picture" ${user.associativePicture ? 'checked' : ''}>
