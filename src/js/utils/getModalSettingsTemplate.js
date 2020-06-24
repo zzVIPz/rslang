@@ -54,14 +54,17 @@ export default function getModalSettingsTemplate(user, settings) {
       <label class="settings__label" for="associative-picture">
         ${settings.associativePicture}</label>
     </div>
-    <div class="settings__button-i-know settings__wrapper">
+    <div class="settings__block-i-know settings__wrapper">
       <input type="checkbox" id="button-i-know" ${user.btnKnow ? 'checked' : ''}>
       <label class="settings__label" for="button-i-know">${settings.btnKnow}</label>
-
     </div>
-    <div class="settings__button-difficult settings__wrapper">
+    <div class="settings__block-difficult settings__wrapper">
       <input type="checkbox" id="button-difficult" ${user.btnDifficult ? 'checked' : ''}>
       <label class="settings__label" for="button-difficult">${settings.btnDifficult}</label>
+    </div>
+    <div class="settings__block-show-answer settings__wrapper">
+      <input type="checkbox" id="show-answer" ${user.btnShowAnswer ? 'checked' : ''}>
+      <label class="settings__label" for="show-answer">${settings.btnShowAnswer}</label>
     </div>
     <div class="settings__word-pronunciation settings__wrapper">
       <input type="checkbox" id="word-pronunciation" ${user.wordPronunciation ? 'checked' : ''}>

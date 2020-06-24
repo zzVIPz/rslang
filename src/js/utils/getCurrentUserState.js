@@ -11,6 +11,7 @@ export default function getCurrentUserState() {
   const meaningPronunciation = document.getElementById('meaning-pronunciation');
   const btnKnow = document.getElementById('button-i-know');
   const btnDifficult = document.getElementById('button-difficult');
+  const btnShowAnswer = document.getElementById('show-answer');
   return {
     cardsTotal: +totalCards.value,
     cardsNew: +wordAmount.value,
@@ -24,5 +25,6 @@ export default function getCurrentUserState() {
     meaningPronunciation: meaningPronunciation.checked,
     btnKnow: btnKnow.checked,
     btnDifficult: btnDifficult.checked,
+    btnShowAnswer: btnShowAnswer.checked,
   };
 }

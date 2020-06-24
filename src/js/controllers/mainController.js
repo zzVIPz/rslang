@@ -137,9 +137,14 @@ export default class MainController {
       this.mainView.toggleCardsLayout(e);
     };
 
-    this.mainView.onBtnEnterPress = () => {
+    this.mainView.onEnterPress = () => {
       const userAnswer = this.mainView.getUserAnswer();
+      console.log('userAnswer', userAnswer);
       // todo: stop here this.mainView.checkUserAnswer();
+    };
+    this.mainView.onBtnCheckClick = () => {
+      const userAnswer = this.mainView.getUserAnswer();
+      console.log('userAnswer', userAnswer);
     };
   }
 

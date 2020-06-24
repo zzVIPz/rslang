@@ -70,8 +70,11 @@ export default function getCardTemplate(card, settings) {
       <button class="card__study ${settings.btnDifficult ? '' : 'hidden'}">
         ${CARD_TEXT.btnToStudy}
       </button>
+      <button class="card__show-answer ${settings.btnShowAnswer ? '' : 'hidden'}">
+        ${CARD_TEXT.btnShowAnswer}
+      </button>
     </div>
     <div>
-    <button class="card__show-answer">${CARD_TEXT.btnCheck} / ${CARD_TEXT.btnShowAnswer}</button>
+    <button class="card__btn-check">${CARD_TEXT.btnCheck}</button>
   </div>`;
 }

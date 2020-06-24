@@ -32,6 +32,7 @@ const DEFAULT_USER_SETTINGS = {
   examplePronunciation: true,
   btnKnow: true,
   btnDifficult: true,
+  btnShowAnswer: true,
 };
 
 const SETTING_MODAL_TEXT = {
@@ -57,6 +58,7 @@ const SETTING_MODAL_TEXT = {
   associativePicture: 'Show associative picture',
   btnKnow: "Show button 'I know'",
   btnDifficult: "Show button 'Difficult'",
+  btnShowAnswer: "Show button 'Show answer'",
   wordPronunciation: 'Pronunciation of the studied word',
   meaningPronunciation: 'Pronunciation of the meaning text',
   examplePronunciation: 'Pronunciation of the example text',

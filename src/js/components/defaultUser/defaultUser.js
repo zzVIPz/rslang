@@ -17,5 +17,6 @@ export default class User {
     this.examplePronunciation = settings.examplePronunciation;
     this.btnKnow = settings.btnKnow;
     this.btnDifficult = settings.btnDifficult;
+    this.btnShowAnswer = settings.btnShowAnswer;
   }
 }

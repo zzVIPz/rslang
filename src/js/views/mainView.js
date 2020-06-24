@@ -42,7 +42,8 @@ export default class MainView {
     this.addNavigationLinkClickHandler();
     this.addOverlayClickHandler();
     this.addUserToolClickHandler();
-    this.addBtnEnterHandler();
+    this.addEnterPressHandler();
+    this.addCardBtnsClickHandler();
   }
 
   renderMain(user) {
@@ -200,10 +201,21 @@ export default class MainView {
     });
   }
 
-  addBtnEnterHandler() {
+  addEnterPressHandler() {
     document.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) {
-        this.onBtnEnterPress();
+        this.onEnterPress();
+      }
+    });
+  }
+
+  addCardBtnsClickHandler() {
+    document.addEventListener('click', (e) => {
+      const { target } = e;
+      if (target.classList.contains('card__btn-check')) {
+        if (target.innerText === 'CHECK') {
+          this.onBtnCheckClick();
+        }
       }
     });
   }
@@ -254,6 +266,9 @@ export default class MainView {
     }
     if (target.id === 'button-difficult') {
       toggleDisplay('.card__study');
+    }
+    if (target.id === 'show-answer') {
+      toggleDisplay('.card__show-answer');
     }
   };
 
