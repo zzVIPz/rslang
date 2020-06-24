@@ -1,4 +1,4 @@
-import { LOGIN_FORM_TEXT } from '../constants/constAuthView';
+import LOGIN_FORM_TEXT from '../constants/constAuthView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
 import getModalErrorTemplate from '../utils/getModalErrorTemplate';
@@ -85,17 +85,14 @@ export default class IndexView {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  showMainPage() {
-    document.location.replace('../pages/main.html');
-  }
+  showMainPage = () => document.location.replace('../pages/main.html');
 
   closeModalWindow() {
     if (this.modal) {
       this.modal = false;
       this.addButtonCloseModalClickHandler();
+      this.setTimeoutModalClose();
     }
-    this.setSetTimeout();
   }
 
   checkUserData() {
@@ -158,17 +155,16 @@ export default class IndexView {
     });
   }
 
-  setSetTimeout() {
+  setTimeoutModalClose() {
     this.modalTimer = setTimeout(() => {
       this.removeModalWindow();
     }, 3500);
   }
 
-  removeModalWindow() {
+  removeModalWindow = () => {
     const modal = document.querySelector('.modal');
-    clearTimeout(this.modalTimer);
     if (modal) {
       modal.remove();
     }
-  }
+  };
 }

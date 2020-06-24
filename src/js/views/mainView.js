@@ -4,16 +4,23 @@ import {
   MAIN_TEXT,
   SWIPER_TEMPLATE,
 } from '../constants/constMainView';
-import getCardTemplate from '../utils/getCardTemplate';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
+import toggleDisplay from '../utils/toggleDisplay';
+import Card from '../components/card/cardController';
 
 export default class MainView {
-  constructor(model) {
+  constructor() {
     this.onLogOut = null;
-    this.user = null;
-    this.model = model;
+    this.onBtnStartClick = null;
+    this.onButtonAcceptClick = null;
+    this.onButtonCancelClick = null;
+    this.onBtnSettingsClick = null;
+    this.onBurgerMenuClick = null;
+    this.onLogOutClick = null;
+    this.onOverlayClick = null;
+    this.onBtnSpeakerClick = null;
     this.burgerMenu = document.querySelector('.burger-menu');
     this.header = document.querySelector('.header');
     this.headerNavigation = document.querySelector('.header__navigation');
@@ -24,9 +31,7 @@ export default class MainView {
     this.main = document.querySelector('.main');
   }
 
-  init(user, swiper) {
-    this.user = user;
-    this.swiper = swiper;
+  init() {
     this.renderMenu();
     this.links = document.querySelectorAll('.navigation__link');
     this.addListeners();
@@ -35,8 +40,9 @@ export default class MainView {
   addListeners() {
     this.addBurgerMenuClickHandler();
     this.addNavigationLinkClickHandler();
-    this.addOverlayPressHandler();
-    this.addUserToolHandler();
+    this.addOverlayClickHandler();
+    this.addUserToolClickHandler();
+    this.addBtnEnterHandler();
   }
 
   renderMain(user) {
@@ -44,29 +50,56 @@ export default class MainView {
     this.main.innerHTML = formattedTemplate;
     this.btnStartLearning = document.querySelector('.btn-start');
     this.btnStartLearning.addEventListener('click', () => {
-      this.onBtnStartClickHandler(user);
+      this.onBtnStartClick(user);
     });
   }
 
-  async onBtnStartClickHandler(user) {
-    const wordsList = await this.model.getWords(user);
-    this.renderSwiper();
-    this.renderCards(wordsList, user);
-  }
-
-  renderSwiper() {
+  renderSwiperTemplate() {
     this.main.innerHTML = SWIPER_TEMPLATE;
   }
 
-  renderCards(cards, user) {
-    cards.forEach((card) => {
-      const cardTemplate = getCardTemplate(card, user);
-      // this.swiper.appendSlide(cardTemplate);
+  setFocusToInput(currentSlide = this.getCurrentSlide()) {
+    if (currentSlide) {
+      setTimeout(() => {
+        this.getCurrentInputNode(currentSlide).focus();
+      }, 300);
+    }
+  }
+
+  getCurrentSlide() {
+    let card;
+    if (this.swiper) {
+      const ind = this.swiper.realIndex;
+      card = this.swiper.slides[ind];
+    }
+    return card;
+  }
+
+  getUserAnswer(currentSlide = this.getCurrentSlide()) {
+    return currentSlide ? this.getCurrentInputNode(currentSlide).value : null;
+  }
+
+  getCurrentInputNode = (currentSlide) => {
+    let inputNode;
+    const nodes = currentSlide.querySelectorAll('.card__input-container');
+    nodes.forEach((node) => {
+      if (!node.classList.contains('hidden')) {
+        inputNode = node.querySelector('.card__input-text');
+      }
+    });
+    return inputNode;
+  };
+
+  renderCards(words, user, swiper) {
+    this.swiper = swiper;
+    words.forEach((word) => {
+      const card = new Card(word, user);
+      this.swiper.appendSlide(card.renderTemplate());
     });
   }
 
   renderMenu() {
-    MENU_ITEMS_NAMES.forEach((link) => {
+    Object.values(MENU_ITEMS_NAMES).forEach((link) => {
       const template = getNavLinkTemplate(link);
       this.navigation.innerHTML += template;
     });
@@ -74,25 +107,38 @@ export default class MainView {
 
   showSettingsModal(user) {
     this.settings.classList.toggle('user-tool__button-settings--active');
-    this.user = user;
     const formattedTemplate = getModalSettingsTemplate(user, SETTING_MODAL_TEXT);
     const modal = document.createElement('div');
     modal.classList.add('settings__overlay');
     modal.innerHTML = formattedTemplate;
     this.main.append(modal);
-    this.totalCards = document.getElementById('cards-amount');
-    this.wordAmount = document.getElementById('word-amount');
-    this.totalCards.addEventListener('focusout', () => {
-      this.setCorrectValue();
-    });
-    this.wordAmount.addEventListener('focusout', () => {
-      this.setCorrectValue();
-    });
-    this.onButtonAcceptPress();
-    this.onButtonCancelPress();
   }
 
-  setCorrectValue() {
+  addSettingsModalListeners() {
+    const modal = document.querySelector('.settings');
+    modal.addEventListener('click', (e) => {
+      this.onModalClick(e);
+    });
+
+    this.totalCards = document.getElementById('cards-amount');
+    this.totalCards.addEventListener('focusout', () => {
+      this.onInputComplete();
+    });
+    this.wordAmount = document.getElementById('word-amount');
+    this.wordAmount.addEventListener('focusout', () => {
+      this.onInputComplete();
+    });
+    this.btnAccept = document.querySelector('.btn-accept');
+    this.btnAccept.addEventListener('click', () => {
+      this.onButtonAcceptClick();
+    });
+    this.btnCancel = document.querySelector('.btn-cancel');
+    this.btnCancel.addEventListener('click', () => {
+      this.onButtonCancelClick();
+    });
+  }
+
+  checkUserSettings() {
     if (this.totalCards.value > 100) {
       this.totalCards.value = 100;
     }
@@ -108,27 +154,6 @@ export default class MainView {
     }
   }
 
-  onButtonAcceptPress() {
-    this.btnAccept = document.querySelector('.btn-accept');
-    this.btnAccept.addEventListener('click', () => {
-      const userState = this.checkUserState();
-      if (userState) {
-        console.log('onButtonAcceptPress', userState);
-        this.user = userState;
-        this.model.updateUserSettings(userState);
-        this.renderMain(userState);
-      }
-      this.closeSettingsModal();
-    });
-  }
-
-  onButtonCancelPress() {
-    this.btnCancel = document.querySelector('.btn-cancel');
-    this.btnCancel.addEventListener('click', () => {
-      this.closeSettingsModal();
-    });
-  }
-
   closeSettingsModal() {
     this.settings.classList.toggle('user-tool__button-settings--active');
     this.modal = document.querySelector('.settings__overlay');
@@ -137,38 +162,7 @@ export default class MainView {
     }
   }
 
-  checkUserState() {
-    // todo need refactor, becouse user's properties will change
-    const totalCards = document.getElementById('cards-amount');
-    const wordAmount = document.getElementById('word-amount');
-    const modeSelect = document.querySelector('.settings__study-select');
-    const textSelect = document.querySelector('.settings__text-select');
-    const transcription = document.getElementById('transcription');
-    const associativePicture = document.getElementById('associative-picture');
-    const wordPronunciation = document.getElementById('word-pronunciation');
-    const examplePronunciation = document.getElementById('example-pronunciation');
-    const meaningPronunciation = document.getElementById('meaning-pronunciation');
-    const btnKnow = document.getElementById('button-i-know');
-    const btnDifficult = document.getElementById('button-difficult');
-    const user = JSON.parse(JSON.stringify(this.user));
-    Object.assign(user, {
-      cardsTotal: +totalCards.value,
-      cardsNew: +wordAmount.value,
-      studyMode: modeSelect.options[modeSelect.selectedIndex].value,
-      learningWordsMode: textSelect.options[textSelect.selectedIndex].value,
-      transcription: transcription.checked,
-      associativePicture: associativePicture.checked,
-      wordPronunciation: wordPronunciation.checked,
-      examplePronunciation: examplePronunciation.checked,
-      meaningPronunciation: meaningPronunciation.checked,
-      btnKnow: btnKnow.checked,
-      btnDifficult: btnDifficult.checked,
-    });
-    if (JSON.stringify(this.user) !== JSON.stringify(user)) return user;
-    return false;
-  }
-
-  addUserToolHandler() {
+  addUserToolClickHandler() {
     this.userTool.addEventListener('click', (e) => {
       const { target } = e;
       if (target.classList.contains('user-tool__button-log-out')) {
@@ -184,34 +178,33 @@ export default class MainView {
   }
 
   addNavigationLinkClickHandler() {
-    this.navigation.addEventListener('click', (event) => {
-      const dataName = event.target.dataset.name;
-      // todo refactor after final menu elements
-      if (dataName === 'log-out') {
-        this.onLogOutClick();
-        this.showIndexPage();
-      }
-      if (dataName === 'main-page') {
-        this.renderMain(this.user);
-      }
-      if (!event.target.classList.contains('navigation')) {
+    this.navigation.addEventListener('click', (e) => {
+      this.onNavigationLinkClick(e);
+      if (!e.target.classList.contains('navigation')) {
         this.toggleMenuProperty();
       }
     });
   }
 
-  addOverlayPressHandler() {
+  addOverlayClickHandler() {
     this.headerNavigation.addEventListener('click', (event) => {
       if (event.target.classList.contains('header__navigation--active')) {
-        this.toggleMenuProperty();
+        this.onOverlayClick();
       }
     });
   }
 
   addBurgerMenuClickHandler() {
     this.burgerMenu.addEventListener('click', () => {
-      this.toggleMenuProperty();
-      this.setActiveLink();
+      this.onBurgerMenuClick();
+    });
+  }
+
+  addBtnEnterHandler() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        this.onBtnEnterPress();
+      }
     });
   }
 
@@ -245,17 +238,28 @@ export default class MainView {
     }
   }
 
-  onBtnSpeakerClick() {
+  toggleCardsLayout = (e) => {
+    const { target } = e;
+    if (target.id === 'transcription') {
+      toggleDisplay('.card__transcription');
+    }
+    if (target.id === 'translate') {
+      toggleDisplay('.card__text-translate', 'translate-hidden');
+    }
+    if (target.id === 'associative-picture') {
+      toggleDisplay('.card__image-container');
+    }
+    if (target.id === 'button-i-know') {
+      toggleDisplay('.card__know');
+    }
+    if (target.id === 'button-difficult') {
+      toggleDisplay('.card__study');
+    }
+  };
+
+  changeBtnSpeakerIcon() {
     this.speaker.classList.toggle('user-tool__button-speaker--active');
   }
 
-  async onBtnSettingsClick() {
-    this.user = await this.model.getUser();
-    this.showSettingsModal(this.user);
-  }
-
-  onLogOutClick() {
-    this.onLogOut();
-    document.location.replace('../index.html');
-  }
+  showIndexPage = () => document.location.replace('../index.html');
 }
