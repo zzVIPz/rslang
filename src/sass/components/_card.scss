@@ -1,0 +1,13 @@
+.card {
+  font-size: 1.2em;
+  font-family: monospace;
+
+  &__show-answer {
+    width: 250px;
+    margin-top: 10px;
+  }
+
+  .translate-hidden {
+    display: none;
+  }
+}

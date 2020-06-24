@@ -16,3 +16,7 @@ body {
   @extend %font-prim;
   @include font($size: 1.6rem, $height: 1.85rem, $weight: normal);
 }
+
+.hidden {
+  display: none;
+}
