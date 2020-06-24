@@ -130,11 +130,16 @@ export default class MainController {
     };
 
     this.mainView.onInputComplete = () => {
-      this.mainView.checkUserInput();
+      this.mainView.checkUserSettings();
     };
 
     this.mainView.onModalClick = (e) => {
       this.mainView.toggleCardsLayout(e);
+    };
+
+    this.mainView.onBtnEnterPress = () => {
+      const userAnswer = this.mainView.getUserAnswer();
+      // todo: stop here this.mainView.checkUserAnswer();
     };
   }
 

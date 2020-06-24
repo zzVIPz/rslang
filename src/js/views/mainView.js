@@ -42,6 +42,7 @@ export default class MainView {
     this.addNavigationLinkClickHandler();
     this.addOverlayClickHandler();
     this.addUserToolClickHandler();
+    this.addBtnEnterHandler();
   }
 
   renderMain(user) {
@@ -59,22 +60,35 @@ export default class MainView {
 
   setFocusToInput(currentSlide = this.getCurrentSlide()) {
     if (currentSlide) {
-      const nodes = currentSlide.querySelectorAll('.card__input-container');
-      nodes.forEach((node) => {
-        if (!node.classList.contains('hidden')) {
-          setTimeout(() => {
-            node.querySelector('.card__input-text').focus();
-          }, 300);
-        }
-      });
+      setTimeout(() => {
+        this.getCurrentInputNode(currentSlide).focus();
+      }, 300);
     }
   }
 
   getCurrentSlide() {
-    const ind = this.swiper.realIndex;
-    const card = this.swiper.slides[ind];
+    let card;
+    if (this.swiper) {
+      const ind = this.swiper.realIndex;
+      card = this.swiper.slides[ind];
+    }
     return card;
   }
+
+  getUserAnswer(currentSlide = this.getCurrentSlide()) {
+    return currentSlide ? this.getCurrentInputNode(currentSlide).value : null;
+  }
+
+  getCurrentInputNode = (currentSlide) => {
+    let inputNode;
+    const nodes = currentSlide.querySelectorAll('.card__input-container');
+    nodes.forEach((node) => {
+      if (!node.classList.contains('hidden')) {
+        inputNode = node.querySelector('.card__input-text');
+      }
+    });
+    return inputNode;
+  };
 
   renderCards(words, user, swiper) {
     this.swiper = swiper;
@@ -124,7 +138,7 @@ export default class MainView {
     });
   }
 
-  checkUserInput() {
+  checkUserSettings() {
     if (this.totalCards.value > 100) {
       this.totalCards.value = 100;
     }
@@ -183,6 +197,14 @@ export default class MainView {
   addBurgerMenuClickHandler() {
     this.burgerMenu.addEventListener('click', () => {
       this.onBurgerMenuClick();
+    });
+  }
+
+  addBtnEnterHandler() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        this.onBtnEnterPress();
+      }
     });
   }
 
