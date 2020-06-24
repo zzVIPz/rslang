@@ -13,7 +13,8 @@ class AudiocallController {
   }
 
   clickAudiocallBtn() {
-    this.audiocallBtn = document.querySelector('[data-name="audiocall"]');
+    // this.audiocallBtn = document.querySelector('[data-name="audiocall"]');
+    this.audiocallBtn = document.querySelector('.audiocall');
     this.audiocallBtn.addEventListener('click', () => {
       this.init();
     });

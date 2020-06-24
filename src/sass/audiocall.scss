@@ -44,6 +44,7 @@ main {
       position: absolute;
       top: 27px;
       right: 27px;
+      z-index: 999;
 
       width: 20px;
       height: 20px;
@@ -118,7 +119,7 @@ main {
     }
     &__answers {
       position: absolute;
-      top: 9%;
+      top: 15%;
       right: 0;
       left: 0;
 
@@ -335,19 +336,18 @@ main {
 
     cursor: pointer;
   }
+  &__levels-container {
+    position: absolute;
+    top: 40px;
+    right: 0;
+  }
+  &__round-container {
+    position: absolute;
+    top: 110px;
+    right: 0;
+  }
 }
-.raiting-container {
-  position: absolute;
-  top: 50px;
-  right: 0;
-}
-.app__rating {
-  position: relative;
-
-  width: 100%;
-  height: 40px;
-}
-.rating {
+.rating-round {
   position: absolute;
   top: 20px;
   right: 0;
@@ -355,54 +355,9 @@ main {
   display: flex;
 
   transform: translate(-40%, -50%) rotateY(180deg);
-  &__input {
-    display: none;
-  }
-  &__label {
-    display: block;
-    width: 25px;
-
-    cursor: pointer;
-    &:before {
-      content: "★";
-      position: relative;
-
-      display: block;
-
-      font-size: 30px;
-      color: #014776;
-    }
-    &:after {
-      content: "★";
-      position: absolute;
-      top: 0;
-
-      display: block;
-
-      font-size: 30px;
-      color: gold;
-
-      transform: .3s;
-      opacity: 0;
-    }
-  }
-  &__text {
-    position: absolute;
-    top: 40px;
-    right: 47px;
-
-    font-weight: 300;
-    font-size: 18px;
-    color: $var3;
-
-    opacity: .8;
-  }
 }
-
-.rating__label:hover:after,
-.rating__label:hover ~ .rating__label:after,
-.rating__input:checked ~ .rating__label:after {
-  opacity: 1;
+.rating__text > span {
+  white-space: nowrap;
 }
 .small-circle {
   -webkit-transform: scale(.7);
@@ -431,10 +386,26 @@ main {
 .show-flex {
   display: flex;
 }
-// media screen and (max-width:830px) {
-// 	container-game__trainings-audiocall__answer: hover ;
-// 	background-color: transparent;
-// }
-// media screen and (max-width: 544px) {
-// 	width: 288px;
-// }
+@media screen and (max-width: 544px) {
+  .container-game__crossword-modal__cont {
+    width: 288px;
+  }
+  .container-game__modal__close-body {
+    display: none;
+  }
+  .container-game__trainings-audiocall__number {
+    top: 13px;
+    left: 18px;
+    ;
+  }
+  .container-game__trainings-audiocall__answer {
+    width: 100%;
+    max-width: 255px;
+    margin-right: 0;
+    margin-bottom: 8px;
+    margin-left: 0;
+    padding: 10px 20px 13px 38px;
+
+    font-size: 24px;
+  }
+}

@@ -1,11 +1,13 @@
-// import AudiocallModel from './Model';
+import AudiocallModel from './Model';
 import audiocallGame from './constAudiocall';
+import MainView from '../../views/mainView';
 // import MainModel from '../../models/mainModel';
 
 class AudiocallView {
     constructor() {
       this.template = audiocallGame;
-      // this.model = new AudiocallModel();
+      this.model = new AudiocallModel();
+      this.mainView = new MainView();
     }
     
     render() {
@@ -14,8 +16,10 @@ class AudiocallView {
 
     addListeners() {
       this.mainContainer =  document.querySelector('.main');
-      this.raitingContainer =  document.querySelector('.raiting-container');
+      this.levelsContainer =  document.querySelector('.container-game__levels-container');
+      this.roundContainer =  document.querySelector('.container-game__round-container');
       this.levelButtons =  document.querySelector('.rating');
+      this.roundButtons =  document.querySelector('.rating-round');
       this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
       this.startBtn = document.querySelector('.container-game__trainings-audiocall__intro-btn');
       this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers');
@@ -30,12 +34,31 @@ class AudiocallView {
       this.openModal();
       this.closeModal();
       this.backToMainPage();
+      this.getLevels();
+      this.getRounds();
       this.playAudio();
     }
         clickStartGameBtn() {
             this.startBtn.addEventListener('click', () => {
+              this.chosenLevel = this.level;
+              this.chosenRound = this.round;
+              this.model.fetchWords(this.chosenLevel, this.chosenRound)
+                .then((data) => {
+                  console.log(data);
+                  this.model.getMediaData(data);
+                  this.wordsArr = this.model.wordsArr;
+                  this.images = this.model.images;
+                  this.audioArr = this.model.audioArr;
+                  this.translate = this.model.translate;
+                  this.lengthWordsArr = this.wordsArr.length;
+                });
+                setTimeout(() => {
+                  this.animationSpeaker();
+                  this.sound(this.audioArr[0]);
+                },1600);
                 this.introPage.classList.add('hide');
-                this.raitingContainer.classList.add('hide');
+                this.levelsContainer.classList.add('hide');
+                this.roundContainer.classList.add('hide');
                 this.gamePage.classList.add('show');
             });
         }
@@ -59,56 +82,68 @@ class AudiocallView {
     
       backToMainPage() {
         this.closeBtnModalGame.addEventListener('click', () => {
+          // this.mainView.renderMain(this.user)
           this.mainContainer.innerHTML = '';
         });
       }
 
-      levelSelection() {
+      getLevels() {
         this.levelButtons.addEventListener('click', (event) => {
           event.preventDefault();
           
-          console.log(event.target.dataset.level);
+          this.level = event.target.dataset.level;
+          console.log(this.level)
+        });
+      }
+
+      getRounds() {
+        this.roundButtons.addEventListener('click', (event) => {
+          event.preventDefault();
+          
+          this.round = event.target.dataset.round;
+          console.log(this.round)
         });
       }
 
 
       playAudio() {
         this.playAudioBtn.addEventListener('click', () => {
-          this.sound('/* тут ссылка на слово */');
-          setTimeout(() => {
-            document.querySelector('.small-circle').style.transform = 'scale(0.53)';
-            document.querySelector('.big-circle').style.transform = 'scale(0.81)';
-          }, 500);
-          setTimeout(() => {
-            document.querySelector('.small-circle').style.transform = 'scale(0.61)';
-            document.querySelector('.big-circle').style.transform = 'scale(0.9)';
-          }, 900);
-          setTimeout(() => {
-            document.querySelector('.small-circle').style.transform = 'scale(0.51)';
-              document.querySelector('.big-circle').style.transform = 'scale(0.82)';
-        }, 1300);
-          setTimeout(() => {
-            document.querySelector('.small-circle').style.transform = 'scale(0.61)';
-            document.querySelector('.big-circle').style.transform = 'scale(0.9)';
-          }, 1700);
-          setTimeout(() => {
-            document.querySelector('.small-circle').style.transform = 'scale(0.67)';
-            document.querySelector('.big-circle').style.transform = 'scale(0.98)';
-          }, 2100);
-          setTimeout(() => {
-            document.querySelector('.small-circle').style.transform = 'scale(0.7)';
-            document.querySelector('.big-circle').style.transform = 'scale(0.7)';
-          }, 2500);
+          // this.sound('/* тут ссылка на слово */');
+          this.animationSpeaker();
         });
+      }
+
+      animationSpeaker() {
+        setTimeout(() => {
+          document.querySelector('.small-circle').style.transform = 'scale(0.53)';
+          document.querySelector('.big-circle').style.transform = 'scale(0.81)';
+        }, 500);
+        setTimeout(() => {
+          document.querySelector('.small-circle').style.transform = 'scale(0.61)';
+          document.querySelector('.big-circle').style.transform = 'scale(0.9)';
+        }, 900);
+        setTimeout(() => {
+          document.querySelector('.small-circle').style.transform = 'scale(0.51)';
+            document.querySelector('.big-circle').style.transform = 'scale(0.82)';
+      }, 1300);
+        setTimeout(() => {
+          document.querySelector('.small-circle').style.transform = 'scale(0.61)';
+          document.querySelector('.big-circle').style.transform = 'scale(0.9)';
+        }, 1700);
+        setTimeout(() => {
+          document.querySelector('.small-circle').style.transform = 'scale(0.67)';
+          document.querySelector('.big-circle').style.transform = 'scale(0.98)';
+        }, 2100);
+        setTimeout(() => {
+          document.querySelector('.small-circle').style.transform = 'scale(0.7)';
+          document.querySelector('.big-circle').style.transform = 'scale(0.7)';
+        }, 2500);
       }
       
       sound(src) {
         let audio = new Audio(); 
         audio.src = src; 
         audio.autoplay = true; 
-        audio.onloadedmetadata = function() {
-            console.log(audio.duration);
-          };
       }
   }
   

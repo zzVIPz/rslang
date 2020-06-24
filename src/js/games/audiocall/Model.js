@@ -1,14 +1,45 @@
-// class AudiocallModel {
-//     constructor() {
-//         this.data = await getWords(0, 0);
-//     }
+import MainModel from '../../models/mainModel';
 
-//     async getWords(page, group) {
-//         const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${page}&group=${group}`;
-//         const res = await fetch(url);
-//         const data = await res.json();
-//         console.log(data);
-//       };
-// }
+class AudiocallModel {
+    constructor() {
+        this.difficultyLevel = {
+            level: 0,
+          };
+          this.wordsUrl = 'https://afternoon-falls-25894.herokuapp.com/words?';
+          this.rightAnswer = 0;
+          this.wrongAnswer = 0;
+          this.mainModel = new MainModel();
+    }
 
-// export default AudiocallModel;
+    async fetchWords(chosenLevel, chosenRound) {
+        this.currentUser = await this.mainModel.getUser();
+        if (chosenLevel) {
+          this.currentUser.currentGroup = chosenLevel;
+          this.currentUser.currentPage = chosenRound;
+        }
+    
+        if (chosenRound) {
+          this.currentUser.currentPage = chosenRound;
+        }
+    
+        console.log('My user:', this.currentUser);
+        const data = await this.mainModel.getWords(this.currentUser);
+        return data;
+      }
+
+      getMediaData(data) {
+        this.shuffle(data);
+        this.wordsArr = data.map((el) => el.word);
+        this.imageSrc = data.map((el) => el.image);
+        this.images = this.imageSrc.map(el => this.mainModel.getMedia(el));
+        this.audioSrc = data.map((el) => el.audio);
+        this.audioArr = this.audioSrc.map(el => this.mainModel.getMedia(el));
+        this.translate = data.map((el) => el.wordTranslate);
+      }
+
+      shuffle(array) {
+        array.sort(() => Math.random() - 0.5);
+      }
+}
+
+export default AudiocallModel;

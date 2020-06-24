@@ -1,4 +1,5 @@
 @import "base/normalize";
+@import "base/animate";
 
 // Abstract
 @import "abstract/constants";
@@ -19,9 +20,7 @@
 @import "layouts/header";
 @import "layouts/main";
 @import "layouts/footer";
-@import "layouts/modal";
+@import "layouts/modal-error";
 
 // pages
 @import "pages/index";
-
-
