@@ -1,4 +1,4 @@
-export default function getUserSetting(userData) {
+export default function getRequestBody(userData) {
   return {
     wordsPerDay: userData.cardsTotal,
     optional: {
