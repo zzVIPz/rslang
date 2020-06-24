@@ -8,6 +8,8 @@ import getCardTemplate from '../utils/getCardTemplate';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
+// sprint-game-import
+import SprintController from '../games/sprint-game/controller/sprintController';
 
 export default class MainView {
   constructor(model) {
@@ -196,6 +198,11 @@ export default class MainView {
       }
       if (!event.target.classList.contains('navigation')) {
         this.toggleMenuProperty();
+      }
+      // sprint-game init
+      if (dataName === 'sprint') {
+        const game = new SprintController();
+        game.init();
       }
     });
   }

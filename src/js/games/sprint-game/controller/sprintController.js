@@ -11,8 +11,11 @@ export default class SprintController {
     this.prelaunch();
   }
 
-  prelaunch() {
-    this.wordsArray = this.model.makeWorkingArr(this.model.wordsArray);
+  async prelaunch() {
+    this.user = await this.model.geCurrenttUser();
+    console.log(this.user);
+    this.wordsArray = await this.model.getInitialWordArray(0, 0);
+    console.log(this.wordsArray);
     this.view.renderStartLayout();
     document.querySelector('.sprint-button--start')
       .addEventListener('click', () => {

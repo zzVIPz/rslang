@@ -1,5 +1,5 @@
 .sprint-container{
-  height: 500px;
+  height: 70vh;
   width: 600px;
   margin: 5% auto;
   display: flex;
@@ -9,6 +9,7 @@
   border-radius: 8px;
   box-shadow: 0px 3px 6px 0px #616161;
   overflow: hidden;
+  // background: linear-gradient(#184e66, #09877e);
 }
 .sprint-header{
   position: relative;

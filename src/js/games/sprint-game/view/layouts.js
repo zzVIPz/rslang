@@ -1,5 +1,5 @@
 const startLayout = `<div class="sprint-container">
-<h2 class="sprint-start-header">Спринт</h2>
+<h2 class="sprint-start-header app__content__title">Спринт</h2>
 <div class="sprint-notice">
   <p class="sprint-game-descr">За 1 минуту укажи принадлежит ли данный перевод этому слову</p>
   <p class="sprint-user-advice">Используйте клваиши &#9668; &#9658; для быстрого ответа</p>
