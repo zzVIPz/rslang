@@ -42,6 +42,16 @@ const template = `
           <button id="checkBtn" class="ep__button ep-hidden" name="check">Check</button>
           <button id="continueBtn" class="ep__button ep-hidden" name="continue">Continue</button>
         </div>
+        <div class="ep-modal ep-modal_hidden">
+          <div class="ep-modal__body ep-modal_hidden">
+            <div class="ep-modal__image"><img></div>
+            <div class="ep-modal__description">Иван Айвазовский - Девятый вал (1850г)</div>
+            <div class="ep-modal__main"></div>
+            <div class="ep-modal__buttons">
+              <button id="modalContinueBtn" class="ep__button" name="modalContinue">Continue</button>
+            </div>
+          </div>
+        </div>
       </div>
       `;
 

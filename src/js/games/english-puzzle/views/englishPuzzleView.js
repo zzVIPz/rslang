@@ -11,7 +11,7 @@ export default class EnglishPuzzleView {
     this.template = Template;
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.currentSentence = 0;
-    this.showTipTranslate = true;
+    this.tipTranslate = true;
     this.tipBackground = false;
     this.domElements = {};
     this.img = new Image();
@@ -36,11 +36,11 @@ export default class EnglishPuzzleView {
         .textContent = splitSentencesData[this.currentSentence].translate;
     }
 
-    this.showTip();
-    this.showTipBackground();
+    this.switchTipButtons();
 
     splitSentencesData.forEach((el, id) => {
       const elem = document.createElement('div');
+      const lineNumberBlock = document.createElement('div');
       let posOffset = 0;
 
       if (this.currentSentence === 10 && id === 0) {
@@ -48,13 +48,13 @@ export default class EnglishPuzzleView {
         elem.classList.add('drag-container');
       }
       if (id === this.currentSentence) {
+        lineNumberBlock.classList.add('ep-board__line_number-active');
         elem.classList.add('ep-board__line_active');
         elem.classList.add('drag-container');
       }
       elem.classList.add('ep-board__line');
-
-      const lineNumberBlock = document.createElement('div');
       lineNumberBlock.classList.add('ep-board__line_number');
+
       lineNumberBlock.textContent = splitSentencesData.indexOf(el) + 1;
       lineNumbersWrapper.append(lineNumberBlock);
 
@@ -89,6 +89,8 @@ export default class EnglishPuzzleView {
     this.domElements.activeLine = document.querySelector('.ep-board__line_active');
     this.addDragAndDrop();
     this.addListeners();
+    // const a = new Audio('https://raw.githubusercontent.com/irinainina/rslang-data/master/files/01_0009_example.mp3');
+    // a.play();
   }
 
   fillPuzzle(puzzleCanvas, positionOffset, indexString, text, imgRender) {
@@ -111,17 +113,15 @@ export default class EnglishPuzzleView {
     ctx.fillText(text, puzzleCanvas.width / 2, (puzzleCanvas.height / 2) + 6);
   }
 
-  showTip() {
-    if (this.showTipTranslate === true) {
+  switchTipButtons() {
+    if (this.tipTranslate === true) {
       this.domElements.tipTranslate.classList.add('tips__button_active');
       this.domElements.sentenceTranslate.classList.remove('ep-transparent');
     } else {
       this.domElements.tipTranslate.classList.remove('tips__button_active');
       this.domElements.sentenceTranslate.classList.add('ep-transparent');
     }
-  }
 
-  showTipBackground() {
     if (this.tipBackground === true) {
       this.domElements.tipBackground.classList.add('tips__button_active');
     } else {
@@ -206,12 +206,12 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.tipTranslate.addEventListener('click', () => {
-      if (this.showTipTranslate === true) {
-        this.showTipTranslate = false;
+      if (this.tipTranslate === true) {
+        this.tipTranslate = false;
       } else {
-        this.showTipTranslate = true;
+        this.tipTranslate = true;
       }
-      this.showTip();
+      this.switchTipButtons();
     });
 
     this.domElements.tipBackground.addEventListener('click', () => {
