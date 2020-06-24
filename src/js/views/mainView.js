@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-import { CONST_MAIN_VIEW as constMainView, getModalTemplate } from '../constants/constMainView';
-=======
+
 import {
   MENU_ITEMS_NAMES,
   SETTING_MODAL_TEXT,
@@ -11,7 +9,6 @@ import getCardTemplate from '../utils/getCardTemplate';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
->>>>>>> develop
 
 export default class MainView {
   constructor(model) {
