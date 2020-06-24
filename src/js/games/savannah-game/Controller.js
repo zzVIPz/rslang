@@ -2,12 +2,13 @@ import SavannahView from './Views/View';
 import SavannahModel from './Model';
 
 class SavannahController {
-  constructor() {
+  constructor(user, mainView) {
     this.userData = '';
+    this.user = user;
+    this.mainView = mainView;
   }
 
-  clickSavannahBtn() {
-    /* this.savannahBtn = document.querySelector('[data-name="savannah"]'); */
+  /* clickSavannahBtn() {
     this.savannahBtn = document.querySelector('.savannah');
     this.savannahBtn.addEventListener('click', () => {
       this.init();
@@ -15,15 +16,13 @@ class SavannahController {
       document.body.classList.add('app__background');
       document.body.style.backgroundPositionY = '100%';
     });
-  }
+  } */
 
   init() {
     this.model = new SavannahModel();
     this.view = new SavannahView(this.model);
-    this.mainContainer = document.querySelector('.main');
-    this.mainContainer.innerHTML = this.view.renderGameLayout();
-    this.mockData = '';
-    this.view.renderRating();
+    this.view.getViewUser(this.user, this.mainView);
+    this.view.renderSavannah();
     this.addListeners();
   }
 
@@ -55,15 +54,8 @@ class SavannahController {
 
   backToMainPage() {
     this.backToMianBtn.addEventListener('click', () => {
-      this.model.isGameOn = false;
-      this.mainContainer.innerHTML = '';
-      window.location.href = '#main-page';
-      this.mainPage = document.querySelector('[data-name="main-page"]');
-      this.mainPage.click();
-      this.mainPage.click();
-      window.removeEventListener('keyup', this.onKeyUp);
-      document.body.classList.remove('app__background');
-      document.body.style.backgroundPositionY = '0%';
+      this.view.renderBackToMain();
+      this.mainView.renderMain(this.user);
     });
   }
 
@@ -75,7 +67,7 @@ class SavannahController {
       console.log('Chosen round:', this.chosenRound);
       this.addPreloader();
       setTimeout(this.preloaderCountDown.bind(this), 1000);
-      this.model.fetchWords(this.chosenLevel, this.chosenRound)
+      this.model.fetchWords(this.user, this.chosenLevel, this.chosenRound)
         .then((data) => {
           this.model.getWordsAndTranslation(data);
           // todo do we need it?
@@ -158,6 +150,7 @@ class SavannahController {
     const translationBox = document.querySelector('.app__content__translation-box');
 
     translationBox.addEventListener('click', ({ target }) => {
+      target.classList.add('noHover');
       this.checkRightTranslation(target);
     });
   }

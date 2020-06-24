@@ -74,6 +74,14 @@ const sparkles = `
 <div class="sparkle sparkle-dot-four"></div>
   `;
 
+const statisticsModalLayout = `
+  <div class="statistics__title"></div>
+  <div class="statistics__words-set"></div>
+  <div class="statistics__words-set"></div>
+  <div class="statistics__continue">Продолжить тренировку</div>
+  <div class="statistics__back">Вернуться к списку тренировок</div>
+`;
+
 export {
-  savannahGame, preloader, lives, sparkles, groupRound,
+  savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout,
 };

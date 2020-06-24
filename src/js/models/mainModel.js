@@ -1,19 +1,29 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
-import getUserSetting from '../utils/getUserSetting';
-import { DEFAULT_USER } from '../constants/constMainView';
+import getRequestBody from '../utils/getRequestBody';
+import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
+import User from '../components/defaultUser/defaultUser';
 
 export default class MainModel {
   constructor() {
     this.accessData = JSON.parse(localStorage.accessKey);
     this.userId = this.accessData.userId;
     this.token = this.accessData.token;
-    this.currentUser = DEFAULT_USER;
+    this.currentUser = null;
   }
 
   async init() {
     if (this.accessData.username) {
-      this.currentUser.username = this.accessData.username;
-      await this.setUserSettings(this.userId, getUserSetting(this.currentUser));
+      this.currentUser = new User(
+        this.accessData.username,
+        this.userId,
+        this.token,
+        DEFAULT_USER_SETTINGS,
+      );
+      await this.setUserSettings(
+        this.currentUser.userId,
+        this.currentUser.token,
+        getRequestBody(this.currentUser),
+      );
     }
   }
 
@@ -21,19 +31,33 @@ export default class MainModel {
     return this.accessData;
   }
 
-  async updateUserSettings(userData) {
-    this.currentUser = userData;
-    await this.setUserSettings(this.userId, getUserSetting(userData));
+  async updateUserSettings(user) {
+    this.currentUser = user;
+    await this.setUserSettings(user.userId, user.token, getRequestBody(user));
   }
 
-  async setUserSettings(userId, settings) {
+  async getUser(userId, token) {
+    if (this.accessData.username) {
+      delete this.accessData.username;
+      localStorage.accessKey = JSON.stringify(this.accessData);
+      return this.currentUser;
+    }
+    const response = await this.getUserSettings(userId, token);
+    this.currentUser = response;
+    return this.currentUser;
+  }
+
+  async setUserSettings(userId, token, settings) {
+    console.log('Id', userId);
+    console.log('token', token);
+    console.log('set', settings);
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
       {
         method: 'PUT',
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -44,21 +68,23 @@ export default class MainModel {
     console.log('setUserSettings', content);
   }
 
-  async getWords(user) {
-    this.url = getCorrectUrl(user.currentPage, user.currentGroup, user.cardsTotal);
+  async getWords(currentPage, currentGroup, cardsTotal) {
+    this.url = getCorrectUrl(currentPage, currentGroup, cardsTotal);
+    console.log(this.url);
     const rawResponse = await fetch(this.url);
     const content = await rawResponse.json();
     return content;
   }
 
-  async getUserSettings(userId) {
+  async getUserSettings(userId, token) {
+    console.log(userId);
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
       {
         method: 'GET',
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -66,22 +92,5 @@ export default class MainModel {
     );
     const content = await this.rawResponse.json();
     return JSON.parse(content.optional.user);
-  }
-
-  async getUser() {
-    if (this.accessData.username) {
-      delete this.accessData.username;
-      localStorage.accessKey = JSON.stringify(this.accessData);
-      return this.currentUser;
-    }
-    const response = await this.getUserSettings(this.userId);
-    this.currentUser = response;
-    console.log('getUser', this.currentUser);
-    return this.currentUser;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getMedia(key) {
-    return `https://raw.githubusercontent.com/zzvipz/rslang-data/master/${key}`;
   }
 }

@@ -14,23 +14,20 @@ class SavannahModel {
     this.mainModel = new MainModel();
   }
 
-  async getCurrUser() {
-    this.currentUser = await this.mainModel.getUser();
-  }
+  /* async getCurrUser(user) {
+    this.currentUser = user;
+  } */
 
-  async fetchWords(chosenLevel, chosenRound) {
+  async fetchWords(user, chosenLevel, chosenRound) {
+    this.currentUser = user;
     this.totalCards = this.currentUser.cardsTotal;
     this.moveBackgroundPercentage = 100 / this.totalCards;
-    if (chosenLevel) {
-      this.currentUser.currentGroup = chosenLevel;
-      this.currentUser.currentPage = chosenRound;
-    }
+    this.currentUser.currentGroup = chosenLevel || 0;
+    this.currentUser.currentPage = chosenRound || 0;
 
-    if (chosenRound) {
-      this.currentUser.currentPage = chosenRound;
-    }
-
-    const data = await this.mainModel.getWords(this.currentUser);
+    console.log(this.currentUser);
+    const data = await this.mainModel.getWords(this.currentUser.currentPage,
+      this.currentUser.currentGroup, this.currentUser.cardsTotal);
     return data;
   }
 

@@ -1,15 +1,18 @@
 import {
-  savannahGame, preloader, lives, sparkles, groupRound,
+  savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout,
 } from '../constSavannah';
 import getDifficultyLevelRoundId from '../savannah-utils/getDifficultyLevelID';
 import GroupRoundView from './groupRoundView';
 import randomIntegerForPages from '../savannah-utils/randomInteger';
+import GameStatistics from './gameStatView';
 
 class SavannahView {
   constructor(model) {
     this.savannahGame = savannahGame;
     this.preloader = preloader;
     this.groupRoundHtml = groupRound;
+    this.gameStatistics = new GameStatistics();
+    this.statisticsLayout = statisticsModalLayout;
     this.livesBox = document.createElement('div');
     this.musicBox = document.createElement('div');
     this.flyingWordBox = document.createElement('div');
@@ -22,8 +25,21 @@ class SavannahView {
     this.backgroundPositionY = 100;
     this.cristalWidth = 30;
     this.removeDigits = /\d/g;
-    this.wordsPerLevelAPI = 600;
+    this.wordsPerLevelAPI = [454, 415, 407, 296, 294, 251];
     this.maxRound = 6;
+  }
+
+  getViewUser(user, mainView) {
+    this.currentUser = user;
+    this.mainView = mainView;
+  }
+
+  renderSavannah() {
+    this.mainContainer = document.querySelector('.main');
+    document.body.classList.add('app__background');
+    document.body.style.backgroundPositionY = '100%';
+    this.mainContainer.innerHTML = this.renderGameLayout();
+    this.renderRating();
   }
 
   displayModal() {
@@ -74,6 +90,14 @@ class SavannahView {
     this.renderFlyingWord();
     this.moveWord();
     this.renderTranslation();
+  }
+
+  renderBackToMain() {
+    this.model.isGameOn = false;
+    window.location.href = '#main-page';
+    window.removeEventListener('keyup', this.onKeyUp);
+    document.body.classList.remove('app__background');
+    document.body.style.backgroundPositionY = '0%';
   }
 
   renderRating() {
@@ -198,10 +222,14 @@ class SavannahView {
     starsRound.addEventListener('click', ({ target }) => {
       if (target.classList.contains('round')) {
         this.round = getDifficultyLevelRoundId(target);
-        const totalPages = Math.trunc(this.wordsPerLevelAPI / this.model.currentUser.cardsTotal);
+        console.log('Round', this.round);
+        const totalPages = Math.trunc(this.wordsPerLevelAPI[this.level]
+          / this.currentUser.cardsTotal);
+        console.log('Total', totalPages);
         const pagesPerRound = Math.trunc(totalPages / this.maxRound);
         this.round = this.round * pagesPerRound + randomIntegerForPages(pagesPerRound);
-        console.log('round', this.round);
+        // this.round = this.round * 5 + randomIntegerForPages();
+        console.log('page', this.round);
       }
     });
   }
@@ -257,6 +285,7 @@ class SavannahView {
       if (this.model.wrongAnswer === 5) {
         this.model.isGameOn = false;
         console.log('Modal Page');
+        this.renderGameOver(false);
       }
     }
     return this;
@@ -270,6 +299,16 @@ class SavannahView {
       }
     } else {
       console.log('Modal Page');
+      this.renderGameOver(true);
+    }
+  }
+
+  renderGameOver(isWin) {
+    this.gameStatistics.init(this, this.mainView);
+    if (isWin) {
+      this.gameStatistics.winRound();
+    } else {
+      this.gameStatistics.loseRound();
     }
   }
 }
