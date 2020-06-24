@@ -1,5 +1,4 @@
 export default function getModalSettingsTemplate(user, settings) {
-  console.log(user, settings);
   return `
   <div class="settings animate__animated animate__backInDown">
     <h3 class="settings__title">${settings.title} ${user.username}</h3>
@@ -42,40 +41,46 @@ export default function getModalSettingsTemplate(user, settings) {
         </option>
       </select>
     </div>
-    <div class="settings__transcription wrapper">
-      <label class="settings__label" for="transcription">${settings.transcription}</label>
-      <input type="checkbox" id="transcription" ${user.transcription ? 'checked' : ''}>
+    <div class="settings__translate settings__wrapper">
+      <input type="checkbox" id="translate" ${user.translate ? 'checked' : ''}>
+      <label class="settings__label" for="translate">${settings.translate}</label>
     </div>
-    <div class="settings__associative-picture wrapper">
+    <div class="settings__transcription settings__wrapper">
+      <input type="checkbox" id="transcription" ${user.transcription ? 'checked' : ''}>
+      <label class="settings__label" for="transcription">${settings.transcription}</label>
+    </div>
+    <div class="settings__associative-picture settings__wrapper">
+      <input type="checkbox" id="associative-picture" ${user.associativePicture ? 'checked' : ''}>
       <label class="settings__label" for="associative-picture">
         ${settings.associativePicture}</label>
-      <input type="checkbox" id="associative-picture" ${user.associativePicture ? 'checked' : ''}>
     </div>
-    <div class="settings__button-i-know wrapper">
-      <label class="settings__label" for="button-i-know">${settings.btnKnow}</label>
+    <div class="settings__button-i-know settings__wrapper">
       <input type="checkbox" id="button-i-know" ${user.btnKnow ? 'checked' : ''}>
+      <label class="settings__label" for="button-i-know">${settings.btnKnow}</label>
+
     </div>
-    <div class="settings__button-difficult wrapper">
-      <label class="settings__label" for="button-difficult">${settings.btnDifficult}</label>
+    <div class="settings__button-difficult settings__wrapper">
       <input type="checkbox" id="button-difficult" ${user.btnDifficult ? 'checked' : ''}>
+      <label class="settings__label" for="button-difficult">${settings.btnDifficult}</label>
     </div>
-    <div class="settings__word-pronunciation wrapper">
-      <label class="settings__label" for="word-pronunciation">${settings.wordPronunciation}</label>
+    <div class="settings__word-pronunciation settings__wrapper">
       <input type="checkbox" id="word-pronunciation" ${user.wordPronunciation ? 'checked' : ''}>
+      <label class="settings__label" for="word-pronunciation">
+        ${settings.wordPronunciation}</label>
     </div>
-    <div class="settings__meaning-pronunciation wrapper">
+    <div class="settings__meaning-pronunciation settings__wrapper">
+      <input type="checkbox" id="meaning-pronunciation"
+        ${user.meaningPronunciation ? 'checked' : ''}>
       <label class="settings__label" for="meaning-pronunciation">
         ${settings.meaningPronunciation}
       </label>
-      <input type="checkbox" id="meaning-pronunciation"
-        ${user.meaningPronunciation ? 'checked' : ''}>
     </div>
-    <div class="settings__example-pronunciation wrapper">
+    <div class="settings__example-pronunciation settings__wrapper">
+      <input type="checkbox" id="example-pronunciation"
+        ${user.examplePronunciation ? 'checked' : ''}>
       <label class="settings__label" for="example-pronunciation">
         ${settings.examplePronunciation}
       </label>
-      <input type="checkbox" id="example-pronunciation"
-      ${user.examplePronunciation ? 'checked' : ''}>
     </div>
     <div class="settings__buttons">
       <button class="settings__button btn-accept">${settings.btnAccept}</button>

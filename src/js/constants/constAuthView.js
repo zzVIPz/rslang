@@ -1,8 +1,8 @@
 const LOGIN_FORM_TEXT = {
-  existingUserText: 'Do have an account?',
+  existingUserText: 'Already have an account?',
   newUserText: "Don't have an account?",
   btnSingUpText: 'Sign Up',
   btnLogInText: 'Log In',
 };
 
-export { LOGIN_FORM_TEXT };
+export default LOGIN_FORM_TEXT;

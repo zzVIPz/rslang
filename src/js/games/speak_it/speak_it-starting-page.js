@@ -1,5 +1,4 @@
-import {oneCard, speakItGame, NumberRightAnwserForNextLevel, NumberOfMisForCorrectAnwser, 
-    oneStar, preloader, speakItStartPage, container} from './speak_it-constants';
+import { container } from './speak_it-constants';
 
 export class StartingClass {
     constructor() {
