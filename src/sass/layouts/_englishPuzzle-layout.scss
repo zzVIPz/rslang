@@ -28,9 +28,12 @@
     width: calc(100% + 22px);
     display: flex;
     margin-left: -20px;
-    height: 53px;
+    height: 52px;
     overflow: hidden;
     border-bottom:  1px solid lightpink;
+    &_active {
+      height: 53px;
+    }
     &:last-child {
       border: none;
     }
