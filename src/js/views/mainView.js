@@ -7,7 +7,8 @@ import {
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
-import toggleDisplay from '../utils/toggleDisplay';
+import toggleVisibility from '../utils/toggleVisibility';
+import getPlaylist from '../utils/getPlaylist';
 import Card from '../components/card/cardController';
 
 export default class MainView {
@@ -50,6 +51,9 @@ export default class MainView {
     const formattedTemplate = getMainTemplate(user, MAIN_TEXT);
     this.main.innerHTML = formattedTemplate;
     this.btnStartLearning = document.querySelector('.btn-start');
+    if (!user.wordPronunciation && !user.meaningPronunciation && !user.examplePronunciation) {
+      this.speaker.classList.remove('user-tool__button-speaker--active');
+    }
     this.btnStartLearning.addEventListener('click', () => {
       this.onBtnStartClick(user);
     });
@@ -80,7 +84,7 @@ export default class MainView {
     return currentSlide ? this.getCurrentInputNode(currentSlide).value : null;
   }
 
-  getCurrentInputNode = (currentSlide) => {
+  getCurrentInputNode = (currentSlide = this.getCurrentSlide()) => {
     let inputNode;
     const nodes = currentSlide.querySelectorAll('.card__input-container');
     nodes.forEach((node) => {
@@ -89,6 +93,25 @@ export default class MainView {
       }
     });
     return inputNode;
+  };
+
+  playAudio = (user, currentSlide = this.getCurrentSlide()) => {
+    const audioNodes = currentSlide.querySelectorAll('.audio');
+    this.playlist = getPlaylist(user, audioNodes);
+    if (
+      this.playlist.length &&
+      this.speaker.classList.contains('user-tool__button-speaker--active')
+    ) {
+      this.playlist[0].play();
+      this.playlist.forEach((node, i, arr) => {
+        node.addEventListener('ended', () => {
+          if (node.duration === node.currentTime) {
+            const nextAudio = arr[i + 1];
+            if (nextAudio) nextAudio.play();
+          }
+        });
+      });
+    }
   };
 
   renderCards(words, user, swiper) {
@@ -253,27 +276,32 @@ export default class MainView {
   toggleCardsLayout = (e) => {
     const { target } = e;
     if (target.id === 'transcription') {
-      toggleDisplay('.card__transcription');
+      toggleVisibility('.card__transcription');
     }
     if (target.id === 'translate') {
-      toggleDisplay('.card__text-translate', 'translate-hidden');
+      toggleVisibility('.card__text-translate', true);
     }
     if (target.id === 'associative-picture') {
-      toggleDisplay('.card__image-container');
+      toggleVisibility('.card__image-container');
     }
     if (target.id === 'button-i-know') {
-      toggleDisplay('.card__know');
+      toggleVisibility('.card__know');
     }
     if (target.id === 'button-difficult') {
-      toggleDisplay('.card__study');
+      toggleVisibility('.card__study');
     }
     if (target.id === 'show-answer') {
-      toggleDisplay('.card__show-answer');
+      toggleVisibility('.card__show-answer');
     }
   };
 
   changeBtnSpeakerIcon() {
     this.speaker.classList.toggle('user-tool__button-speaker--active');
+    if (!this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      if (this.playlist) {
+        this.playlist.forEach((audio) => audio.pause());
+      }
+    }
   }
 
   showIndexPage = () => document.location.replace('../index.html');

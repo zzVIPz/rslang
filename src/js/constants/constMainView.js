@@ -57,7 +57,7 @@ const SETTING_MODAL_TEXT = {
   translate: 'Show translate',
   associativePicture: 'Show associative picture',
   btnKnow: "Show button 'I know'",
-  btnDifficult: "Show button 'Difficult'",
+  btnDifficult: "Show button 'Difficult word'",
   btnShowAnswer: "Show button 'Show answer'",
   wordPronunciation: 'Pronunciation of the studied word',
   meaningPronunciation: 'Pronunciation of the meaning text',

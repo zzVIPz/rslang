@@ -14,6 +14,7 @@ export default class MainController {
   }
 
   async init() {
+    window.history.replaceState(null, null, ' ');
     this.firebaseModel.onAuthStateChangedHandler();
     this.mainModel.init();
     this.mainView.init();
@@ -138,10 +139,14 @@ export default class MainController {
     };
 
     this.mainView.onEnterPress = () => {
-      const userAnswer = this.mainView.getUserAnswer();
-      console.log('userAnswer', userAnswer);
+      const userAnswer = this.mainView.getUserAnswer().toLowerCase();
+      const correctValue = this.mainView.getCurrentInputNode().dataset.word.toLowerCase();
+      if (userAnswer === correctValue) {
+        this.mainView.playAudio(this.user);
+      }
       // todo: stop here this.mainView.checkUserAnswer();
     };
+
     this.mainView.onBtnCheckClick = () => {
       const userAnswer = this.mainView.getUserAnswer();
       console.log('userAnswer', userAnswer);
