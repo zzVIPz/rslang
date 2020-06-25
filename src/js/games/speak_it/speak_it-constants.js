@@ -55,7 +55,7 @@ export const preloader = `
 </div>`;
 
 export const oneStar = ` <label class="group gold" id="0">★</label>`
-export const NumberOfMisForCorrectAnwser = 6;
+export const NumberOfMisForCorrectAnwser = 1;
 export const NumberRightAnwserForNextLevel = 10;
 export const speakItGame = 
 ` 
@@ -112,13 +112,18 @@ export const speakItGame =
         <div class="clear icon"></div>
     </div>
 
-    <div class="app__modal not_display">
-      <div class="app__modal__box">
+    <div class="modal_container not_display">
+      <div class="modal_window">
         <div class="app__modal__box_title">Вы действительно хотите выйти?</div>
         <div class="app__modal__box_text"></div>
-        <div class="app__button app__button_close">Закрыть</div>
-        <div class="app__modal__box_cancel">Отмена</div>
+        <div class="button modal_view">Посмотреть результаты</div>
+        <div class="button modal_close">Закрыть</div>
+        <div class="button modal_cancel">Отмена</div>
       </div>
+    </div>
+
+    <div class="modal_statistic not_display modal_window">
+      
     </div>
 
     <div class="words_container"></div>

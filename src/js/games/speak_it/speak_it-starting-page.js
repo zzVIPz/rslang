@@ -57,7 +57,7 @@ export class StartingClass {
         this.backToMianBtn.onclick = () => {
             container.innerHTML = '';
             container.style.display = 'flex';
-            document.body.classList.remove('app__background');
+            container.classList.add('app__background');
         }
     }
 }

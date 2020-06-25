@@ -47,7 +47,7 @@ export class View {
         for(let i = 0 ; i < 10 ; i++){
             this.words[i].innerText = arrayWords[numbers[i]];
             this.words[i].id = `${numbers[i]}`;
-            this.words[i].selector = id[numbers[i]]
+            this.cards[i].id = id[numbers[i]];
             this.transcriptions[i].innerText = arrayTranscripts[numbers[i]];
             let audioURL = this.createSoundURL(arrayAudios[numbers[i]])
             this.listens[i].id = audioURL;

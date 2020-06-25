@@ -1,4 +1,4 @@
-import { NumberOfMisForCorrectAnwser, fetchURL } from './speak_it-constants';
+import { NumberOfMisForCorrectAnwser, fetchURL, container } from './speak_it-constants';
 import {recognition} from './speak_it-recognition'
 
 export class Model {
@@ -17,8 +17,8 @@ export class Model {
         this.datasTextMeaningTranslate = [];
         this.datasWordTranslate = [];
         this.recognitionMod = false;
-        this.correctId= [];
-        this.uncorrectId = [];
+        this.correct = [];
+        this.uncorrect = [];
         return this
     }
     getJson(group, page) {
@@ -43,6 +43,22 @@ export class Model {
 
             this.chooseWord = '';
         };
+    }
+
+    reset() {
+        this.arrayNumders = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+        this.datasWords = [];
+        this.id = [];
+        this.datasImages = [];
+        this.datasAudios = [];
+        this.datasAudioMeaning = [];
+        this.datasAudioExample = [];
+        this.datasTextMeaning = [];
+        this.datasTextExample = [];
+        this.datasTranscription = [];
+        this.datasTextExampleTranslate = [];
+        this.datasTextMeaningTranslate = [];
+        this.datasWordTranslate = [];
     }
     shuffle(array) {
         array.sort(() => Math.random() - 0.5);
@@ -74,4 +90,5 @@ export class Model {
         let min = max + 4;
         return Math.floor(Math.random() * (max - min)) + min;
     }
+
 }

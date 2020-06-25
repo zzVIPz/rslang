@@ -2,6 +2,8 @@ import { NumberRightAnwserForNextLevel, oneStar, container } from './speak_it-co
 import {View} from './speak_it-view';
 import {Model} from './speak_it-model';
 import {recognition} from './speak_it-recognition'
+import { Modal } from './speak_it-modal-window';
+import { ModalWindow } from './speak_it-modal-window';
 
 export class Controller {
     constructor(group, round) {
@@ -22,10 +24,8 @@ export class Controller {
         this.corectAns = 0;
         this.view.setStarsTop(this.startGroup, this.startRound);
         this.closeBtn = document.querySelector('.close');
-        this.cancelBtn = document.querySelector('.app__modal__box_cancel');
-        this.backToMianBtn = document.querySelector('.app__button_close');
-        this.appModal = document.querySelector('.app__modal');
-        this.currentWord ='';
+        this.currentID ='';
+        this.currentWord = '';
     }
     addListeners() {
         this.onload();
@@ -33,7 +33,7 @@ export class Controller {
         this.rotateCard();
         this.getResultOfSpeak();
         this.buttonRestart.onclick = () => {
-            this.model = new Model();
+            this.model.reset();
             this.onload();
         };
         this.buttonSpeak.onclick = () => this.view.changeInput();
@@ -50,8 +50,8 @@ export class Controller {
         this.view.selectCard(false, this.model);
         this.model.chooseWord = this.model.datasWords[this.model.arrayNumders[0]];
         this.examples.forEach(example => example.addEventListener('click', () => this.view.playSound(example.id)));
-        this.currentWord = this.model.id[document.querySelector('.word').id];
-        console.log('current word: ', this.currentWord);
+        this.currentID = this.cards[0].id;
+        this.currentWord = this.cards[0].querySelector('.word').innerText
     }
     chooseCard() {
         const newView = this.view;
@@ -62,13 +62,11 @@ export class Controller {
             Array.from(document.querySelectorAll('.card')).forEach(card => card.classList.remove('choosen'));
             this.classList.add('choosen');
             newView.selectCard(this, newModel);
-            newController.currentWord = newModel.id[newModel.arrayNumders[this.querySelector('.word').id]]
-            console.log('current word: ', newController.currentWord);
+            newController.currentID = this.id
+            newController.currentWord = this.querySelector('.word').innerText
         }));
         
     }
-   
-
     rotateCard() {
         this.containerOver.onmouseover = function() {
             this.querySelector('.card_over').classList.add('rotate');
@@ -83,18 +81,39 @@ export class Controller {
                 this.view.recognition(result);
                 recognition.stop();
                 if(this.model.checkResult(result)) {
-                    this.model.correctId.push(this.currentWord.selector)
-                    console.log('added to correct id: ', this.model.correctId)
+                    this.addToCorrectArray(this.currentID, this.currentWord);
                     this.view.result.innerHTML += oneStar;
                     this.addedRightAnwser()
                 }else{
-                    this.model.uncorrectId.push(this.currentWord.selector)
-                    console.log('added to correct id: ', this.model.uncorrectId)
+                    this.addToWrongArray(this.currentID, this.currentWord);
                 }
-
                 return false;
         })
     }
+
+    addToCorrectArray(id, word) {
+        const obj = { 'word': word, 'id': id};
+        if(this.isThereRepeat(this.model.correct, word)) {
+            this.model.correct.push(obj)
+        }
+    }
+
+    addToWrongArray(id, word) {
+        const obj = { 'word': word, 'id': id};
+        if(this.isThereRepeat(this.model.uncorrect, word)){
+            this.model.uncorrect.push(obj);
+        }
+    }
+
+    isThereRepeat(array, word) {
+        for (let elem of array){
+            if(elem.word === word){
+                return false
+            }
+        };
+        return true;
+    }
+
     addedRightAnwser() {
         this.corectAns +=1;
         if(this.corectAns == NumberRightAnwserForNextLevel){
@@ -112,19 +131,13 @@ export class Controller {
 
     closeStartPage() {
         this.closeBtn.onclick = () => {
-            this.toggleModal()
-            this.modalListeners();
+            const modal = new ModalWindow(this.model.correct, this.model.uncorrect)
+            modal.runListeners();
+            modal.toggelModalWindov()
         }
     }
-    toggleModal() {
-        this.appModal.classList.toggle('not_display')
-    }
-    modalListeners() {
-        this.cancelBtn.onclick = () => this.toggleModal();
-        this.backToMianBtn.onclick = () => {
-            container.innerHTML = '';
-            container.style.display = 'flex';
-            document.body.classList.remove('app__background');
-        }
-    }
+  
+
+   
+
 }

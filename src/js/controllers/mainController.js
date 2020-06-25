@@ -4,6 +4,7 @@ import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
+import {startSpeakItGame} from '../games/speak_it/speak_it-main'
 
 export default class MainController {
   constructor() {
@@ -49,7 +50,7 @@ export default class MainController {
         // add statistics
       }
       if (dataName === MENU_ITEMS_NAMES.speakit) {
-        // add speakit
+        startSpeakItGame();
       }
       if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
         // add englishPuzzle
