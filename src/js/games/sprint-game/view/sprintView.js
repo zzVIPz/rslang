@@ -1,4 +1,4 @@
-import { startLayout, gameLayout, finalStatLayout } from './layouts';
+import { startLayout, gameLayout, finalStatLayout, closeBtn } from './layouts';
 
 export default class SprintView {
   constructor() {
@@ -6,62 +6,62 @@ export default class SprintView {
     this.startLayout = startLayout;
     this.gameLayout = gameLayout;
     this.finalStatLayout = finalStatLayout;
+    this.closeBtn = closeBtn;
   }
 
-  renderStartLayout() {
+  renderStartLayout(userName) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.startLayout);
+    this.addCloseBtn();
+    this.gameDescription = document.querySelector('.sprint-game-descr');
+    this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или не правильно переведены слова.`
   }
 
   renderGameLayout() {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.gameLayout);
-    document.querySelector('.main').classList.add('sprint-game');
+    this.mainContainer.classList.add('sprint-game-bgr');
+    this.addCloseBtn();
   }
 
   renderGameData(score, word, wordTranslate, points, rightAnswersCount) {
-    this.score = score;
-    this.word = word;
-    this.wordTranslate = wordTranslate;
-    this.points = points;
-    this.rightAnswersCount = rightAnswersCount;
-    document.querySelector('.sprint-score').innerHTML = this.score;
-    document.querySelector('#word').innerHTML = this.word;
-    document.querySelector('#translation').innerHTML = this.wordTranslate;
-    document.querySelector('.sprint-points-line').innerHTML = `+${this.points} очков за слово`;
+    document.querySelector('.sprint-score').innerHTML = score;
+    document.querySelector('#word').innerHTML = word;
+    document.querySelector('#translation').innerHTML = wordTranslate;
+    document.querySelector('.sprint-points-line').innerHTML = `+${points} очков за слово`;
     const marks = document.querySelectorAll('.sprint-mark');
     const activatedMarks = document.querySelectorAll('.sprint-mark');
-    if (this.rightAnswersCount > 0 && this.rightAnswersCount < 4 && this.points < 80) {
-      marks[this.rightAnswersCount - 1].classList.add('activated');
-    } else if (activatedMarks || this.rightAnswersCount === 4) {
+    if (rightAnswersCount > 0 && rightAnswersCount < 4 && points < 80) {
+      marks[rightAnswersCount - 1].classList.add('activated');
+    } else if (activatedMarks || rightAnswersCount === 4) {
       activatedMarks.forEach((el) => el.classList.remove('activated'));
     }
-    this.header = document.querySelector('.sprint-header');
-    switch (this.points) {
+    this.header = document.querySelector('.sprint-container');
+    switch (points) {
       case 20:
-        this.header.className = 'sprint-header sprint-roof1';
+        this.header.className = 'sprint-container sprint-mode-1';
         break
       case 40:
-        this.header.className = 'sprint-header sprint-roof2';
+        this.header.className = 'sprint-container sprint-mode-2';
         break
       case 80:
-        this.header.className = 'sprint-header sprint-roof3';
+        this.header.className = 'sprint-container sprint-mode-3';
         break
       default:
-        this.header.className = 'sprint-header';
+        this.header.className = 'sprint-container';
         break
 
     }
   }
   animateTrue() {
-    document.querySelector('.sprint-container').classList.add('sprint-container--true');
-    setTimeout(() => { document.querySelector('.sprint-container').classList.remove('sprint-container--true') }, 200);
+    document.querySelector('.sprint-display').classList.add('sprint-display--green');
+    setTimeout(() => { document.querySelector('.sprint-display').classList.remove('sprint-display--green') }, 200);
 
   }
 
   animateFalse() {
-    document.querySelector('.sprint-container').classList.add('sprint-container--false');
-    setTimeout(() => { document.querySelector('.sprint-container').classList.remove('sprint-container--false') }, 200);
+    document.querySelector('.sprint-display').classList.add('sprint-display--red');
+    setTimeout(() => { document.querySelector('.sprint-display').classList.remove('sprint-display--red') }, 200);
   }
 
   showTime(time) {
@@ -69,11 +69,32 @@ export default class SprintView {
     if (this.timer) { this.timer.innerHTML = time; }
   }
 
-  showFinalStat(username, score, errors) {
+  showFinalStat(score, errors) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
-    document.querySelector('.sprint-result-header').innerHTML = `${username}, Ваш результат:`
-    document.querySelector('.sprint-final-score').innerHTML = score;
-    document.querySelector('.sprint-user-mistakes').innerHTML = `Ошибок ${errors.length}`;
+    this.addCloseBtn();
+    this.mainContainer.classList.remove('sprint-game-bgr');
+    document.querySelector('.sprint-result-header').innerHTML = `Результат игры`
+    document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
+    if (errors.length > 0) {
+      document.querySelector('.sprint-user-mistakes').innerHTML = `Ошибок ${errors.length}`;
+      this.mistakesContainer = document.createElement('div')
+      this.mistakesContainer.className = 'sprint-mistaken-words';
+      document.querySelector('.sprint-statistics').appendChild(this.mistakesContainer);
+      errors.forEach((el) => {
+        const word = document.createElement('span');
+        console.log(el.word);
+        word.innerHTML = ` ${el.word} `;
+        this.mistakesContainer.appendChild(word);
+
+      })
+    }
+  }
+  addCloseBtn() {
+    this.mainContainer.insertAdjacentHTML('afterbegin', this.closeBtn);
+    document.querySelector('.closeBtn').addEventListener('click', () => {
+      this.mainContainer.innerHTML = '';
+
+    })
   }
 }

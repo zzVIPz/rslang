@@ -1,20 +1,14 @@
 import MainModel from '../../../models/mainModel';
 
-const BASE_DATA_URL = 'https://afternoon-falls-25894.herokuapp.com/words?';
-
 export default class SprintModel {
   constructor() {
-    this.baseUrl = BASE_DATA_URL;
     this.mainModel = new MainModel();
   }
 
-  async getInitialWordArray(level, round) {
-    this.url = `${this.baseUrl}group=${level}&page=${round}`;
-    this.resp = await fetch(this.url);
-    console.log(this.resp);
-    this.jsonData = await this.resp.json();
-    console.log(this.jsonData);
-    return this.makeWorkingArr(this.jsonData);
+  async getWordsArray(level, round) {
+    this.wordsArray = await this.mainModel.getWords(level, round);
+    console.log(this.wordsArray);
+    return this.makeWorkingArr(this.wordsArray);
   }
 
   async getCurrenttUser() {

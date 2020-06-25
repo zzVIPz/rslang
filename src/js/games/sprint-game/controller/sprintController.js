@@ -6,6 +6,9 @@ export default class SprintController {
   constructor() {
     this.view = new SprintView();
     this.model = new SprintModel();
+    this.level = 0;
+    this.round = 0;
+
   }
 
   init() {
@@ -13,6 +16,8 @@ export default class SprintController {
   }
 
   async prelaunch() {
+    clearTimeout(this.timer);
+
     this.currentWordIndex = 0;
     this.score = 0;
     this.points = 10;
@@ -22,11 +27,10 @@ export default class SprintController {
 
     this.userData = await this.model.getCurrenttUser();
     this.username = this.userData.username;
-    console.log(this.username);
-    this.wordsArray = await this.model.getInitialWordArray(0, 1);
-    console.log(this.wordsArray.length);
+    this.wordsArray = await this.model.getWordsArray(this.level, this.round);
+    console.log(this.wordsArray);
     if (this.wordsArray.length > 0) {
-      this.view.renderStartLayout();
+      this.view.renderStartLayout(this.username);
       document.querySelector('.sprint-button--start')
         .addEventListener('click', () => {
           this.startGame();
@@ -50,7 +54,7 @@ export default class SprintController {
       this.points,
       this.rightAnswersCount,
     );
-    // this.startCountdown(60);
+    this.startCountdown(60);
   }
 
   handleEvent(event) {
@@ -84,7 +88,6 @@ export default class SprintController {
         this.rightAnswersCount = 0;
       }
       this.score += this.points;
-      console.log(this.rightAnswersCount);
       this.view.animateTrue();
     } else {
       this.points = 10;
@@ -95,8 +98,9 @@ export default class SprintController {
   }
 
   endGame() {
+    clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
-    this.view.showFinalStat(this.username, this.score, this.faultyWords);
+    this.view.showFinalStat(this.score, this.faultyWords);
     document.querySelector('.sprint-button--repeate')
       .addEventListener('click', () => { this.prelaunch(); });
   }
@@ -106,7 +110,8 @@ export default class SprintController {
     this.current -= 1;
     if (this.current > 0) {
       this.view.showTime(this.current);
-      setTimeout(this.startCountdown.bind(this), 1000, this.current);
+      this.timer = setTimeout(this.startCountdown.bind(this), 1000, this.current);
+      console.log(this.timer);
     } else {
       this.endGame();
     }
