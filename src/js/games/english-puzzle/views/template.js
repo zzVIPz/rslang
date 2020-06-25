@@ -32,7 +32,7 @@ const template = `
         </div>
         <div class="ep-board-wrapper">
           <div class="ep-numbers"></div>
-          <div class="ep-board"></div>
+          <div id="board" class="ep-board"></div>
         </div>
         <div class="ep-wrapper">
           <div id="playField" class="ep-play__field ep-board__line drag-container"></div>
@@ -41,6 +41,7 @@ const template = `
           <button id="skipBtn" class="ep__button" name="skip">I don't know</button>
           <button id="checkBtn" class="ep__button ep-hidden" name="check">Check</button>
           <button id="continueBtn" class="ep__button ep-hidden" name="continue">Continue</button>
+          <button id="resultsBtn" class="ep__button ep-hidden" name="results">Results</button>
         </div>
         <div class="ep-modal ep-modal_hidden">
           <div class="ep-modal__body ep-modal_hidden">

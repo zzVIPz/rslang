@@ -24,6 +24,8 @@
   width: 100%;
   border-radius: 8px;
   border: 1px solid lightpink;
+  width: calc(100% - 35px);
+  max-height: 521px;
   &__line {
     width: calc(100% + 22px);
     display: flex;
@@ -68,6 +70,7 @@
 .ep-numbers {
   display: flex;
   flex-direction: column;
+  width: 35px;
 }
 
 .ep-wrapper {

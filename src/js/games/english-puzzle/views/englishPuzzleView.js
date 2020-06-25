@@ -16,6 +16,7 @@ export default class EnglishPuzzleView {
     this.domElements = {};
     this.img = new Image();
     this.img.src = '/src/assets/images/ep-icons/scream.jpg';
+    this.paintingName = 'Иван Айвазовский - Девятый вал (1850г)';
   }
 
   render() {
@@ -23,69 +24,73 @@ export default class EnglishPuzzleView {
     this.domElements.skipButton = document.getElementById('skipBtn');
     this.domElements.checkButton = document.getElementById('checkBtn');
     this.domElements.continueBtn = document.getElementById('continueBtn');
+    this.domElements.resultsBtn = document.getElementById('resultsBtn');
     this.domElements.playField = document.getElementById('playField');
     this.domElements.sentenceTranslate = document.getElementById('sentenceTranslate');
     this.domElements.tipTranslate = document.getElementById('tipTranslate');
     this.domElements.tipBackground = document.getElementById('tipBackground');
+    this.domElements.board = document.getElementById('board');
     this.boardWidth = this.domElements.playField.offsetWidth;
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
 
+    this.switchTipButtons();
+
     if (this.currentSentence < 10) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
-    }
+      splitSentencesData.forEach((el, id) => {
+        const elem = document.createElement('div');
+        const lineNumberBlock = document.createElement('div');
+        let posOffset = 0;
 
-    this.switchTipButtons();
-
-    splitSentencesData.forEach((el, id) => {
-      const elem = document.createElement('div');
-      const lineNumberBlock = document.createElement('div');
-      let posOffset = 0;
-
-      if (this.currentSentence === 10 && id === 0) {
-        elem.classList.add('ep-board__line_active');
-        elem.classList.add('drag-container');
-      }
-      if (id === this.currentSentence) {
-        lineNumberBlock.classList.add('ep-board__line_number-active');
-        elem.classList.add('ep-board__line_active');
-        elem.classList.add('drag-container');
-      }
-      elem.classList.add('ep-board__line');
-      lineNumberBlock.classList.add('ep-board__line_number');
-
-      lineNumberBlock.textContent = splitSentencesData.indexOf(el) + 1;
-      lineNumbersWrapper.append(lineNumberBlock);
-
-      document.querySelector('.ep-board').append(elem);
-      el.splitSentence.forEach((word) => {
-        const elem2 = document.createElement('div');
-        const elWidth = getElementWidth(this.boardWidth, el.lettersCount, word.length);
-        elem2.style.width = `${elWidth}px`;
-        elem2.classList.add('ep-sentences-word');
-        elem2.classList.add('Block--isDraggable');
-        elem2.textContent = word.wordName;
-        elem2.dataset.posOffset = posOffset;
-        elem2.dataset.line = word.line;
-        elem2.dataset.pos = word.pos;
-        const puzzleCanvas = createPuzzle(elWidth);
-        elem2.append(puzzleCanvas);
-
-        if (id < this.currentSentence) {
-          this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset, id, word.wordName, true);
-          elem.append(elem2);
-        }
         if (id === this.currentSentence) {
-          this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset,
-            id, word.wordName, this.tipBackground);
-          this.domElements.playField.append(elem2);
+          lineNumberBlock.classList.add('ep-board__line_number-active');
+          elem.classList.add('ep-board__line_active');
+          elem.classList.add('drag-container');
         }
-        posOffset += elWidth;
-      });
-      shuffle(this.domElements.playField);
-    });
+        elem.classList.add('ep-board__line');
+        lineNumberBlock.classList.add('ep-board__line_number');
 
+        lineNumberBlock.textContent = splitSentencesData.indexOf(el) + 1;
+        lineNumbersWrapper.append(lineNumberBlock);
+
+        document.querySelector('.ep-board').append(elem);
+        el.splitSentence.forEach((word) => {
+          const elem2 = document.createElement('div');
+          const elWidth = getElementWidth(this.boardWidth, el.lettersCount, word.length);
+          elem2.style.width = `${elWidth}px`;
+          elem2.classList.add('ep-sentences-word');
+          elem2.classList.add('Block--isDraggable');
+          elem2.textContent = word.wordName;
+          elem2.dataset.posOffset = posOffset;
+          elem2.dataset.line = word.line;
+          elem2.dataset.pos = word.pos;
+          const puzzleCanvas = createPuzzle(elWidth);
+          elem2.append(puzzleCanvas);
+
+          if (id < this.currentSentence) {
+            this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset, id, word.wordName, true);
+            elem.append(elem2);
+          }
+          if (id === this.currentSentence) {
+            this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset,
+              id, word.wordName, this.tipBackground);
+            this.domElements.playField.append(elem2);
+          }
+          posOffset += elWidth;
+        });
+        shuffle(this.domElements.playField);
+      });
+    } else {
+      this.domElements.board.innerHTML = '';
+      this.domElements.board.append(this.img);
+      this.domElements.sentenceTranslate.textContent = this.paintingName;
+      this.domElements.skipButton.classList.add('ep-hidden');
+      this.domElements.continueBtn.classList.remove('ep-hidden');
+      this.domElements.playField.classList.add('ep-board__line_active');
+      this.domElements.resultsBtn.classList.remove('ep-hidden');
+    }
     this.domElements.activeLine = document.querySelector('.ep-board__line_active');
     this.addDragAndDrop();
     this.addListeners();
@@ -189,20 +194,20 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.continueBtn.addEventListener('click', () => {
-      this.currentSentence += 1;
-      this.domElements.continueBtn.classList.add('ep-hidden');
-      this.render();
-    });
-
-    this.domElements.skipButton.addEventListener('click', () => {
       if (this.currentSentence === 10) {
-        alert('Round end!');
         this.currentSentence = 0;
+        this.domElements.continueBtn.classList.add('ep-hidden');
         this.render();
       } else {
         this.currentSentence += 1;
+        this.domElements.continueBtn.classList.add('ep-hidden');
         this.render();
       }
+    });
+
+    this.domElements.skipButton.addEventListener('click', () => {
+      this.currentSentence += 1;
+      this.render();
     });
 
     this.domElements.tipTranslate.addEventListener('click', () => {
@@ -227,7 +232,7 @@ export default class EnglishPuzzleView {
       if (event.target.classList.contains('Block--isClickable')) {
         this.domElements.activeLine.append(event.target.parentElement);
       }
-      if (this.domElements.playField.childNodes.length === 0) {
+      if (this.domElements.playField.childNodes.length === 0 && event.target.classList.contains('Block--isClickable')) {
         this.domElements.checkButton.classList.remove('ep-hidden');
         this.domElements.skipButton.classList.add('ep-hidden');
       }
