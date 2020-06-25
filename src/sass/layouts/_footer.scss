@@ -1,0 +1,11 @@
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  height: 47px;
+
+  background-image: $color-header;
+}
