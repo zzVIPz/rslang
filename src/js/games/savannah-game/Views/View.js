@@ -25,7 +25,6 @@ class SavannahView {
     this.backgroundPositionY = 100;
     this.cristalWidth = 30;
     this.removeDigits = /\d/g;
-    this.wordsPerLevelAPI = [454, 415, 407, 296, 294, 251];
     this.maxRound = 6;
   }
 
@@ -40,6 +39,155 @@ class SavannahView {
     document.body.style.backgroundPositionY = '100%';
     this.mainContainer.innerHTML = this.renderGameLayout();
     this.renderRating();
+    this.addListeners();
+    this.gameStatistics.init(this, this.mainView, this.model);
+  }
+
+  addListeners() {
+    this.closeBtn = document.querySelector('.close');
+    this.cancelBtn = document.querySelector('.app__modal__box_cancel');
+    this.backToMianBtn = document.querySelector('.app__button_close');
+    this.startBtn = document.querySelector('.app__button');
+    this.rating = document.querySelectorAll('.rating__input');
+    this.openModal();
+    this.closeModal();
+    this.backToMainPage();
+    this.getLevelsId();
+    this.getRound();
+    this.clickStartGameBtn();
+  }
+
+  openModal() {
+    this.closeBtn.addEventListener('click', () => {
+      this.displayModal();
+    });
+  }
+
+  closeModal() {
+    this.cancelBtn.addEventListener('click', () => {
+      this.hideModal();
+    });
+  }
+
+  backToMainPage() {
+    this.backToMianBtn.addEventListener('click', () => {
+      this.renderBackToMain();
+      this.mainView.renderMain(this.currentUser);
+    });
+  }
+
+  clickStartGameBtn() {
+    this.startBtn.addEventListener('click', () => {
+      window.removeEventListener('keyup', this.onKeyUp);
+      this.chosenLevel = this.level;
+      this.chosenRound = this.round;
+      console.log('Chosen round:', this.chosenRound);
+      this.addPreloader();
+      setTimeout(this.preloaderCountDown.bind(this), 1000);
+      this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
+        .then((data) => {
+          this.model.getWordsAndTranslation(data);
+          this.model.getWordIdsAndAudio(data);
+        });
+    });
+  }
+
+  addPreloader() {
+    this.appContent = document.querySelector('.app__content');
+    document.querySelector('.app').removeChild(document.querySelector('.rating__container'));
+    this.appContent.innerHTML = this.renderPreloader();
+  }
+
+  preloaderCountDown() {
+    this.countNumber = this.countTillOne();
+
+    if (this.countNumber > 0) {
+      document.querySelector('.countdown').innerHTML = this.countNumber;
+      setTimeout(this.preloaderCountDown.bind(this), 1000);
+    } else {
+      this.gameMode();
+    }
+  }
+
+  gameMode() {
+    if (this.countNumber < 1) {
+      this.clickTranslation();
+      this.addKeyUpListener();
+    }
+  }
+
+  checkRightTranslation(translationEl) {
+    const rightAnswer = true;
+    const wrongAnswer = false;
+
+    if (translationEl) {
+      const answer = (translationEl.textContent).replace(this.removeDigitsRegExp, '');
+      const result = this.model.isRightTranslation(answer);
+
+      if (result === rightAnswer) {
+        console.log('it is correct answer');
+        this.rightTranslationActions(translationEl, rightAnswer);
+      } else {
+        console.log('it is wrong answer');
+        console.log(this.model.wrongAnswer);
+        this.wrongTranslationActions(translationEl, wrongAnswer, rightAnswer);
+      }
+
+      setTimeout(this.nextWord.bind(this), 1000);
+    }
+  }
+
+  rightTranslationActions(translationEl, rightAnswer) {
+    this.moveBackground();
+    this.resizeCristal();
+    this.highlightAnswer(translationEl, rightAnswer);
+    clearInterval(this.id);
+    this.flyingWord.classList.add('flying-word_hide');
+    this.bangOnRightAnswer();
+
+    setTimeout(this.removeHighlight.bind(this), 1000, translationEl, rightAnswer);
+
+    this.gameStatistics.appendCorrectAnswer(this.randomEngWord, this.model.correctAnswer);
+  }
+
+  wrongTranslationActions(translationEl, wrongAnswer, rightAnswer) {
+    this.correctHTMLEl = this.findCorrectAnswerHTMLel();
+    this.highlightAnswer(translationEl, wrongAnswer);
+    this.highlightAnswer(this.correctHTMLEl, rightAnswer);
+    clearInterval(this.id);
+    this.flyingWord.classList.add('flying-word_hide');
+
+    setTimeout(this.removeHighlight.bind(this), 1000, translationEl, wrongAnswer);
+    setTimeout(this.removeHighlight.bind(this), 1000, this.correctHTMLEl, rightAnswer);
+    this.removeLives(this.model.wrongAnswer);
+
+    this.gameStatistics.appendWrongAnswer(this.randomEngWord, this.model.correctAnswer);
+  }
+
+  clickTranslation() {
+    const translationBox = document.querySelector('.app__content__translation-box');
+    this.listener1 = this.listenerOnTranslationBox.bind(this);
+    translationBox.addEventListener('click', this.listener1);
+  }
+
+  listenerOnTranslationBox({ target }) {
+    if (this.pos < 150) {
+      this.model.getCurrentWordId();
+      this.model.getCurrentAudioUrl();
+      console.log(this.model.currentWordAudio);
+      target.classList.add('noHover');
+      this.checkRightTranslation(target);
+    }
+  }
+
+  addKeyUpListener() {
+    this.onKeyUp = this.checkTransalationOnKeyUp.bind(this);
+    window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  checkTransalationOnKeyUp(event) {
+    const translationEl = this.getClickedWord(event.key);
+    this.checkRightTranslation(translationEl);
   }
 
   displayModal() {
@@ -137,7 +285,6 @@ class SavannahView {
 
   frame() {
     const rightAnswer = true;
-
     if (this.pos === 150 && this.model.isGameOn) {
       clearInterval(this.id);
       this.flyingWord.classList.add('flying-word_hide');
@@ -222,20 +369,14 @@ class SavannahView {
     starsRound.addEventListener('click', ({ target }) => {
       if (target.classList.contains('round')) {
         this.round = getDifficultyLevelRoundId(target);
-        console.log('Round', this.round);
-        const totalPages = Math.trunc(this.wordsPerLevelAPI[this.level]
-          / this.currentUser.cardsTotal);
-        console.log('Total', totalPages);
-        const pagesPerRound = Math.trunc(totalPages / this.maxRound);
-        this.round = this.round * pagesPerRound + randomIntegerForPages(pagesPerRound);
-        // this.round = this.round * 5 + randomIntegerForPages();
+        this.round = this.round * 5 + randomIntegerForPages();
         console.log('page', this.round);
       }
     });
   }
 
   moveBackground() {
-    this.backgroundPositionY -= this.model.moveBackgroundPercentage;
+    this.backgroundPositionY -= 5;
     document.body.style.backgroundPositionY = `${this.backgroundPositionY}%`;
   }
 
@@ -304,13 +445,21 @@ class SavannahView {
   }
 
   renderGameOver(isWin) {
-    this.gameStatistics.init(this, this.mainView);
+    this.translationBox.removeEventListener('click', this.listener1);
+    document.querySelector('.statistics__container').classList.remove('hidden');
+    this.gameStatistics.renderWrongAnswersTitle();
+    this.gameStatistics.renderCorrectAnswerTitle();
     if (isWin) {
       this.gameStatistics.winRound();
     } else {
       this.gameStatistics.loseRound();
     }
   }
+
+  // working with audio 
+  /* playStartGameAudio() {
+
+  } */
 }
 
 export default SavannahView;

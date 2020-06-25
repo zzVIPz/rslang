@@ -8,25 +8,14 @@ class SavannahController {
     this.mainView = mainView;
   }
 
-  /* clickSavannahBtn() {
-    this.savannahBtn = document.querySelector('.savannah');
-    this.savannahBtn.addEventListener('click', () => {
-      this.init();
-      this.model.getCurrUser();
-      document.body.classList.add('app__background');
-      document.body.style.backgroundPositionY = '100%';
-    });
-  } */
-
   init() {
     this.model = new SavannahModel();
     this.view = new SavannahView(this.model);
     this.view.getViewUser(this.user, this.mainView);
     this.view.renderSavannah();
-    this.addListeners();
   }
 
-  addListeners() {
+  /* addListeners() {
     this.closeBtn = document.querySelector('.close');
     this.cancelBtn = document.querySelector('.app__modal__box_cancel');
     this.backToMianBtn = document.querySelector('.app__button_close');
@@ -38,28 +27,28 @@ class SavannahController {
     this.view.getLevelsId();
     this.view.getRound();
     this.clickStartGameBtn();
-  }
+  } */
 
-  openModal() {
+  /* openModal() {
     this.closeBtn.addEventListener('click', () => {
       this.view.displayModal();
     });
-  }
+  } */
 
-  closeModal() {
+  /* closeModal() {
     this.cancelBtn.addEventListener('click', () => {
       this.view.hideModal();
     });
-  }
+  } */
 
-  backToMainPage() {
+  /* backToMainPage() {
     this.backToMianBtn.addEventListener('click', () => {
       this.view.renderBackToMain();
       this.mainView.renderMain(this.user);
     });
-  }
+  } */
 
-  clickStartGameBtn() {
+  /* clickStartGameBtn() {
     this.startBtn.addEventListener('click', () => {
       window.removeEventListener('keyup', this.onKeyUp);
       this.chosenLevel = this.view.level;
@@ -75,9 +64,9 @@ class SavannahController {
           this.translationArr = this.model.translation;
         });
     });
-  }
+  } */
 
-  addPreloader() {
+  /* addPreloader() {
     this.appContent = document.querySelector('.app__content');
     document.querySelector('.app').removeChild(document.querySelector('.rating__container'));
     this.appContent.innerHTML = this.view.renderPreloader();
@@ -92,17 +81,17 @@ class SavannahController {
     } else {
       this.gameMode();
     }
-  }
+  } */
 
   // Working with data
-  gameMode() {
+  /* gameMode() {
     if (this.countNumber < 1) {
       this.clickTranslation();
       this.addKeyUpListener();
     }
-  }
+  } */
 
-  checkRightTranslation(translationEl) {
+  /* checkRightTranslation(translationEl) {
     const rightAnswer = true;
     const wrongAnswer = false;
 
@@ -163,7 +152,7 @@ class SavannahController {
   checkTransalationOnKeyUp(event) {
     const translationEl = this.view.getClickedWord(event.key);
     this.checkRightTranslation(translationEl);
-  }
+  } */
 }
 
 export default SavannahController;

@@ -48,9 +48,6 @@ export default class MainModel {
   }
 
   async setUserSettings(userId, token, settings) {
-    console.log('Id', userId);
-    console.log('token', token);
-    console.log('set', settings);
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
       {
@@ -70,14 +67,12 @@ export default class MainModel {
 
   async getWords(currentPage, currentGroup, cardsTotal) {
     this.url = getCorrectUrl(currentPage, currentGroup, cardsTotal);
-    console.log(this.url);
     const rawResponse = await fetch(this.url);
     const content = await rawResponse.json();
     return content;
   }
 
   async getUserSettings(userId, token) {
-    console.log(userId);
     this.rawResponse = await fetch(
       `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
       {

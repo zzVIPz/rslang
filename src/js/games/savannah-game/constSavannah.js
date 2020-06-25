@@ -76,8 +76,14 @@ const sparkles = `
 
 const statisticsModalLayout = `
   <div class="statistics__title"></div>
-  <div class="statistics__words-set"></div>
-  <div class="statistics__words-set"></div>
+  <div class="statistics__words-set">
+    <div class="statistics__words-set_wrong">
+      <div class="wrong_title">Ошибок</div>
+    </div>
+    <div class="statistics__words-set_correct">
+    <div class="correct_title">Знаю</div>
+    </div>
+  </div>
   <div class="statistics__continue">Продолжить тренировку</div>
   <div class="statistics__back">Вернуться к списку тренировок</div>
 `;

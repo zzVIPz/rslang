@@ -1,17 +1,13 @@
 import shuffleArray from './savannah-utils/shaffle';
 import MainModel from '../../models/mainModel';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 class SavannahModel {
   constructor() {
-    this.difficultyLevel = {
-      level: 0,
-    };
     this.wordsUrl = 'https://afternoon-falls-25894.herokuapp.com/words?';
-    this.count = 0;
     this.removeDigitsRegExp = /\d/g;
-    this.rightAnswer = 0;
-    this.wrongAnswer = 0;
     this.mainModel = new MainModel();
+    this.setDefault();
   }
 
   /* async getCurrUser(user) {
@@ -20,14 +16,13 @@ class SavannahModel {
 
   async fetchWords(user, chosenLevel, chosenRound) {
     this.currentUser = user;
-    this.totalCards = this.currentUser.cardsTotal;
-    this.moveBackgroundPercentage = 100 / this.totalCards;
     this.currentUser.currentGroup = chosenLevel || 0;
     this.currentUser.currentPage = chosenRound || 0;
 
     console.log(this.currentUser);
     const data = await this.mainModel.getWords(this.currentUser.currentPage,
-      this.currentUser.currentGroup, this.currentUser.cardsTotal);
+      this.currentUser.currentGroup);
+    console.log('data', data);
     return data;
   }
 
@@ -36,9 +31,17 @@ class SavannahModel {
     this.translation = data.map((el) => el.wordTranslate);
     this.randomArrOfIndexes = this.randomArrAndShuffle(this.wordsArr.length);
     this.isGameOn = true;
+    console.log('Translation arr', this.translation);
+    console.log('Eng words', this.wordsArr);
   }
 
-  // todo utils
+  getWordIdsAndAudio(data) {
+    this.wordsIdArr = data.map((el) => el.id);
+    this.audioArr = data.map((el) => el.audio);
+    console.log('audio', this.audioArr);
+    console.log('ids', this.wordsIdArr);
+  }
+
   randomArrAndShuffle(n) {
     this.arr = [...Array(n).keys()];
 
@@ -46,9 +49,7 @@ class SavannahModel {
   }
 
   generateTranslation() {
-    console.log('Translation arr', this.translation);
     this.correctAnswer = this.translation[this.randomArrOfIndexes[this.count]];
-    console.log('Correct Answer', this.correctAnswer);
     this.answersArr = [this.correctAnswer];
     const newArr = [...this.translation];
 
@@ -60,9 +61,16 @@ class SavannahModel {
     });
     this.answersArr = shuffleArray(this.answersArr);
     this.count += 1;
-    console.log('4 Answers:', this.answersArr);
 
     return this.answersArr;
+  }
+
+  getCurrentWordId() {
+    this.currentWordId = this.wordsIdArr[this.randomArrOfIndexes[this.count - 1]];
+  }
+
+  getCurrentAudioUrl() {
+    this.currentWordAudio = this.audioArr[this.randomArrOfIndexes[this.count - 1]];
   }
 
   findCorrectAnswerId() {
@@ -80,6 +88,19 @@ class SavannahModel {
     this.wrongAnswer += 1;
 
     return false;
+  }
+
+  setDefault() {
+    this.count = 0;
+    this.rightAnswer = 0;
+    this.wrongAnswer = 0;
+  }
+
+  async fetchMedia(key) {
+    this.mediaUrl = getMediaUrl(key);
+    const response = await fetch(this.mediaUrl);
+    const data = await response.json();
+    return data;
   }
 }
 
