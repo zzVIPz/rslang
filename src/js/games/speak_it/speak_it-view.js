@@ -88,4 +88,8 @@ export class View {
     recognition(record) {
         this.input.innerText = record;
     }
+
+    clearTranslation() {
+        this.input.innerText = '';
+    }
 }

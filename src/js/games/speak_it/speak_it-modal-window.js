@@ -24,7 +24,7 @@ export class ModalWindow {
         this.backToMianBtn.onclick = () => {
             container.innerHTML = '';
             container.style.display = 'flex';
-            container.classList.add('app__background');
+            document.body.classList.remove('app__background');
         }
     }
 

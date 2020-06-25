@@ -2,14 +2,14 @@
 .image{
     width: 423px;
     height: 283px;
-    margin: 15px auto 0;
+    margin: 0 auto;
     background-position: center;
     background-size: 423px 283px;
     border-radius: 15px;
 }
 .container_over {
-	width: 580px;
-	height: 320px;
+	max-width: 450px;
+	height: 300px;
 	background: transparent;
     margin: auto;
 }
@@ -24,6 +24,7 @@
   }
 .card_over .front {
     position: absolute;
+    margin-top: 10px;
     top: 0;
     left: 0;
     width: 100%;
@@ -48,7 +49,6 @@
       transform: rotateY(180deg);
   }
 .content {
-      padding: 1rem;
       display: flex;
       flex-direction: column;
 }
@@ -64,4 +64,13 @@
 .examples:hover{
     cursor: pointer;
     color: $color_text;
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+    .image{
+        width: 85vw;
+        height: 59vw;
+        background-size: 85vw 59vw;
+    }
 }

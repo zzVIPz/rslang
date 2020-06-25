@@ -32,3 +32,10 @@
     text-shadow: none;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
 }
+
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+    .button{
+        padding: 8px 4vw;
+    }
+}

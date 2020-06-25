@@ -1,8 +1,7 @@
-import { NumberRightAnwserForNextLevel, oneStar, container } from './speak_it-constants';
+import { NumberRightAnwserForNextLevel, oneStar, container, soundURL } from './speak_it-constants';
 import {View} from './speak_it-view';
 import {Model} from './speak_it-model';
 import {recognition} from './speak_it-recognition'
-import { Modal } from './speak_it-modal-window';
 import { ModalWindow } from './speak_it-modal-window';
 
 export class Controller {
@@ -58,12 +57,16 @@ export class Controller {
         const newModel = this.model;
         const newController = this;
         this.cards.forEach(card => card.addEventListener('click', function() {
-            newModel.chooseWord = newModel.datasWords[this.querySelector('.word').id];
-            Array.from(document.querySelectorAll('.card')).forEach(card => card.classList.remove('choosen'));
-            this.classList.add('choosen');
-            newView.selectCard(this, newModel);
-            newController.currentID = this.id
-            newController.currentWord = this.querySelector('.word').innerText
+            if (newController.cards.includes(card)){
+                newView.clearTranslation();
+                newModel.chooseWord = newModel.datasWords[this.querySelector('.word').id];
+                Array.from(document.querySelectorAll('.card')).forEach(card => card.classList.remove('choosen'));
+                this.classList.add('choosen');
+                newView.selectCard(this, newModel);
+                newController.currentID = this.id
+                newController.currentWord = this.querySelector('.word').innerText
+            }
+            
         }));
         
     }
@@ -83,9 +86,18 @@ export class Controller {
                 if(this.model.checkResult(result)) {
                     this.addToCorrectArray(this.currentID, this.currentWord);
                     this.view.result.innerHTML += oneStar;
-                    this.addedRightAnwser()
+                    this.addedRightAnwser();
+                    this.playCorrectAnwser();
+                    let correctelement = document.querySelector('.choosen');
+                    for (let i = 0 ; i < this.cards.length ; i++) {
+                        if (this.cards[i] === correctelement) {
+                            delete this.cards[i];
+                        }
+                    }
+                    this.cards
                 }else{
                     this.addToWrongArray(this.currentID, this.currentWord);
+                    this.playWrongAnwser();
                 }
                 return false;
         })
@@ -136,8 +148,12 @@ export class Controller {
             modal.toggelModalWindov()
         }
     }
-  
-
-   
-
+    playCorrectAnwser() {
+        let audio = new Audio(soundURL + 'speak_it-clear.mp3')
+        audio.play();
+    }
+    playWrongAnwser() {
+        let audio = new Audio(soundURL + 'speak_it-error.mp3')
+        audio.play();
+    }
 }

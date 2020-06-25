@@ -8,7 +8,7 @@ import {StartingClass} from './speak_it-starting-page';
 import {Controller} from './speak_it-controller';
 
 export function startSpeakItGame() {
-    container.classList.add('app__background');
+    document.body.classList.add('app__background');
     container.style.display = 'block';
     container.innerHTML = preloader;
     setTimeout(runStartPage(), timeForPreloader)

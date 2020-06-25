@@ -1,6 +1,6 @@
 export const speakItStartPage = `
 <div class="app">
-    <div class="app__header">
+    <div class="header_close">
       <a href="#" class="close"></a>
     </div>
     <div class="raiting_container">
@@ -59,7 +59,7 @@ export const NumberOfMisForCorrectAnwser = 1;
 export const NumberRightAnwserForNextLevel = 10;
 export const speakItGame = 
 ` 
-<div class="app__header">
+<div class="header_close">
 <a href="#" class="close"></a>
 </div>
 

@@ -48,3 +48,24 @@
 .app__modal{
   display: block;
 }
+
+.header_close {
+  position: sticky;
+  padding: 0 20px;
+  transition: background-color 0.2s cubic-bezier(0, -1.85, 0.27, 1.75);
+}
+
+
+@media only screen and (max-width: 1050px) {
+  .raiting_container {
+      position: inherit;
+      margin: auto;
+      width: 230px;
+      margin-top: 15px;
+  }
+
+  .raiting_row, .text, .result {
+      justify-content: center;
+      text-align: center;
+  }
+}

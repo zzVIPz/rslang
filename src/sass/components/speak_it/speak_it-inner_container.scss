@@ -12,11 +12,11 @@
 }
 .inner_container{
     display: flex;
-    width: 300px;
+    width: 27vw;
     margin: auto;
 }
 .icon{
-    width: 33px;
+    width: 40px;
     height: 33px;
     background-size: 33px;
     background-repeat: no-repeat;
@@ -36,7 +36,7 @@
 }
 .inner{
     margin: 13px auto;
-    width: 25vw;
+    width: 22vw;
     height: 22px;
     display: block;
     border: 0;
@@ -49,4 +49,22 @@
 }
 .not_display{
     display: none!important;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 600px) {
+    .inner_container{
+        width: 60vw;
+    }
+    .inner{
+        width: 50vw;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+    .inner_container{
+        width: 40vw;
+    }
+    .inner{
+        width: 35vw;
+    }
 }
