@@ -1,8 +1,26 @@
-import { CONST_MAIN_VIEW as constMainView, getModalTemplate } from '../constants/constMainView';
+import {
+  MENU_ITEMS_NAMES,
+  SETTING_MODAL_TEXT,
+  MAIN_TEXT,
+  SWIPER_TEMPLATE,
+} from '../constants/constMainView';
+import getMainTemplate from '../utils/getMainTemplate';
+import getNavLinkTemplate from '../utils/getNavLinkTemplate';
+import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
+import toggleDisplay from '../utils/toggleDisplay';
+import Card from '../components/card/cardController';
 
 export default class MainView {
   constructor() {
     this.onLogOut = null;
+    this.onBtnStartClick = null;
+    this.onButtonAcceptClick = null;
+    this.onButtonCancelClick = null;
+    this.onBtnSettingsClick = null;
+    this.onBurgerMenuClick = null;
+    this.onLogOutClick = null;
+    this.onOverlayClick = null;
+    this.onBtnSpeakerClick = null;
     this.burgerMenu = document.querySelector('.burger-menu');
     this.header = document.querySelector('.header');
     this.headerNavigation = document.querySelector('.header__navigation');
@@ -10,6 +28,7 @@ export default class MainView {
     this.userTool = document.querySelector('.user-tool');
     this.speaker = document.querySelector('.user-tool__button-speaker');
     this.settings = document.querySelector('.user-tool__button-settings');
+    this.main = document.querySelector('.main');
   }
 
   init() {
@@ -21,18 +40,129 @@ export default class MainView {
   addListeners() {
     this.addBurgerMenuClickHandler();
     this.addNavigationLinkClickHandler();
-    this.addOverlayPressHandler();
-    this.addUserToolHandler();
+    this.addOverlayClickHandler();
+    this.addUserToolClickHandler();
+    this.addBtnEnterHandler();
+  }
+
+  renderMain(user) {
+    const formattedTemplate = getMainTemplate(user, MAIN_TEXT);
+    this.main.innerHTML = formattedTemplate;
+    this.btnStartLearning = document.querySelector('.btn-start');
+    this.btnStartLearning.addEventListener('click', () => {
+      this.onBtnStartClick(user);
+    });
+  }
+
+  renderSwiperTemplate() {
+    this.main.innerHTML = SWIPER_TEMPLATE;
+  }
+
+  setFocusToInput(currentSlide = this.getCurrentSlide()) {
+    if (currentSlide) {
+      setTimeout(() => {
+        this.getCurrentInputNode(currentSlide).focus();
+      }, 300);
+    }
+  }
+
+  getCurrentSlide() {
+    let card;
+    if (this.swiper) {
+      const ind = this.swiper.realIndex;
+      card = this.swiper.slides[ind];
+    }
+    return card;
+  }
+
+  getUserAnswer(currentSlide = this.getCurrentSlide()) {
+    return currentSlide ? this.getCurrentInputNode(currentSlide).value : null;
+  }
+
+  getCurrentInputNode = (currentSlide) => {
+    let inputNode;
+    const nodes = currentSlide.querySelectorAll('.card__input-container');
+    nodes.forEach((node) => {
+      if (!node.classList.contains('hidden')) {
+        inputNode = node.querySelector('.card__input-text');
+      }
+    });
+    return inputNode;
+  };
+
+  renderCards(words, user, swiper) {
+    this.swiper = swiper;
+    words.forEach((word) => {
+      const card = new Card(word, user);
+      this.swiper.appendSlide(card.renderTemplate());
+    });
   }
 
   renderMenu() {
-    constMainView.menuItems.forEach((link) => {
-      const template = getModalTemplate(link);
+    Object.values(MENU_ITEMS_NAMES).forEach((link) => {
+      const template = getNavLinkTemplate(link);
       this.navigation.innerHTML += template;
     });
   }
 
-  addUserToolHandler() {
+  showSettingsModal(user) {
+    this.settings.classList.toggle('user-tool__button-settings--active');
+    const formattedTemplate = getModalSettingsTemplate(user, SETTING_MODAL_TEXT);
+    const modal = document.createElement('div');
+    modal.classList.add('settings__overlay');
+    modal.innerHTML = formattedTemplate;
+    this.main.append(modal);
+  }
+
+  addSettingsModalListeners() {
+    const modal = document.querySelector('.settings');
+    modal.addEventListener('click', (e) => {
+      this.onModalClick(e);
+    });
+
+    this.totalCards = document.getElementById('cards-amount');
+    this.totalCards.addEventListener('focusout', () => {
+      this.onInputComplete();
+    });
+    this.wordAmount = document.getElementById('word-amount');
+    this.wordAmount.addEventListener('focusout', () => {
+      this.onInputComplete();
+    });
+    this.btnAccept = document.querySelector('.btn-accept');
+    this.btnAccept.addEventListener('click', () => {
+      this.onButtonAcceptClick();
+    });
+    this.btnCancel = document.querySelector('.btn-cancel');
+    this.btnCancel.addEventListener('click', () => {
+      this.onButtonCancelClick();
+    });
+  }
+
+  checkUserSettings() {
+    if (this.totalCards.value > 100) {
+      this.totalCards.value = 100;
+    }
+    if (this.totalCards.value < 5) {
+      this.totalCards.value = 5;
+    }
+    if (+this.totalCards.value < this.wordAmount.value) {
+      this.wordAmount.value = this.totalCards.value;
+    }
+    this.wordAmount.setAttribute('max', this.totalCards.value);
+    if (this.wordAmount.value < 5) {
+      this.wordAmount.value = 5;
+    }
+  }
+
+  closeSettingsModal() {
+    this.settings.classList.toggle('user-tool__button-settings--active');
+    this.modal = document.querySelector('.settings__overlay');
+    if (this.modal) {
+      this.modal.remove();
+    }
+  }
+
+  addUserToolClickHandler() {
     this.userTool.addEventListener('click', (e) => {
       const { target } = e;
       if (target.classList.contains('user-tool__button-log-out')) {
@@ -48,31 +178,33 @@ export default class MainView {
   }
 
   addNavigationLinkClickHandler() {
-    this.navigation.addEventListener('click', (event) => {
-      const dataName = event.target.dataset.name;
-      // todo refactor after final menu elements
-      if (dataName === 'log-out') {
-        this.onLogOutClick();
-        this.showIndexPage();
-      }
-      if (!event.target.classList.contains('navigation')) {
+    this.navigation.addEventListener('click', (e) => {
+      this.onNavigationLinkClick(e);
+      if (!e.target.classList.contains('navigation')) {
         this.toggleMenuProperty();
       }
     });
   }
 
-  addOverlayPressHandler() {
+  addOverlayClickHandler() {
     this.headerNavigation.addEventListener('click', (event) => {
       if (event.target.classList.contains('header__navigation--active')) {
-        this.toggleMenuProperty();
+        this.onOverlayClick();
       }
     });
   }
 
   addBurgerMenuClickHandler() {
     this.burgerMenu.addEventListener('click', () => {
-      this.toggleMenuProperty();
-      this.setActiveLink();
+      this.onBurgerMenuClick();
+    });
+  }
+
+  addBtnEnterHandler() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        this.onBtnEnterPress();
+      }
     });
   }
 
@@ -106,16 +238,28 @@ export default class MainView {
     }
   }
 
-  onBtnSpeakerClick() {
+  toggleCardsLayout = (e) => {
+    const { target } = e;
+    if (target.id === 'transcription') {
+      toggleDisplay('.card__transcription');
+    }
+    if (target.id === 'translate') {
+      toggleDisplay('.card__text-translate', 'translate-hidden');
+    }
+    if (target.id === 'associative-picture') {
+      toggleDisplay('.card__image-container');
+    }
+    if (target.id === 'button-i-know') {
+      toggleDisplay('.card__know');
+    }
+    if (target.id === 'button-difficult') {
+      toggleDisplay('.card__study');
+    }
+  };
+
+  changeBtnSpeakerIcon() {
     this.speaker.classList.toggle('user-tool__button-speaker--active');
   }
 
-  onBtnSettingsClick() {
-    this.settings.classList.toggle('user-tool__button-settings--active');
-  }
-
-  onLogOutClick() {
-    this.onLogOut();
-    document.location.replace('../index.html');
-  }
+  showIndexPage = () => document.location.replace('../index.html');
 }

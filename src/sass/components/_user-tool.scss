@@ -1,6 +1,8 @@
 .user-tool {
   right: 60px;
 
+  display: flex;
+  flex-wrap: nowrap;
   margin-right: 40px;
 
   &__button-speaker {

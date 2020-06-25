@@ -1,6 +1,8 @@
-import CONST_INDEX_VIEW from '../constants/constIndexView';
+import LOGIN_FORM_TEXT from '../constants/constAuthView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
+import getModalErrorTemplate from '../utils/getModalErrorTemplate';
+import getLoginFormText from '../utils/getLoginFormText';
 
 /* todo:  */
 import EnglishPuzzleController from '../games/english-puzzle/controllers/englishPuzzleController';
@@ -17,28 +19,34 @@ export default class IndexView {
     this.password = document.getElementById('password');
     this.loginSelection = document.querySelector('.form__login-message');
     this.formButton = document.querySelector('.form__button');
-    this.constIndexView = CONST_INDEX_VIEW;
-    this.logIn = this.constIndexView.mode.logIn;
-    this.signUp = this.constIndexView.mode.signUp;
-    this.mode = this.logIn;
+    this.mode = true;
     this.modal = true;
     this.onSignIn = null;
     this.onRegistration = null;
   }
 
-  setText(data) {
+  setText() {
     this.name.classList.toggle('user-name--active');
-    this.formButton.setAttribute('value', data[2]);
-    const formattedTemplate = this.constIndexView.getLoginFormTemplate(data[0], data[1]);
-    this.loginMessage.innerHTML = formattedTemplate;
+    if (this.mode) {
+      this.formButton.setAttribute('value', LOGIN_FORM_TEXT.btnLogInText);
+      const formattedTemplate = getLoginFormText(
+        LOGIN_FORM_TEXT.newUserText,
+        LOGIN_FORM_TEXT.btnSingUpText,
+      );
+      this.loginMessage.innerHTML = formattedTemplate;
+    } else {
+      this.formButton.setAttribute('value', LOGIN_FORM_TEXT.btnSingUpText);
+      const formattedTemplate = getLoginFormText(
+        LOGIN_FORM_TEXT.existingUserText,
+        LOGIN_FORM_TEXT.btnLogInText,
+      );
+      this.loginMessage.innerHTML = formattedTemplate;
+    }
   }
 
   showModalMessage(message) {
     const code = message.code.replace(/-/g, ' ').slice(5);
-    const formattedTemplate = this.constIndexView.getModalTemplate(
-      code.toUpperCase(),
-      message.message,
-    );
+    const formattedTemplate = getModalErrorTemplate(code.toUpperCase(), message.message);
     this.main.insertAdjacentHTML('afterBegin', formattedTemplate);
   }
 
@@ -62,13 +70,8 @@ export default class IndexView {
   addLoginSelectionClickHandler() {
     this.loginSelection.addEventListener('click', () => {
       this.setDefaultState();
-      if (this.mode === this.logIn) {
-        this.setText(this.constIndexView.existingUserText);
-        this.mode = this.signUp;
-      } else {
-        this.setText(this.constIndexView.newUserText);
-        this.mode = this.logIn;
-      }
+      this.mode = !this.mode;
+      this.setText();
     });
   }
 
@@ -90,7 +93,7 @@ export default class IndexView {
   addBtnFormClickHandler() {
     this.formButton.addEventListener('click', () => {
       if (!this.checkUserData()) {
-        if (this.mode === this.logIn) {
+        if (this.mode) {
           this.onSignIn(this.email.value, this.password.value);
         } else {
           this.onRegistration(this.name.value, this.email.value, this.password.value);
@@ -99,17 +102,14 @@ export default class IndexView {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  showMainPage() {
-    document.location.replace('../pages/main.html');
-  }
+  showMainPage = () => document.location.replace('../pages/main.html');
 
   closeModalWindow() {
     if (this.modal) {
       this.modal = false;
       this.addButtonCloseModalClickHandler();
+      this.setTimeoutModalClose();
     }
-    this.setSetTimeout();
   }
 
   checkUserData() {
@@ -122,7 +122,7 @@ export default class IndexView {
       errorCounter += 1;
       this.showEmailErrorMessage();
     }
-    if (this.mode === this.signUp) {
+    if (!this.mode) {
       if (!this.name.value) {
         errorCounter += 1;
         this.showNameErrorMessage();
@@ -172,17 +172,16 @@ export default class IndexView {
     });
   }
 
-  setSetTimeout() {
+  setTimeoutModalClose() {
     this.modalTimer = setTimeout(() => {
       this.removeModalWindow();
-    }, 3000);
+    }, 3500);
   }
 
-  removeModalWindow() {
+  removeModalWindow = () => {
     const modal = document.querySelector('.modal');
-    clearTimeout(this.modalTimer);
     if (modal) {
       modal.remove();
     }
-  }
+  };
 }

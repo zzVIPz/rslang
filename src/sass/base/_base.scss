@@ -14,5 +14,9 @@ body {
   background-blend-mode: multiply, multiply;
 
   @extend %font-prim;
-  @include font($size: 1.6rem, $height: 1.25rem, $weight: normal);
+  @include font($size: 1.6rem, $height: 1.85rem, $weight: normal);
+}
+
+.hidden {
+  display: none;
 }
