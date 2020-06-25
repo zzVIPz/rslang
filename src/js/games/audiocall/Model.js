@@ -2,13 +2,10 @@ import MainModel from '../../models/mainModel';
 
 class AudiocallModel {
     constructor() {
-        this.difficultyLevel = {
-            level: 0,
-          };
-          this.wordsUrl = 'https://afternoon-falls-25894.herokuapp.com/words?';
-          this.rightAnswer = 0;
-          this.wrongAnswer = 0;
-          this.mainModel = new MainModel();
+      this.rightAnswer = 0;
+      this.wrongAnswer = 0;
+      this.indexPositionAnswer = [0, 1, 2, 3];
+      this.mainModel = new MainModel();
     }
 
     async fetchWords(chosenLevel, chosenRound) {
@@ -37,6 +34,18 @@ class AudiocallModel {
         this.audioSrc = data.map((el) => el.audio);
         this.audioArr = this.audioSrc.map(el => this.mainModel.getMedia(el));
         this.translate = data.map((el) => el.wordTranslate);
+      }
+
+      async  getWordsForAnswers(words) {
+        const url = `https://rhymebrain.com/talk?function=getRhymes&lang=ru&maxResults=10&word=${words}`;
+        const res = await fetch(url);
+        const dataWords = await res.json();
+        // console.log(data);
+        return dataWords;
+      }
+
+      indexPositionAnswerEl() {
+        return this.shuffle(this.indexPositionAnswer);
       }
 
       shuffle(array) {

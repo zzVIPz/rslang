@@ -57,10 +57,24 @@ class AudiocallView {
                   this.audioArr = this.model.audioArr;
                   this.translate = this.model.translate;
                   this.lengthWordsArr = this.wordsArr.length;
+                  this.model.getWordsForAnswers(this.translate[0])
+                    .then((dataWords) => {
+                      this.WrongWordsArray = [dataWords[0].word, dataWords[2].word, dataWords[5].word];
+                      console.log(this.WrongWordsArray);
+                      this.model.indexPositionAnswerEl();
+                      console.log(this.model.indexPositionAnswer);
+                      console.dir(document.querySelector("#answer-1"));
+                      document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).childNodes[0].textContent = this.translate[0];
+                      document.querySelector(`#answer-${this.model.indexPositionAnswer[1]}`).childNodes[0].textContent = this.WrongWordsArray[0];
+                      document.querySelector(`#answer-${this.model.indexPositionAnswer[2]}`).childNodes[0].textContent = this.WrongWordsArray[1];
+                      document.querySelector(`#answer-${this.model.indexPositionAnswer[3]}`).childNodes[0].textContent = this.WrongWordsArray[2];
+                    });
                 });
                 setTimeout(() => {
                   this.loader.classList.remove('show');
                   this.gamePage.classList.add('show');
+                  this.sound(this.audioArr[0]);
+                  this.animationSpeaker();
                 },7000);
             });
         }
@@ -110,8 +124,8 @@ class AudiocallView {
 
       playAudio() {
         this.playAudioBtn.addEventListener('click', () => {
-          // this.sound('/* тут ссылка на слово */');
           this.animationSpeaker();
+          this.sound(this.audioArr[0]);
         });
       }
 
@@ -119,33 +133,34 @@ class AudiocallView {
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.53)';
           document.querySelector('.big-circle').style.transform = 'scale(0.81)';
-        }, 500);
+        }, 200);
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.61)';
           document.querySelector('.big-circle').style.transform = 'scale(0.9)';
-        }, 900);
+        }, 500);
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.51)';
             document.querySelector('.big-circle').style.transform = 'scale(0.82)';
-      }, 1300);
+      }, 1000);
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.61)';
           document.querySelector('.big-circle').style.transform = 'scale(0.9)';
-        }, 1700);
+        }, 1200);
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.67)';
           document.querySelector('.big-circle').style.transform = 'scale(0.98)';
-        }, 2100);
+        }, 1500);
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.7)';
           document.querySelector('.big-circle').style.transform = 'scale(0.7)';
-        }, 2500);
+        }, 1800);
       }
-      
+
       sound(src) {
-        let audio = new Audio(); 
-        audio.src = src; 
-        audio.autoplay = true; 
+        this.audio = new Audio(); 
+        this.audio.crossOrigin = "anonymous"
+        this.audio.src = src; 
+        this.audio.autoplay = true;
       }
   }
   
