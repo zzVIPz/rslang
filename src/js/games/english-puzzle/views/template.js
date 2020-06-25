@@ -43,11 +43,24 @@ const template = `
           <button id="continueBtn" class="ep__button ep-hidden" name="continue">Continue</button>
           <button id="resultsBtn" class="ep__button ep-hidden" name="results">Results</button>
         </div>
-        <div class="ep-modal ep-modal_hidden">
-          <div class="ep-modal__body ep-modal_hidden">
-            <div class="ep-modal__image"><img></div>
-            <div class="ep-modal__description">Иван Айвазовский - Девятый вал (1850г)</div>
-            <div class="ep-modal__main"></div>
+        <div id="modal" class="ep-modal ep-modal_hidden">
+          <div id="modalBody" class="ep-modal__body ep-modal_hidden">
+            <div id="modalImage" class="ep-modal__image"></div>
+            <div id="modalDescription" class="ep-modal__description"></div>
+            <div id=""modalMain class="ep-modal__main">
+              <div id="wrongWordsBlock" class="ep-modal__wrong-words">
+                <div class="ep-modal__main-line">
+                  I don't know
+                  <div id="wrongWordsCount" class="ep-modal__wrong-words-count"></div>
+                </div>
+              </div>
+              <div id="rightWordsBlock" class="ep-modal__right-words">
+                <div class="ep-modal__main-line">
+                  I know
+                  <div id="rightWordsCount" class="ep-modal__right-words-count"></div>
+                </div>
+              </div>
+            </div>
             <div class="ep-modal__buttons">
               <button id="modalContinueBtn" class="ep__button" name="modalContinue">Continue</button>
             </div>

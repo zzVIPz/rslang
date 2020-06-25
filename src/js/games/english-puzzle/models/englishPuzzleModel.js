@@ -12,6 +12,7 @@ export default class EnglishPuzzleModel {
       const currentSentence = el.textExample.replace(/<[^<>]+>/g, '');
       currentSentenceData.sentence = currentSentence;
       currentSentenceData.translate = el.textExampleTranslate;
+      currentSentenceData.wordId = el.id;
       sentencesData.push(currentSentenceData);
     });
     return sentencesData;
@@ -38,6 +39,7 @@ export default class EnglishPuzzleModel {
       currentSplitSentenceObj.splitSentence = currentSplitSentenceArr;
       currentSplitSentenceObj.translate = el.translate;
       currentSplitSentenceObj.lettersCount = lettersCount;
+      currentSplitSentenceObj.wordId = el.wordId;
       splitSentencesData.push(currentSplitSentenceObj);
     });
     return splitSentencesData;

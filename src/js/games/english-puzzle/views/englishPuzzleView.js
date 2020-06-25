@@ -17,6 +17,8 @@ export default class EnglishPuzzleView {
     this.img = new Image();
     this.img.src = '/src/assets/images/ep-icons/scream.jpg';
     this.paintingName = 'Иван Айвазовский - Девятый вал (1850г)';
+    this.currentWordId = null;
+    this.wordsStat = { rightWords: [], wrongWords: [] };
   }
 
   render() {
@@ -39,6 +41,8 @@ export default class EnglishPuzzleView {
     if (this.currentSentence < 10) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
+      this.currentWordId = splitSentencesData[this.currentSentence].wordId;
+
       splitSentencesData.forEach((el, id) => {
         const elem = document.createElement('div');
         const lineNumberBlock = document.createElement('div');
@@ -158,6 +162,11 @@ export default class EnglishPuzzleView {
     return sortable;
   }
 
+  resetWordsStat() {
+    this.wordsStat.rightWords.length = 0;
+    this.wordsStat.wrongWords.length = 0;
+  }
+
   addListeners() {
     this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;
@@ -196,9 +205,11 @@ export default class EnglishPuzzleView {
     this.domElements.continueBtn.addEventListener('click', () => {
       if (this.currentSentence === 10) {
         this.currentSentence = 0;
+        this.resetWordsStat();
         this.domElements.continueBtn.classList.add('ep-hidden');
         this.render();
       } else {
+        this.wordsStat.rightWords.push(this.currentWordId);
         this.currentSentence += 1;
         this.domElements.continueBtn.classList.add('ep-hidden');
         this.render();
@@ -206,8 +217,57 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.skipButton.addEventListener('click', () => {
+      this.wordsStat.wrongWords.push(this.currentWordId);
       this.currentSentence += 1;
       this.render();
+    });
+
+    this.domElements.resultsBtn.addEventListener('click', () => {
+      const modal = document.getElementById('modal');
+      const modalBody = document.getElementById('modalBody');
+      const modalImage = document.getElementById('modalImage');
+      const modalDescription = document.getElementById('modalDescription');
+      const rightWordsBlock = document.getElementById('rightWordsBlock');
+      const wrongWordsBlock = document.getElementById('wrongWordsBlock');
+      const rightWordsCount = document.getElementById('rightWordsCount');
+      const wrongWordsCount = document.getElementById('wrongWordsCount');
+      const modalContinueBtn = document.getElementById('modalContinueBtn');
+      const sentencesArr = this.englishPuzzleModel.getSentencesData();
+
+      modalImage.setAttribute('style', `background-image:url(${this.img.src});`);
+      modalDescription.textContent = this.paintingName;
+      rightWordsCount.textContent = this.wordsStat.rightWords.length;
+      wrongWordsCount.textContent = this.wordsStat.wrongWords.length;
+
+      sentencesArr.forEach((el) => {
+        const modalMainLine = document.createElement('div');
+        const modalAudioBtn = document.createElement('div');
+        const modalMainSentenceBlock = document.createElement('div');
+        modalMainLine.classList.add('ep-modal__main-line');
+        modalAudioBtn.classList.add('ep-modal__audioBtn');
+        modalMainSentenceBlock.classList.add('ep-modal__sentence-block');
+        modalMainSentenceBlock.textContent = el.sentence;
+        modalMainLine.append(modalAudioBtn);
+        modalMainLine.append(modalMainSentenceBlock);
+        if (this.wordsStat.rightWords.indexOf(el.wordId) < 0) {
+          wrongWordsBlock.append(modalMainLine);
+        } else {
+          rightWordsBlock.append(modalMainLine);
+        }
+      });
+
+      modal.classList.remove('ep-modal_hidden');
+      modalBody.classList.remove('ep-modal_hidden');
+
+      modalContinueBtn.addEventListener('click', () => {
+        this.resetWordsStat();
+        modal.classList.add('ep-modal_hidden');
+        modalBody.classList.add('ep-modal_hidden');
+        rightWordsBlock.innerHTML = '';
+        wrongWordsBlock.innerHTML = '';
+        this.currentSentence = 0;
+        this.render();
+      });
     });
 
     this.domElements.tipTranslate.addEventListener('click', () => {
