@@ -11,13 +11,16 @@ export default class SprintModel {
   async getInitialWordArray(level, round) {
     this.url = `${this.baseUrl}group=${level}&page=${round}`;
     this.resp = await fetch(this.url);
+    console.log(this.resp);
     this.jsonData = await this.resp.json();
     console.log(this.jsonData);
     return this.makeWorkingArr(this.jsonData);
   }
 
-  async geCurrenttUser() {
-    this.currentUser = await this.mainModel.getUser();
+  async getCurrenttUser() {
+    this.userId = this.mainModel.userId;
+    this.token = this.mainModel.token;
+    this.currentUser = await this.mainModel.getUser(this.userId, this.token);
     return this.currentUser;
   }
 

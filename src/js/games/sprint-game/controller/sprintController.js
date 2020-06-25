@@ -1,5 +1,6 @@
 import SprintView from '../view/sprintView';
 import SprintModel from '../model/sprintModel';
+import addWord from '../utils/addWord';
 
 export default class SprintController {
   constructor() {
@@ -12,24 +13,29 @@ export default class SprintController {
   }
 
   async prelaunch() {
-    this.user = await this.model.geCurrenttUser();
-    console.log(this.user);
-    this.wordsArray = await this.model.getInitialWordArray(0, 0);
-    console.log(this.wordsArray);
-    this.view.renderStartLayout();
-    document.querySelector('.sprint-button--start')
-      .addEventListener('click', () => {
-        this.startGame();
-      });
-  }
-
-  startGame() {
     this.currentWordIndex = 0;
     this.score = 0;
     this.points = 10;
     this.accuracyCounter = 0;
     this.rightAnswersCount = 0;
+    this.faultyWords = [];
 
+    this.userData = await this.model.getCurrenttUser();
+    this.username = this.userData.username;
+    console.log(this.username);
+    this.wordsArray = await this.model.getInitialWordArray(0, 1);
+    console.log(this.wordsArray.length);
+    if (this.wordsArray.length > 0) {
+      this.view.renderStartLayout();
+      document.querySelector('.sprint-button--start')
+        .addEventListener('click', () => {
+          this.startGame();
+        });
+    }
+
+  }
+
+  startGame() {
     this.view.renderGameLayout();
     this.wrongBtn = document.querySelector('.sprint-button--wrong');
     this.rightBtn = document.querySelector('.sprint-button--right');
@@ -44,7 +50,7 @@ export default class SprintController {
       this.points,
       this.rightAnswersCount,
     );
-    this.startCountdown(60);
+    // this.startCountdown(60);
   }
 
   handleEvent(event) {
@@ -73,20 +79,24 @@ export default class SprintController {
   checkAnswer() {
     if (this.answer === this.accuracy) {
       this.rightAnswersCount += 1;
-      if (this.rightAnswersCount === 4 && this.points < 40) {
+      if (this.rightAnswersCount === 4 && this.points < 80) {
         this.points *= 2;
         this.rightAnswersCount = 0;
       }
       this.score += this.points;
+      console.log(this.rightAnswersCount);
+      this.view.animateTrue();
     } else {
       this.points = 10;
       this.rightAnswersCount = 0;
+      this.view.animateFalse();
+      addWord(this.faultyWords, this.wordsArray[this.currentWordIndex]);
     }
   }
 
   endGame() {
     document.removeEventListener('keydown', this);
-    this.view.showFinalStat(this.score);
+    this.view.showFinalStat(this.username, this.score, this.faultyWords);
     document.querySelector('.sprint-button--repeate')
       .addEventListener('click', () => { this.prelaunch(); });
   }
@@ -101,4 +111,5 @@ export default class SprintController {
       this.endGame();
     }
   }
+
 }

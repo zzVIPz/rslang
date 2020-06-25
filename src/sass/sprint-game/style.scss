@@ -1,115 +1,193 @@
-.sprint-container{
-  height: 70vh;
-  width: 600px;
-  margin: 5% auto;
+$sprint-border-color: #616161;
+$sprint-star-off: $main-color;
+$sprint-star-on: #ffd700;
+$sprint-wrong-color: #e7717d;
+$sprint-right-color: #afd274;
+$print-header-first: #00bbd4a6;
+$print-header-second: #9b27b0a4;
+$print-header-third: #e91e62a2;
+
+
+.sprint-game {
+  background-image: url(/src/assets/images/savannah-bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sprint-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 600px;
+  height: 70vh;
+  margin: 5% auto;
+
   text-align: center;
+
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0px 3px 6px 0px #616161;
-  overflow: hidden;
+  box-shadow: 0 3px 5px 0 $sprint-border-color;
+
+  transition: .3s ease-out;
+  // background-image: url(../assets/images/savannah-bg.svg);
   // background: linear-gradient(#184e66, #09877e);
 }
-.sprint-header{
-  position: relative;
-  height: 25%;
-  background-color: #9E9E9E;
+.sprint-container--true {
+  box-shadow: 0 3px 6px 3px $sprint-right-color;
 }
-.sprint-score{
+.sprint-container--false {
+  box-shadow: 0 3px 6px 5px $sprint-wrong-color;
+}
+.sprint-header {
+  position: relative;
+
+  height: 25%;
+
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.sprint-roof1,
+.sprint-roof2,
+.sprint-roof3 {
+  background: center / contain url("/src/assets/images/roof.jpg");
+  box-shadow: 0 2px 5px 0 $sprint-border-color;
+}
+
+.sprint-header-layer {
+  width: 100%;
+  height: 100%;
+
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.sprint-roof1 > .sprint-header-layer,
+.sprint-roof2 > .sprint-header-layer,
+.sprint-roof3 > .sprint-header-layer {
+  background-color: $print-header-first;
+}
+
+.sprint-score {
   position: absolute;
   top: 20px;
-  left:20px;
-  }
-.sprint-marks-line{
+  left: 20px;
+
+  font-weight: 300;
+  font-size: 24px;
+}
+.sprint-roof1 .sprint-score,
+.sprint-roof2 .sprint-score,
+.sprint-roof3 .sprint-score {
+  color: #ffffff;
+}
+.sprint-marks-line {
   display: flex;
   justify-content: center;
   padding: 3%;
 }
-.sprint-mark{
-  height: 20px;
-  width: 20px;
-  border: 1px solid #616161;
-  border-radius: 50%;
+.sprint-mark {
   margin: 0 1%;
+
+  font-weight: 300;
+  font-size: 24px;
+  color: transparent;
 }
-.activated{
-  background-color: green;
+.activated {
+  color: $sprint-star-on;
 }
 
-.sprint-picture-block{
+.sprint-picture-block {
+  width: 20%;
   height: 20%;
-  width:20%;
-  margin:  0 auto;
-  border-bottom: solid 1px #616161;
-  }
-.sprint-display{
+  margin: 0 auto;
+
+  border-bottom: solid 1px $sprint-border-color;
+}
+.sprint-display {
   display: flex;
-  height: 30%;
-  width: 80%;
-  margin:  0 auto;
   flex-direction: column;
   justify-content: center;
-  border-bottom: dotted 2px #616161;
+  width: 80%;
+  height: 30%;
+  margin: 0 auto;
+
+  border-bottom: dotted 2px $sprint-border-color;
 }
-.sprint-word{
-   margin-bottom: 1%;
+.sprint-word {
+  margin-bottom: 1%;
+
+  font-weight: 300;
+  font-size: 24px;
 }
-.sprint-controlls{
+.sprint-controlls {
   display: flex;
   justify-content: space-around;
   align-items: center;
   height: 25%;
 }
-.sprint-button{
+.sprint-button {
   padding: 19px 15px 21px;
-  box-shadow: 0px 2px 5px 0px #616161;
+
+  font-weight: 300;
+  font-size: 24px;
+  color: #ffffff;
+
   border: none;
   border-radius: 10px;
   outline: none;
+  box-shadow: 0 2px 5px 0 $sprint-border-color;
   cursor: pointer;
 }
-.sprint-button--wrong{
-  background-color: red;
+.sprint-button--wrong {
   min-width: 162px;
+
+  background-color: $sprint-wrong-color;
 }
-.sprint-button--right{
-  background-color: green;
+.sprint-button--right {
   min-width: 162px;
+
+  background-color: $sprint-right-color;
+}
+.sprint-button:active {
+  box-shadow: 0 1px 2px 0 $sprint-border-color;
 }
 
 // statistics
 
-.sprint-result-header{
+.sprint-result-header {
   margin-top: 5%;
-  }
-.sprint-statistics{
-  align-self: stretch;
- }
+}
+.sprint-statistics {
+  height: 60%;
+  margin: 0 5%;
+}
+.sprint-user-errors{
+  border: 1px solid;
+  height: 67%;
+}
 
-.sprint-result-controlls{
-  height: 25%;
+.sprint-result-controlls {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 25%;
   margin: 0 5%;
 }
 
 // sart
 
-.sprint-start-header{
+.sprint-start-header {
   margin-top: 5%;
-  text-transform: uppercase;
+
   font-size: 3rem;
+  text-transform: uppercase;
 }
-.sprint-game-descr{
+.sprint-game-descr {
   margin-bottom: 1%;
 }
 .sprint-start-controlls {
-  height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  height: 25%;
 }
-
