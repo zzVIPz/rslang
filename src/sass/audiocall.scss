@@ -347,6 +347,41 @@ main {
     right: 0;
   }
 }
+.loader {
+  width: 20rem;
+  height: 20rem;
+
+  background-image: url(../assets/svg/loader-icon.svg);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: contain;
+}
+.container-game__preload {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+
+  display: none;
+  margin-left: -282px;
+  &__text {
+    max-width: 565px;
+    margin: 0 auto 58px;
+
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    color: $var3;
+
+    opacity: .8;
+  }
+}
+.wrapp-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .rating-round {
   position: absolute;
   top: 20px;

@@ -23,6 +23,8 @@ class AudiocallModel {
         }
     
         console.log('My user:', this.currentUser);
+        //todo: для получения только по странице и группе
+        this.currentUser.cardsTotal = undefined;
         const data = await this.mainModel.getWords(this.currentUser);
         return data;
       }

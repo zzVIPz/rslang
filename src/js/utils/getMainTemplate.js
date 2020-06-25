@@ -1,4 +1,4 @@
-export default function getMainTemplate(user, data) {
+export default function getMAIN_TEXT(user, data) {
   return `
     <div class="user-info container">
       <h3 class="user-info__title">${data.title} ${user.username}</h3>

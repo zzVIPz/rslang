@@ -21,6 +21,7 @@ class AudiocallView {
       this.levelButtons =  document.querySelector('.rating');
       this.roundButtons =  document.querySelector('.rating-round');
       this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
+      this.loader = document.querySelector('.container-game__preload');
       this.startBtn = document.querySelector('.container-game__trainings-audiocall__intro-btn');
       this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers');
       this.closeBtnGame = document.querySelector('.container-game__trainings-audiocall__close');
@@ -42,6 +43,11 @@ class AudiocallView {
             this.startBtn.addEventListener('click', () => {
               this.chosenLevel = this.level;
               this.chosenRound = this.round;
+              this.introPage.classList.add('hide');
+              this.levelsContainer.classList.add('hide');
+              this.roundContainer.classList.add('hide');
+              this.loader.classList.add('show');
+
               this.model.fetchWords(this.chosenLevel, this.chosenRound)
                 .then((data) => {
                   console.log(data);
@@ -53,13 +59,9 @@ class AudiocallView {
                   this.lengthWordsArr = this.wordsArr.length;
                 });
                 setTimeout(() => {
-                  this.animationSpeaker();
-                  this.sound(this.audioArr[0]);
-                },1600);
-                this.introPage.classList.add('hide');
-                this.levelsContainer.classList.add('hide');
-                this.roundContainer.classList.add('hide');
-                this.gamePage.classList.add('show');
+                  this.loader.classList.remove('show');
+                  this.gamePage.classList.add('show');
+                },7000);
             });
         }
 

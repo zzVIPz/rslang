@@ -82,6 +82,16 @@ const audiocallGame = `
                     </a>
                 </div>
             </div>
+            <div class="container-game__preload">
+                <div class="wrapp-flex">
+                    <div class="loader"></div>
+                    <div class="container-game__preload__text">
+                        <span>Для выбора варианта ответа можно воспользоваться 
+                            мышкой или клавишами 1, 2, 3, 4 на клавиатуре
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="container-game__trainings-audiocall__answers">
                 <div class="container-game__trainings-audiocall__speaker-container">
                     <div class="container-game__trainings-audiocall__circle small-circle"></div>
