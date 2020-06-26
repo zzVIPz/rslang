@@ -1,5 +1,4 @@
 import { Sortable } from '@shopify/draggable';
-// import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import Template from './template';
 import shuffle from '../helpers/shuffle';
 import getElementWidth from '../helpers/getElementWidth';
@@ -9,7 +8,6 @@ import createPuzzle from './createPuzzleCanvas';
 export default class EnglishPuzzleView {
   constructor() {
     this.template = Template;
-    // this.englishPuzzleModel = new EnglishPuzzleModel();
     this.englishPuzzleModel = null;
     this.currentSentence = 0;
     this.tipTranslate = true;
@@ -17,8 +15,8 @@ export default class EnglishPuzzleView {
     this.domElements = {};
 
     this.img = new Image();
-    this.img.src = '/src/assets/images/ep-icons/scream.jpg';
-    this.paintingName = 'Иван Айвазовский - Девятый вал (1850г)';
+    this.img.src = null;
+    this.paintingName = null;
 
     this.gameDifficult = 1;
     this.gameLevel = 1;
@@ -179,6 +177,33 @@ export default class EnglishPuzzleView {
     this.wordsStat.wrongWords.length = 0;
   }
 
+  nextRound() {
+    if ((this.gameLevel === 60) && (this.gameDifficult === 6)) {
+      this.gameLevel = 1;
+      this.gameDifficult = 1;
+      if (this.onLevelChange !== null) {
+        this.onLevelChange(this.gameLevel);
+      }
+      if (this.onDifficultChange !== null) {
+        this.onDifficultChange(this.gameDifficult);
+      }
+    } else if (this.gameLevel === 60) {
+      this.gameLevel = 1;
+      this.gameDifficult += 1;
+      if (this.onLevelChange !== null) {
+        this.onLevelChange(this.gameLevel);
+      }
+      if (this.onDifficultChange !== null) {
+        this.onDifficultChange(this.gameDifficult);
+      }
+    } else {
+      this.gameLevel += 1;
+      if (this.onLevelChange !== null) {
+        this.onLevelChange(this.gameLevel);
+      }
+    }
+  }
+
   addListeners() {
     this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;
@@ -219,6 +244,7 @@ export default class EnglishPuzzleView {
         this.currentSentence = 0;
         this.resetWordsStat();
         this.domElements.continueBtn.classList.add('ep-hidden');
+        this.nextRound();
         this.render();
       } else {
         this.wordsStat.rightWords.push(this.currentWordId);
@@ -278,6 +304,7 @@ export default class EnglishPuzzleView {
         rightWordsBlock.innerHTML = '';
         wrongWordsBlock.innerHTML = '';
         this.currentSentence = 0;
+        this.nextRound();
         this.render();
       });
     });
