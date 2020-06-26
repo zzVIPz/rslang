@@ -31,6 +31,7 @@ export default class SprintController {
     console.log(this.wordsArray);
     if (this.wordsArray.length > 0) {
       this.view.renderStartLayout(this.username);
+      this.addCloseBtnHandler();
       document.querySelector('.sprint-button--start')
         .addEventListener('click', () => {
           this.startGame();
@@ -41,6 +42,7 @@ export default class SprintController {
 
   startGame() {
     this.view.renderGameLayout();
+    this.addCloseBtnHandler();
     this.wrongBtn = document.querySelector('.sprint-button--wrong');
     this.rightBtn = document.querySelector('.sprint-button--right');
     this.rightBtn.addEventListener('click', this.clickHandler.bind(this));
@@ -100,7 +102,8 @@ export default class SprintController {
   endGame() {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
-    this.view.showFinalStat(this.score, this.faultyWords);
+    this.view.renderFinalStat(this.score, this.faultyWords);
+    this.addCloseBtnHandler();
     document.querySelector('.sprint-button--repeate')
       .addEventListener('click', () => { this.prelaunch(); });
   }
@@ -111,10 +114,17 @@ export default class SprintController {
     if (this.current > 0) {
       this.view.showTime(this.current);
       this.timer = setTimeout(this.startCountdown.bind(this), 1000, this.current);
-      console.log(this.timer);
     } else {
       this.endGame();
     }
+  }
+  addCloseBtnHandler() {
+    document.querySelector('.closeBtn').addEventListener('click', () => {
+      clearTimeout(this.timer);
+      document.removeEventListener('keydown', this);
+      this.view.clearMainContainer();
+
+    })
   }
 
 }

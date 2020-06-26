@@ -1,4 +1,4 @@
-import { startLayout, gameLayout, finalStatLayout, closeBtn } from './layouts';
+import { startLayout, gameLayout, finalStatLayout } from './layouts';
 
 export default class SprintView {
   constructor() {
@@ -6,13 +6,11 @@ export default class SprintView {
     this.startLayout = startLayout;
     this.gameLayout = gameLayout;
     this.finalStatLayout = finalStatLayout;
-    this.closeBtn = closeBtn;
   }
 
   renderStartLayout(userName) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.startLayout);
-    this.addCloseBtn();
     this.gameDescription = document.querySelector('.sprint-game-descr');
     this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или не правильно переведены слова.`
   }
@@ -21,7 +19,6 @@ export default class SprintView {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.gameLayout);
     this.mainContainer.classList.add('sprint-game-bgr');
-    this.addCloseBtn();
   }
 
   renderGameData(score, word, wordTranslate, points, rightAnswersCount) {
@@ -54,14 +51,24 @@ export default class SprintView {
     }
   }
   animateTrue() {
-    document.querySelector('.sprint-display').classList.add('sprint-display--green');
-    setTimeout(() => { document.querySelector('.sprint-display').classList.remove('sprint-display--green') }, 200);
+    const display = document.querySelector('.sprint-display');
+    display.classList.add('sprint-display--green');
+    setTimeout(() => {
+      if (display.classList.contains('sprint-display--green')) {
+        display.classList.remove('sprint-display--green')
+      }
+    }, 200);
 
   }
 
   animateFalse() {
-    document.querySelector('.sprint-display').classList.add('sprint-display--red');
-    setTimeout(() => { document.querySelector('.sprint-display').classList.remove('sprint-display--red') }, 200);
+    const display = document.querySelector('.sprint-display');
+    display.classList.add('sprint-display--red');
+    setTimeout(() => {
+      if (display.classList.contains('sprint-display--red')) {
+        display.classList.remove('sprint-display--red')
+      }
+    }, 200);
   }
 
   showTime(time) {
@@ -69,10 +76,9 @@ export default class SprintView {
     if (this.timer) { this.timer.innerHTML = time; }
   }
 
-  showFinalStat(score, errors) {
+  renderFinalStat(score, errors) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
-    this.addCloseBtn();
     this.mainContainer.classList.remove('sprint-game-bgr');
     document.querySelector('.sprint-result-header').innerHTML = `Результат игры`
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
@@ -83,18 +89,16 @@ export default class SprintView {
       document.querySelector('.sprint-statistics').appendChild(this.mistakesContainer);
       errors.forEach((el) => {
         const word = document.createElement('span');
-        console.log(el.word);
         word.innerHTML = ` ${el.word} `;
         this.mistakesContainer.appendChild(word);
 
       })
     }
   }
-  addCloseBtn() {
-    this.mainContainer.insertAdjacentHTML('afterbegin', this.closeBtn);
-    document.querySelector('.closeBtn').addEventListener('click', () => {
-      this.mainContainer.innerHTML = '';
-
-    })
+  clearMainContainer() {
+    if (this.mainContainer.classList.contains('sprint-game-bgr')) {
+      this.mainContainer.classList.remove('sprint-game-bgr');
+    }
+    this.mainContainer.innerHTML = '';
   }
 }

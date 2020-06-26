@@ -1,4 +1,5 @@
-const startLayout = `<div class="sprint-container">
+const startLayout = `<div class="closeBtn"></div>
+<div class="sprint-container">
 <div class="sprint-start-header">Спринт</div>
 <div class="sprint-notice">
   <div class="sprint-game-descr"></div>
@@ -8,10 +9,11 @@ const startLayout = `<div class="sprint-container">
   <button class="sprint-button sprint-button--start app__button">Начать</button>
 </div>`;
 
-const gameLayout = ` <div class="sprint-container sprint-container--true">
+const gameLayout = `<div class="closeBtn"></div>
+<div class="sprint-container sprint-container--true">
 <div class="sprint-header">
 <div class="sprint-header-layer">
-  <div class="sprint-score">***</div>
+  <div class="sprint-score"></div>
   <div class="sprint-marks-line">
     <div class="sprint-mark">&#9733;</div>
     <div class="sprint-mark">&#9733;</div>
@@ -39,9 +41,10 @@ const gameLayout = ` <div class="sprint-container sprint-container--true">
 </div>
 </div>`;
 
-const finalStatLayout = `  <div class="sprint-container">
+const finalStatLayout = `<div class="closeBtn"></div>
+<div class="sprint-container">
 <div class="sprint-result-header ">Ваш результат</div>
-<div class="sprint-final-score">упс...</div>
+<div class="sprint-final-score">Упс...</div>
 <div class="sprint-statistics">
     <div class="sprint-user-mistakes"></div>
 </div>
@@ -49,5 +52,5 @@ const finalStatLayout = `  <div class="sprint-container">
   <button class="sprint-button sprint-button--repeate app__button">повторить</button>
 </div>
 </div>`;
-const closeBtn = `<div class="closeBtn"></div>`
-export { startLayout, gameLayout, finalStatLayout, closeBtn };
+
+export { startLayout, gameLayout, finalStatLayout };
