@@ -154,14 +154,14 @@ main {
         width: 140px;
         height: 140px;
         margin: 0 auto;
-
+        opacity: 0;
         border: 5px solid $var3;
         border-radius: 50%;
 
-        -webkit-transition: opacity 1s ease-in-out;
-           -moz-transition: opacity 1s ease-in-out;
-             -o-transition: opacity 1s ease-in-out;
-                transition: opacity 1s ease-in-out;
+        -webkit-transition: all 0.7s ease-in-out;
+           -moz-transition: all 0.7s ease-in-out;
+             -o-transition: all 0.7s ease-in-out;
+                transition: all 0.7s ease-in-out;
 
         -o-object-fit: cover;
            object-fit: cover;
@@ -458,6 +458,9 @@ main {
 .animation {
   transform: translateX(-100%);
 }
+.visuallyshow {  
+  opacity: 1;  
+ }
 .position-center {
   display: flex;
   justify-content: center;

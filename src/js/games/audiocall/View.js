@@ -87,6 +87,8 @@ class AudiocallView {
             console.log(this.WrongWordsArray);
             this.model.indexPositionAnswerEl();
             console.log(this.model.indexPositionAnswer);
+            this.imageWord.setAttribute("src", getMediaUrl(this.wordsArray[0].image));
+            this.imageWord.setAttribute("alt", wordsArray[0].word);
             document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).childNodes[0].textContent = wordsArray[0].wordTranslate; 
             document.querySelector(`#answer-${this.model.indexPositionAnswer[1]}`).childNodes[0].textContent = this.WrongWordsArray[0];
             document.querySelector(`#answer-${this.model.indexPositionAnswer[2]}`).childNodes[0].textContent = this.WrongWordsArray[1];
@@ -122,6 +124,7 @@ class AudiocallView {
           setTimeout(() => {
             this.gamePage.classList.remove('animation');
             this.imageWord.classList.remove('show');
+            this.imageWord.classList.remove('visuallyshow');
             this.headerWord.innerText = '';
             this.answerBtn.innerText = 'Не знаю :(';
             this.sound(getMediaUrl(this.wordsArray[0].audio));
@@ -145,7 +148,7 @@ class AudiocallView {
     }
     
     setAnswer() {
-      this.showImageWord(getMediaUrl(this.wordsArray[0].image), this.wordsArray[0].word);
+      this.showImageWord(this.wordsArray[0].word);
       this.answerBtn.innerText = 'Далее';
     }
 
@@ -192,10 +195,11 @@ class AudiocallView {
       });
     }
 
-    showImageWord(src, words) {
-      this.imageWord.setAttribute("src", src);
-      this.imageWord.setAttribute("alt", words);
+    showImageWord(words) {
       this.imageWord.classList.add('show');
+      setTimeout(() => {
+        this.imageWord.classList.add('visuallyshow');
+      }, 100);
       this.headerWord.innerHTML = `<span>${words}</span>`;
     }
 
