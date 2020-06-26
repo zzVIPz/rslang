@@ -13,8 +13,8 @@ const CARD_TEXT = {
 };
 
 export default function getCardTemplate(card, settings) {
-  console.log(card);
-  console.log(settings);
+  // console.log(card);
+  // console.log(settings);
   let wordMode = true;
   let textMeaningMode = true;
   let textExampleMode = true;

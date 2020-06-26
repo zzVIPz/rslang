@@ -16,7 +16,7 @@ export default class MainView {
     this.onLogOut = null;
     this.onBtnStartClick = null;
     this.onButtonAcceptClick = null;
-    this.onButtonCancelClick = null;
+    this.onModalBtnCancelClick = null;
     this.onBtnSettingsClick = null;
     this.onBurgerMenuClick = null;
     this.onLogOutClick = null;
@@ -80,6 +80,30 @@ export default class MainView {
     return card;
   }
 
+  disableSwiperNextSlide() {
+    this.btnSliderNext = this.btnSliderNext || document.querySelector('.swiper-button-next');
+    this.swiper.allowSlideNext = false;
+    this.btnSliderNext.classList.add('swiper-button-disabled');
+  }
+
+  enableSwiperNextSlide() {
+    this.swiper.allowSlideNext = true;
+    this.btnSliderNext.classList.remove('swiper-button-disabled');
+  }
+
+  setSwiperDefaultState() {
+    this.btnSliderNext = null;
+  }
+
+  disableStudyProfileProperties = () => {
+    const totalCards = document.getElementById('cards-amount');
+    const wordAmount = document.getElementById('word-amount');
+    const selectMode = document.querySelector('.settings__study-select');
+    totalCards.setAttribute('disabled', 'disabled');
+    wordAmount.setAttribute('disabled', 'disabled');
+    selectMode.setAttribute('disabled', 'disabled');
+  };
+
   getUserAnswer(currentSlide = this.getCurrentSlide()) {
     return currentSlide ? this.getCurrentInputNode(currentSlide).value : null;
   }
@@ -95,12 +119,25 @@ export default class MainView {
     return inputNode;
   };
 
+  disableCurrentInput() {
+    // todo: show all data, disable buttons
+    const currentSlide = this.getCurrentSlide();
+    const currentInput = this.getCurrentInputNode(currentSlide);
+    currentInput.setAttribute('disabled', 'disabled');
+    const nodes = currentSlide.querySelectorAll('.card__input-container');
+    nodes.forEach((node) => {
+      if (!node.classList.contains('hidden')) {
+        node.querySelector('.card__text-translate').classList.remove('hidden');
+      }
+    });
+  }
+
   playAudio = (user, currentSlide = this.getCurrentSlide()) => {
-    const audioNodes = currentSlide.querySelectorAll('.audio');
-    this.playlist = getPlaylist(user, audioNodes);
+    this.stopAudio();
+    this.playlist = getPlaylist(user, currentSlide);
     if (
-      this.playlist.length &&
-      this.speaker.classList.contains('user-tool__button-speaker--active')
+      this.playlist.length
+      && this.speaker.classList.contains('user-tool__button-speaker--active')
     ) {
       this.playlist[0].play();
       this.playlist.forEach((node, i, arr) => {
@@ -143,7 +180,6 @@ export default class MainView {
     modal.addEventListener('click', (e) => {
       this.onModalClick(e);
     });
-
     this.totalCards = document.getElementById('cards-amount');
     this.totalCards.addEventListener('focusout', () => {
       this.onInputComplete();
@@ -158,7 +194,7 @@ export default class MainView {
     });
     this.btnCancel = document.querySelector('.btn-cancel');
     this.btnCancel.addEventListener('click', () => {
-      this.onButtonCancelClick();
+      this.onModalBtnCancelClick();
     });
   }
 
@@ -298,9 +334,13 @@ export default class MainView {
   changeBtnSpeakerIcon() {
     this.speaker.classList.toggle('user-tool__button-speaker--active');
     if (!this.speaker.classList.contains('user-tool__button-speaker--active')) {
-      if (this.playlist) {
-        this.playlist.forEach((audio) => audio.pause());
-      }
+      this.stopAudio();
+    }
+  }
+
+  stopAudio() {
+    if (this.playlist) {
+      this.playlist.forEach((audio) => audio.pause());
     }
   }
 
