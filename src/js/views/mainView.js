@@ -7,8 +7,6 @@ import {
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
-// sprint-game-import
-import SprintController from '../games/sprint-game/controller/sprintController';
 import toggleDisplay from '../utils/toggleDisplay';
 import Card from '../components/card/cardController';
 
@@ -184,11 +182,6 @@ export default class MainView {
       this.onNavigationLinkClick(e);
       if (!e.target.classList.contains('navigation')) {
         this.toggleMenuProperty();
-      }
-      // sprint-game init
-      if (dataName === 'sprint') {
-        const game = new SprintController();
-        game.init();
       }
     });
   }
