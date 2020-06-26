@@ -1,10 +1,9 @@
 import MainModel from '../../models/mainModel';
-import getMediaUrl from '../../utils/getMediaUrl';
 
 class AudiocallModel {
     constructor() {
-      this.rightAnswer = 0;
-      this.wrongAnswer = 0;
+      this.rightAnswer = [];
+      this.wrongAnswer = [];
       this.indexPositionAnswer = [1, 2, 3, 4];
       this.mainModel = new MainModel();
       // this.media = new getMediaUrl();
@@ -21,13 +20,7 @@ class AudiocallModel {
       }
       
       getMediaData(data) {
-        this.shuffle(data);
-        this.wordsArr = data.map((el) => el.word);
-        this.imageSrc = data.map((el) => el.image);
-        this.images = this.imageSrc.map(el => getMediaUrl(el));
-        this.audioSrc = data.map((el) => el.audio);
-        this.audioArr = this.audioSrc.map(el => getMediaUrl(el));
-        this.translate = data.map((el) => el.wordTranslate);
+        return this.shuffle(data);
       }
 
       async  getWordsForAnswers(words) {
@@ -43,7 +36,6 @@ class AudiocallModel {
       }
 
       shuffle(array) {
-        // array.sort(() => Math.random() - 0.5);
         for (let i = array.length - 1; i > 0; i--) {
           let j = Math.floor(Math.random() * (i + 1)); 
           [array[i], array[j]] = [array[j], array[i]];

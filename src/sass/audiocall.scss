@@ -29,7 +29,7 @@ main {
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 93px);
     overflow: hidden;
 
     background-color: $var1;
@@ -125,6 +125,11 @@ main {
       display: none;
 
       text-align: center;
+
+      -webkit-transition: -webkit-transform .7s ease-in;
+              transition: -webkit-transform .7s ease-in;
+              transition:         transform .7s ease-in;
+              transition:         transform .7s ease-in, -webkit-transform .7s ease-in;
       &__header {
         position: relative;
         &__word {
@@ -137,7 +142,6 @@ main {
           text-align: left;
           color: #ffffff;
 
-          transition: all .15s ease;
 
           -webkit-user-select: none;
              -moz-user-select: none;
@@ -153,6 +157,11 @@ main {
 
         border: 5px solid $var3;
         border-radius: 50%;
+
+        -webkit-transition: opacity 1s ease-in-out;
+           -moz-transition: opacity 1s ease-in-out;
+             -o-transition: opacity 1s ease-in-out;
+                transition: opacity 1s ease-in-out;
 
         -o-object-fit: cover;
            object-fit: cover;
@@ -445,6 +454,9 @@ main {
 }
 .show-flex {
   display: flex;
+}
+.animation {
+  transform: translateX(-100%);
 }
 .position-center {
   display: flex;

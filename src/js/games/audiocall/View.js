@@ -1,7 +1,7 @@
 import AudiocallModel from './Model';
 import audiocallGame from './constAudiocall';
 import MainView from '../../views/mainView';
-// import MainModel from '../../../assets/audio/';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 class AudiocallView {
     constructor() {
@@ -16,7 +16,7 @@ class AudiocallView {
     }
     
     render() {
-        document.querySelector('.main').innerHTML = this.template;
+      document.querySelector('.main').innerHTML = this.template;
     }
 
     addListeners() {
@@ -38,6 +38,7 @@ class AudiocallView {
       this.imageWord = document.querySelector('.container-game__trainings-audiocall__answers__header__image');
       this.choosenAnswer = document.querySelector('#choosen-answer');
       this.headerWord = document.querySelector('.container-game__trainings-audiocall__answers__header__word');
+      this.answerBtn = document.querySelector('.container-game__trainings-audiocall__answer-btn');
       
       this.clickStartGameBtn();
       this.openModal();
@@ -48,123 +49,164 @@ class AudiocallView {
       this.playAudio();
       this.checkAnswer();
     }
-        clickStartGameBtn() {
-            this.startBtn.addEventListener('click', () => {
-              this.chosenLevel = this.level;
-              this.chosenRound = this.round;
-              this.introPage.classList.add('hide');
-              this.levelsContainer.classList.add('hide');
-              this.roundContainer.classList.add('hide');
-              this.loader.classList.add('show');
-              this.initWords();
-              
-                setTimeout(() => {
-                  this.loader.classList.remove('show');
-                  this.gamePage.classList.add('show');
-                  this.sound(this.audioArr[0]);
-                  this.animationSpeaker();
-                },7000);
-            });
-        }
-
-        initWords() {
-          this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
-                .then((data) => {
-                  console.log(data);
-                  this.model.getMediaData(data);
-                  this.wordsArr = this.model.wordsArr;
-                  this.images = this.model.images;
-                  this.audioArr = this.model.audioArr;
-                  this.translate = this.model.translate;
-                  this.lengthWordsArr = this.wordsArr.length;
-                  this.model.getWordsForAnswers(this.translate[0])
-                    .then((dataWords) => {
-                      this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
-                      console.log(this.WrongWordsArray);
-                      this.model.indexPositionAnswerEl();
-                      console.log(this.model.indexPositionAnswer);
-                      document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).childNodes[0].textContent = this.translate[0];
-                      document.querySelector(`#answer-${this.model.indexPositionAnswer[1]}`).childNodes[0].textContent = this.WrongWordsArray[0];
-                      document.querySelector(`#answer-${this.model.indexPositionAnswer[2]}`).childNodes[0].textContent = this.WrongWordsArray[1];
-                      document.querySelector(`#answer-${this.model.indexPositionAnswer[3]}`).childNodes[0].textContent = this.WrongWordsArray[2];
-                    });
-                });
-        }
-
-        checkAnswer() {
-          this.choosenAnswer.addEventListener('click', (event) => {
-            if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
-              // this.sound('../../../assets/audio/correct.mp3');
-              event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-true');
-              this.showImageWord(this.images[0], this.wordsArr[0]);
-              
-              
-            } else {
-              // this.sound('../../../assets/audio/error.mp3');
-              event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-false');
-              document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.add('container-game__trainings-audiocall__answer__m-answer-true');
-              this.showImageWord(this.images[0], this.wordsArr[0]);
-            }
-          });
-        }
-
-        openModal() {
-          this.closeBtnGame.addEventListener('click', () => {
-            this.modalWindow.classList.add('show-flex');
-          });
-        }
-
-        closeModal() {
-          this.closeModalWindow.addEventListener('click', () => {
-            this.modalWindow.classList.remove('show-flex'); 
-            this.modalWindow.classList.add('hide'); 
-          });
-          this.cancelModalWindow.addEventListener('click', () => {
-            this.modalWindow.classList.remove('show-flex'); 
-            this.modalWindow.classList.add('hide'); 
-          });
-        }
-    
-      backToMainPage() {
-        this.closeBtnModalGame.addEventListener('click', () => {
-          // this.mainView.renderMain(this.currentUser);
-          this.mainContainer.innerHTML = '';
-        });
-      }
-
-      getLevels() {
-        this.levelButtons.addEventListener('click', (event) => {
-          event.preventDefault();
-          
-          this.level = event.target.dataset.level;
-          console.log(this.level)
-        });
-      }
-
-      getRounds() {
-        this.roundButtons.addEventListener('click', (event) => {
-          event.preventDefault();
-          
-          this.round = event.target.dataset.round;
-          console.log(this.round)
-        });
-      }
-
-      showImageWord(src, words) {
-        this.imageWord.setAttribute("src", src);
-        this.imageWord.setAttribute("alt", words);
-        this.imageWord.classList.add('show');
-        this.headerWord.innerHTML = `<span>${words}</span>`;
-      }
-
-      playAudio() {
-        this.playAudioBtn.addEventListener('click', () => {
+    clickStartGameBtn() {
+      this.startBtn.addEventListener('click', () => {
+        this.chosenLevel = this.level;
+        this.chosenRound = this.round;
+        this.introPage.classList.add('hide');
+        this.levelsContainer.classList.add('hide');
+        this.roundContainer.classList.add('hide');
+        this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/round-starts.mp3');
+        this.loader.classList.add('show');
+        this.initWords();
+        
+        setTimeout(() => {
+          this.loader.classList.remove('show');
+          this.gamePage.classList.add('show');
+          this.sound(getMediaUrl(this.wordsArray[0].audio));
           this.animationSpeaker();
-          this.sound(this.audioArr[0]);
-        });
-      }
+        },5500);
+      });
+    }
 
-      animationSpeaker() {
+    initWords() {
+      this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
+        .then((data) => {
+          console.log(data);
+          this.model.shuffle(data);
+          this.wordsArray = data;
+          this.addWordsEl(this.wordsArray);
+        });
+    }
+
+    addWordsEl(wordsArray) {
+      if(wordsArray.length >= 1) {
+        this.model.getWordsForAnswers(wordsArray[0].wordTranslate)
+          .then((dataWords) => {
+            this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
+            console.log(this.WrongWordsArray);
+            this.model.indexPositionAnswerEl();
+            console.log(this.model.indexPositionAnswer);
+            document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).childNodes[0].textContent = wordsArray[0].wordTranslate; 
+            document.querySelector(`#answer-${this.model.indexPositionAnswer[1]}`).childNodes[0].textContent = this.WrongWordsArray[0];
+            document.querySelector(`#answer-${this.model.indexPositionAnswer[2]}`).childNodes[0].textContent = this.WrongWordsArray[1];
+            document.querySelector(`#answer-${this.model.indexPositionAnswer[3]}`).childNodes[0].textContent = this.WrongWordsArray[2];
+          });
+      } else {
+          console.log('Wordsright', this.model.rightAnswer);
+          console.log('Words wrong', this.model.wrongAnswer);
+        }
+    }
+
+    checkAnswer() {
+      this.choosenAnswer.addEventListener('click', (event) => {
+        if(event.target.classList.contains('container-game__trainings-audiocall__answer')) {
+          if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
+            this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/correct.mp3');
+            event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+            this.model.rightAnswer.push(this.wordsArray[0]);
+            this.setAnswer();
+            console.log(this.wordsArray);
+          } else {
+              this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/error.mp3');
+              event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-false');
+              this.wrong();
+              console.log(this.wordsArray);
+            }
+        }
+      });
+      
+      this.answerBtn.addEventListener('click', () => {
+        if(this.answerBtn.innerText === 'Далее') {
+          this.gamePage.classList.add('animation');
+          setTimeout(() => {
+            this.gamePage.classList.remove('animation');
+            this.imageWord.classList.remove('show');
+            this.headerWord.innerText = '';
+            this.answerBtn.innerText = 'Не знаю :(';
+            this.sound(getMediaUrl(this.wordsArray[0].audio));
+          }, 1000);
+          this.wordsArray.shift();
+          document.querySelectorAll('#choosen-answer .container-game__trainings-audiocall__answer__m-answer-false').forEach(el => el.classList.remove('container-game__trainings-audiocall__answer__m-answer-false'));
+          document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.remove('container-game__trainings-audiocall__answer__m-answer-true');
+          this.addWordsEl(this.wordsArray);
+          console.log(this.wordsArray);
+        } else {
+            this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/error.mp3');
+            this.wrong();
+          }
+      });
+    }
+
+    wrong() {
+      document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+      this.model.wrongAnswer.push(this.wordsArray[0]);
+      this.setAnswer();
+    }
+    
+    setAnswer() {
+      this.showImageWord(getMediaUrl(this.wordsArray[0].image), this.wordsArray[0].word);
+      this.answerBtn.innerText = 'Далее';
+    }
+
+    openModal() {
+      this.closeBtnGame.addEventListener('click', () => {
+        this.modalWindow.classList.add('show-flex');
+      });
+    }
+
+    closeModal() {
+      this.closeModalWindow.addEventListener('click', () => {
+        this.modalWindow.classList.remove('show-flex'); 
+        this.modalWindow.classList.add('hide'); 
+      });
+      
+      this.cancelModalWindow.addEventListener('click', () => {
+        this.modalWindow.classList.remove('show-flex'); 
+        this.modalWindow.classList.add('hide'); 
+      });
+    }
+    
+    backToMainPage() {
+      this.closeBtnModalGame.addEventListener('click', () => {
+      // this.mainView.renderMain(this.currentUser);
+        this.mainContainer.innerHTML = '';
+      });
+    }
+
+    getLevels() {
+      this.levelButtons.addEventListener('click', (event) => {
+        event.preventDefault();
+          
+        this.level = event.target.dataset.level;
+        console.log(this.level)
+      });
+    }
+
+    getRounds() {
+      this.roundButtons.addEventListener('click', (event) => {
+        event.preventDefault();
+          
+        this.round = event.target.dataset.round;
+        console.log(this.round)
+      });
+    }
+
+    showImageWord(src, words) {
+      this.imageWord.setAttribute("src", src);
+      this.imageWord.setAttribute("alt", words);
+      this.imageWord.classList.add('show');
+      this.headerWord.innerHTML = `<span>${words}</span>`;
+    }
+
+    playAudio() {
+      this.playAudioBtn.addEventListener('click', () => {
+        this.animationSpeaker();
+        this.sound(getMediaUrl(this.wordsArray[0].audio));
+      });
+    }
+
+    animationSpeaker() {
         setTimeout(() => {
           document.querySelector('.small-circle').style.transform = 'scale(0.53)';
           document.querySelector('.big-circle').style.transform = 'scale(0.81)';
@@ -189,14 +231,14 @@ class AudiocallView {
           document.querySelector('.small-circle').style.transform = 'scale(0.7)';
           document.querySelector('.big-circle').style.transform = 'scale(0.7)';
         }, 1800);
-      }
+    }
 
-      sound(src) {
-        this.audio = new Audio(); 
-        this.audio.crossOrigin = "anonymous"
-        this.audio.src = src; 
-        this.audio.autoplay = true;
-      }
-  }
+    sound(src) {
+      this.audio = new Audio(); 
+      this.audio.crossOrigin = "anonymous"
+      this.audio.src = src; 
+      this.audio.autoplay = true;
+    }
+}
   
-  export default AudiocallView;
+export default AudiocallView;
