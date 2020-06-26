@@ -85,7 +85,7 @@ export default class IndexView {
     });
   }
 
-  showMainPage = () => document.location.replace('../pages/main.html');
+  showMainPage = () => document.location.replace('./pages/main.html');
 
   closeModalWindow() {
     if (this.modal) {

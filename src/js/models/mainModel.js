@@ -65,8 +65,8 @@ export default class MainModel {
     console.log('setUserSettings', content);
   }
 
-  async getWords(currentPage, currentGroup, cardsTotal) {
-    this.url = getCorrectUrl(currentPage, currentGroup, cardsTotal);
+  async getWords(currentPage, currentGroup, cardsTotal, wordsPerExample) {
+    this.url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
     const rawResponse = await fetch(this.url);
     const content = await rawResponse.json();
     return content;

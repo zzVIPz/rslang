@@ -456,7 +456,7 @@ class SavannahView {
     }
   }
 
-  // working with audio 
+  // working with audio
   /* playStartGameAudio() {
 
   } */
