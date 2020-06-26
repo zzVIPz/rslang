@@ -1,3 +1,6 @@
+import getMediaUrl from '../../../utils/getMediaUrl';
+import playAudio from '../savannah-utils/palyAudio';
+
 class GameStatistics {
   constructor() {
     this.finalModal = document.createElement('div');
@@ -26,6 +29,7 @@ class GameStatistics {
   modalListeners() {
     this.backToMain();
     this.continuePlaying();
+    this.clickPlayIcon();
   }
 
   backToMain() {
@@ -53,27 +57,37 @@ class GameStatistics {
     this.correctTitle.innerHTML = `Знаю: ${this.model.rightAnswer}`;
   }
 
-  renderWord(word, translation) {
+  renderWord(word, translation, audio) {
+    this.audioUrl = getMediaUrl(audio);
     this.wordBox = document.createElement('div');
     this.wordBox.className = 'wordBox';
     this.wordBox.innerHTML = `
     <div class="soundBox">
-      <a href="#"><img src="../src/assets/images/audio.png"></a>
+      <img class="word-audio" src="../src/assets/images/audio.png" data-url="${this.audioUrl}">
     </div>
     <div class="word-eng">${word}</div>
     <div class="word-trans">— ${translation}</div>
     `;
   }
 
-  appendWrongAnswer(word, translation) {
+  clickPlayIcon() {
+    this.statisticsContainer = document.querySelector('.statistics__container');
+    this.statisticsContainer.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('word-audio')) {
+        playAudio(target.dataset.url);
+      }
+    });
+  }
+
+  appendWrongAnswer(word, translation, audio) {
     this.wordsWrongBox = document.querySelector('.statistics__words-set_wrong');
-    this.renderWord(word, translation);
+    this.renderWord(word, translation, audio);
     this.wordsWrongBox.appendChild(this.wordBox);
   }
 
-  appendCorrectAnswer(word, translation) {
+  appendCorrectAnswer(word, translation, audio) {
     this.wordsCorrectBox = document.querySelector('.statistics__words-set_correct');
-    this.renderWord(word, translation);
+    this.renderWord(word, translation, audio);
     this.wordsCorrectBox.appendChild(this.wordBox);
   }
 }

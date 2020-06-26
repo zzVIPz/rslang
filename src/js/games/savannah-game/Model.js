@@ -1,6 +1,5 @@
 import shuffleArray from './savannah-utils/shaffle';
 import MainModel from '../../models/mainModel';
-import getMediaUrl from '../../utils/getMediaUrl';
 
 class SavannahModel {
   constructor() {
@@ -8,6 +7,7 @@ class SavannahModel {
     this.removeDigitsRegExp = /\d/g;
     this.mainModel = new MainModel();
     this.setDefault();
+    this.audioOn = true;
   }
 
   /* async getCurrUser(user) {
@@ -19,10 +19,9 @@ class SavannahModel {
     this.currentUser.currentGroup = chosenLevel || 0;
     this.currentUser.currentPage = chosenRound || 0;
 
-    console.log(this.currentUser);
     const data = await this.mainModel.getWords(this.currentUser.currentPage,
       this.currentUser.currentGroup);
-    console.log('data', data);
+
     return data;
   }
 
@@ -31,15 +30,11 @@ class SavannahModel {
     this.translation = data.map((el) => el.wordTranslate);
     this.randomArrOfIndexes = this.randomArrAndShuffle(this.wordsArr.length);
     this.isGameOn = true;
-    console.log('Translation arr', this.translation);
-    console.log('Eng words', this.wordsArr);
   }
 
   getWordIdsAndAudio(data) {
     this.wordsIdArr = data.map((el) => el.id);
     this.audioArr = data.map((el) => el.audio);
-    console.log('audio', this.audioArr);
-    console.log('ids', this.wordsIdArr);
   }
 
   randomArrAndShuffle(n) {
@@ -94,13 +89,6 @@ class SavannahModel {
     this.count = 0;
     this.rightAnswer = 0;
     this.wrongAnswer = 0;
-  }
-
-  async fetchMedia(key) {
-    this.mediaUrl = getMediaUrl(key);
-    const response = await fetch(this.mediaUrl);
-    const data = await response.json();
-    return data;
   }
 }
 

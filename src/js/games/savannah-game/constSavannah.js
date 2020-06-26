@@ -67,7 +67,6 @@ const sparkles = `
 <div class="sparkle sparkle-circle-one"></div>
 <div class="sparkle sparkle-circle-two"></div>
 <div class="sparkle sparkle-circle-three"></div>
-<div class="sparkle sparkle-circle-four"></div>
 <div class="sparkle sparkle-dot-one"></div>
 <div class="sparkle sparkle-dot-two"></div>
 <div class="sparkle sparkle-dot-three"></div>
@@ -81,13 +80,15 @@ const statisticsModalLayout = `
       <div class="wrong_title">Ошибок</div>
     </div>
     <div class="statistics__words-set_correct">
-    <div class="correct_title">Знаю</div>
+      <div class="correct_title">Знаю</div>
     </div>
   </div>
   <div class="statistics__continue">Продолжить тренировку</div>
   <div class="statistics__back">Вернуться к списку тренировок</div>
 `;
 
+const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
+
 export {
-  savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout,
+  savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
 };
