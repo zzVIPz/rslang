@@ -1,5 +1,5 @@
 import { Sortable } from '@shopify/draggable';
-import EnglishPuzzleModel from '../models/englishPuzzleModel';
+// import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import Template from './template';
 import shuffle from '../helpers/shuffle';
 import getElementWidth from '../helpers/getElementWidth';
@@ -9,14 +9,22 @@ import createPuzzle from './createPuzzleCanvas';
 export default class EnglishPuzzleView {
   constructor() {
     this.template = Template;
-    this.englishPuzzleModel = new EnglishPuzzleModel();
+    // this.englishPuzzleModel = new EnglishPuzzleModel();
+    this.englishPuzzleModel = null;
     this.currentSentence = 0;
     this.tipTranslate = true;
     this.tipBackground = false;
     this.domElements = {};
+
     this.img = new Image();
     this.img.src = '/src/assets/images/ep-icons/scream.jpg';
     this.paintingName = 'Иван Айвазовский - Девятый вал (1850г)';
+
+    this.gameDifficult = 1;
+    this.gameLevel = 1;
+    this.onDifficultChange = null;
+    this.onLevelChange = null;
+
     this.currentWordId = null;
     this.wordsStat = { rightWords: [], wrongWords: [] };
   }
@@ -31,13 +39,14 @@ export default class EnglishPuzzleView {
     this.domElements.sentenceTranslate = document.getElementById('sentenceTranslate');
     this.domElements.tipTranslate = document.getElementById('tipTranslate');
     this.domElements.tipBackground = document.getElementById('tipBackground');
+    this.domElements.difficultSelect = document.getElementById('difficultSelect');
+    this.domElements.levelSelect = document.getElementById('levelSelect');
     this.domElements.board = document.getElementById('board');
     this.boardWidth = this.domElements.playField.offsetWidth;
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
 
     this.switchTipButtons();
-
     if (this.currentSentence < 10) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
@@ -136,6 +145,9 @@ export default class EnglishPuzzleView {
     } else {
       this.domElements.tipBackground.classList.remove('tips__button_active');
     }
+
+    this.domElements.difficultSelect.selectedIndex = this.gameDifficult - 1;
+    this.domElements.levelSelect.selectedIndex = this.gameLevel - 1;
   }
 
   addDragAndDrop() {
@@ -305,6 +317,20 @@ export default class EnglishPuzzleView {
       if (this.domElements.playField.childNodes.length !== 0) {
         this.domElements.checkButton.classList.add('ep-hidden');
         this.domElements.skipButton.classList.remove('ep-hidden');
+      }
+    });
+
+    this.domElements.difficultSelect.addEventListener('change', () => {
+      this.gameDifficult = this.domElements.difficultSelect.selectedIndex + 1;
+      if (this.onDifficultChange !== null) {
+        this.onDifficultChange(this.gameDifficult);
+      }
+    });
+
+    this.domElements.levelSelect.addEventListener('change', () => {
+      this.gameLevel = this.domElements.levelSelect.selectedIndex + 1;
+      if (this.onLevelChange !== null) {
+        this.onLevelChange(this.gameLevel);
       }
     });
   }
