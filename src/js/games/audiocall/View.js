@@ -1,7 +1,7 @@
 import AudiocallModel from './Model';
 import audiocallGame from './constAudiocall';
 import MainView from '../../views/mainView';
-// import MainModel from '../../models/mainModel';
+// import MainModel from '../../../assets/audio/';
 
 class AudiocallView {
     constructor() {
@@ -35,6 +35,9 @@ class AudiocallView {
       this.cancelModalWindow = document.querySelector('.container-game__crossword-modal__cancel');
       this.closeBtnModalGame = document.querySelector('.container-game__crossword-modal__btn-close');
       this.playAudioBtn = document.querySelector('.container-game__trainings-audiocall__speaker-container');
+      this.imageWord = document.querySelector('.container-game__trainings-audiocall__answers__header__image');
+      this.choosenAnswer = document.querySelector('#choosen-answer');
+      this.headerWord = document.querySelector('.container-game__trainings-audiocall__answers__header__word');
       
       this.clickStartGameBtn();
       this.openModal();
@@ -43,6 +46,7 @@ class AudiocallView {
       this.getLevels();
       this.getRounds();
       this.playAudio();
+      this.checkAnswer();
     }
         clickStartGameBtn() {
             this.startBtn.addEventListener('click', () => {
@@ -87,6 +91,23 @@ class AudiocallView {
                 });
         }
 
+        checkAnswer() {
+          this.choosenAnswer.addEventListener('click', (event) => {
+            if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
+              // this.sound('../../../assets/audio/correct.mp3');
+              event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+              this.showImageWord(this.images[0], this.wordsArr[0]);
+              
+              
+            } else {
+              // this.sound('../../../assets/audio/error.mp3');
+              event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-false');
+              document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+              this.showImageWord(this.images[0], this.wordsArr[0]);
+            }
+          });
+        }
+
         openModal() {
           this.closeBtnGame.addEventListener('click', () => {
             this.modalWindow.classList.add('show-flex');
@@ -127,6 +148,13 @@ class AudiocallView {
           this.round = event.target.dataset.round;
           console.log(this.round)
         });
+      }
+
+      showImageWord(src, words) {
+        this.imageWord.setAttribute("src", src);
+        this.imageWord.setAttribute("alt", words);
+        this.imageWord.classList.add('show');
+        this.headerWord.innerHTML = `<span>${words}</span>`;
       }
 
       playAudio() {

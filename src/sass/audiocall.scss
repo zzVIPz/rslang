@@ -44,7 +44,7 @@ main {
       position: absolute;
       top: 27px;
       right: 27px;
-      z-index: 999;
+      z-index: 1;
 
       width: 20px;
       height: 20px;
@@ -69,7 +69,6 @@ main {
         font-weight: 300;
         font-size: 40px;
         line-height: 1;
-        color: $var2;
         color: $var3;
         text-transform: uppercase;
         letter-spacing: 3px;
@@ -126,14 +125,50 @@ main {
       display: none;
 
       text-align: center;
+      &__header {
+        position: relative;
+        &__word {
+          display: inline-block;
+
+          font-weight: 300;
+          font-size: 24px;
+          line-height: 30px;
+          vertical-align: top;
+          text-align: left;
+          color: #ffffff;
+
+          transition: all .15s ease;
+
+          -webkit-user-select: none;
+             -moz-user-select: none;
+              -ms-user-select: none;
+                  user-select: none;
+        }
+      }
+      &__header__image {
+        display: none;
+        width: 140px;
+        height: 140px;
+        margin: 0 auto;
+
+        border: 5px solid $var3;
+        border-radius: 50%;
+
+        -o-object-fit: cover;
+           object-fit: cover;
+      }
     }
     &__answer {
       position: relative;
 
       display: inline-block;
-      max-width: 270px;
+      width: 100%;
+      max-width: 255px;
       margin: 15px 20px;
-      padding: 20px 15px 20px 30px;
+      margin-right: 0;
+      margin-bottom: 8px;
+      margin-left: 0;
+      padding: 10px 20px 13px 38px;
 
       font-weight: 300;
       font-size: 24px;
@@ -192,7 +227,6 @@ main {
       height: 100px;
       min-height: 100px;
       max-height: 100px;
-      margin: 0 auto 5%;
 
       cursor: pointer;
     }
@@ -220,16 +254,6 @@ main {
     &__number {
       top: 13px;
       left: 18px;
-    }
-    &__answer {
-      width: 100%;
-      max-width: 255px;
-      margin-right: 0;
-      margin-bottom: 8px;
-      margin-left: 0;
-      padding: 10px 20px 13px 38px;
-
-      font-size: 24px;
     }
   }
   &__modal {
@@ -358,14 +382,15 @@ main {
 }
 .container-game__preload {
   position: absolute;
-  top: 20%;
-  left: 50%;
+  top: 15%;
+  right: 0;
+  left: 0;
 
   display: none;
-  margin-left: -282px;
+
+  text-align: center;
   &__text {
     max-width: 565px;
-    margin: 0 auto 58px;
 
     font-weight: 300;
     font-size: 18px;
@@ -420,6 +445,11 @@ main {
 }
 .show-flex {
   display: flex;
+}
+.position-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @media screen and (max-width: 544px) {
   .container-game__crossword-modal__cont {

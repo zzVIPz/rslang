@@ -74,7 +74,8 @@ const audiocallGame = `
                     </div>
                     <div class="container-game__trainings-audiocall__intro-text">
                         <span>Тренировка Аудиовызов улучшает восприятие английской речи на слух.
-                                Прослушай аудио на английском и укажи верный перевод к слову.
+                              Есть 6 уровней сложности и 30 раундов. В каждом раунде по 20 слов.
+                              Прослушай аудио на английском и укажи верный перевод к слову.
                         </span>
                     </div>
                     <a class="container-game__trainings-audiocall__intro-btn">
@@ -93,19 +94,25 @@ const audiocallGame = `
                 </div>
             </div>
             <div class="container-game__trainings-audiocall__answers">
-                <div class="container-game__trainings-audiocall__speaker-container">
-                    <div class="container-game__trainings-audiocall__circle small-circle"></div>
-                        <i class="container-game__trainings-audiocall__sound-btn"></i>
-                        <div class="container-game__trainings-audiocall__circle big-circle"></div>
+                <div class="container-game__trainings-audiocall__answers__header">
+                    <img class ="container-game__trainings-audiocall__answers__header__image">
+                    <div class="position-center">
+                        <div class="container-game__trainings-audiocall__speaker-container">
+                            <div class="container-game__trainings-audiocall__circle small-circle"></div>
+                            <i class="container-game__trainings-audiocall__sound-btn"></i>
+                            <div class="container-game__trainings-audiocall__circle big-circle"></div>
+                        </div>
+                        <div class="container-game__trainings-audiocall__answers__header__word"></div>
                     </div>
-                    <div>
+                </div>
+                    <div id="choosen-answer">
                         <div class="container-game__trainings-audiocall__answer" id="answer-1">
                             <span class="container-game__trainings-audiocall__number">1</span>
                         </div>
-                        <div class="container-game__trainings-audiocall__answer container-game__trainings-audiocall__answer__m-answer-false" id="answer-2">
+                        <div class="container-game__trainings-audiocall__answer" id="answer-2">
                             <span class="container-game__trainings-audiocall__number">2</span>
                         </div>
-                        <div class="container-game__trainings-audiocall__answer container-game__trainings-audiocall__answer__m-answer-true" id="answer-3">
+                        <div class="container-game__trainings-audiocall__answer" id="answer-3">
                             <span class="container-game__trainings-audiocall__number">3</span>
                         </div>
                         <div class="container-game__trainings-audiocall__answer" id="answer-4">

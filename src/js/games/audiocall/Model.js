@@ -31,7 +31,8 @@ class AudiocallModel {
       }
 
       async  getWordsForAnswers(words) {
-        const url = `https://rhymebrain.com/talk?function=getRhymes&lang=ru&maxResults=10&word=${words}`;
+        const oneWord = words.split(' ');
+        const url = `https://rhymebrain.com/talk?function=getRhymes&lang=ru&maxResults=10&word=${oneWord}`;
         const res = await fetch(url);
         const dataWords = await res.json();
         return dataWords;
@@ -42,7 +43,11 @@ class AudiocallModel {
       }
 
       shuffle(array) {
-        array.sort(() => Math.random() - 0.5);
+        // array.sort(() => Math.random() - 0.5);
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1)); 
+          [array[i], array[j]] = [array[j], array[i]];
+        }
       }
 }
 
