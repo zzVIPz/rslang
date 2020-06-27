@@ -80,7 +80,7 @@ export default function getCardTemplate(card, settings) {
         ${CARD_TEXT.btnShowAnswer}
       </button>
     </div>
-    <div>
-    <button class="card__btn-check">${CARD_TEXT.btnCheck}</button>
-  </div>`;
+    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
+  </div>
+  `;
 }

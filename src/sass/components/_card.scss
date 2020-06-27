@@ -7,6 +7,48 @@
     margin-top: 10px;
   }
 
+  &__input-wrapper {
+    position: relative;
+
+    display: inline-block;
+  }
+
+  &__hint-container {
+    position: absolute;
+    top: 6px;
+    left: 4px;
+
+    &--invisible {
+      opacity: .3;
+
+      transition: 4s linear;
+      animation-name: letters-animation;
+      animation-duration: 3s;
+
+      @keyframes letters-animation {
+        from {
+          opacity: 1;
+        }
+
+        to {
+          opacity: .3;
+        }
+      }
+    }
+  }
+
+  &__letter {
+    color: $color-letter;
+  }
+
+  &__incorrect-low {
+    color: $color-incorrect-low;
+  }
+
+  &__incorrect-heavy {
+    color: $color-incorrect-heavy;
+  }
+
   .translate-hidden {
     display: none;
   }

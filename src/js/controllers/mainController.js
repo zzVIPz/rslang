@@ -142,11 +142,16 @@ export default class MainController {
 
     this.mainView.onEnterPress = () => {
       this.checkUserAnswer();
-      // todo: stop here this.mainView.checkUserAnswer();
     };
 
     this.mainView.onBtnCheckClick = () => {
       this.checkUserAnswer();
+    };
+    this.mainView.onBtnShowAnswerClick = () => {
+      this.mainView.showCorrectAnswer(true);
+      setTimeout(() => {
+        this.allowAccessNextSlide();
+      }, 1000);
     };
   }
 
@@ -163,15 +168,30 @@ export default class MainController {
   checkUserAnswer() {
     const userAnswer = this.mainView.getUserAnswer().toLowerCase();
     const correctValue = this.mainView.getCurrentInputNode().dataset.word.toLowerCase();
-    if (userAnswer === correctValue) {
+
+    if (userAnswer) {
+      if (userAnswer === correctValue) {
+        this.allowAccessNextSlide();
+      } else {
+        this.mainView.showCorrectAnswer();
+      }
+    }
+    // todo show modal: need text
+  }
+
+  allowAccessNextSlide() {
+    if (this.user.textPronunciation || this.user.wordPronunciation) {
       this.mainView.playAudio(this.user);
-      this.mainView.disableCurrentInput();
-      if (this.slideIndex === this.swiper.realIndex) {
-        this.slideIndex += 1;
-        this.mainView.enableSwiperNextSlide();
-        if (this.slideIndex === this.user.cardsTotal) {
-          alert('It\'s finish!');
-        }
+    }
+    this.mainView.disableCurrentInput();
+    if (this.slideIndex === this.swiper.realIndex) {
+      this.slideIndex += 1;
+      this.mainView.enableSwiperNextSlide();
+      if (!this.user.textPronunciation && !this.user.wordPronunciation) {
+        this.swiper.slideNext();
+      }
+      if (this.slideIndex === this.user.cardsTotal) {
+        alert("It's finish!");
       }
     }
   }
