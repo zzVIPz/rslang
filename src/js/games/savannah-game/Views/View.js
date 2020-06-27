@@ -104,13 +104,12 @@ class SavannahView {
     this.appContent = document.querySelector('.app__content');
     document.querySelector('.app').removeChild(document.querySelector('.rating__container'));
     this.appContent.innerHTML = this.renderPreloader();
-    document.querySelector('.preloader__conatiner').appendChild(this.renderLevel());
+    this.renderLevel();
   }
 
   renderLevel() {
-    this.levelBox = document.createElement('div');
-    this.levelBox.innerHTML = `<div class="current-level">Уровень: ${this.levelNumForUser}</div>`;
-    return this.levelBox;
+    this.levelBox = document.querySelector('.current-level');
+    this.levelBox.innerHTML = `Уровень: ${this.levelNumForUser}`;
   }
 
   preloaderCountDown() {
@@ -297,21 +296,20 @@ class SavannahView {
   }
 
   moveWord() {
+    this.pos = 0;
+    this.id = setInterval(this.frame.bind(this), 20);
     this.flyingWord = document.querySelector('.flying-word');
     this.flyingWord.classList.remove('flying-word_hide');
-    this.pos = -100;
-    this.id = setInterval(this.frame.bind(this), 20);
   }
 
   frame() {
     const rightAnswer = true;
-    if (this.pos === 150 && this.model.isGameOn) {
+    if (this.pos === 270 && this.model.isGameOn) {
       clearInterval(this.id);
       if (this.model.audioOn) {
         playAudio(soundURL, 'error.mp3');
       }
 
-      this.flyingWord.classList.add('flying-word_hide');
       this.correctHTMLEl = this.findCorrectAnswerHTMLel();
       this.model.wrongAnswer += 1;
 
@@ -319,7 +317,8 @@ class SavannahView {
       this.highlightAnswer(this.correctHTMLEl, rightAnswer);
       this.gameStatistics.appendWrongAnswer(this.randomEngWord,
         this.model.correctAnswer, this.model.currentWordAudio);
-
+      this.flyingWord.classList.add('flying-word_hide');
+      this.flyingWord.style.top = '0';
       setTimeout(this.removeHighlight.bind(this), 1000, this.correctHTMLEl, rightAnswer);
       setTimeout(this.nextWord.bind(this), 1000);
     } else {

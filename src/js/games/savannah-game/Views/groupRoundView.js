@@ -1,22 +1,20 @@
 class GroupRoundView {
   constructor(html, main) {
-    this.ratingContainer = document.createElement('div');
     this.html = html;
     this.main = main;
   }
 
   init() {
-    this.renderGroupRound(this.main);
+    this.renderGroupRound();
     this.groups = Array.from(document.querySelectorAll('.group'));
     this.rounds = Array.from(document.querySelectorAll('.round'));
     this.addEventHandlerOnRating(this.groups);
     this.addEventHandlerOnRating(this.rounds);
   }
 
-  renderGroupRound(main) {
-    this.ratingContainer.classList.add('rating__container');
+  renderGroupRound() {
+    this.ratingContainer = document.querySelector('.rating__container');
     this.ratingContainer.innerHTML = this.html;
-    main.appendChild(this.ratingContainer);
   }
 
   addEventHandlerOnRating(array) {

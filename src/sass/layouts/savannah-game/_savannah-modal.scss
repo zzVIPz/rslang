@@ -14,7 +14,7 @@
   max-width: 100%;
   padding: 160px 16px 16px;
 
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,.6);
   border-radius: 0;
   &_visible {
     display: flex;
@@ -30,12 +30,16 @@
 
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 1px 0 2px 0 rgba(0,0,0,0.16);
+  box-shadow: 1px 0 2px 0 rgba(0,0,0,.16);
   &_title {
     font-weight: 700;
     font-size: 18px;
     line-height: 1.22;
     color: #37383c;
+
+@include media-mobile {
+      font-size: 15px;
+    }
   }
   &_text {
     max-width: 337px;
@@ -45,6 +49,10 @@
     line-height: 1.25;
     text-align: center;
     color: #37383c;
+
+@include media-mobile {
+      font-size: 12px;
+    }
   }
   &_cancel {
     margin-top: 16px;
@@ -56,5 +64,9 @@
     text-decoration: underline;
 
     cursor: pointer;
+
+@include media-mobile {
+      margin-top: 5px;
+    }
   }
 }

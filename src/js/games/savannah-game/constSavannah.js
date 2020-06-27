@@ -3,6 +3,7 @@ const savannahGame = `
     <div class="app__header">
       <a href="#" class="close"></a>
     </div>
+    <div class="rating__container"></div>
     <div class="app__content">
       <div class="app__content__title">Саванна</div>
       <div class="app__content__text">Тренировка Саванна развивает словарный запас. Попробуй сам.</div>
@@ -41,6 +42,7 @@ const groupRound = `
 
 const preloader = `
 <div class="preloader__conatiner"> 
+    <div class="current-level"></div>
     <div class="countdown">3</div>
     <div class="preloader">
       <div class="item-1"></div>

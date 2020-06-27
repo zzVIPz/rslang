@@ -2,6 +2,7 @@
   position: relative;
 
   width: 100%;
+  min-height: calc(100vh - 93px);
 }
 
 .flying-word {
@@ -21,7 +22,7 @@
     width: 100%;
     margin-left: 0;
 
-    font-size: 1em;
+    font-size: 2em;
   }
 
   &_hide {
@@ -31,21 +32,23 @@
 
 
 .app__content__translation-box {
-  position: absolute;
-  top: 35%;
-
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 15%;
 
   font-size: 1.5em;
   color: $text-color;
 
-@include media-mobile {
-    top: 0;
+@include media-tablet {
+    flex-wrap: wrap;
+    margin-top: 25%;
+  }
 
+@include media-mobile {
     flex-direction: column;
     align-items: center;
+    margin-top: 50%;
 
     font-size: 1em;
   }
@@ -60,8 +63,30 @@
 
     cursor: pointer;
 
+@include media-tablet {
+      position: relative;
+
+      display: inline-block;
+      max-width: 270px;
+      margin: 0 100px;
+      margin-right: 0;
+
+      font-size: 2.5rem;
+      line-height: 30px;
+      vertical-align: top;
+      text-align: left;
+      word-break: break-all;
+    }
+
 @include media-mobile {
+      justify-content: start;
       width: 100%;
+      max-width: 320px;
+      margin: 0 20px;
+      margin-bottom: 8px;
+      padding: 10px 20px 13px 10px;
+
+      font-size: 24px;
     }
 
     &:hover {
@@ -82,7 +107,7 @@ span .keyboard-num {
 
 .cristal {
   position: absolute;
-  bottom: -35px;
+  bottom: 60px;
   left: 50%;
 
   width: 30px;
