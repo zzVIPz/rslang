@@ -145,9 +145,7 @@ export default class MainView {
               const nextAudio = arr[i + 1];
               if (nextAudio) {
                 nextAudio.play();
-              } else {
-                this.swiper.slideNext();
-              }
+              } else if (user.automaticallyScroll) this.swiper.slideNext();
             }
           });
         });

@@ -29,6 +29,7 @@ const DEFAULT_USER_SETTINGS = {
   associativePicture: true,
   wordPronunciation: true,
   textPronunciation: true,
+  automaticallyScroll: false,
   btnKnow: true,
   btnDifficult: true,
   btnShowAnswer: true,
@@ -60,6 +61,7 @@ const SETTING_MODAL_TEXT = {
   btnShowAnswer: "Show button 'Show answer'",
   wordPronunciation: 'Pronounce study word',
   textPronunciation: 'Pronounce study text',
+  automaticallyScroll: 'Automatic slide scrolling',
   btnAccept: 'ACCEPT',
   btnCancel: 'CANCEL',
 };

@@ -187,8 +187,14 @@ export default class MainController {
     if (this.slideIndex === this.swiper.realIndex) {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
-      if (!this.user.textPronunciation && !this.user.wordPronunciation) {
-        this.swiper.slideNext();
+      if (
+        !this.user.textPronunciation
+        && !this.user.wordPronunciation
+        && this.user.automaticallyScroll
+      ) {
+        setTimeout(() => {
+          this.swiper.slideNext();
+        }, 700);
       }
       if (this.slideIndex === this.user.cardsTotal) {
         alert("It's finish!");

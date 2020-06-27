@@ -14,6 +14,7 @@ export default class User {
     this.associativePicture = settings.associativePicture;
     this.wordPronunciation = settings.wordPronunciation;
     this.textPronunciation = settings.textPronunciation;
+    this.automaticallyScroll = settings.automaticallyScroll;
     this.btnKnow = settings.btnKnow;
     this.btnDifficult = settings.btnDifficult;
     this.btnShowAnswer = settings.btnShowAnswer;
