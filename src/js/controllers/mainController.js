@@ -12,9 +12,11 @@ export default class MainController {
     this.mainModel = new MainModel();
     this.mainView = new MainView();
     this.swiper = null;
+    this.slideIndex = 0;
   }
 
   async init() {
+    this.setDefaultHash();
     this.firebaseModel.onAuthStateChangedHandler();
     this.mainModel.init();
     this.mainView.init();
@@ -34,54 +36,54 @@ export default class MainController {
     };
 
     this.mainView.onBurgerMenuClick = () => {
+      this.mainView.stopAudio();
       this.mainView.toggleMenuProperty();
       this.mainView.setActiveLink();
     };
 
     this.mainView.onNavigationLinkClick = (e) => {
       const dataName = e.target.dataset.name;
-      if (dataName === MENU_ITEMS_NAMES.mainPage) {
-        this.mainView.renderMain(this.user);
-      }
-      if (dataName === MENU_ITEMS_NAMES.dictionary) {
-        // add dictionary
-      }
-      if (dataName === MENU_ITEMS_NAMES.statistics) {
-        // add statistics
-      }
-      if (dataName === MENU_ITEMS_NAMES.speakit) {
-        // add speakit
-      }
-      if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
-        // add englishPuzzle
-      }
-      if (dataName === MENU_ITEMS_NAMES.audiocall) {
-        this.audiocall = new AudiocallController(this.user, this.mainView);
-        this.audiocall.init();
-      }
-      if (dataName === MENU_ITEMS_NAMES.savannah) {
-        // add savannah
-      }
-      if (dataName === MENU_ITEMS_NAMES.sprint) {
-        // add sprint
-      }
-      if (dataName === MENU_ITEMS_NAMES.newGame) {
-        // add newGame
-      }
-      if (dataName === MENU_ITEMS_NAMES.promoPage) {
-        window.open('./promo.html');
-      }
-
-      if (dataName === MENU_ITEMS_NAMES.aboutTeam) {
-        window.open('./about.html');
-      }
-      if (dataName === MENU_ITEMS_NAMES.logOut) {
-        this.mainView.onLogOut();
-        this.mainView.showIndexPage();
+      switch (dataName) {
+        case MENU_ITEMS_NAMES.dictionary:
+          break;
+        case MENU_ITEMS_NAMES.statistics:
+          break;
+        case MENU_ITEMS_NAMES.speakit:
+          break;
+        case MENU_ITEMS_NAMES.englishPuzzle:
+          break;
+        case MENU_ITEMS_NAMES.audiocall:
+          this.audiocall = new AudiocallController(this.user, this.mainView); 
+          this.audiocall.init();
+          break;
+        case MENU_ITEMS_NAMES.savannah:
+          break;
+        case MENU_ITEMS_NAMES.sprint:
+          break;
+        case MENU_ITEMS_NAMES.newGame:
+          break;
+        case MENU_ITEMS_NAMES.promoPage:
+          e.preventDefault();
+          window.open('./promo.html');
+          break;
+        case MENU_ITEMS_NAMES.aboutTeam:
+          e.preventDefault();
+          window.open('./about.html');
+          break;
+        case MENU_ITEMS_NAMES.logOut:
+          this.mainView.onLogOut();
+          this.mainView.showIndexPage();
+          break;
+        default:
+          e.preventDefault();
+          this.setDefaultHash();
+          this.mainView.renderMain(this.user);
       }
     };
 
     this.mainView.onBtnStartClick = async (user) => {
+      this.slideIndex = 0;
+      this.mainView.setSwiperDefaultState();
       const wordsList = await this.mainModel.getWords(
         user.currentPage,
         user.currentGroup,
@@ -91,6 +93,7 @@ export default class MainController {
       this.mainView.renderSwiperTemplate();
       this.initSwiper();
       this.mainView.renderCards(wordsList, user, this.swiper);
+      this.mainView.disableSwiperNextSlide();
       this.mainView.setFocusToInput();
       window.location.hash = HASH_VALUES.training;
     };
@@ -109,12 +112,13 @@ export default class MainController {
       this.mainView.closeSettingsModal();
     };
 
-    this.mainView.onButtonCancelClick = () => {
+    this.mainView.onModalBtnCancelClick = () => {
       this.mainView.closeSettingsModal();
     };
 
     this.mainView.onBtnSettingsClick = () => {
       this.mainView.showSettingsModal(this.user);
+      this.checkHashValue();
       this.mainView.addSettingsModalListeners();
     };
 
@@ -139,29 +143,64 @@ export default class MainController {
       this.mainView.toggleCardsLayout(e);
     };
 
-    this.mainView.onBtnEnterPress = () => {
-      const userAnswer = this.mainView.getUserAnswer();
+    this.mainView.onEnterPress = () => {
+      this.checkUserAnswer();
       // todo: stop here this.mainView.checkUserAnswer();
+    };
+
+    this.mainView.onBtnCheckClick = () => {
+      this.checkUserAnswer();
     };
   }
 
-  initSwiper() {
-    if (!this.swiper) {
-      this.swiper = new Swiper('.swiper-container', {
-        pagination: {
-          type: 'progressbar',
-          el: '.swiper-pagination',
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
-      this.swiper.on('slideChange', () => {
-        this.mainView.setFocusToInput();
-      });
-    } else {
-      this.swiper.removeAllSlides();
+  checkHashValue() {
+    if (window.location.hash.slice(1) === HASH_VALUES.training) {
+      this.mainView.disableStudyProfileProperties();
     }
+  }
+
+  setDefaultHash = () => {
+    window.history.replaceState(null, null, ' ');
+  };
+
+  checkUserAnswer() {
+    const userAnswer = this.mainView.getUserAnswer().toLowerCase();
+    const correctValue = this.mainView.getCurrentInputNode().dataset.word.toLowerCase();
+    if (userAnswer === correctValue) {
+      this.mainView.playAudio(this.user);
+      this.mainView.disableCurrentInput();
+      if (this.slideIndex === this.swiper.realIndex) {
+        this.slideIndex += 1;
+        this.mainView.enableSwiperNextSlide();
+        if (this.slideIndex === this.user.cardsTotal) {
+          alert('It\'s finish!');
+        }
+      }
+    }
+  }
+
+  initSwiper() {
+    this.swiper = new Swiper('.swiper-container', {
+      pagination: {
+        type: 'progressbar',
+        el: '.swiper-pagination',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    this.swiper.on('slideChange', () => {
+      this.mainView.stopAudio();
+      if (this.swiper.realIndex < this.slideIndex) {
+        this.mainView.enableSwiperNextSlide();
+      }
+    });
+    this.swiper.on('slideNextTransitionStart', () => {
+      this.mainView.setFocusToInput();
+      if (this.slideIndex === this.swiper.realIndex) {
+        this.mainView.disableSwiperNextSlide();
+      }
+    });
   }
 }

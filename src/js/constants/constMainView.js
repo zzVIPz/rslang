@@ -28,10 +28,10 @@ const DEFAULT_USER_SETTINGS = {
   transcription: true,
   associativePicture: true,
   wordPronunciation: true,
-  meaningPronunciation: true,
-  examplePronunciation: true,
+  textPronunciation: true,
   btnKnow: true,
   btnDifficult: true,
+  btnShowAnswer: true,
 };
 
 const SETTING_MODAL_TEXT = {
@@ -56,10 +56,10 @@ const SETTING_MODAL_TEXT = {
   translate: 'Show translate',
   associativePicture: 'Show associative picture',
   btnKnow: "Show button 'I know'",
-  btnDifficult: "Show button 'Difficult'",
-  wordPronunciation: 'Pronunciation of the studied word',
-  meaningPronunciation: 'Pronunciation of the meaning text',
-  examplePronunciation: 'Pronunciation of the example text',
+  btnDifficult: "Show button 'Difficult word'",
+  btnShowAnswer: "Show button 'Show answer'",
+  wordPronunciation: 'Pronounce study word',
+  textPronunciation: 'Pronounce study text',
   btnAccept: 'ACCEPT',
   btnCancel: 'CANCEL',
 };
