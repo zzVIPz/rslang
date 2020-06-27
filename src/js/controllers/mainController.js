@@ -3,7 +3,13 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
-import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
+import {
+  MENU_ITEMS_NAMES,
+  HASH_VALUES,
+  DELAY_NEXT_SLIDE_AUDIO_OFF,
+  DELAY_NEXT_SLIDE_AUDIO_ON,
+  WORDS_STATUS,
+} from '../constants/constMainView';
 
 export default class MainController {
   constructor() {
@@ -86,7 +92,6 @@ export default class MainController {
         user.currentGroup,
         user.cardsTotal,
       );
-
       this.mainView.renderSwiperTemplate();
       this.initSwiper();
       this.mainView.renderCards(wordsList, user, this.swiper);
@@ -147,11 +152,25 @@ export default class MainController {
     this.mainView.onBtnCheckClick = () => {
       this.checkUserAnswer();
     };
+
+    this.mainView.onBtnKnowClick = async () => {
+      const wordId = this.mainView.getWordId();
+      const wordById = await this.mainModel.getAggregatedWordById(
+        this.user.userId,
+        this.user.token,
+        wordId,
+      );
+      if (!wordById.userWord) {
+        await this.mainModel.createUserWord(this.user.userId, this.user.token, wordId, {
+          difficulty: WORDS_STATUS.dictionary,
+          optional: {},
+        });
+      }
+      this.showCorrectAnswer();
+    };
+
     this.mainView.onBtnShowAnswerClick = () => {
-      this.mainView.showCorrectAnswer(true);
-      setTimeout(() => {
-        this.allowAccessNextSlide();
-      }, 1000);
+      this.showCorrectAnswer();
     };
   }
 
@@ -159,6 +178,13 @@ export default class MainController {
     if (window.location.hash.slice(1) === HASH_VALUES.training) {
       this.mainView.disableStudyProfileProperties();
     }
+  }
+
+  showCorrectAnswer() {
+    this.mainView.showCorrectAnswer(true);
+    setTimeout(() => {
+      this.allowAccessNextSlide();
+    }, DELAY_NEXT_SLIDE_AUDIO_OFF);
   }
 
   setDefaultHash = () => {
@@ -194,7 +220,7 @@ export default class MainController {
       ) {
         setTimeout(() => {
           this.swiper.slideNext();
-        }, 700);
+        }, DELAY_NEXT_SLIDE_AUDIO_ON);
       }
       if (this.slideIndex === this.user.cardsTotal) {
         alert("It's finish!");

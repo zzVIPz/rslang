@@ -59,7 +59,7 @@ export default function getCardTemplate(card, settings) {
   const textExample = getFormattedString(card.textExample, textExampleMode, textExampleContent);
 
   return `
-  <div class="swiper-slide card container">
+  <div class="swiper-slide card container" data-id=${card.id}>
     <p class="card__state">${CARD_TEXT.newWord}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
@@ -81,6 +81,6 @@ export default function getCardTemplate(card, settings) {
       </button>
     </div>
     <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
-  </div>
+   </div>
   `;
 }

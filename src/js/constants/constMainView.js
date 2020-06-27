@@ -93,6 +93,14 @@ const SWIPER_TEMPLATE = `
     <div class="swiper-button-next"></div>
   </div>`;
 
+const DELAY_NEXT_SLIDE_AUDIO_OFF = 1000;
+
+const DELAY_NEXT_SLIDE_AUDIO_ON = 700;
+
+const WORDS_STATUS = {
+  dictionary: 'dictionary',
+};
+
 export {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -101,4 +109,7 @@ export {
   SWIPER_TEMPLATE,
   DEFAULT_USER_SETTINGS,
   WORD_LEARNING_MODES,
+  DELAY_NEXT_SLIDE_AUDIO_OFF,
+  DELAY_NEXT_SLIDE_AUDIO_ON,
+  WORDS_STATUS,
 };

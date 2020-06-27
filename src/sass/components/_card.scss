@@ -22,8 +22,7 @@
       opacity: .3;
 
       transition: 4s linear;
-      animation-name: letters-animation;
-      animation-duration: 3s;
+      animation: letters-animation 3s;
 
       @keyframes letters-animation {
         from {

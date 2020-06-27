@@ -1,7 +1,33 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
-import getRequestBody from '../utils/getRequestBody';
 import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
+
+const REQUEST_PARAMETERS = {
+  url: 'https://afternoon-falls-25894.herokuapp.com/users/',
+};
+
+const getBodyRequest = (method, token, settings) => {
+  const bodyRequest = {
+    method: `${method}`,
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  };
+  if (settings) {
+    bodyRequest.body = JSON.stringify(settings);
+  }
+  return bodyRequest;
+};
+
+const getUserSettingsBodyRequest = (userData) => ({
+  wordsPerDay: userData.cardsTotal,
+  optional: {
+    user: JSON.stringify(userData),
+  },
+});
 
 export default class MainModel {
   constructor() {
@@ -22,7 +48,7 @@ export default class MainModel {
       await this.setUserSettings(
         this.currentUser.userId,
         this.currentUser.token,
-        getRequestBody(this.currentUser),
+        getUserSettingsBodyRequest(this.currentUser),
       );
     }
   }
@@ -33,7 +59,7 @@ export default class MainModel {
 
   async updateUserSettings(user) {
     this.currentUser = user;
-    await this.setUserSettings(user.userId, user.token, getRequestBody(user));
+    await this.setUserSettings(user.userId, user.token, getUserSettingsBodyRequest(user));
   }
 
   async getUser(userId, token) {
@@ -48,45 +74,75 @@ export default class MainModel {
     return this.currentUser;
   }
 
-  async setUserSettings(userId, token, settings) {
-    this.rawResponse = await fetch(
-      `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
-      {
-        method: 'PUT',
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      },
+  setUserSettings = async (userId, token, settings) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${userId}/settings`,
+      getBodyRequest('PUT', token, settings),
     );
-    const content = await this.rawResponse.json();
+    const content = await rawResponse.json();
     console.log('setUserSettings', content);
-  }
+  };
 
-  async getWords(currentPage, currentGroup, cardsTotal, wordsPerExample) {
-    this.url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
-    const rawResponse = await fetch(this.url);
+  getWords = async (currentPage, currentGroup, cardsTotal, wordsPerExample) => {
+    const url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
+    const rawResponse = await fetch(url);
     const content = await rawResponse.json();
     return content;
-  }
+  };
 
-  async getUserSettings(userId, token) {
-    this.rawResponse = await fetch(
-      `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
-      {
-        method: 'GET',
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      },
+  getAllUsersWords = async (userId, token) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${userId}/words`,
+      getBodyRequest('GET', token),
     );
-    const content = await this.rawResponse.json();
+    const content = await rawResponse.json();
+
+    console.log('getAllUsersWords', content);
+    return content;
+  };
+
+  getAggregatedWords = async (userId, token, filter) => {
+    let url = `${REQUEST_PARAMETERS.url}${userId}/aggregatedWords`;
+    if (filter) {
+      const formattedFilter = `${filter}`;
+      url = `${REQUEST_PARAMETERS.url}${userId}/aggregatedWords?${encodeURIComponent(
+        formattedFilter,
+      )}`;
+    }
+    const rawResponse = await fetch(url, getBodyRequest('GET', token));
+    const content = await rawResponse.json();
+
+    console.log('getAllUsersWords', content);
+    return content;
+  };
+
+  getAggregatedWordById = async (userId, token, wordId) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${userId}/aggregatedWords/${wordId}`,
+      getBodyRequest('GET', token),
+    );
+    const content = await rawResponse.json();
+
+    console.log('getAggregatedWordById', content);
+    return content[0];
+  };
+
+  createUserWord = async (userId, token, wordId, word) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${userId}/words/${wordId}`,
+      getBodyRequest('POST', token, word),
+    );
+    const content = await rawResponse.json();
+
+    console.log(content);
+  };
+
+  getUserSettings = async (userId, token) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${userId}/settings`,
+      getBodyRequest('GET', token),
+    );
+    const content = await rawResponse.json();
     return JSON.parse(content.optional.user);
-  }
+  };
 }

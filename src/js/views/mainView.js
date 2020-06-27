@@ -120,6 +120,10 @@ export default class MainView {
     return inputNode;
   };
 
+  getWordId(currentSlide = this.getCurrentSlide()) {
+    return currentSlide.dataset.id;
+  }
+
   disableCurrentInput() {
     // todo: show all data, disable buttons
     const currentSlide = this.getCurrentSlide();
@@ -160,6 +164,10 @@ export default class MainView {
     if (param) {
       currentInput.value = correctAnswer;
     } else {
+      const removeHintContainer = () => {
+        currentInput.removeEventListener('input', removeHintContainer);
+        this.hintContainer.remove();
+      };
       if (this.hintContainer) {
         this.hintContainer.remove();
       }
@@ -172,11 +180,7 @@ export default class MainView {
       this.hintContainer.addEventListener('click', () => {
         currentInput.focus();
       });
-      const removeHintContainer = () => {
-        this.hintContainer.remove();
-      };
       currentInput.addEventListener('input', removeHintContainer);
-      // todo: think
     }
   }
 
@@ -305,6 +309,9 @@ export default class MainView {
       }
       if (target.classList.contains('card__show-answer')) {
         this.onBtnShowAnswerClick();
+      }
+      if (target.classList.contains('card__know')) {
+        this.onBtnKnowClick();
       }
     });
   }
