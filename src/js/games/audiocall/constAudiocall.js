@@ -1,6 +1,6 @@
 const audiocallGame = `
     <div class="container-game">
-        <div class="container-game__trainings-audiocall" style="background-position-y: 100%;">
+        <div class="container-game__trainings-audiocall">
             <div class="container-game__trainings-audiocall__close"></div>
             <div class="container-game__levels-container">
                 <div class="app__rating">
@@ -74,8 +74,7 @@ const audiocallGame = `
                     </div>
                     <div class="container-game__trainings-audiocall__intro-text">
                         <span>Тренировка Аудиовызов улучшает восприятие английской речи на слух.
-                              Есть 6 уровней сложности и 30 раундов. В каждом раунде по 20 слов.
-                              Прослушай аудио на английском и укажи верный перевод к слову.
+                              Есть 6 уровней сложности и 30 раундов. 
                         </span>
                     </div>
                     <a class="container-game__trainings-audiocall__intro-btn">
@@ -122,6 +121,44 @@ const audiocallGame = `
                     <a class="container-game__trainings-audiocall__answer-btn">
                         <span>Не знаю :(</span>
                     </a>
+                </div>
+                <div class="container-game__final">
+                    <div class="container-game__final__title">
+                        <span>В этот раз не получилось, но продолжай тренироваться!</span>
+                    </div>
+                    <div class="container-game__final__slider">
+                        <div class="container-game__final__slider-answers">
+                            <div class="container-game__final__slider-answers__invalid">
+                                <div class="container-game__final__slider-answers__invalid__title">
+                                    <span>ОШИБОК:</span>
+                                </div>
+                                <div class="container-game__final__slider-answers__answer">
+                                    <span class="container-game__final__sound"></span>
+                                    <div class="container-game__final__slider-answers__answer-eng"></div>
+                                    <span class="container-game__final__tr"></span>
+                                    <div class="container-game__final__slider-answers__answer-ru"></div>
+                                </div>
+                            </div>
+                            <div class="container-game__final__slider-answers__line"></div>
+                            <div class="container-game__final__slider-answers__valid">
+                                <div class="container-game__final__slider-answers__valid__title">
+                                    <span>ЗНАЮ:</span>
+                                </div>
+                                <div class="container-game__final__slider-answers__answer">
+                                    <span class="container-game__final__sound"></span>
+                                    <div class="container-game__final__slider-answers__answer-eng">red</div>
+                                    <span class="container-game__final__tr"></span>
+                                    <div class="container-game__final__slider-answers__answer-ru">красный</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-game__final__continue">
+                        <span>Продолжить тренировку</span>
+                    </div>
+                    <div class="container-game__final__back">
+                        <span>К списку тренировок</span>
+                    </div>
                 </div>
                 <div class="container-game__modal">
                     <div class="container-game__modal__header"></div>

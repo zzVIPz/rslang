@@ -21,25 +21,211 @@ main {
   align-items: center;
 }
 .container-game {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: calc(100vh - 93px);
+  overflow: hidden;
+
   font-family: Open Sans, Helvetica, Arial, sans-serif;
-  &__trainings-audiocall {
-    position: relative;
 
-    display: flex;
-    justify-content: center;
+  background-color: $var1;
+  background-image: url(../assets/svg/bg-audiocall-game.svg);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 100%;
+  background-size: cover;
+
+  transition: all 1s ease;
+  &__final {
+    // display: flex;
+    display: none;
+    flex-direction: column;
     align-items: center;
-    width: 100vw;
-    height: calc(100vh - 93px);
-    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 784px;
+    min-height: 646px;
+    margin: 0 auto;
+    padding: 42px 16px;
 
-    background-color: $var1;
-    background-image: url(../assets/svg/bg-audiocall-game.svg);
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: 100%;
-    background-size: cover;
+    text-align: center;
 
-    transition: all 1s ease;
+    background-color: #ffffff;
+    border: 1px solid #e6e9ee;
+    border-radius: 8px;
+    &__sound {
+      width: 32px;
+      height: 32px;
+
+      background-image: url("../assets/svg/speaker-for-final-modal.svg");
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-size: 20px 18px;
+      cursor: pointer;
+    }
+    &__back:hover {
+      text-decoration: none;
+    }
+    &__back {
+      margin-top: 20px;
+
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.71;
+      text-align: center;
+      color: #2582e7;
+      text-decoration: underline;
+
+      cursor: pointer;
+    }
+    &__continue:hover {
+      background-color: rgba(37,130,231,.12);
+    }
+    &__continue {
+      margin-top: 24px;
+      padding: 10px 42px;
+
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.43;
+      text-align: center;
+      color: #2582e7;
+
+      background-color: rgba(37,130,231,.08);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    &__slider {
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 542px;
+      height: 337px;
+      margin-top: 0;
+      overflow: auto;
+    }
+    &__tr {
+      margin-right: 6px;
+    }
+    &__sound {
+      position: relative;
+
+      display: inline-block;
+      margin-right: 10px;
+
+      line-height: 0;
+
+      cursor: pointer;
+    }
+    &__slider-answers {
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      padding-right: 12px;
+
+      transition: .5s;
+      &__answer-ru {
+        flex-grow: 1;
+        max-width: calc(50% - 54px);
+        overflow: hidden;
+
+        font-size: 16px;
+        line-height: 1.25;
+        color: #37383c;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-break: normal;
+      }
+      &__answer-eng {
+        max-width: calc(50% - 54px);
+        margin-right: 6px;
+        overflow: hidden;
+
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.25;
+        color: #2582e7;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-break: normal;
+
+        cursor: pointer;
+      }
+      &__answer {
+        position: relative;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 16px;
+      }
+      &__valid {
+        display: flex;
+        flex-direction: column;
+        margin-top: 16px;
+
+        text-align: left;
+        &__title {
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 1.33;
+          color: #28c38a;
+          text-transform: uppercase;
+        }
+      }
+      &__line {
+        width: 100%;
+        height: 1px;
+        margin-top: 18px;
+
+        background-color: rgba(55,56,60,.12);
+      }
+      &__invalid {
+        display: flex;
+        flex-direction: column;
+
+        text-align: left;
+        &__title {
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 1.33;
+          color: #ed593b;
+          text-transform: uppercase;
+        }
+      }
+    }
+    &__title {
+      font-weight: 300;
+      font-size: 34px;
+      line-height: .85;
+      color: #37383c;
+    }
+  }
+  &__trainings-audiocall {
+    // position: relative;
+
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // width: 100vw;
+    // height: calc(100vh - 93px);
+    // overflow: hidden;
+
+    // background-color: $var1;
+    // background-image: url(../assets/svg/bg-audiocall-game.svg);
+    // background-repeat: no-repeat;
+    // background-position-x: center;
+    // background-position-y: 100%;
+    // background-size: cover;
+
+    // transition: all 1s ease;
     &__close {
       position: absolute;
       top: 27px;
@@ -118,7 +304,7 @@ main {
     }
     &__answers {
       position: absolute;
-      top: 15%;
+      top: 5%;
       right: 0;
       left: 0;
 
@@ -142,7 +328,6 @@ main {
           text-align: left;
           color: #ffffff;
 
-
           -webkit-user-select: none;
              -moz-user-select: none;
               -ms-user-select: none;
@@ -154,14 +339,15 @@ main {
         width: 140px;
         height: 140px;
         margin: 0 auto;
-        opacity: 0;
+
         border: 5px solid $var3;
         border-radius: 50%;
+        opacity: 0;
 
-        -webkit-transition: all 0.7s ease-in-out;
-           -moz-transition: all 0.7s ease-in-out;
-             -o-transition: all 0.7s ease-in-out;
-                transition: all 0.7s ease-in-out;
+        -webkit-transition: all .7s ease-in-out;
+           -moz-transition: all .7s ease-in-out;
+             -o-transition: all .7s ease-in-out;
+                transition: all .7s ease-in-out;
 
         -o-object-fit: cover;
            object-fit: cover;
@@ -458,9 +644,9 @@ main {
 .animation {
   transform: translateX(-100%);
 }
-.visuallyshow {  
-  opacity: 1;  
- }
+.visuallyshow {
+  opacity: 1;
+}
 .position-center {
   display: flex;
   justify-content: center;
