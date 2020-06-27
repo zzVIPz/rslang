@@ -1,5 +1,6 @@
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import BackgroundModel from '../models/backgroundModel';
+import AudioModel from '../models/audioModel';
 import EnglishPuzzleView from '../views/englishPuzzleView';
 import MainModel from '../../../models/mainModel';
 import getPage from '../helpers/getPage';
@@ -9,6 +10,7 @@ export default class EnglishPuzzleController {
     this.englishPuzzleView = new EnglishPuzzleView();
     this.mainModel = new MainModel();
     this.englishPuzzleModel = new EnglishPuzzleModel();
+    this.audioModel = new AudioModel();
     this.wordsData = null;
     this.page = 0;
     this.gameLevel = 1;
@@ -18,9 +20,9 @@ export default class EnglishPuzzleController {
   async init() {
     this.mainModel.init();
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
-    await this.getPainting(this.group + 1);
+    this.englishPuzzleView.audioModel = this.audioModel;
     await this.getData();
-    this.renderView();
+    await this.getPainting(this.group + 1);
     this.subscribeToEvents();
   }
 
@@ -38,22 +40,22 @@ export default class EnglishPuzzleController {
     this.englishPuzzleView.onLevelChange = async (level) => {
       this.gameLevel = level;
       const newPage = getPage(this.gameLevel);
-      await this.getPainting(this.group + 1);
       if (this.page !== newPage) {
         this.page = newPage;
         await this.getData();
-        this.renderView();
-      } else {
-        this.renderView();
       }
+      await this.getPainting(this.group + 1);
     };
 
-    this.englishPuzzleView.onDifficultChange = async (difficult) => {
+    this.englishPuzzleView.onDifficultChange = async (difficult, level) => {
       const newGroup = difficult - 1;
       this.group = newGroup;
+      if (level) {
+        this.gameLevel = level;
+        this.page = getPage(this.gameLevel);
+      }
       await this.getData();
       await this.getPainting(difficult);
-      this.renderView();
     };
   }
 
@@ -61,8 +63,10 @@ export default class EnglishPuzzleController {
     this.wordsData = await this.mainModel.getWords(this.page, this.group, 20);
   }
 
-  renderView() {
-    const slicedWordData = this.sliceData(this.wordsData);
+  async renderView() {
+    const slicedWordData = await this.sliceData(this.wordsData);
+    this.audioModel.data = slicedWordData;
+    console.log('render', this.audioModel.data);
     this.englishPuzzleModel.data = slicedWordData;
     this.englishPuzzleView.render();
   }
@@ -70,11 +74,10 @@ export default class EnglishPuzzleController {
   async getPainting(difficult) {
     const backgroundModel = new BackgroundModel(difficult);
     const backgroundModelData = await backgroundModel.getData(this.gameLevel);
-    console.log(backgroundModelData);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
     this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/NordOst88/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
     this.englishPuzzleView.img.onload = () => {
-      this.englishPuzzleView.render();
+      this.renderView();
     };
   }
 }

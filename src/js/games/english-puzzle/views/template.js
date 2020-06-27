@@ -80,14 +80,14 @@ const template = `
             </label>
           </div>
           <div class="ep-controls__right-side">
-            <div class="ep__button tips__button tips__button_autospeech"></div>
+            <div id="tipAutospeech" class="ep__button tips__button tips__button_autospeech"></div>
             <div id="tipTranslate" class="ep__button tips__button tips__button_translate"></div>
-            <div class="ep__button tips__button tips__button_speech"></div>
+            <div id="tipSpeech" class="ep__button tips__button tips__button_speech"></div>
             <div id="tipBackground" class="ep__button tips__button tips__button_background"></div>
           </div>
         </div>
         <div class="ep-tips">
-          <div class="ep__button tips__button tips__button_autospeech-grey"></div>
+          <div id="stopSpeech" class="ep__button tips__button tips__button_autospeech-grey"></div>
           <p id="sentenceTranslate" class="ep-tips__text-translate"></p>
         </div>
         <div class="ep-board-wrapper">
@@ -107,7 +107,7 @@ const template = `
           <div id="modalBody" class="ep-modal__body ep-modal_hidden">
             <div id="modalImage" class="ep-modal__image"></div>
             <div id="modalDescription" class="ep-modal__description"></div>
-            <div id=""modalMain class="ep-modal__main">
+            <div id="modalMain" class="ep-modal__main">
               <div id="wrongWordsBlock" class="ep-modal__wrong-words">
                 <div class="ep-modal__main-line">
                   I don't know
