@@ -124,7 +124,7 @@ const audiocallGame = `
                 </div>
                 <div class="container-game__final">
                     <div class="container-game__final__title">
-                        <span>В этот раз не получилось, но продолжай тренироваться!</span>
+                        <span></span>
                     </div>
                     <div class="container-game__final__slider">
                         <div class="container-game__final__slider-answers">
@@ -132,23 +132,11 @@ const audiocallGame = `
                                 <div class="container-game__final__slider-answers__invalid__title">
                                     <span>ОШИБОК:</span>
                                 </div>
-                                <div class="container-game__final__slider-answers__answer">
-                                    <span class="container-game__final__sound"></span>
-                                    <div class="container-game__final__slider-answers__answer-eng"></div>
-                                    <span class="container-game__final__tr"></span>
-                                    <div class="container-game__final__slider-answers__answer-ru"></div>
-                                </div>
                             </div>
                             <div class="container-game__final__slider-answers__line"></div>
                             <div class="container-game__final__slider-answers__valid">
                                 <div class="container-game__final__slider-answers__valid__title">
                                     <span>ЗНАЮ:</span>
-                                </div>
-                                <div class="container-game__final__slider-answers__answer">
-                                    <span class="container-game__final__sound"></span>
-                                    <div class="container-game__final__slider-answers__answer-eng">red</div>
-                                    <span class="container-game__final__tr"></span>
-                                    <div class="container-game__final__slider-answers__answer-ru">красный</div>
                                 </div>
                             </div>
                         </div>
@@ -183,5 +171,7 @@ const audiocallGame = `
                 </div>
             </div>
         </div>`;
+
+
 
   export default audiocallGame;

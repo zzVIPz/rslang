@@ -1,4 +1,5 @@
 import AudiocallModel from './Model';
+// import MainController from '../../controllers/mainController';
 import audiocallGame from './constAudiocall';
 import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
@@ -8,6 +9,7 @@ class AudiocallView {
       this.template = audiocallGame;
       this.model = new AudiocallModel();
       this.mainView = new MainView();
+      // this.mainController = new MainController();
     }
 
     getViewUser(user, mainView) {
@@ -39,7 +41,15 @@ class AudiocallView {
       this.choosenAnswer = document.querySelector('#choosen-answer');
       this.headerWord = document.querySelector('.container-game__trainings-audiocall__answers__header__word');
       this.answerBtn = document.querySelector('.container-game__trainings-audiocall__answer-btn');
-      
+      this.finalWindow = document.querySelector('.container-game__final');
+      this.finalTitle = document.querySelector('.container-game__final__title');
+      this.answersInvalid = document.querySelector('.container-game__final__slider-answers__invalid');
+      this.answersValid = document.querySelector('.container-game__final__slider-answers__valid');
+      this.invalidTitle = document.querySelector('.container-game__final__slider-answers__invalid__title');
+      this.validTitle = document.querySelector('.container-game__final__slider-answers__valid__title');
+      this.finalContinueBtn = document.querySelector('.container-game__final__continue');
+      this.finalBackBtn = document.querySelector('.container-game__final__back');
+
       this.clickStartGameBtn();
       this.openModal();
       this.closeModal();
@@ -48,6 +58,7 @@ class AudiocallView {
       this.getRounds();
       this.playAudio();
       this.checkAnswer();
+      // this.continueGame();
     }
     clickStartGameBtn() {
       this.startBtn.addEventListener('click', () => {
@@ -80,7 +91,7 @@ class AudiocallView {
     }
 
     addWordsEl(wordsArray) {
-      if(wordsArray.length >= 1) {
+      if(wordsArray.length >= 17) {
         this.model.getWordsForAnswers(wordsArray[0].wordTranslate)
           .then((dataWords) => {
             this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
@@ -95,6 +106,21 @@ class AudiocallView {
             document.querySelector(`#answer-${this.model.indexPositionAnswer[3]}`).childNodes[0].textContent = this.WrongWordsArray[2];
           });
       } else {
+          this.gamePage.classList.remove('show');
+          this.closeBtnGame.classList.add('hide');
+
+          if(this.model.wrongAnswer.length === 0) {
+            this.winRound();
+          } else {
+            this.loseRound();
+          }
+
+          this.createEl(this.model.rightAnswer, this.answersValid);
+          this.createEl(this.model.wrongAnswer, this.answersInvalid);
+          this.invalidTitle.insertAdjacentHTML('beforeend',this.model.wrongAnswer.length);
+          this.validTitle.insertAdjacentHTML('beforeend',this.model.rightAnswer.length);
+
+          this.finalWindow.classList.add('show-flex');
           console.log('Wordsright', this.model.rightAnswer);
           console.log('Words wrong', this.model.wrongAnswer);
         }
@@ -158,6 +184,18 @@ class AudiocallView {
       });
     }
 
+    createEl(array, div) {
+      for(let i = 0; i < array.length; i++) {
+        this.finalGame = `<div class="container-game__final__slider-answers__answer">
+                        <span class="container-game__final__sound"></span>
+                        <div class="container-game__final__slider-answers__answer-eng">${array[i].word}</div>
+                        <span class="container-game__final__tr"></span>
+                        <div class="container-game__final__slider-answers__answer-ru">${array[i].wordTranslate}</div>
+                    </div>`;
+        div.insertAdjacentHTML('beforeend', this.finalGame);
+      }
+    }
+
     closeModal() {
       this.closeModalWindow.addEventListener('click', () => {
         this.modalWindow.classList.remove('show-flex'); 
@@ -172,6 +210,11 @@ class AudiocallView {
     
     backToMainPage() {
       this.closeBtnModalGame.addEventListener('click', () => {
+        this.setDefaultHash();
+        this.mainView.renderMain(this.currentUser);
+      });
+
+      this.finalBackBtn.addEventListener('click', () => {
         this.setDefaultHash();
         this.mainView.renderMain(this.currentUser);
       });
@@ -194,6 +237,13 @@ class AudiocallView {
         console.log(this.round)
       });
     }
+
+    // continueGame() {
+    //   this.finalContinueBtn.addEventListener('click', () => {
+    //     this.mainController.audiocall = new AudiocallController(this.user, this.mainView); 
+    //     this.mainController.audiocall.init();
+    //   });
+    // }
 
     showImageWord(words) {
       this.imageWord.classList.add('show');
@@ -235,6 +285,14 @@ class AudiocallView {
           document.querySelector('.small-circle').style.transform = 'scale(0.7)';
           document.querySelector('.big-circle').style.transform = 'scale(0.7)';
         }, 1800);
+    }
+
+    loseRound() {
+      this.finalTitle.textContent = 'В этот раз не получилось, но продолжай тренироваться!';
+    }
+  
+    winRound() {
+      this.finalTitle.textContent = `Так держать! Испытай себя на следующем раунде или уровне.`;
     }
 
     sound(src) {
