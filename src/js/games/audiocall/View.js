@@ -172,8 +172,8 @@ class AudiocallView {
     
     backToMainPage() {
       this.closeBtnModalGame.addEventListener('click', () => {
-      // this.mainView.renderMain(this.currentUser);
-        this.mainContainer.innerHTML = '';
+        // this.setDefaultHash();
+        this.mainView.renderMain(this.currentUser);
       });
     }
 
