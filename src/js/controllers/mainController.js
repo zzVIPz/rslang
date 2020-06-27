@@ -4,6 +4,7 @@ import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
+import AudiocallController from '../games/audiocall/Controller';
 
 export default class MainController {
   constructor() {
@@ -52,6 +53,8 @@ export default class MainController {
         case MENU_ITEMS_NAMES.englishPuzzle:
           break;
         case MENU_ITEMS_NAMES.audiocall:
+          this.audiocall = new AudiocallController(this.user, this.mainView); 
+          this.audiocall.init();
           break;
         case MENU_ITEMS_NAMES.savannah:
           break;
