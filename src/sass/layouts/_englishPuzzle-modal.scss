@@ -6,6 +6,7 @@
   left: 0;
   z-index: 999;
 
+  display: flex;
   justify-content: center;
   align-items: flex-start;
   box-sizing: border-box;
@@ -15,27 +16,29 @@
 
   background-color: rgba(0, 0, 0, .6);
   border-radius: 0;
-  display: flex;
 
   &__body {
     position: relative;
-    padding: 20px 40px;
-    width: 700px;
-    height: 800px;
-    background-color: white;
-    border-radius: 8px;
+
     display: flex;
     flex-direction: column;
+    justify-content: start;
     align-items: center;
-    justify-content: start;;
+    width: 700px;
+    height: 800px;
+    padding: 20px 40px;
+
+    background-color: white;
+    border-radius: 8px;;
   }
 
   &__image {
     width: 250px;
     height: 150px;
-    border-radius: 8px;
-    border: 1px solid purple;
+
     background-size: cover;
+    border: 1px solid purple;
+    border-radius: 8px;
   }
 
   &__description {
@@ -46,43 +49,48 @@
     margin-top: 30px;
     &-line {
       display: flex;
-      margin-bottom: 8px;
-      height: 22px;
       align-items: center;
+      height: 22px;
+      margin-bottom: 8px;
     }
   }
 
   &__wrong-words-count {
-    color: white;
     width: 22px;
     height: 22px;
+    margin-left: 8px;
+    padding-top: 1px;
+
+    text-align: center;
+    color: white;
+
     background-color: red;
     border-radius: 50%;
-    padding-top: 1px;
-    text-align: center;
-    margin-left: 8px;
   }
 
   &__right-words-count {
-    color: white;
     width: 22px;
     height: 22px;
-    background-color: #00FF00;
-    border-radius: 50%;
-    padding-top: 1px;
-    text-align: center;
     margin-left: 8px;
+    padding-top: 1px;
+
+    text-align: center;
+    color: white;
+
+    background-color: #00ff00;
+    border-radius: 50%;
   }
 
   &__audioBtn {
     width: 22px;
     height: 22px;
     margin-right: 8px;
+
     background-color: rgba(0, 0, 0, 0);
     background-image: url(/src/assets/images/ep-icons/ep-audio-grey.png);
     background-size: cover;
-    opacity: 0.7;
     cursor: pointer;
+    opacity: .7;
     &:hover {
       opacity: 1;
     }

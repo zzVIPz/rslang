@@ -3,7 +3,7 @@
 }
 
 .ep-background {
-  background: linear-gradient(rgba(8,15,26,0.2) 0%, rgba(17,17,46,0.5) 100%) center center/cover fixed,url(/src/assets/images/ep-images/ep-background.jpg) center center no-repeat fixed;
+  background: linear-gradient(rgba(8,15,26,.2) 0%, rgba(17,17,46,.5) 100%) center center/cover fixed,url(/src/assets/images/ep-images/ep-background.jpg) center center no-repeat fixed;
   background-size: cover;
 }
 
@@ -11,8 +11,12 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  &__right-side {
+  &__right-side,
+  &__left-side {
     display: flex;
+  }
+  &__left-side {
+    flex-wrap: wrap;
   }
 }
 
@@ -21,28 +25,31 @@
   flex-direction: column;
   align-items: center;
   &__text-translate {
-    color: white;
     font-size: 2rem;
+    text-align: center;
+    color: white;
   }
 }
 
 .ep-board {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   width: 100%;
-  border-radius: 8px;
-  border: 1px solid lightpink;
   width: calc(100% - 35px);
   max-height: 521px;
-  background: linear-gradient(rgba(8,15,26,0.6) 0%, rgba(17,17,46,0.3) 100%);
+  overflow: hidden;
+
+  background: linear-gradient(rgba(8,15,26,.6) 0%, rgba(17,17,46,.3) 100%);
+  border: 1px solid lightpink;
+  border-radius: 8px;
   &__line {
-    width: calc(100% + 22px);
     display: flex;
-    margin-left: -20px;
+    width: calc(100% + 22px);
     height: 52px;
+    margin-left: -20px;
     overflow: hidden;
-    border-bottom:  1px solid lightpink;
+
+    border-bottom: 1px solid lightpink;
     &_active {
       height: 53px;
     }
@@ -53,23 +60,21 @@
       outline: none;
     }
     &_number {
-      height: 25px;
+      display: inline-block;
       width: 25px;
-      // background-color: #bbb;
+      height: 25px;
+      margin: 17px 10px 10px 0;
+      padding-top: 3px;
+
+      text-align: center;
       color: white;
+
       border: 1px solid lightpink;
       border-radius: 50%;
-      display: inline-block;
-      text-align: center;
-      padding-top: 3px;
-      // margin-bottom: 10px;
-      // margin-top: 17px;
-      // margin-right: 10px;
-      margin: 17px 10px 10px 0px; 
       &-active {
-        border: 2px solid red;
         padding-top: 1px;
-        // background-color: white;
+
+        border: 2px solid red;
       }
     }
   }
@@ -86,23 +91,25 @@
 }
 
 .ep-wrapper {
-  overflow: hidden;
   width: calc(100% - 35px);
-  margin-left: 35px;
   margin-top: 20px;
-  border-radius: 8px;
+  margin-left: 35px;
+  overflow: hidden;
+
   border: 1px solid lightpink;
+  border-radius: 8px;
 }
 
 .ep-sentences-word {
   width: 100px;
   height: 52px;
-  line-height: 52px;
-  font-size: 22px;
-  color: #fff;
-  background-color: #1c283b;
-  text-align: center;
 
+  font-size: 22px;
+  line-height: 52px;
+  text-align: center;
+  color: #ffffff;
+
+  background-color: #1c283b;
   border: 1px solid white;
   cursor: pointer;
   &:focus {
@@ -120,14 +127,6 @@
   outline: none;
 }
 
-.ep-play__field {
-  // height: 40px;
-  // margin-top: 20px;
-
-  // border: 1px solid black;
-  // border-radius: 5px;
-}
-
 .ep-play__buttons {
   display: flex;
   justify-content: center;
@@ -136,15 +135,18 @@
 
 .ep-select {
   width: 60px;
-  text-align-last: center;
+
   color: white;
-  background-color: #00cdac;;
-  border-radius: 8px;
+  text-align-last: center;
+
+  background-color: #00cdac;
+  border-radius: 8px;;
 }
 
 .ep-label {
-  color: white;
   font-size: 2rem;
+  line-height: 3rem;
+  color: white;
   &:last-child {
     margin-left: 20px;
   }
@@ -164,4 +166,10 @@
 
 .ep-transparent {
   opacity: 0;
+}
+
+@media screen and (max-width: 555px) {
+  .ep-label:last-child {
+    margin-left: 0;
+  }
 }
