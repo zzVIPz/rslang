@@ -68,7 +68,6 @@ export default class EnglishPuzzleController {
   async renderView() {
     const slicedWordData = await this.sliceData(this.wordsData);
     this.audioModel.data = slicedWordData;
-    // console.log('render', this.audioModel.data);
     this.englishPuzzleModel.data = slicedWordData;
     this.englishPuzzleView.render();
   }

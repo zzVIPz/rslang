@@ -1,8 +1,6 @@
-import DATA_FOR_GAMES from './mockData';
-
 export default class EnglishPuzzleModel {
   constructor(data) {
-    this.data = data || DATA_FOR_GAMES;
+    this.data = data;
   }
 
   getSentencesData() {
