@@ -1,5 +1,5 @@
 import getMediaUrl from '../../../utils/getMediaUrl';
-import playAudio from '../savannah-utils/palyAudio';
+import playAudio from '../savannah-utils/playAudio';
 
 class GameStatistics {
   constructor() {

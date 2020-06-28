@@ -5,7 +5,7 @@ import getDifficultyLevelRoundId from '../savannah-utils/getDifficultyLevelID';
 import GroupRoundView from './groupRoundView';
 import randomIntegerForPages from '../savannah-utils/randomInteger';
 import GameStatistics from './gameStatView';
-import playAudio from '../savannah-utils/palyAudio';
+import playAudio from '../savannah-utils/playAudio';
 
 class SavannahView {
   constructor(model) {
