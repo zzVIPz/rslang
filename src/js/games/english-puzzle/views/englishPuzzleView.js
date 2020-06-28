@@ -15,7 +15,7 @@ export default class EnglishPuzzleView {
     this.currentSentence = 0;
     this.tipTranslate = true;
     this.tipBackground = false;
-    this.tipAutospeech = true;
+    this.tipAutospeech = false;
     this.domElements = {};
 
     this.img = new Image();
@@ -99,9 +99,13 @@ export default class EnglishPuzzleView {
         });
         shuffle(this.domElements.playField);
       });
+      this.audioModel.getAudioArray();
       if (this.tipAutospeech) {
         this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
-        this.audio.play();
+        const playPromise = this.audio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {}).catch(() => {});
+        }
       }
     } else {
       this.domElements.board.innerHTML = '';
@@ -292,7 +296,6 @@ export default class EnglishPuzzleView {
         modalMainLine.classList.add('ep-modal__main-line');
         modalAudioBtn.classList.add('ep-modal__audioBtn');
         const newAudio = new Audio();
-        this.audioModel.getAudioArray();
         newAudio.src = this.audioModel.audioArr[id];
         modalAudioBtn.append(newAudio);
         modalAudioBtn.addEventListener('click', () => {
@@ -345,7 +348,7 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.tipSpeech.addEventListener('click', () => {
-      if (this.audio) {
+      if (this.currentSentence < 10) {
         this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
         this.audio.play();
       }
