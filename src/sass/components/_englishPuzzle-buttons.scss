@@ -26,13 +26,19 @@
 
   &_active {
     background-color: #8ddad5;
+    border: 2px solid white;
   }
   &_autospeech {
     background-image: url(/src/assets/images/ep-icons/ep-audio.png);
   }
   &_autospeech-grey {
     background-color: rgba(0, 0, 0, 0);
-    background-image: url(/src/assets/images/ep-icons/ep-audio-grey.png);
+    background: url(/src/assets/svg/speaker-active.svg) center/38px no-repeat;
+    &:hover {
+      background: url(../assets/svg/speaker.svg) center/36px no-repeat;
+      background-color: rgba(0, 0, 0, 0);
+      box-shadow: none;
+    }
   }
   &_translate {
     background-image: url(/src/assets/images/ep-icons/ep-tip.png);

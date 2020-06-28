@@ -4,6 +4,7 @@ import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
+import EnglishPuzzle from '../games/english-puzzle/views/englishPuzzleStartView';
 
 export default class MainController {
   constructor() {
@@ -52,7 +53,8 @@ export default class MainController {
         // add speakit
       }
       if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
-        // add englishPuzzle
+        const englishPuzzle = new EnglishPuzzle(this.user, this.mainView);
+        englishPuzzle.start();
       }
       if (dataName === MENU_ITEMS_NAMES.audiocall) {
         // add audiocall

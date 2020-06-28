@@ -6,14 +6,16 @@ import CONSTANTS_VIEW from './constantsView';
 import createPuzzle from './createPuzzleCanvas';
 
 export default class EnglishPuzzleView {
-  constructor() {
+  constructor(user, mainView) {
+    this.user = user;
+    this.mainView = mainView;
     this.template = Template;
     this.englishPuzzleModel = null;
     this.audioModel = null;
     this.currentSentence = 0;
     this.tipTranslate = true;
     this.tipBackground = false;
-    this.tipAutospeech = false;
+    this.tipAutospeech = true;
     this.domElements = {};
 
     this.img = new Image();
@@ -35,6 +37,7 @@ export default class EnglishPuzzleView {
     this.domElements.continueBtn = document.getElementById('continueBtn');
     this.domElements.resultsBtn = document.getElementById('resultsBtn');
     this.domElements.playField = document.getElementById('playField');
+    this.domElements.closeButton = document.getElementById('closeButton');
     this.domElements.sentenceTranslate = document.getElementById('sentenceTranslate');
     this.domElements.tipAutospeech = document.getElementById('tipAutospeech');
     this.domElements.stopSpeech = document.getElementById('stopSpeech');
@@ -387,6 +390,7 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.difficultSelect.addEventListener('change', () => {
+      this.currentSentence = 0;
       this.gameDifficult = this.domElements.difficultSelect.selectedIndex + 1;
       if (this.onDifficultChange !== null) {
         this.onDifficultChange(this.gameDifficult);
@@ -394,10 +398,16 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.levelSelect.addEventListener('change', () => {
+      this.currentSentence = 0;
       this.gameLevel = this.domElements.levelSelect.selectedIndex + 1;
       if (this.onLevelChange !== null) {
         this.onLevelChange(this.gameLevel);
       }
+    });
+
+    this.domElements.closeButton.addEventListener('click', () => {
+      document.body.classList.remove('ep-background');
+      this.mainView.renderMain(this.user);
     });
   }
 }

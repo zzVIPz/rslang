@@ -27,7 +27,7 @@ export default function createPuzzle(length, borderColor) {
   ctx.lineTo(0, 17);
   ctx.lineTo(0, 0);
 
-  ctx.fillStyle = '#9A3FD5';
+  ctx.fillStyle = '#1c283b';
   ctx.fill();
 
   ctx.stroke();

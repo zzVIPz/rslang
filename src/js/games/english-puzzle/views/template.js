@@ -84,6 +84,7 @@ const template = `
             <div id="tipTranslate" class="ep__button tips__button tips__button_translate"></div>
             <div id="tipSpeech" class="ep__button tips__button tips__button_speech"></div>
             <div id="tipBackground" class="ep__button tips__button tips__button_background"></div>
+            <a href="#" id="closeButton" class="ep-close ep-close_app"></a>
           </div>
         </div>
         <div class="ep-tips">

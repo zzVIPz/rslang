@@ -6,8 +6,10 @@ import MainModel from '../../../models/mainModel';
 import getPage from '../helpers/getPage';
 
 export default class EnglishPuzzleController {
-  constructor() {
-    this.englishPuzzleView = new EnglishPuzzleView();
+  constructor(user, mainView) {
+    this.user = user;
+    this.mainView = mainView;
+    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView);
     this.mainModel = new MainModel();
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.audioModel = new AudioModel();
@@ -66,7 +68,7 @@ export default class EnglishPuzzleController {
   async renderView() {
     const slicedWordData = await this.sliceData(this.wordsData);
     this.audioModel.data = slicedWordData;
-    console.log('render', this.audioModel.data);
+    // console.log('render', this.audioModel.data);
     this.englishPuzzleModel.data = slicedWordData;
     this.englishPuzzleView.render();
   }

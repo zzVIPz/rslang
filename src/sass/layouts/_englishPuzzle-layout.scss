@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.ep-background {
+  background: linear-gradient(rgba(8,15,26,0.2) 0%, rgba(17,17,46,0.5) 100%) center center/cover fixed,url(/src/assets/images/ep-images/ep-background.jpg) center center no-repeat fixed;
+  background-size: cover;
+}
+
 .ep-controls {
   display: flex;
   justify-content: space-between;
@@ -15,6 +20,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  &__text-translate {
+    color: white;
+    font-size: 2rem;
+  }
 }
 
 .ep-board {
@@ -26,6 +35,7 @@
   border: 1px solid lightpink;
   width: calc(100% - 35px);
   max-height: 521px;
+  background: linear-gradient(rgba(8,15,26,0.6) 0%, rgba(17,17,46,0.3) 100%);
   &__line {
     width: calc(100% + 22px);
     display: flex;
@@ -45,7 +55,9 @@
     &_number {
       height: 25px;
       width: 25px;
-      background-color: #bbb;
+      // background-color: #bbb;
+      color: white;
+      border: 1px solid lightpink;
       border-radius: 50%;
       display: inline-block;
       text-align: center;
@@ -57,7 +69,7 @@
       &-active {
         border: 2px solid red;
         padding-top: 1px;
-        background-color: white;
+        // background-color: white;
       }
     }
   }
@@ -88,7 +100,7 @@
   line-height: 52px;
   font-size: 22px;
   color: #fff;
-  background-color: #9A3FD5;
+  background-color: #1c283b;
   text-align: center;
 
   border: 1px solid white;
@@ -124,12 +136,18 @@
 
 .ep-select {
   width: 60px;
-
   text-align-last: center;
+  color: white;
+  background-color: #00cdac;;
+  border-radius: 8px;
 }
 
-.ep-label:last-child {
-  margin-left: 20px;
+.ep-label {
+  color: white;
+  font-size: 2rem;
+  &:last-child {
+    margin-left: 20px;
+  }
 }
 
 .ep-wrongPosition {
