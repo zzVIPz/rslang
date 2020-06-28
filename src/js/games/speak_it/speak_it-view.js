@@ -1,8 +1,8 @@
-import { 
-  SOURSES_URL, 
-  imageURL, 
-  SPEAK_MODE, 
-  VIEW_MODE
+import {
+  SOURSES_URL,
+  imageURL,
+  SPEAK_MODE,
+  VIEW_MODE,
 } from './speak_it-constants';
 
 export class View {

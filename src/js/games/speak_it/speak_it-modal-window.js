@@ -1,9 +1,9 @@
-import { 
-  container, 
-  CORRECT_WORDS, 
-  UNCORRECT_WORDS, 
+import {
+  container,
+  CORRECT_WORDS,
+  UNCORRECT_WORDS,
   IDS_TEXT,
-  BACK
+  BACK,
 } from './speak_it-constants';
 
 export class ModalWindow {
@@ -53,23 +53,23 @@ export class ModalWindow {
 
   addStatisticToPage() {
     this.statisticModalWindow.innerHTML = '';
-    const titleCorrect = document.createElement('h2')
-    titleCorrect.innerText = CORRECT_WORDS
-    this.statisticModalWindow.appendChild(titleCorrect)
+    const titleCorrect = document.createElement('h2');
+    titleCorrect.innerText = CORRECT_WORDS;
+    this.statisticModalWindow.appendChild(titleCorrect);
     this.appendWordsToStatistic(this.correctWordsArray);
 
-    const titleUncorrect = document.createElement('h2')
-    titleUncorrect.innerText = UNCORRECT_WORDS
-    this.statisticModalWindow.appendChild(titleUncorrect)
+    const titleUncorrect = document.createElement('h2');
+    titleUncorrect.innerText = UNCORRECT_WORDS;
+    this.statisticModalWindow.appendChild(titleUncorrect);
     this.appendWordsToStatistic(this.uncorrectWordsArray);
   }
 
   appendWordsToStatistic(array) {
-    for (let element of array) {
-      let wordString = document.createElement('p');
+    for (const element of array) {
+      const wordString = document.createElement('p');
       wordString.title = IDS_TEXT + element.id;
-      wordString.innerText = element.word
-      this.statisticModalWindow.appendChild(wordString)
+      wordString.innerText = element.word;
+      this.statisticModalWindow.appendChild(wordString);
     }
   }
 

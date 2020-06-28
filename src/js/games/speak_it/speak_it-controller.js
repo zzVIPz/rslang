@@ -1,10 +1,10 @@
-import { 
-  QUANTITY_STARS_NEXT_LEVEL, 
-  ONE_START, 
-  SOURSES_URL, 
-  QUANTITY_ROUNDS_LEVELS, 
-  CORRECT_MP3, 
-  MISS_MP3
+import {
+  QUANTITY_STARS_NEXT_LEVEL,
+  ONE_START,
+  SOURSES_URL,
+  QUANTITY_ROUNDS_LEVELS,
+  CORRECT_MP3,
+  MISS_MP3,
 } from './speak_it-constants';
 import { View } from './speak_it-view';
 import { Model } from './speak_it-model';
@@ -83,13 +83,14 @@ export class Controller {
   }
 
   rotateCard() {
-    this.containerOver.onmouseover = function() {
-        this.querySelector('.card_over').classList.add('rotate');
-    }
-    this.containerOver.onmouseout = function() {
-        this.querySelector('.card_over').classList.remove('rotate')
+    this.containerOver.onmouseover = function () {
+      this.querySelector('.card_over').classList.add('rotate');
     };
-}
+    this.containerOver.onmouseout = function () {
+      this.querySelector('.card_over').classList.remove('rotate');
+    };
+  }
+
   getResultOfSpeak() {
     recognition.addEventListener('result', (e) => {
       const result = Array.from(e.results).map((result) => result[0]).map((result) => result.transcript).join('');
