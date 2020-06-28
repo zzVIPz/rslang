@@ -58,8 +58,13 @@ main {
     border: 1px solid #e6e9ee;
     border-radius: 8px;
     &__sound {
+      position: relative;
+
+      display: inline-block;
       width: 32px;
       height: 32px;
+
+      line-height: 0;
 
       background-image: url("../assets/svg/speaker-for-final-modal.svg");
       background-repeat: no-repeat;

@@ -49,7 +49,7 @@ class AudiocallView {
       this.validTitle = document.querySelector('.container-game__final__slider-answers__valid__title');
       this.finalContinueBtn = document.querySelector('.container-game__final__continue');
       this.finalBackBtn = document.querySelector('.container-game__final__back');
-
+      
       this.clickStartGameBtn();
       this.openModal();
       this.closeModal();
@@ -58,7 +58,7 @@ class AudiocallView {
       this.getRounds();
       this.playAudio();
       this.checkAnswer();
-      // this.continueGame();
+      this.continueGame();
     }
     clickStartGameBtn() {
       this.startBtn.addEventListener('click', () => {
@@ -91,7 +91,7 @@ class AudiocallView {
     }
 
     addWordsEl(wordsArray) {
-      if(wordsArray.length >= 17) {
+      if(wordsArray.length >= 19) {
         this.model.getWordsForAnswers(wordsArray[0].wordTranslate)
           .then((dataWords) => {
             this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
@@ -121,6 +121,7 @@ class AudiocallView {
           this.validTitle.insertAdjacentHTML('beforeend',this.model.rightAnswer.length);
 
           this.finalWindow.classList.add('show-flex');
+          
           console.log('Wordsright', this.model.rightAnswer);
           console.log('Words wrong', this.model.wrongAnswer);
         }
@@ -187,15 +188,27 @@ class AudiocallView {
     createEl(array, div) {
       for(let i = 0; i < array.length; i++) {
         this.finalGame = `<div class="container-game__final__slider-answers__answer">
-                        <span class="container-game__final__sound"></span>
+                        <span class="container-game__final__sound">
+                          <audio preload="metadata">
+                            <source src='${getMediaUrl(array[i].audio)}' type= 'audio/mp3'>
+                          </audio>
+                        </span>
                         <div class="container-game__final__slider-answers__answer-eng">${array[i].word}</div>
-                        <span class="container-game__final__tr"></span>
+                        <span class="container-game__final__tr">— </span>
                         <div class="container-game__final__slider-answers__answer-ru">${array[i].wordTranslate}</div>
                     </div>`;
         div.insertAdjacentHTML('beforeend', this.finalGame);
       }
-    }
 
+      for (let item of document.querySelectorAll('.container-game__final__sound')) {
+        item.addEventListener('click', (event) => {
+          event.preventDefault();
+
+          event.target.querySelector('audio').play();
+        });
+      }
+    }
+    
     closeModal() {
       this.closeModalWindow.addEventListener('click', () => {
         this.modalWindow.classList.remove('show-flex'); 
@@ -210,12 +223,12 @@ class AudiocallView {
     
     backToMainPage() {
       this.closeBtnModalGame.addEventListener('click', () => {
-        this.setDefaultHash();
+        // this.mainController.setDefaultHash();
         this.mainView.renderMain(this.currentUser);
       });
 
       this.finalBackBtn.addEventListener('click', () => {
-        this.setDefaultHash();
+        // this.mainController.setDefaultHash();
         this.mainView.renderMain(this.currentUser);
       });
     }
@@ -238,12 +251,11 @@ class AudiocallView {
       });
     }
 
-    // continueGame() {
-    //   this.finalContinueBtn.addEventListener('click', () => {
-    //     this.mainController.audiocall = new AudiocallController(this.user, this.mainView); 
-    //     this.mainController.audiocall.init();
-    //   });
-    // }
+    continueGame() {
+      this.finalContinueBtn.addEventListener('click', () => {
+        this.render();
+      });
+    }
 
     showImageWord(words) {
       this.imageWord.classList.add('show');
