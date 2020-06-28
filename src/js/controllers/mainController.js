@@ -1,10 +1,10 @@
-// import Swiper from 'swiper'; I not found this module in default place
+import Swiper from 'swiper';
 import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
-import {startSpeakItGame} from '../games/speak_it/speak_it-main'
+import { startSpeakItGame } from '../games/speak_it/speak_it-main';
 
 export default class MainController {
   constructor() {

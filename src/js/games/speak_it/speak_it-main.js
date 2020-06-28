@@ -1,31 +1,33 @@
-import { speakItStartPage, 
-    preloader, 
-    speakItGame,
-    oneCard,
-    container,
-    timeForPreloader } from './speak_it-constants';
-import {StartingClass} from './speak_it-starting-page';
-import {Controller} from './speak_it-controller';
-
-export function startSpeakItGame() {
-    document.body.classList.add('app__background');
-    container.style.display = 'block';
-    container.innerHTML = preloader;
-    setTimeout(runStartPage(), timeForPreloader)
-}
-function runStartPage() {
-    container.innerHTML = speakItStartPage;
-    const preload = new StartingClass();
-    preload.addListeners();
-    document.querySelector('.app__button').onclick = () => runGamePage(preload.choosenGroup, preload.choosenPage)
-}
+import {
+  START_PAGE,
+  PRELOADER,
+  GAME_PAGE,
+  ONE_CARD,
+  container,
+  PRELOADING_TIME,
+  QUANTITY_WORDS_IN_PAGE
+} from './speak_it-constants';
+import { StartingClass } from './speak_it-starting-page';
+import { Controller } from './speak_it-controller';
 
 function runGamePage(group, round) {
-    container.innerHTML = speakItGame;
+  container.innerHTML = PRELOADER;
+  setTimeout(() => {
+    container.innerHTML = GAME_PAGE;
     const wordsContainer = document.querySelector('.words_container');
-    for(var j = 0; j < 10; j++) {
-        wordsContainer.innerHTML += oneCard;
+    for (let j = 0; j < QUANTITY_WORDS_IN_PAGE; j += 1) {
+      wordsContainer.innerHTML += ONE_CARD;
     }
     const controller = new Controller(group, round);
-    controller.addListeners();
+    controller.initGame();
+  }, PRELOADING_TIME);
+}
+
+export function startSpeakItGame() {
+  document.body.classList.add('speakIt_background');
+  container.classList.add('speakIt');
+  container.innerHTML = START_PAGE;
+  const preload = new StartingClass();
+  preload.addListeners();
+  document.querySelector('.app__button').onclick = () => runGamePage(preload.choosenGroup, preload.choosenPage);
 }

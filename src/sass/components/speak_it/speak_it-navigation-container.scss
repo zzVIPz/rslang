@@ -1,71 +1,89 @@
 @import "speak_it-constants";
 .close {
-    top: 5px;
+  top: 5px;
 }
 .raiting_container {
-    position: absolute;
-    right: 0;
-    top: 90px;
+  position: absolute;
+  top: 90px;
+  right: 0;
 }
-.raiting_row{
-    display: flex;
-    @extend %raiting_row;
+.raiting_row {
+  display: flex;
+
+@extend %raiting_row;
 }
-.text{
-    @extend %text;
-    color: $color_text_hover;
-    @extend %raiting_row;
-    top: 40px;
-    right: 47px;
+.text {
+  top: 40px;
+  right: 47px;
+
+  color: $color_text_hover;
+
+@extend %text;
+
+@extend %raiting_row;
 }
-.result{
-    @extend %raiting_row;
-    display: flex;
+.result {
+  display: flex;
+
+@extend %raiting_row;
 }
-.group, .round{
-    display: block;
-    width: 25px;
-    cursor: pointer; 
-    position: relative;
-    font-size: 30px;
+.group,
+.round {
+  position: relative;
+
+  display: block;
+  width: 25px;
+
+  font-size: 30px;
+
+  cursor: pointer;
 }
-.gold{
-    color: $color_star_choose;
-  }
-  .gold_strong{
-    color: $color_star_choose!important;
-  }
-  .star{
-    color: $color_star_main;
-  }
-.ress{
-    float: right;
+.gold {
+  color: $color_star_choose;
 }
-  .app__modal__box {
-    margin: auto;
-    
+.gold_strong {
+  color: $color_star_choose!important;
 }
-.app__modal{
+.star {
+  color: $color_star_main;
+}
+.ress {
+  float: right;
+}
+.app__modal__box {
+  margin: auto;
+}
+.app__modal {
   display: block;
 }
 
 .header_close {
   position: sticky;
+
   padding: 0 20px;
-  transition: background-color 0.2s cubic-bezier(0, -1.85, 0.27, 1.75);
+
+  transition: background-color .2s cubic-bezier(0, -1.85, .27, 1.75);
 }
 
+.close:before,
+.close:after {
+  background-color: #000000;
+}
 
 @media only screen and (max-width: 1050px) {
   .raiting_container {
-      position: inherit;
-      margin: auto;
-      width: 230px;
-      margin-top: 15px;
+    position: inherit;
+
+    width: 230px;
+    margin: auto;
+    margin-top: 15px;
   }
 
-  .raiting_row, .text, .result {
-      justify-content: center;
-      text-align: center;
+  .raiting_row,
+  .text,
+  .result {
+    justify-content: center;
+
+    text-align: center;
   }
 }

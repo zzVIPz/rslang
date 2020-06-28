@@ -1,4 +1,4 @@
-export const speakItStartPage = `
+const START_PAGE = `
 <div class="app">
     <div class="header_close">
       <a href="#" class="close"></a>
@@ -39,7 +39,7 @@ export const speakItStartPage = `
     </div>
   </div>`;
 
-export const preloader = `
+const PRELOADER = `
 <div class="preloader__conatiner"> 
     <div class="preloader">
       <div class="item-1"></div>
@@ -54,95 +54,103 @@ export const preloader = `
     </div>
 </div>`;
 
-export const oneStar = ` <label class="group gold" id="0">★</label>`
-export const NumberOfMisForCorrectAnwser = 1;
-export const NumberRightAnwserForNextLevel = 10;
-export const speakItGame = 
-` 
-<div class="header_close">
-<a href="#" class="close"></a>
-</div>
+const ONE_START = ' <label class="group gold" id="0">★</label>';
+const QUANTITY_MISS_RIGHT_ANWS = 1;
+const QUANTITY_STARS_NEXT_LEVEL = 10;
+const GAME_PAGE = ` <div class="header_close">
+                        <a href="#" class="close"></a>
+                      </div>
+                      <div class="raiting_container">
+                        <div class="raiting_row rating_group ">
+                          <label class="group star" id="0">★</label>
+                          <label class="group star" id="1">★</label>
+                          <label class="group star" id="2">★</label>
+                          <label class="group star" id="3">★</label>
+                          <label class="group star" id="4">★</label>
+                          <label class="group star" id="5">★</label>
+                        </div>
+                        <div class="text">Уровень сложности</div>
 
-<div class="raiting_container">
-<div class="raiting_row rating_group ">
-  <label class="group star" id="0">★</label>
-  <label class="group star" id="1">★</label>
-  <label class="group star" id="2">★</label>
-  <label class="group star" id="3">★</label>
-  <label class="group star" id="4">★</label>
-  <label class="group star" id="5">★</label>
-</div>
-<div class="text">Уровень сложности</div>
-<div class="raiting_row rating_round">
-<label class="round star" id="0">★</label>
-<label class="round star" id="1">★</label>
-<label class="round star" id="2">★</label>
-<label class="round star" id="3">★</label>
-<label class="round star" id="4">★</label>
-<label class="round star" id="5">★</label>
-</div>
-<div class="text">Раунд</div>
-<div class="level result"></div>
-</div>
-    
+                        <div class="raiting_row rating_round">
+                          <label class="round star" id="0">★</label>
+                          <label class="round star" id="1">★</label>
+                          <label class="round star" id="2">★</label>
+                          <label class="round star" id="3">★</label>
+                          <label class="round star" id="4">★</label>
+                          <label class="round star" id="5">★</label>
+                        </div>
+                        <div class="text">Раунд</div>
+                      
+                        <div class="level result"></div>
+                      </div>
 
-    <div class="container_over">
-        <div class="card_over">
-            <div class="front">
-                <div class="content">
-                    <div class="image"></div>
-                </div>
-            </div>
+                      <div class="container_over">
+                        <div class="card_over">
+                          <div class="front">
+                            <div class="content">
+                              <div class="image"></div>
+                            </div>
+                          </div>
+                          <div class="back">
+                            <div class="content">
+                              <p class="examples text_mean"></p>
+                              <p class="tanslations translate_mean"></p>
+                              <p class="examples text_explain"></p>
+                              <p class="tanslations tarnslate_explain"></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-            <div class="back">
-                <div class="content">
-                    <p class="examples text_mean"></p>
-                    <p class="tanslations translate_mean"></p>
-                    <p class="examples text_explain"></p>
-                    <p class="tanslations tarnslate_explain"></p>
-                </div>
-            </div>
-        </div>
-    </div>
+                      <p class="translation">Перевод слова</p>
+                      <div class="inner_container not_display">
+                        <div class="mic icon"></div>
+                        <div class="inner"></div>
+                        <div class="clear icon"></div>
+                      </div>
 
-    <p class="translation">Перевод слова</p>
-    <div class="inner_container not_display">
-        <div class="mic icon"></div>
-        <div class="inner"></div>
-        <div class="clear icon"></div>
-    </div>
+                      <div class="modal_container not_display">
+                        <div class="modal_window">
+                          <div class="app__modal__box_title">Вы действительно хотите выйти?</div>
+                          <div class="app__modal__box_text"></div>
+                          <div class="button modal_view">Посмотреть результаты</div>
+                          <div class="button modal_close">Закрыть</div>
+                          <div class="button modal_cancel">Отмена</div>
+                        </div>
+                      </div>
 
-    <div class="modal_container not_display">
-      <div class="modal_window">
-        <div class="app__modal__box_title">Вы действительно хотите выйти?</div>
-        <div class="app__modal__box_text"></div>
-        <div class="button modal_view">Посмотреть результаты</div>
-        <div class="button modal_close">Закрыть</div>
-        <div class="button modal_cancel">Отмена</div>
-      </div>
-    </div>
+                      <div class="modal_statistic not_display modal_window"></div>
 
-    <div class="modal_statistic not_display modal_window">
-      
-    </div>
-
-    <div class="words_container"></div>
-    <div class="button_container">
-    <button class="button restart">More Words</button>
-    <button class="button speak">Speak Please</button>
-   
-</div>`;
-export const oneCard = `<div class="card">
-    <div class='word_listen'>
-    </div>
-    <div class="word_look">
-    <p class="word"></p>
-    <p class="transcription"></p>
-    </div>
-</div>`
-export const container = document.querySelector('.main');
-export const timeForPreloader = 3000;
-export const fetchURL = 'https://afternoon-falls-25894.herokuapp.com/words?page=';
-export const soundURL = 'https://raw.githubusercontent.com/vitali30/rslang-data/master/';
-export const imageURL = `url('https://raw.githubusercontent.com/vitali30/rslang-data/master/`;
-
+                      <div class="words_container"></div>
+                      <div class="button_container">
+                        <button class="button restart">More Words</button>
+                        <button class="button speak">Speak Please</button>
+                      </div>`;
+const ONE_CARD = `<div class="card">
+                  <div class='word_listen'></div>
+                  <div class="word_look">
+                    <p class="word"></p>
+                    <p class="transcription"></p>
+                  </div>
+                </div>`;
+const container = document.querySelector('.main');
+const PRELOADING_TIME = 2000;
+const FETCH_URL = 'https://afternoon-falls-25894.herokuapp.com/words?page=';
+const SOURSES_URL = 'https://raw.githubusercontent.com/vitali30/rslang-data/master/';
+const imageURL = 'url(\''+ SOURSES_URL;
+const QUANTITY_WORDS_IN_PAGE = 10;
+const QUANTITY_ROUNDS_LEVELS = 6;
+const CORRECT_MP3 = `correct.mp3`;
+const MISS_MP3 = `error.mp3`;
+const SPEAK_MODE = `Speak Please`;
+const VIEW_MODE = `View Translation`;
+const CORRECT_WORDS = `Правильно произнесенные слова`;
+const UNCORRECT_WORDS = `Неправильно произнесенные слова`;
+const IDS_TEXT = `ID of this word: `;
+const BACK = `Назад`;
+export {
+  START_PAGE, PRELOADER, ONE_START, QUANTITY_MISS_RIGHT_ANWS, QUANTITY_STARS_NEXT_LEVEL,
+  GAME_PAGE, ONE_CARD, container, PRELOADING_TIME, FETCH_URL, SOURSES_URL, imageURL, QUANTITY_WORDS_IN_PAGE,
+  QUANTITY_ROUNDS_LEVELS, CORRECT_MP3, MISS_MP3, SPEAK_MODE, VIEW_MODE, CORRECT_WORDS, UNCORRECT_WORDS, IDS_TEXT,
+  BACK
+};

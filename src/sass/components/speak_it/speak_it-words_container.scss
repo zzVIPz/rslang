@@ -1,48 +1,55 @@
 @import "speak_it-constants";
-.words_container{
-    max-width: 900px;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: auto;
+.words_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 900px;
+  margin: auto;
+  margin-top: 20px;
 }
-.card{
-    cursor: pointer;
-    margin: 10px 10px;
-    width: 150px;
-    height: 70px;
-    border: 1px solid rgb(27, 27, 27);
-    @extend %box_shadow;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-around;
-    transition: all 0.6s ease;
-    
-    
+.card {
+  display: flex;
+  justify-content: space-around;
+  width: 150px;
+  height: 70px;
+  margin: 10px 10px;
+
+  background: radial-gradient(circle, rgba(174,250,242,.6) 0%, rgba(56,63,168,.7) 100%);
+  border: 1px solid rgb(27, 27, 27);
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition: all .6s ease;
+
+@extend %box_shadow;
 }
-.word_listen{
-    width: 35px;
-    height: 35px;
-    margin-top: 20px;
-    background-image: url(../assets/svg/list1.png);  
-    background-size: 35px;
-    cursor: pointer; 
+.word_listen {
+  width: 35px;
+  height: 35px;
+  margin-top: 20px;
+
+  background-image: url(../assets/svg/list1.png);
+  background-size: 35px;
+  cursor: pointer;
 }
-.word_listen:hover{
-    background-image: url(../assets/svg/list2.png);
+.word_listen:hover {
+  background-image: url(../assets/svg/list2.png);
 }
-.word_look{
-    margin-top: 10px;
-    @extend %text;
-    font-size: 16px!important;
-    font-weight: initial!important;
+.word_look {
+  margin-top: 10px;
+
+  font-weight: initial!important;
+  font-size: 16px!important;
+
+@extend %text;
 }
-.word_look > p{
-    margin: 5px;
-    text-align: center;
+.word_look > p {
+  margin: 5px;
+
+  text-align: center;
 }
-.choosen{
-    border: 1px solid $color_shadow;
-    box-shadow: 0 1px 1px $color_shadow;
+.choosen {
+  background: radial-gradient(circle, rgba(174,250,242,.4) 0%, rgba(56,63,168,.5) 100%)!important;
+  border: 1px solid transparent!important;
+  box-shadow: 0 1px 1px $color_shadow!important;
 }

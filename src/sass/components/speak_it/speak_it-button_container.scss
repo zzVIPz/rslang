@@ -1,41 +1,61 @@
 @import "speak_it-constants";
-.button_container{
-    display: flex;
-    justify-content: space-around;
-    margin: 15px 0;
+.button_container {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
 }
-.button{
-    cursor: pointer;
-    border: 1px solid #bbb;
-    @extend %text;
-    transition: background-color .5s ease-out;
-    border-radius: 7px;
-    user-select: none;
-    color: $color_text_hover;
-    padding: 10px 7vw;
-    background-color: $color_button;
-    border-color: $color_button;
-    display: flex;
-    @extend %box_shadow;
+.button {
+  width: 23vw;
+  padding: 10px 0;
 
+  text-align: center;
+  color: $color_text_hover;
+
+  background-color: $color_button;
+  border: 1px solid #bbbbbb;
+  border-color: $color_button;
+  border-radius: 7px;
+  cursor: pointer;
+
+  transition: background-color .5s ease-out;
+
+  user-select: none;
+
+@extend %text;
+
+@extend %box_shadow;
 }
-.button:hover{
-    background-color: $color_button_hover;
-    border-color: $color_button;
-    color: $color_text;
+.button:hover {
+  color: $color_text;
+
+  background-color: $color_button_hover;
+  border-color: $color_button;
 }
-.button:active{
-    background: $color_button_hover;
-    color: $color_text;
-    position: relative;
-    top: 1px;
-    text-shadow: none;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+.button:active {
+  position: relative;
+  top: 1px;
+
+  color: $color_text;
+  text-shadow: none;
+
+  background: $color_button_hover;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
 }
 
 
-@media only screen and (min-width: 320px) and (max-width: 480px) {
-    .button{
-        padding: 8px 4vw;
-    }
+@media only screen and (min-width: 320px) and (max-width: 570px) {
+  .button {
+    width: 160px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 375px) {
+  .button_container {
+    display: block;
+
+    text-align: center;
+  }
+  .button {
+    margin-top: 10px;
+  }
 }
