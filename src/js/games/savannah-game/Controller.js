@@ -13,6 +13,7 @@ class SavannahController {
     this.view = new SavannahView(this.model);
     this.view.getViewUser(this.user, this.mainView);
     this.view.renderSavannah();
+    setTimeout(this.view.checkSavannahWindow.bind(this.view), 1000);
   }
 }
 

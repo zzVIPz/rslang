@@ -1,7 +1,7 @@
 const savannahGame = `
 <div class="app">
     <div class="app__header">
-      <a href="#" class="close"></a>
+      <div class="close"></div>
     </div>
     <div class="rating__container"></div>
     <div class="app__content">

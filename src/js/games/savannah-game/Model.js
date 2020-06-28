@@ -4,15 +4,15 @@ import MainModel from '../../models/mainModel';
 class SavannahModel {
   constructor() {
     this.wordsUrl = 'https://afternoon-falls-25894.herokuapp.com/words?';
-    this.removeDigitsRegExp = /\d/g;
     this.mainModel = new MainModel();
     this.setDefault();
+    this.removeDigitsRegExp = /\d/g;
     this.audioOn = true;
+    this.backgroundPositionY = 100;
+    this.cristalWidth = 30;
+    this.levelNumForUser = 1;
+    this.isWordClicked = false;
   }
-
-  /* async getCurrUser(user) {
-    this.currentUser = user;
-  } */
 
   async fetchWords(user, chosenLevel, chosenRound) {
     this.currentUser = user;

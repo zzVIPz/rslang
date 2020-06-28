@@ -34,7 +34,7 @@ class GameStatistics {
 
   backToMain() {
     document.querySelector('.statistics__back').addEventListener('click', () => {
-      this.view.renderBackToMain();
+      this.view.finishGame();
       this.mainView.renderMain(this.view.currentUser);
     });
   }
