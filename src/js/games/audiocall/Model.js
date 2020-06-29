@@ -1,4 +1,5 @@
 import MainModel from '../../models/mainModel';
+import shuffle from './audiocall-utils/shuffle';
 
 class AudiocallModel {
     constructor() {
@@ -19,8 +20,8 @@ class AudiocallModel {
         return data;
       }
       
-      getMediaData(data) {
-        return this.shuffle(data);
+      shuffleArray(data) {
+        return shuffle(data);
       }
 
       async  getWordsForAnswers(words) {
@@ -32,14 +33,7 @@ class AudiocallModel {
       }
 
       indexPositionAnswerEl() {
-        return this.shuffle(this.indexPositionAnswer);
-      }
-
-      shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          let j = Math.floor(Math.random() * (i + 1)); 
-          [array[i], array[j]] = [array[j], array[i]];
-        }
+        return this.shuffleArray(this.indexPositionAnswer);
       }
 }
 

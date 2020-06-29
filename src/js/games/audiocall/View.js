@@ -1,15 +1,19 @@
 import AudiocallModel from './Model';
-// import MainController from '../../controllers/mainController';
-import audiocallGame from './constAudiocall';
+import {
+  audiocallGame, soundURL, DELAY_BEFORE_GAME_START, 
+  NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER, 
+  EMPTY_ARRAY
+} from './constAudiocall';
 import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
+import sound from './audiocall-utils/sound';
 
 class AudiocallView {
-    constructor() {
+    constructor(defaultHash) {
+      this.setDefaultHash = defaultHash;
       this.template = audiocallGame;
       this.model = new AudiocallModel();
       this.mainView = new MainView();
-      // this.mainController = new MainController();
     }
 
     getViewUser(user, mainView) {
@@ -67,37 +71,38 @@ class AudiocallView {
         this.introPage.classList.add('hide');
         this.levelsContainer.classList.add('hide');
         this.roundContainer.classList.add('hide');
-        this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/round-starts.mp3');
+        sound(soundURL,'round-starts.mp3');
         this.loader.classList.add('show');
         this.initWords();
         
         setTimeout(() => {
           this.loader.classList.remove('show');
           this.gamePage.classList.add('show');
-          this.sound(getMediaUrl(this.wordsArray[0].audio));
+          sound(getMediaUrl(this.wordsArray[0].audio));
           this.animationSpeaker();
-        },5500);
+        }, DELAY_BEFORE_GAME_START);
       });
     }
 
     initWords() {
       this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
         .then((data) => {
-          console.log(data);
-          this.model.shuffle(data);
+          this.model.shuffleArray(data);
           this.wordsArray = data;
           this.addWordsEl(this.wordsArray);
         });
     }
 
     addWordsEl(wordsArray) {
-      if(wordsArray.length >= 19) {
+      if(wordsArray.length) {
         this.model.getWordsForAnswers(wordsArray[0].wordTranslate)
           .then((dataWords) => {
-            this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
-            console.log(this.WrongWordsArray);
+            if(dataWords.length !== 0) {
+              this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
+            } else {
+              this.WrongWordsArray = EMPTY_ARRAY;
+            }
             this.model.indexPositionAnswerEl();
-            console.log(this.model.indexPositionAnswer);
             this.imageWord.setAttribute("src", getMediaUrl(this.wordsArray[0].image));
             this.imageWord.setAttribute("alt", wordsArray[0].word);
             document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).childNodes[0].textContent = wordsArray[0].wordTranslate; 
@@ -121,9 +126,6 @@ class AudiocallView {
           this.validTitle.insertAdjacentHTML('beforeend',this.model.rightAnswer.length);
 
           this.finalWindow.classList.add('show-flex');
-          
-          console.log('Wordsright', this.model.rightAnswer);
-          console.log('Words wrong', this.model.wrongAnswer);
         }
     }
 
@@ -131,38 +133,40 @@ class AudiocallView {
       this.choosenAnswer.addEventListener('click', (event) => {
         if(event.target.classList.contains('container-game__trainings-audiocall__answer')) {
           if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
-            this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/correct.mp3');
+            sound(soundURL, 'correct.mp3');
             event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-true');
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
-            console.log(this.wordsArray);
           } else {
-              this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/error.mp3');
+              sound('error.mp3');
               event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-false');
               this.wrong();
-              console.log(this.wordsArray);
             }
         }
       });
       
       this.answerBtn.addEventListener('click', () => {
-        if(this.answerBtn.innerText === 'Далее') {
+        if(this.answerBtn.innerText === NEXT) {
           this.gamePage.classList.add('animation');
           setTimeout(() => {
             this.gamePage.classList.remove('animation');
             this.imageWord.classList.remove('show');
             this.imageWord.classList.remove('visuallyshow');
             this.headerWord.innerText = '';
-            this.answerBtn.innerText = 'Не знаю :(';
-            this.sound(getMediaUrl(this.wordsArray[0].audio));
+            this.answerBtn.innerText = I_DO_NOT_KNOW;
+            try {
+              sound(getMediaUrl(this.wordsArray[0].audio));
+            } catch(e) {
+              console.log(e.stack);
+            }
+            
           }, 1000);
           this.wordsArray.shift();
           document.querySelectorAll('#choosen-answer .container-game__trainings-audiocall__answer__m-answer-false').forEach(el => el.classList.remove('container-game__trainings-audiocall__answer__m-answer-false'));
           document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.remove('container-game__trainings-audiocall__answer__m-answer-true');
           this.addWordsEl(this.wordsArray);
-          console.log(this.wordsArray);
         } else {
-            this.sound('https://raw.githubusercontent.com/staceysych/rslang-data/master/error.mp3');
+            sound(soundURL, 'error.mp3');
             this.wrong();
           }
       });
@@ -176,7 +180,7 @@ class AudiocallView {
     
     setAnswer() {
       this.showImageWord(this.wordsArray[0].word);
-      this.answerBtn.innerText = 'Далее';
+      this.answerBtn.innerText = NEXT;
     }
 
     openModal() {
@@ -223,12 +227,12 @@ class AudiocallView {
     
     backToMainPage() {
       this.closeBtnModalGame.addEventListener('click', () => {
-        // this.mainController.setDefaultHash();
+        this.setDefaultHash;
         this.mainView.renderMain(this.currentUser);
       });
 
       this.finalBackBtn.addEventListener('click', () => {
-        // this.mainController.setDefaultHash();
+        this.setDefaultHash;
         this.mainView.renderMain(this.currentUser);
       });
     }
@@ -268,51 +272,27 @@ class AudiocallView {
     playAudio() {
       this.playAudioBtn.addEventListener('click', () => {
         this.animationSpeaker();
-        this.sound(getMediaUrl(this.wordsArray[0].audio));
+        sound(getMediaUrl(this.wordsArray[0].audio));
       });
     }
 
     animationSpeaker() {
-        setTimeout(() => {
-          document.querySelector('.small-circle').style.transform = 'scale(0.53)';
-          document.querySelector('.big-circle').style.transform = 'scale(0.81)';
-        }, 200);
-        setTimeout(() => {
-          document.querySelector('.small-circle').style.transform = 'scale(0.61)';
-          document.querySelector('.big-circle').style.transform = 'scale(0.9)';
-        }, 500);
-        setTimeout(() => {
-          document.querySelector('.small-circle').style.transform = 'scale(0.51)';
-            document.querySelector('.big-circle').style.transform = 'scale(0.82)';
-      }, 1000);
-        setTimeout(() => {
-          document.querySelector('.small-circle').style.transform = 'scale(0.61)';
-          document.querySelector('.big-circle').style.transform = 'scale(0.9)';
-        }, 1200);
-        setTimeout(() => {
-          document.querySelector('.small-circle').style.transform = 'scale(0.67)';
-          document.querySelector('.big-circle').style.transform = 'scale(0.98)';
-        }, 1500);
-        setTimeout(() => {
-          document.querySelector('.small-circle').style.transform = 'scale(0.7)';
-          document.querySelector('.big-circle').style.transform = 'scale(0.7)';
-        }, 1800);
+      document.querySelector('.small-circle').classList.add('animation-small');
+      document.querySelector('.big-circle').classList.add('animation-big');
+      setTimeout(() => {
+        document.querySelector('.small-circle').classList.remove('animation-small');
+        document.querySelector('.big-circle').classList.remove('animation-big');
+      }, REMOVE_ANIMATION_SPEAKER);
     }
 
     loseRound() {
-      this.finalTitle.textContent = 'В этот раз не получилось, но продолжай тренироваться!';
+      this.finalTitle.textContent = FAIL;
     }
   
     winRound() {
-      this.finalTitle.textContent = `Так держать! Испытай себя на следующем раунде или уровне.`;
+      this.finalTitle.textContent = WIN;
     }
 
-    sound(src) {
-      this.audio = new Audio(); 
-      this.audio.crossOrigin = "anonymous"
-      this.audio.src = src; 
-      this.audio.autoplay = true;
-    }
 }
   
 export default AudiocallView;

@@ -113,6 +113,7 @@ main {
       width: 100%;
       max-width: 542px;
       height: 337px;
+      margin-top: 20px;
       margin-top: 0;
       overflow: auto;
     }
@@ -656,6 +657,64 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.animation-small {
+  animation: animation-small-circle 2s ease-in-out infinite;
+}
+.animation-big {
+  animation: animation-big-circle 2s ease-in-out infinite;
+}
+@keyframes animation-big-circle {
+  0% {
+    -webkit-transform: scale(.81);
+            transform: scale(.81);
+  }
+  20% {
+    -webkit-transform: scale(.9);
+            transform: scale(.9);
+  }
+  40% {
+    -webkit-transform: scale(.82);
+            transform: scale(.82);
+  }
+  60% {
+    -webkit-transform: scale(.9);
+            transform: scale(.9);
+  }
+  80% {
+    -webkit-transform: scale(.98);
+            transform: scale(.98);
+  }
+  100% {
+    -webkit-transform: scale(.7);
+            transform: scale(.7);
+  }
+}
+@keyframes animation-small-circle {
+  0% {
+    -webkit-transform: scale(.53);
+            transform: scale(.53);
+  }
+  20% {
+    -webkit-transform: scale(.61);
+            transform: scale(.61);
+  }
+  40% {
+    -webkit-transform: scale(.51);
+            transform: scale(.51);
+  }
+  60% {
+    -webkit-transform: scale(.61);
+            transform: scale(.61);
+  }
+  80% {
+    -webkit-transform: scale(.67);
+            transform: scale(.67);
+  }
+  100% {
+    -webkit-transform: scale(.7);
+            transform: scale(.7);
+  }
 }
 @media screen and (max-width: 544px) {
   .container-game__crossword-modal__cont {
