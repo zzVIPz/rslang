@@ -193,8 +193,3 @@ export class Controller {
     };
   }
 }
-
-
-
-
-// window.removeEventListener('keyup', this.onKeyUp);
