@@ -1,14 +1,18 @@
 import SprintView from '../view/sprintView';
 import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
+import {
+  MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME,
+} from '../const/sprintConst';
+import MainView from '../../../views/mainView';
 
 export default class SprintController {
   constructor() {
     this.view = new SprintView();
     this.model = new SprintModel();
+    this.mainView = new MainView();
     this.level = 0;
     this.round = 0;
-
   }
 
   init() {
@@ -20,13 +24,14 @@ export default class SprintController {
 
     this.currentWordIndex = 0;
     this.score = 0;
-    this.points = 10;
+    this.points = MIN_GAME_POINTS;
     this.accuracyCounter = 0;
     this.rightAnswersCount = 0;
     this.faultyWords = [];
 
-    this.userData = await this.model.getCurrenttUser();
-    this.username = this.userData.username;
+    this.user = await this.model.getCurrenttUser();
+    console.log(this.user);
+    this.username = this.user.username;
     this.wordsArray = await this.model.getWordsArray(this.level, this.round);
     console.log(this.wordsArray);
     if (this.wordsArray.length > 0) {
@@ -37,7 +42,6 @@ export default class SprintController {
           this.startGame();
         });
     }
-
   }
 
   startGame() {
@@ -56,16 +60,16 @@ export default class SprintController {
       this.points,
       this.rightAnswersCount,
     );
-    this.startCountdown(60);
+    this.startCountdown(GAME_TIME);
   }
 
-  handleEvent(event) {
-    if (event.code === 'ArrowRight') { this.rightBtn.click(); }
-    if (event.code === 'ArrowLeft') { this.wrongBtn.click(); }
+  handleEvent({ code }) {
+    if (code === 'ArrowRight') { this.rightBtn.click(); }
+    if (code === 'ArrowLeft') { this.wrongBtn.click(); }
   }
 
-  clickHandler(event) {
-    this.answer = (event.target.id === 'right') ? 1 : 0;
+  clickHandler({ target }) {
+    this.answer = (target.id === 'right') ? 1 : 0;
     this.accuracy = this.wordsArray[this.currentWordIndex].accuracy;
     this.checkAnswer();
     this.currentWordIndex += 1;
@@ -85,14 +89,14 @@ export default class SprintController {
   checkAnswer() {
     if (this.answer === this.accuracy) {
       this.rightAnswersCount += 1;
-      if (this.rightAnswersCount === 4 && this.points < 80) {
+      if (this.rightAnswersCount === VALUE_TO_SWITCH && this.points < MAX_GAME_POINTS) {
         this.points *= 2;
         this.rightAnswersCount = 0;
       }
       this.score += this.points;
       this.view.animateTrue();
     } else {
-      this.points = 10;
+      this.points = MIN_GAME_POINTS;
       this.rightAnswersCount = 0;
       this.view.animateFalse();
       addWord(this.faultyWords, this.wordsArray[this.currentWordIndex]);
@@ -118,13 +122,14 @@ export default class SprintController {
       this.endGame();
     }
   }
+
   addCloseBtnHandler() {
     document.querySelector('.closeBtn').addEventListener('click', () => {
       clearTimeout(this.timer);
       document.removeEventListener('keydown', this);
       this.view.clearMainContainer();
-
-    })
+      this.mainView.renderMain(this.user);
+      window.history.replaceState(null, null, ' ');
+    });
   }
-
 }
