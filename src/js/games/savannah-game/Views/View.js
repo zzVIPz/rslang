@@ -8,7 +8,8 @@ import GameStatistics from './gameStatView';
 import playAudio from '../savannah-utils/playAudio';
 
 class SavannahView {
-  constructor(model) {
+  constructor(model, defaultHash) {
+    this.setDefaultHash = defaultHash;
     this.savannahGame = savannahGame;
     this.preloader = preloader;
     this.groupRoundHtml = groupRound;
@@ -89,7 +90,7 @@ class SavannahView {
 
   backToMainPage() {
     this.backToMianBtn.addEventListener('click', () => {
-      window.location.href = '#main-page';
+      this.setDefaultHash();
       this.finishGame();
       this.mainView.renderMain(this.currentUser);
     });

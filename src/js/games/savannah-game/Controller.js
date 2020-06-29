@@ -8,9 +8,10 @@ class SavannahController {
     this.mainView = mainView;
   }
 
-  init() {
+  init(defaultHash) {
+    this.defaultHash = defaultHash;
     this.model = new SavannahModel();
-    this.view = new SavannahView(this.model);
+    this.view = new SavannahView(this.model, this.defaultHash);
     this.view.getViewUser(this.user, this.mainView);
     this.view.renderSavannah();
     setTimeout(this.view.checkSavannahWindow.bind(this.view), 1000);
