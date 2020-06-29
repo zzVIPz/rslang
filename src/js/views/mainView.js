@@ -7,7 +7,9 @@ import {
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
-import toggleDisplay from '../utils/toggleDisplay';
+import toggleVisibility from '../utils/toggleVisibility';
+import getPlaylist from '../utils/getPlaylist';
+import getHintTemplate from '../utils/getHintTemplate';
 import Card from '../components/card/cardController';
 
 export default class MainView {
@@ -15,7 +17,7 @@ export default class MainView {
     this.onLogOut = null;
     this.onBtnStartClick = null;
     this.onButtonAcceptClick = null;
-    this.onButtonCancelClick = null;
+    this.onModalBtnCancelClick = null;
     this.onBtnSettingsClick = null;
     this.onBurgerMenuClick = null;
     this.onLogOutClick = null;
@@ -42,13 +44,17 @@ export default class MainView {
     this.addNavigationLinkClickHandler();
     this.addOverlayClickHandler();
     this.addUserToolClickHandler();
-    this.addBtnEnterHandler();
+    this.addEnterPressHandler();
+    this.addCardBtnsClickHandler();
   }
 
   renderMain(user) {
     const formattedTemplate = getMainTemplate(user, MAIN_TEXT);
     this.main.innerHTML = formattedTemplate;
     this.btnStartLearning = document.querySelector('.btn-start');
+    if (!user.wordPronunciation && !user.meaningPronunciation && !user.examplePronunciation) {
+      this.speaker.classList.remove('user-tool__button-speaker--active');
+    }
     this.btnStartLearning.addEventListener('click', () => {
       this.onBtnStartClick(user);
     });
@@ -75,11 +81,35 @@ export default class MainView {
     return card;
   }
 
+  disableSwiperNextSlide() {
+    this.btnSliderNext = this.btnSliderNext || document.querySelector('.swiper-button-next');
+    this.swiper.allowSlideNext = false;
+    this.btnSliderNext.classList.add('swiper-button-disabled');
+  }
+
+  enableSwiperNextSlide() {
+    this.swiper.allowSlideNext = true;
+    this.btnSliderNext.classList.remove('swiper-button-disabled');
+  }
+
+  setSwiperDefaultState() {
+    this.btnSliderNext = null;
+  }
+
+  disableStudyProfileProperties = () => {
+    const totalCards = document.getElementById('cards-amount');
+    const wordAmount = document.getElementById('word-amount');
+    const selectMode = document.querySelector('.settings__study-select');
+    totalCards.setAttribute('disabled', 'disabled');
+    wordAmount.setAttribute('disabled', 'disabled');
+    selectMode.setAttribute('disabled', 'disabled');
+  };
+
   getUserAnswer(currentSlide = this.getCurrentSlide()) {
     return currentSlide ? this.getCurrentInputNode(currentSlide).value : null;
   }
 
-  getCurrentInputNode = (currentSlide) => {
+  getCurrentInputNode = (currentSlide = this.getCurrentSlide()) => {
     let inputNode;
     const nodes = currentSlide.querySelectorAll('.card__input-container');
     nodes.forEach((node) => {
@@ -89,6 +119,76 @@ export default class MainView {
     });
     return inputNode;
   };
+
+  getWordId(currentSlide = this.getCurrentSlide()) {
+    return currentSlide.dataset.id;
+  }
+
+  disableToolButtons(currentSlide = this.getCurrentSlide()) {
+    const buttons = currentSlide.querySelectorAll('button');
+    buttons.forEach((button) => {
+      button.setAttribute('disabled', 'disabled');
+    });
+  }
+
+  disableCurrentInput(currentSlide = this.getCurrentSlide()) {
+    // todo: show all data, disable buttons
+    const currentInput = this.getCurrentInputNode(currentSlide);
+    currentInput.setAttribute('disabled', 'disabled');
+    const nodes = currentSlide.querySelectorAll('.card__input-container');
+    nodes.forEach((node) => {
+      if (!node.classList.contains('hidden')) {
+        node.querySelector('.card__text-translate').classList.remove('hidden');
+      }
+    });
+  }
+
+  playAudio = (user, currentSlide = this.getCurrentSlide()) => {
+    this.stopAudio();
+    if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      this.playlist = getPlaylist(user, currentSlide);
+      if (this.playlist.length) {
+        this.playlist[0].play();
+        this.playlist.forEach((node, i, arr) => {
+          node.addEventListener('ended', () => {
+            if (node.duration === node.currentTime) {
+              const nextAudio = arr[i + 1];
+              if (nextAudio) {
+                nextAudio.play();
+              } else if (user.automaticallyScroll) this.swiper.slideNext();
+            }
+          });
+        });
+      }
+    }
+  };
+
+  showCorrectAnswer(param) {
+    const currentInput = this.getCurrentInputNode();
+    const answer = currentInput.value;
+    const correctAnswer = currentInput.dataset.word;
+    if (param) {
+      currentInput.value = correctAnswer;
+    } else {
+      const removeHintContainer = () => {
+        currentInput.removeEventListener('input', removeHintContainer);
+        this.hintContainer.remove();
+      };
+      if (this.hintContainer) {
+        this.hintContainer.remove();
+      }
+      currentInput.value = '';
+      const hintTemplate = getHintTemplate(answer, correctAnswer);
+      currentInput.insertAdjacentHTML('afterend', hintTemplate);
+      this.hintContainer = document.querySelector('.card__hint-container');
+      this.hintContainer.classList.add('card__hint-container--invisible');
+      currentInput.focus();
+      this.hintContainer.addEventListener('click', () => {
+        currentInput.focus();
+      });
+      currentInput.addEventListener('input', removeHintContainer);
+    }
+  }
 
   renderCards(words, user, swiper) {
     this.swiper = swiper;
@@ -119,7 +219,6 @@ export default class MainView {
     modal.addEventListener('click', (e) => {
       this.onModalClick(e);
     });
-
     this.totalCards = document.getElementById('cards-amount');
     this.totalCards.addEventListener('focusout', () => {
       this.onInputComplete();
@@ -134,7 +233,7 @@ export default class MainView {
     });
     this.btnCancel = document.querySelector('.btn-cancel');
     this.btnCancel.addEventListener('click', () => {
-      this.onButtonCancelClick();
+      this.onModalBtnCancelClick();
     });
   }
 
@@ -200,10 +299,28 @@ export default class MainView {
     });
   }
 
-  addBtnEnterHandler() {
+  addEnterPressHandler() {
     document.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) {
-        this.onBtnEnterPress();
+        this.onEnterPress();
+      }
+    });
+  }
+
+  addCardBtnsClickHandler() {
+    document.addEventListener('click', (e) => {
+      const { target } = e;
+      if (target.classList.contains('card__btn-check')) {
+        this.onBtnCheckClick();
+      }
+      if (target.classList.contains('card__btn-show-answer')) {
+        this.onBtnShowAnswerClick();
+      }
+      if (target.classList.contains('card__btn-know-word')) {
+        this.onBtnKnowClick();
+      }
+      if (target.classList.contains('card__btn-difficult-word')) {
+        this.onBtnDifficultClick();
       }
     });
   }
@@ -241,24 +358,36 @@ export default class MainView {
   toggleCardsLayout = (e) => {
     const { target } = e;
     if (target.id === 'transcription') {
-      toggleDisplay('.card__transcription');
+      toggleVisibility('.card__transcription');
     }
     if (target.id === 'translate') {
-      toggleDisplay('.card__text-translate', 'translate-hidden');
+      toggleVisibility('.card__text-translate', true);
     }
     if (target.id === 'associative-picture') {
-      toggleDisplay('.card__image-container');
+      toggleVisibility('.card__image-container');
     }
     if (target.id === 'button-i-know') {
-      toggleDisplay('.card__know');
+      toggleVisibility('.card__btn-know-word');
     }
     if (target.id === 'button-difficult') {
-      toggleDisplay('.card__study');
+      toggleVisibility('.card__btn-difficult-word');
+    }
+    if (target.id === 'show-answer') {
+      toggleVisibility('.card__btn-show-answer');
     }
   };
 
   changeBtnSpeakerIcon() {
     this.speaker.classList.toggle('user-tool__button-speaker--active');
+    if (!this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      this.stopAudio();
+    }
+  }
+
+  stopAudio() {
+    if (this.playlist) {
+      this.playlist.forEach((audio) => audio.pause());
+    }
   }
 
   showIndexPage = () => document.location.replace('../index.html');

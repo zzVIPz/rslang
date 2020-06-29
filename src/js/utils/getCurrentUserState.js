@@ -7,10 +7,11 @@ export default function getCurrentUserState() {
   const translate = document.getElementById('translate');
   const associativePicture = document.getElementById('associative-picture');
   const wordPronunciation = document.getElementById('word-pronunciation');
-  const examplePronunciation = document.getElementById('example-pronunciation');
-  const meaningPronunciation = document.getElementById('meaning-pronunciation');
+  const textPronunciation = document.getElementById('text-pronunciation');
+  const automaticallyScroll = document.getElementById('automatically-scroll');
   const btnKnow = document.getElementById('button-i-know');
   const btnDifficult = document.getElementById('button-difficult');
+  const btnShowAnswer = document.getElementById('show-answer');
   return {
     cardsTotal: +totalCards.value,
     cardsNew: +wordAmount.value,
@@ -20,9 +21,10 @@ export default function getCurrentUserState() {
     translate: translate.checked,
     associativePicture: associativePicture.checked,
     wordPronunciation: wordPronunciation.checked,
-    examplePronunciation: examplePronunciation.checked,
-    meaningPronunciation: meaningPronunciation.checked,
+    textPronunciation: textPronunciation.checked,
+    automaticallyScroll: automaticallyScroll.checked,
     btnKnow: btnKnow.checked,
     btnDifficult: btnDifficult.checked,
+    btnShowAnswer: btnShowAnswer.checked,
   };
 }

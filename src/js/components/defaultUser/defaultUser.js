@@ -13,9 +13,10 @@ export default class User {
     this.translate = settings.translate;
     this.associativePicture = settings.associativePicture;
     this.wordPronunciation = settings.wordPronunciation;
-    this.meaningPronunciation = settings.meaningPronunciation;
-    this.examplePronunciation = settings.examplePronunciation;
+    this.textPronunciation = settings.textPronunciation;
+    this.automaticallyScroll = settings.automaticallyScroll;
     this.btnKnow = settings.btnKnow;
     this.btnDifficult = settings.btnDifficult;
+    this.btnShowAnswer = settings.btnShowAnswer;
   }
 }
