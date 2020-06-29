@@ -1,3 +1,4 @@
+/* TODO: Template -> capital letter to lowercase */
 import { Sortable } from '@shopify/draggable';
 import Template from './template';
 import shuffle from '../helpers/shuffle';
@@ -5,6 +6,7 @@ import getElementWidth from '../helpers/getElementWidth';
 import CONSTANTS_VIEW from './constantsView';
 import createPuzzle from './createPuzzleCanvas';
 
+/* TODO: Magic numbers -> constants */
 export default class EnglishPuzzleView {
   constructor(user, mainView) {
     this.user = user;
@@ -30,6 +32,8 @@ export default class EnglishPuzzleView {
     this.wordsStat = { rightWords: [], wrongWords: [] };
   }
 
+  /* TODO: Magic numbers -> constants,
+   check doubled actions with DOM and if it is define in separate method */
   render() {
     document.querySelector('.main').innerHTML = this.template;
     this.domElements.skipButton = document.getElementById('skipBtn');
@@ -121,6 +125,7 @@ export default class EnglishPuzzleView {
     this.addListeners();
   }
 
+  /* TODO: difine magic numbers, font name, text align and color in constants */
   fillPuzzle(puzzleCanvas, positionOffset, indexString, text, imgRender) {
     const ctx = puzzleCanvas.getContext('2d');
     ctx.beginPath();
@@ -141,6 +146,7 @@ export default class EnglishPuzzleView {
     ctx.fillText(text, puzzleCanvas.width / 2, (puzzleCanvas.height / 2) + 6);
   }
 
+  /* TODO: define '1' in const as  offsetToFirstIndex */
   switchTipButtons() {
     if (this.tipTranslate === true) {
       this.domElements.tipTranslate.classList.add('tips__button_active');
@@ -195,6 +201,7 @@ export default class EnglishPuzzleView {
     this.wordsStat.wrongWords.length = 0;
   }
 
+  /* TODO: define magic numbers in constants */
   nextRound() {
     if ((this.gameLevel === 60) && (this.gameDifficult === 6)) {
       this.gameLevel = 1;
@@ -216,6 +223,8 @@ export default class EnglishPuzzleView {
     }
   }
 
+  /* TODO: define magic numbers in constants,
+   hex color from constants -> borderColor */
   addListeners() {
     this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;

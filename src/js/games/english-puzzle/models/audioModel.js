@@ -1,5 +1,6 @@
 import getMediaUrl from '../../../utils/getMediaUrl';
 
+/* TODO: rename to AudioModel */
 export default class EnglishPuzzleModel {
   constructor(data) {
     this.data = data || null;

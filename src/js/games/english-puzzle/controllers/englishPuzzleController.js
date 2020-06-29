@@ -19,6 +19,7 @@ export default class EnglishPuzzleController {
     this.group = 0;
   }
 
+  /* TODO: define '1' in const as  offsetToFirstIndex */
   async init() {
     this.mainModel.init();
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
@@ -28,6 +29,7 @@ export default class EnglishPuzzleController {
     this.subscribeToEvents();
   }
 
+  /* TODO: define slicedWordData in class property and use this or define in helper module */
   sliceData(dataArr) {
     let partOfArray = [];
     if (this.gameLevel % 2 !== 0) {

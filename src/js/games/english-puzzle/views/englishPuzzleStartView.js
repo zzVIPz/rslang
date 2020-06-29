@@ -9,6 +9,7 @@ export default class EnglishPuzzleView {
     this.domElements = {};
   }
 
+  /* TODO: add and remove 'ep-background' class to 'english-puzzle' div, check this class styles */
   start() {
     document.body.classList.add('ep-background');
     document.querySelector('.main').innerHTML = this.view;

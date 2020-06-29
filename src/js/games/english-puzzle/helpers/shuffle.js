@@ -1,7 +1,4 @@
-// export default function shuffle(array) {
-//   array.sort(() => Math.random() - 0.5);
-// }
-
+/* TODO: rename to shuffleDOMElements */
 export default function shuffle(parent) {
   const childs = parent.children;
   const frag = document.createDocumentFragment();

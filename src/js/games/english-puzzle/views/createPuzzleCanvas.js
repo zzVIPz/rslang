@@ -1,3 +1,4 @@
+/* TODO: define magic numbers and colors in constants */
 export default function createPuzzle(length, borderColor) {
   const puzzle = document.createElement('canvas');
   puzzle.classList.add('Block--isClickable');

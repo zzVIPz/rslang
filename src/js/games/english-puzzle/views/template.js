@@ -1,3 +1,5 @@
+/* TODO: check and rename class names, remove useless attributes and then fix styles;
+ replace left and right blocks elements between each other */
 const template = `
       <div class="english-puzzle">
         <div class="ep-controls">

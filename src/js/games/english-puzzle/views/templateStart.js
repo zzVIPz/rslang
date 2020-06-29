@@ -1,3 +1,4 @@
+/* TODO: remove useless href attribute, translate text to russian */
 const templateStart = `
   <div class="ep-startScreen">
     <div class="ep-startScreen__header">

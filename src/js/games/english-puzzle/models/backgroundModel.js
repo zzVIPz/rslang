@@ -37,6 +37,7 @@ export default class BackgroundsModel {
         currentData = paintings1;
     }
 
+    /* TODO: define '1' and '40' to offsetIndex consts */
     let gameLevelIndex = gameLevel;
     if (gameLevel > currentData.length) {
       gameLevelIndex = gameLevel - 40;

@@ -4,11 +4,8 @@ import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
-<<<<<<< HEAD
 import EnglishPuzzle from '../games/english-puzzle/views/englishPuzzleStartView';
-=======
 import AudiocallController from '../games/audiocall/Controller';
->>>>>>> develop
 
 export default class MainController {
   constructor() {
@@ -47,46 +44,6 @@ export default class MainController {
 
     this.mainView.onNavigationLinkClick = (e) => {
       const dataName = e.target.dataset.name;
-<<<<<<< HEAD
-      if (dataName === MENU_ITEMS_NAMES.mainPage) {
-        this.mainView.renderMain(this.user);
-      }
-      if (dataName === MENU_ITEMS_NAMES.dictionary) {
-        // add dictionary
-      }
-      if (dataName === MENU_ITEMS_NAMES.statistics) {
-        // add statistics
-      }
-      if (dataName === MENU_ITEMS_NAMES.speakit) {
-        // add speakit
-      }
-      if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
-        const englishPuzzle = new EnglishPuzzle(this.user, this.mainView);
-        englishPuzzle.start();
-      }
-      if (dataName === MENU_ITEMS_NAMES.audiocall) {
-        // add audiocall
-      }
-      if (dataName === MENU_ITEMS_NAMES.savannah) {
-        // add savannah
-      }
-      if (dataName === MENU_ITEMS_NAMES.sprint) {
-        // add sprint
-      }
-      if (dataName === MENU_ITEMS_NAMES.newGame) {
-        // add newGame
-      }
-      if (dataName === MENU_ITEMS_NAMES.promoPage) {
-        window.open('./promo.html');
-      }
-
-      if (dataName === MENU_ITEMS_NAMES.aboutTeam) {
-        window.open('./about.html');
-      }
-      if (dataName === MENU_ITEMS_NAMES.logOut) {
-        this.mainView.onLogOut();
-        this.mainView.showIndexPage();
-=======
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
           break;
@@ -95,9 +52,11 @@ export default class MainController {
         case MENU_ITEMS_NAMES.speakit:
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
+          this.englishPuzzle = new EnglishPuzzle(this.user, this.mainView);
+          this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
-          this.audiocall = new AudiocallController(this.user, this.mainView); 
+          this.audiocall = new AudiocallController(this.user, this.mainView);
           this.audiocall.init();
           break;
         case MENU_ITEMS_NAMES.savannah:
@@ -122,7 +81,6 @@ export default class MainController {
           e.preventDefault();
           this.setDefaultHash();
           this.mainView.renderMain(this.user);
->>>>>>> develop
       }
     };
 
