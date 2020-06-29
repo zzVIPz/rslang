@@ -3,7 +3,6 @@ import AudiocallView from './View';
 class AudiocallController {
   constructor(user, mainView) {
     this.view = new AudiocallView();
-    this.userData = '';
     this.user = user;
     this.mainView = mainView;
   }

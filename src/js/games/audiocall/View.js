@@ -6,6 +6,7 @@ import {
 } from './constAudiocall';
 import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
+// import MainController from '../../controllers/mainController';
 import sound from './audiocall-utils/sound';
 
 class AudiocallView {
