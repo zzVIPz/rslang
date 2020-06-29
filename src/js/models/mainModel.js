@@ -45,11 +45,7 @@ export default class MainModel {
         this.token,
         DEFAULT_USER_SETTINGS,
       );
-      await this.setUserSettings(
-        this.currentUser.userId,
-        this.currentUser.token,
-        getUserSettingsBodyRequest(this.currentUser),
-      );
+      await this.setUserSettings(getUserSettingsBodyRequest(this.currentUser));
     }
   }
 
@@ -59,25 +55,25 @@ export default class MainModel {
 
   async updateUserSettings(user) {
     this.currentUser = user;
-    await this.setUserSettings(user.userId, user.token, getUserSettingsBodyRequest(user));
+    await this.setUserSettings(getUserSettingsBodyRequest(user));
   }
 
-  async getUser(userId, token) {
+  async getUser() {
     if (this.accessData.username) {
       delete this.accessData.username;
       localStorage.accessKey = JSON.stringify(this.accessData);
       return this.currentUser;
     }
-    const response = await this.getUserSettings(userId, token);
+    const response = await this.getUserSettings();
     this.currentUser = response;
     console.log('getUser', this.currentUser);
     return this.currentUser;
   }
 
-  setUserSettings = async (userId, token, settings) => {
+  setUserSettings = async (settings) => {
     const rawResponse = await fetch(
-      `${REQUEST_PARAMETERS.url}${userId}/settings`,
-      getBodyRequest('PUT', token, settings),
+      `${REQUEST_PARAMETERS.url}${this.userId}/settings`,
+      getBodyRequest('PUT', this.token, settings),
     );
     const content = await rawResponse.json();
     console.log('setUserSettings', content);
@@ -90,10 +86,10 @@ export default class MainModel {
     return content;
   };
 
-  getAllUsersWords = async (userId, token) => {
+  getAllUsersWords = async () => {
     const rawResponse = await fetch(
-      `${REQUEST_PARAMETERS.url}${userId}/words`,
-      getBodyRequest('GET', token),
+      `${REQUEST_PARAMETERS.url}${this.userId}/words`,
+      getBodyRequest('GET', this.token),
     );
     const content = await rawResponse.json();
 
@@ -101,25 +97,36 @@ export default class MainModel {
     return content;
   };
 
-  getAggregatedWords = async (userId, token, filter) => {
-    let url = `${REQUEST_PARAMETERS.url}${userId}/aggregatedWords`;
-    if (filter) {
-      const formattedFilter = `${filter}`;
-      url = `${REQUEST_PARAMETERS.url}${userId}/aggregatedWords?${encodeURIComponent(
-        formattedFilter,
-      )}`;
-    }
-    const rawResponse = await fetch(url, getBodyRequest('GET', token));
+  getUsersWordById = async (wordId) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('GET', this.token),
+    );
     const content = await rawResponse.json();
 
-    console.log('getAllUsersWords', content);
+    console.log('getUsersWordById', content);
     return content;
   };
 
-  getAggregatedWordById = async (userId, token, wordId) => {
+  getAggregatedWords = async (filter) => {
+    let url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords`;
+    if (filter) {
+      const formattedFilter = `${filter}`;
+      url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords?${encodeURIComponent(
+        formattedFilter,
+      )}`;
+    }
+    const rawResponse = await fetch(url, getBodyRequest('GET', this.token));
+    const content = await rawResponse.json();
+
+    console.log('getAggregatedWords', content);
+    return content;
+  };
+
+  getAggregatedWordById = async (wordId) => {
     const rawResponse = await fetch(
-      `${REQUEST_PARAMETERS.url}${userId}/aggregatedWords/${wordId}`,
-      getBodyRequest('GET', token),
+      `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords/${wordId}`,
+      getBodyRequest('GET', this.token),
     );
     const content = await rawResponse.json();
 
@@ -127,20 +134,34 @@ export default class MainModel {
     return content[0];
   };
 
-  createUserWord = async (userId, token, wordId, word) => {
+  createUserWord = async (wordId, description) => {
     const rawResponse = await fetch(
-      `${REQUEST_PARAMETERS.url}${userId}/words/${wordId}`,
-      getBodyRequest('POST', token, word),
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('POST', this.token, description),
     );
     const content = await rawResponse.json();
 
     console.log(content);
   };
 
-  getUserSettings = async (userId, token) => {
+  updateUserWord = async (wordId, description) => {
+    await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('PUT', this.token, description),
+    );
+  };
+
+  deleteUserWord = async (wordId) => {
+    await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('DELETE', this.token),
+    );
+  };
+
+  getUserSettings = async () => {
     const rawResponse = await fetch(
-      `${REQUEST_PARAMETERS.url}${userId}/settings`,
-      getBodyRequest('GET', token),
+      `${REQUEST_PARAMETERS.url}${this.userId}/settings`,
+      getBodyRequest('GET', this.token),
     );
     const content = await rawResponse.json();
     return JSON.parse(content.optional.user);

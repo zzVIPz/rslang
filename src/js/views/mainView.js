@@ -124,9 +124,15 @@ export default class MainView {
     return currentSlide.dataset.id;
   }
 
-  disableCurrentInput() {
+  disableToolButtons(currentSlide = this.getCurrentSlide()) {
+    const buttons = currentSlide.querySelectorAll('button');
+    buttons.forEach((button) => {
+      button.setAttribute('disabled', 'disabled');
+    });
+  }
+
+  disableCurrentInput(currentSlide = this.getCurrentSlide()) {
     // todo: show all data, disable buttons
-    const currentSlide = this.getCurrentSlide();
     const currentInput = this.getCurrentInputNode(currentSlide);
     currentInput.setAttribute('disabled', 'disabled');
     const nodes = currentSlide.querySelectorAll('.card__input-container');
@@ -307,11 +313,14 @@ export default class MainView {
       if (target.classList.contains('card__btn-check')) {
         this.onBtnCheckClick();
       }
-      if (target.classList.contains('card__show-answer')) {
+      if (target.classList.contains('card__btn-show-answer')) {
         this.onBtnShowAnswerClick();
       }
-      if (target.classList.contains('card__know')) {
+      if (target.classList.contains('card__btn-know-word')) {
         this.onBtnKnowClick();
+      }
+      if (target.classList.contains('card__btn-difficult-word')) {
+        this.onBtnDifficultClick();
       }
     });
   }
@@ -358,13 +367,13 @@ export default class MainView {
       toggleVisibility('.card__image-container');
     }
     if (target.id === 'button-i-know') {
-      toggleVisibility('.card__know');
+      toggleVisibility('.card__btn-know-word');
     }
     if (target.id === 'button-difficult') {
-      toggleVisibility('.card__study');
+      toggleVisibility('.card__btn-difficult-word');
     }
     if (target.id === 'show-answer') {
-      toggleVisibility('.card__show-answer');
+      toggleVisibility('.card__btn-show-answer');
     }
   };
 

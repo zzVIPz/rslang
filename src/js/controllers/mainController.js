@@ -9,6 +9,8 @@ import {
   DELAY_NEXT_SLIDE_AUDIO_OFF,
   DELAY_NEXT_SLIDE_AUDIO_ON,
   WORDS_STATUS,
+  PAGES_LINKS,
+  REPEAT_NUMBER,
 } from '../constants/constMainView';
 
 export default class MainController {
@@ -17,22 +19,22 @@ export default class MainController {
     this.mainModel = new MainModel();
     this.mainView = new MainView();
     this.swiper = null;
-    this.slideIndex = 0;
   }
 
   async init() {
     this.setDefaultHash();
+    this.subscribeToEvents();
     this.firebaseModel.onAuthStateChangedHandler();
     this.mainModel.init();
     this.mainView.init();
     this.accessData = this.mainModel.getAccessData();
-    this.user = await this.mainModel.getUser(this.accessData.userId, this.accessData.token);
+    this.user = await this.mainModel.getUser();
+    this.user.token = this.accessData.token;
     this.mainView.renderMain(this.user);
     if (this.accessData.username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
     }
-    this.subscribeToEvents();
   }
 
   subscribeToEvents() {
@@ -67,11 +69,11 @@ export default class MainController {
           break;
         case MENU_ITEMS_NAMES.promoPage:
           e.preventDefault();
-          window.open('./promo.html');
+          window.open(PAGES_LINKS.promo);
           break;
         case MENU_ITEMS_NAMES.aboutTeam:
           e.preventDefault();
-          window.open('./about.html');
+          window.open(PAGES_LINKS.about);
           break;
         case MENU_ITEMS_NAMES.logOut:
           this.mainView.onLogOut();
@@ -86,6 +88,7 @@ export default class MainController {
 
     this.mainView.onBtnStartClick = async (user) => {
       this.slideIndex = 0;
+      this.mistakesMode = false;
       this.mainView.setSwiperDefaultState();
       const wordsList = await this.mainModel.getWords(
         user.currentPage,
@@ -149,28 +152,23 @@ export default class MainController {
       this.checkUserAnswer();
     };
 
-    this.mainView.onBtnCheckClick = () => {
-      this.checkUserAnswer();
+    this.mainView.onBtnCheckClick = async () => {
+      await this.checkUserAnswer();
+    };
+
+    this.mainView.onBtnDifficultClick = () => {
+      this.mainView.disableToolButtons();
+      this.saveWord(WORDS_STATUS.difficult);
     };
 
     this.mainView.onBtnKnowClick = async () => {
-      const wordId = this.mainView.getWordId();
-      const wordById = await this.mainModel.getAggregatedWordById(
-        this.user.userId,
-        this.user.token,
-        wordId,
-      );
-      if (!wordById.userWord) {
-        await this.mainModel.createUserWord(this.user.userId, this.user.token, wordId, {
-          difficulty: WORDS_STATUS.dictionary,
-          optional: {},
-        });
-      }
-      this.showCorrectAnswer();
+      this.mainView.disableToolButtons();
+      await this.saveWord(WORDS_STATUS.easy);
     };
 
     this.mainView.onBtnShowAnswerClick = () => {
-      this.showCorrectAnswer();
+      this.mainView.disableToolButtons();
+      this.saveWord(WORDS_STATUS.repeat);
     };
   }
 
@@ -191,18 +189,71 @@ export default class MainController {
     window.history.replaceState(null, null, ' ');
   };
 
-  checkUserAnswer() {
+  async saveWord(category, optional = {}) {
+    const wordId = this.mainView.getWordId();
+    const createRecord = async () => {
+      await this.mainModel.createUserWord(wordId, {
+        difficulty: WORDS_STATUS[category],
+        optional,
+      });
+    };
+    const wordById = await this.mainModel.getAggregatedWordById(wordId);
+    if (wordById.userWord) {
+      if (wordById.userWord.difficulty !== WORDS_STATUS[category]) {
+        await this.mainModel.deleteUserWord(wordId);
+        await createRecord();
+      }
+    } else {
+      await createRecord();
+    }
+    this.showCorrectAnswer();
+  }
+
+  async updateUserWord(category, optional = {}) {
+    const wordId = this.mainView.getWordId();
+    await this.mainModel.updateUserWord(wordId, {
+      difficulty: WORDS_STATUS[category],
+      optional,
+    });
+  }
+
+  async checkUserAnswer() {
     const userAnswer = this.mainView.getUserAnswer().toLowerCase();
     const correctValue = this.mainView.getCurrentInputNode().dataset.word.toLowerCase();
-
     if (userAnswer) {
       if (userAnswer === correctValue) {
-        this.allowAccessNextSlide();
+        if (this.mistakesMode) {
+          await this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
+        } else {
+          const currentMistakesCounter = await this.checkMistakesCounter();
+          if (currentMistakesCounter) {
+            await this.updateUserWord(WORDS_STATUS.repeat, {
+              mistakesCounter: currentMistakesCounter,
+            });
+            this.allowAccessNextSlide();
+          } else {
+            await this.saveWord(WORDS_STATUS.easy);
+          }
+        }
+        this.mistakesMode = false;
       } else {
+        this.mistakesMode = true;
         this.mainView.showCorrectAnswer();
       }
+    } else {
+      this.mainView.setFocusToInput();
     }
     // todo show modal: need text
+  }
+
+  async checkMistakesCounter() {
+    const wordId = this.mainView.getWordId();
+    const wordInfo = await this.mainModel.getUsersWordById(wordId);
+    if (wordInfo.difficulty === WORDS_STATUS.repeat && wordInfo.optional.mistakesCounter) {
+      const { mistakesCounter } = wordInfo.optional;
+      return mistakesCounter - 1;
+    }
+    return false;
   }
 
   allowAccessNextSlide() {
@@ -214,9 +265,9 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation
-        && !this.user.wordPronunciation
-        && this.user.automaticallyScroll
+        !this.user.textPronunciation &&
+        !this.user.wordPronunciation &&
+        this.user.automaticallyScroll
       ) {
         setTimeout(() => {
           this.swiper.slideNext();
@@ -239,6 +290,7 @@ export default class MainController {
         prevEl: '.swiper-button-prev',
       },
     });
+    this.slideIndex = 0;
     this.swiper.on('slideChange', () => {
       this.mainView.stopAudio();
       if (this.swiper.realIndex < this.slideIndex) {

@@ -97,8 +97,17 @@ const DELAY_NEXT_SLIDE_AUDIO_OFF = 1000;
 
 const DELAY_NEXT_SLIDE_AUDIO_ON = 700;
 
+const REPEAT_NUMBER = 3;
+
 const WORDS_STATUS = {
-  dictionary: 'dictionary',
+  easy: 'easy',
+  difficult: 'difficult',
+  repeat: 'repeat',
+};
+
+const PAGES_LINKS = {
+  promo: './promo.html',
+  about: './about.html',
 };
 
 export {
@@ -112,4 +121,6 @@ export {
   DELAY_NEXT_SLIDE_AUDIO_OFF,
   DELAY_NEXT_SLIDE_AUDIO_ON,
   WORDS_STATUS,
+  PAGES_LINKS,
+  REPEAT_NUMBER,
 };

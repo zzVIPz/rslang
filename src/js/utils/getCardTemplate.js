@@ -9,7 +9,6 @@ const CARD_TEXT = {
   btnToStudy: 'DIFFICULT WORD',
   btnShowAnswer: 'SHOW ANSWER',
   btnCheck: 'CHECK',
-  pattern: '[A-Za-z]',
 };
 
 export default function getCardTemplate(card, settings) {
@@ -70,13 +69,13 @@ export default function getCardTemplate(card, settings) {
     ${textMeaning}
     ${textExample}
     <div class ="card__buttons-container">
-      <button class="card__know ${settings.btnKnow ? '' : 'hidden'}">
+      <button class="card__btn-know-word ${settings.btnKnow ? '' : 'hidden'}">
         ${CARD_TEXT.btnBeFamiliar}
       </button>
-      <button class="card__study ${settings.btnDifficult ? '' : 'hidden'}">
+      <button class="card__btn-difficult-word ${settings.btnDifficult ? '' : 'hidden'}">
         ${CARD_TEXT.btnToStudy}
       </button>
-      <button class="card__show-answer ${settings.btnShowAnswer ? '' : 'hidden'}">
+      <button class="card__btn-show-answer ${settings.btnShowAnswer ? '' : 'hidden'}">
         ${CARD_TEXT.btnShowAnswer}
       </button>
     </div>
@@ -84,3 +83,5 @@ export default function getCardTemplate(card, settings) {
    </div>
   `;
 }
+
+// <button class="card__btn-check">${CARD_TEXT.btnCheck}</button>
