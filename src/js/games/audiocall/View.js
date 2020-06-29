@@ -35,7 +35,7 @@ class AudiocallView {
       this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
       this.loader = document.querySelector('.container-game__preload');
       this.startBtn = document.querySelector('.container-game__trainings-audiocall__intro-btn');
-      this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers');
+      this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers'); 
       this.closeBtnGame = document.querySelector('.container-game__trainings-audiocall__close');
       this.modalWindow = document.querySelector('.container-game__modal');
       this.closeModalWindow = document.querySelector('.container-game__modal__close-body');
@@ -131,6 +131,57 @@ class AudiocallView {
     }
 
     checkAnswer() {
+      document.addEventListener('keyup', (event) => {
+        if(event.keyCode === 49) {
+          if(document.querySelector('#answer-1').id === `answer-${this.model.indexPositionAnswer[0]}`) {
+            sound(soundURL, 'correct.mp3');
+            document.querySelector('#answer-1').classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+            this.model.rightAnswer.push(this.wordsArray[0]);
+            this.setAnswer();
+          } else {
+            sound('error.mp3');
+            document.querySelector('#answer-1').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
+            this.wrong();
+          }
+        } else if(event.keyCode === 50) {
+          if(document.querySelector('#answer-2').id === `answer-${this.model.indexPositionAnswer[0]}`) {
+            sound(soundURL, 'correct.mp3');
+            document.querySelector('#answer-2').classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+            this.model.rightAnswer.push(this.wordsArray[0]);
+            this.setAnswer();
+          } else {
+            sound('error.mp3');
+            document.querySelector('#answer-2').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
+            this.wrong();
+          }
+        } else if(event.keyCode === 51) {
+          if(document.querySelector('#answer-3').id === `answer-${this.model.indexPositionAnswer[0]}`) {
+            sound(soundURL, 'correct.mp3');
+            document.querySelector('#answer-3').classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+            this.model.rightAnswer.push(this.wordsArray[0]);
+            this.setAnswer();
+          } else {
+            sound('error.mp3');
+            document.querySelector('#answer-3').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
+            this.wrong();
+          }
+        } else if(event.keyCode === 52) {
+          if(document.querySelector('#answer-4').id === `answer-${this.model.indexPositionAnswer[0]}`) {
+            sound(soundURL, 'correct.mp3');
+            document.querySelector('#answer-4').classList.add('container-game__trainings-audiocall__answer__m-answer-true');
+            this.model.rightAnswer.push(this.wordsArray[0]);
+            this.setAnswer();
+          } else {
+            sound('error.mp3');
+            document.querySelector('#answer-4').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
+            this.wrong();
+          }
+        } else if(event.keyCode === 13) {
+          if(this.answerBtn.innerText === NEXT) {
+            this.nextWord();
+          }
+        }
+      });
       this.choosenAnswer.addEventListener('click', (event) => {
         if(event.target.classList.contains('container-game__trainings-audiocall__answer')) {
           if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
@@ -148,7 +199,16 @@ class AudiocallView {
       
       this.answerBtn.addEventListener('click', () => {
         if(this.answerBtn.innerText === NEXT) {
-          this.gamePage.classList.add('animation');
+          this.nextWord();
+        } else {
+            sound(soundURL, 'error.mp3');
+            this.wrong();
+          }
+      });
+    }
+
+    nextWord() {
+      this.gamePage.classList.add('animation');
           setTimeout(() => {
             this.gamePage.classList.remove('animation');
             this.imageWord.classList.remove('show');
@@ -166,11 +226,6 @@ class AudiocallView {
           document.querySelectorAll('#choosen-answer .container-game__trainings-audiocall__answer__m-answer-false').forEach(el => el.classList.remove('container-game__trainings-audiocall__answer__m-answer-false'));
           document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.remove('container-game__trainings-audiocall__answer__m-answer-true');
           this.addWordsEl(this.wordsArray);
-        } else {
-            sound(soundURL, 'error.mp3');
-            this.wrong();
-          }
-      });
     }
 
     wrong() {
