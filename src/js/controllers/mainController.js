@@ -3,7 +3,6 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
-import AudiocallController from '../games/audiocall/Controller';
 import {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -61,8 +60,6 @@ export default class MainController {
         case MENU_ITEMS_NAMES.englishPuzzle:
           break;
         case MENU_ITEMS_NAMES.audiocall:
-          this.audiocall = new AudiocallController(this.user, this.mainView);
-          this.audiocall.init();
           break;
         case MENU_ITEMS_NAMES.savannah:
           break;
