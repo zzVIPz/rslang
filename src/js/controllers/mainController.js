@@ -3,6 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import SavannahController from '../games/savannah-game/Controller';
 import {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -63,6 +64,8 @@ export default class MainController {
         case MENU_ITEMS_NAMES.audiocall:
           break;
         case MENU_ITEMS_NAMES.savannah:
+          this.savannah = new SavannahController(this.user, this.mainView);
+          this.savannah.init(this.setDefaultHash);
           break;
         case MENU_ITEMS_NAMES.sprint:
           break;
