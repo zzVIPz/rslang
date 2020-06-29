@@ -12,6 +12,7 @@ import {
   PAGES_LINKS,
   REPEAT_NUMBER,
 } from '../constants/constMainView';
+import WordSearchController from '../games/word-search-game/Controller';
 
 export default class MainController {
   constructor() {
@@ -66,6 +67,8 @@ export default class MainController {
         case MENU_ITEMS_NAMES.sprint:
           break;
         case MENU_ITEMS_NAMES.newGame:
+          this.wordSearch = new WordSearchController(this.user, this.mainView);
+          this.wordSearch.init(this.setDefaultHash);
           break;
         case MENU_ITEMS_NAMES.promoPage:
           e.preventDefault();
