@@ -9,7 +9,6 @@ const CARD_TEXT = {
   btnToStudy: 'DIFFICULT WORD',
   btnShowAnswer: 'SHOW ANSWER',
   btnCheck: 'CHECK',
-  pattern: '[A-Za-z]',
 };
 
 export default function getCardTemplate(card, settings) {
@@ -59,7 +58,7 @@ export default function getCardTemplate(card, settings) {
   const textExample = getFormattedString(card.textExample, textExampleMode, textExampleContent);
 
   return `
-  <div class="swiper-slide card container">
+  <div class="swiper-slide card container" data-id=${card.id}>
     <p class="card__state">${CARD_TEXT.newWord}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
@@ -70,17 +69,19 @@ export default function getCardTemplate(card, settings) {
     ${textMeaning}
     ${textExample}
     <div class ="card__buttons-container">
-      <button class="card__know ${settings.btnKnow ? '' : 'hidden'}">
+      <button class="card__btn-know-word ${settings.btnKnow ? '' : 'hidden'}">
         ${CARD_TEXT.btnBeFamiliar}
       </button>
-      <button class="card__study ${settings.btnDifficult ? '' : 'hidden'}">
+      <button class="card__btn-difficult-word ${settings.btnDifficult ? '' : 'hidden'}">
         ${CARD_TEXT.btnToStudy}
       </button>
-      <button class="card__show-answer ${settings.btnShowAnswer ? '' : 'hidden'}">
+      <button class="card__btn-show-answer ${settings.btnShowAnswer ? '' : 'hidden'}">
         ${CARD_TEXT.btnShowAnswer}
       </button>
     </div>
-    <div>
-    <button class="card__btn-check">${CARD_TEXT.btnCheck}</button>
-  </div>`;
+    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
+   </div>
+  `;
 }
+
+// <button class="card__btn-check">${CARD_TEXT.btnCheck}</button>

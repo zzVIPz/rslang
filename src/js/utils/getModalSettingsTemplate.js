@@ -78,6 +78,12 @@ export default function getModalSettingsTemplate(user, settings) {
           ${settings.textPronunciation}
         </label>
       </div>
+      <div class="settings__automatically-scroll settings__wrapper">
+      <input type="checkbox" id="automatically-scroll"
+        ${user.automaticallyScroll ? 'checked' : ''}>
+      <label class="settings__label" for="automatically-scroll">
+        ${settings.automaticallyScroll}</label>
+    </div>
        <div class="settings__buttons">
         <button class="settings__button btn-accept">${settings.btnAccept}</button>
         <button class="settings__button btn-cancel">${settings.btnCancel}</button>
