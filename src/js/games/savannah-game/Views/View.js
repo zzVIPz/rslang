@@ -1,5 +1,5 @@
 import {
-  savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
+  gameLayout, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
   correctSound, errorSound, roundStarts,
 } from '../constSavannah';
 import getDifficultyLevelRoundId from '../savannah-utils/getDifficultyLevelID';
@@ -11,7 +11,7 @@ class SavannahView {
   constructor(model, defaultHash) {
     this.model = model;
     this.setDefaultHash = defaultHash;
-    this.savannahGame = savannahGame;
+    this.savannahGame = gameLayout;
     this.preloader = preloader;
     this.groupRoundHtml = groupRound;
     this.correctSound = new Audio(soundURL + correctSound);

@@ -1,4 +1,4 @@
-const savannahGame = `
+const gameLayout = `
 <div class="app">
     <div class="app__header">
       <div class="close"></div>
@@ -95,6 +95,6 @@ const errorSound = 'error.mp3';
 const roundStarts = 'round-starts.mp3';
 
 export {
-  savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
+  gameLayout, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
   correctSound, errorSound, roundStarts,
 };
