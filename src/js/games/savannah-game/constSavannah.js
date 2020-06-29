@@ -90,7 +90,11 @@ const statisticsModalLayout = `
 `;
 
 const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
+const correctSound = 'correct.mp3';
+const errorSound = 'error.mp3';
+const roundStarts = 'round-starts.mp3';
 
 export {
   savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
+  correctSound, errorSound, roundStarts,
 };

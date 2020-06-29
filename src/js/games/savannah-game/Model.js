@@ -3,7 +3,6 @@ import MainModel from '../../models/mainModel';
 
 class SavannahModel {
   constructor() {
-    this.wordsUrl = 'https://afternoon-falls-25894.herokuapp.com/words?';
     this.mainModel = new MainModel();
     this.setDefault();
     this.removeDigitsRegExp = /\d/g;

@@ -1,18 +1,22 @@
 import {
   savannahGame, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
+  correctSound, errorSound, roundStarts,
 } from '../constSavannah';
 import getDifficultyLevelRoundId from '../savannah-utils/getDifficultyLevelID';
 import GroupRoundView from './groupRoundView';
 import randomIntegerForPages from '../savannah-utils/randomInteger';
 import GameStatistics from './gameStatView';
-import playAudio from '../savannah-utils/playAudio';
 
 class SavannahView {
   constructor(model, defaultHash) {
+    this.model = model;
     this.setDefaultHash = defaultHash;
     this.savannahGame = savannahGame;
     this.preloader = preloader;
     this.groupRoundHtml = groupRound;
+    this.correctSound = new Audio(soundURL + correctSound);
+    this.errorSound = new Audio(soundURL + errorSound);
+    this.roundStartsSound = new Audio(soundURL + roundStarts);
     this.gameStatistics = new GameStatistics();
     this.statisticsLayout = statisticsModalLayout;
     this.mainContainer = document.querySelector('.main');
@@ -23,7 +27,6 @@ class SavannahView {
     this.sparklesBox = document.createElement('div');
     this.muteLine = document.createElement('div');
     this.bang = document.createElement('div');
-    this.model = model;
   }
 
   checkSavannahWindow() {
@@ -99,7 +102,7 @@ class SavannahView {
   clickStartGameBtn() {
     this.startBtn.addEventListener('click', () => {
       if (this.model.audioOn) {
-        playAudio(soundURL, 'round-starts.mp3');
+        this.roundStartsSound.play();
       }
       window.removeEventListener('keyup', this.onKeyUp);
       this.chosenLevel = this.level;
@@ -169,13 +172,13 @@ class SavannahView {
 
       if (result === rightAnswer) {
         if (this.model.audioOn) {
-          playAudio(soundURL, 'correct.mp3');
+          this.correctSound.play();
         }
 
         this.rightTranslationActions(translationEl, rightAnswer);
       } else {
         if (this.model.audioOn) {
-          playAudio(soundURL, 'error.mp3');
+          this.errorSound.play();
         }
 
         this.wrongTranslationActions(translationEl, wrongAnswer, rightAnswer);
@@ -334,7 +337,7 @@ class SavannahView {
       if (this.pos === 270 && this.model.isGameOn) {
         clearInterval(this.id);
         if (this.model.audioOn) {
-          playAudio(soundURL, 'error.mp3');
+          this.errorSound.play();
         }
 
         this.correctHTMLEl = this.findCorrectAnswerHTMLel();
