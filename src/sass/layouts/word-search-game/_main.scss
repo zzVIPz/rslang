@@ -1,0 +1,15 @@
+.word-search__app {
+  position: relative;
+
+  width: 100%;
+  min-height: calc(100vh - 93px);
+}
+
+.word-search__background {
+  background-image: url("/src/assets/images/word-search-bg.jpg");
+  background-repeat: no-repeat;
+  background-position-x: center;
+
+  transition: all 1s ease;
+}
+

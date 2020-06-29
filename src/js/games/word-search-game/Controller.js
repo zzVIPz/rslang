@@ -11,6 +11,7 @@ class WordSearchController {
     this.defaultHash = defaultHash;
     this.model = new WordSearchModel();
     this.view = new WordSearchView(this.model, this.defaultHash);
+    this.view.init();
   }
 }
 

@@ -1,0 +1,13 @@
+.app__button_word-search {
+  background: $main-color;
+
+  &:hover {
+    color: $main-color;
+
+    border: 1px solid $main-color;
+  }
+}
+
+.app__button_close_word-search {
+  background: $main-color;
+}
