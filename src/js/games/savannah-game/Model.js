@@ -12,6 +12,7 @@ class SavannahModel {
     this.cristalWidth = 30;
     this.levelNumForUser = 1;
     this.isWordClicked = false;
+    this.isPreloading = true;
   }
 
   async fetchWords(user, chosenLevel, chosenRound) {

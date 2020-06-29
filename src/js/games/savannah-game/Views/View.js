@@ -17,7 +17,6 @@ class SavannahView {
     this.statisticsLayout = statisticsModalLayout;
     this.mainContainer = document.querySelector('.main');
     this.livesBox = document.createElement('div');
-    this.musicBox = document.createElement('div');
     this.flyingWordBox = document.createElement('div');
     this.translationBox = document.createElement('div');
     this.cristalBox = document.createElement('div');
@@ -54,6 +53,7 @@ class SavannahView {
     this.mainContainer.innerHTML = this.renderGameLayout();
     this.renderRating();
     this.addListeners();
+    this.setMusicOnOff();
     this.gameStatistics.init(this, this.mainView, this.model);
   }
 
@@ -115,6 +115,7 @@ class SavannahView {
   }
 
   addPreloader() {
+    this.model.isPreloading = true;
     this.appContent = document.querySelector('.app__content');
     document.querySelector('.app').removeChild(document.querySelector('.rating__container'));
     this.appContent.innerHTML = this.renderPreloader();
@@ -127,20 +128,22 @@ class SavannahView {
   }
 
   preloaderCountDown() {
-    const activeMenu = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
-    const visibleModal = document.querySelector('.app__modal').classList.contains('app__modal_visible');
+    if (this.model.isPreloading) {
+      const activeMenu = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
+      const visibleModal = document.querySelector('.app__modal').classList.contains('app__modal_visible');
 
-    if (!activeMenu && !visibleModal) {
-      this.countNumber = this.countTillOne();
+      if (!activeMenu && !visibleModal) {
+        this.countNumber = this.countTillOne();
 
-      if (this.countNumber > 0) {
-        document.querySelector('.countdown').innerHTML = this.countNumber;
-        setTimeout(this.preloaderCountDown.bind(this), 1000);
+        if (this.countNumber > 0) {
+          document.querySelector('.countdown').innerHTML = this.countNumber;
+          setTimeout(this.preloaderCountDown.bind(this), 1000);
+        } else {
+          this.gameMode();
+        }
       } else {
-        this.gameMode();
+        setTimeout(this.preloaderCountDown.bind(this), 1000);
       }
-    } else {
-      setTimeout(this.preloaderCountDown.bind(this), 1000);
     }
   }
 
@@ -279,7 +282,6 @@ class SavannahView {
     this.rendercristal();
     this.renderBang();
     this.renderSparkles();
-    this.renderMuteMusicNote();
   }
 
   renderPlayingPage() {
@@ -290,6 +292,7 @@ class SavannahView {
 
   finishGame() {
     this.model.isGameOn = false;
+    this.model.isPreloading = false;
     window.removeEventListener('keyup', this.onKeyUp);
     document.body.classList.remove('app__background');
     document.body.style.backgroundPositionY = '0%';
@@ -305,13 +308,7 @@ class SavannahView {
     this.appHeader = document.querySelector('.app__header');
     this.livesBox.className = 'lives';
     this.livesBox.innerHTML = lives;
-    this.musicBox.className = 'music';
-    this.musicBox.innerHTML = `
-    <img class="music__icon" src="../src/assets/images/musical-note.png">`;
-    this.muteLine.className = 'music__line';
     this.appHeader.appendChild(this.livesBox);
-    this.appHeader.appendChild(this.musicBox);
-    this.musicBox.appendChild(this.muteLine);
 
     return this.appHeader;
   }
@@ -404,16 +401,16 @@ class SavannahView {
     this.cristalBox.appendChild(this.sparklesBox);
   }
 
-  renderMuteMusicNote() {
-    this.musicIcon = document.querySelector('.music__icon');
-    this.musicIcon.addEventListener('click', () => {
-      this.muteLine.classList.toggle('visible');
-      if (this.muteLine.classList.contains('visible')) {
-        this.model.audioOn = false;
-      } else {
-        this.model.audioOn = true;
-      }
-    });
+  setMusicOnOff() {
+    this.musicIcon = document.querySelector('.user-tool__button-speaker');
+
+    if (this.musicIcon.classList.contains('user-tool__button-speaker--active')) {
+      this.model.audioOn = true;
+    } else {
+      this.model.audioOn = false;
+    }
+
+    setTimeout(this.setMusicOnOff.bind(this), 1000);
   }
 
   getLevelsId() {
