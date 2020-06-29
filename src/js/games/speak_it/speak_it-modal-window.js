@@ -17,17 +17,18 @@ export class ModalWindow {
     this.uncorrectWordsArray = uncorrect;
   }
 
-  runListeners() {
+  runListeners(user, mainView) {
     this.returnToGame();
-    this.stopGame();
+    this.stopGame(user, mainView);
     this.viewStatisticMethod();
   }
 
-  stopGame() {
+  stopGame(user, mainView) {
     this.backToMianBtn.onclick = () => {
       container.innerHTML = '';
       container.classList.remove('speakIt');
       document.body.classList.remove('speakIt_background');
+      mainView.renderMain(user)
     };
   }
 

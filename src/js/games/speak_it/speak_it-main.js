@@ -10,7 +10,7 @@ import {
 import { StartingClass } from './speak_it-starting-page';
 import { Controller } from './speak_it-controller';
 
-function runGamePage(group, round) {
+function runGamePage(group, round, user, mainView) {
   container.innerHTML = PRELOADER;
   setTimeout(() => {
     container.innerHTML = GAME_PAGE;
@@ -18,16 +18,16 @@ function runGamePage(group, round) {
     for (let j = 0; j < QUANTITY_WORDS_IN_PAGE; j += 1) {
       wordsContainer.innerHTML += ONE_CARD;
     }
-    const controller = new Controller(group, round);
+    const controller = new Controller(group, round, user, mainView);
     controller.initGame();
   }, PRELOADING_TIME);
 }
 
-export function startSpeakItGame() {
+export function startSpeakItGame(user, mainView) {
   document.body.classList.add('speakIt_background');
   container.classList.add('speakIt');
   container.innerHTML = START_PAGE;
   const preload = new StartingClass();
   preload.addListeners();
-  document.querySelector('.app__button').onclick = () => runGamePage(preload.choosenGroup, preload.choosenPage);
+  document.querySelector('.app__button').onclick = () => runGamePage(preload.choosenGroup, preload.choosenPage, user, mainView);
 }

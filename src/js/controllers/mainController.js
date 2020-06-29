@@ -50,7 +50,7 @@ export default class MainController {
         // add statistics
       }
       if (dataName === MENU_ITEMS_NAMES.speakit) {
-        startSpeakItGame();
+        startSpeakItGame(this.user, this.mainView);
       }
       if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
         // add englishPuzzle

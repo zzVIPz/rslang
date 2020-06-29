@@ -12,7 +12,7 @@ import { recognition } from './speak_it-recognition';
 import { ModalWindow } from './speak_it-modal-window';
 
 export class Controller {
-  constructor(group, round) {
+  constructor(group, round, user, mainView) {
     this.startPage = 0;
     this.startGroup = group;
     this.startRound = round;
@@ -32,6 +32,8 @@ export class Controller {
     this.recognitionMod = false;
     this.correctAudio = new Audio(SOURSES_URL + CORRECT_MP3);
     this.uncorrectAudio = new Audio(SOURSES_URL + MISS_MP3);
+    this.user = user;
+    this.mainView = mainView;
   }
 
   initGame() {
@@ -52,8 +54,9 @@ export class Controller {
     this.clear.onclick = () => {
       this.view.input.innerText = '';
       return true;
-    };
+    }; 
     this.closeStartPage();
+    
   }
 
   async onload() {
@@ -157,7 +160,7 @@ export class Controller {
   closeStartPage() {
     this.closeBtn.onclick = () => {
       const modal = new ModalWindow(this.model.correct, this.model.uncorrect);
-      modal.runListeners();
+      modal.runListeners(this.user, this.mainView);
       modal.toggelModalWindov();
     };
   }
@@ -190,3 +193,8 @@ export class Controller {
     };
   }
 }
+
+
+
+
+// window.removeEventListener('keyup', this.onKeyUp);
