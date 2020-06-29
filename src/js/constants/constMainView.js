@@ -29,6 +29,7 @@ const DEFAULT_USER_SETTINGS = {
   associativePicture: true,
   wordPronunciation: true,
   textPronunciation: true,
+  automaticallyScroll: false,
   btnKnow: true,
   btnDifficult: true,
   btnShowAnswer: true,
@@ -60,6 +61,7 @@ const SETTING_MODAL_TEXT = {
   btnShowAnswer: "Show button 'Show answer'",
   wordPronunciation: 'Pronounce study word',
   textPronunciation: 'Pronounce study text',
+  automaticallyScroll: 'Automatic slide scrolling',
   btnAccept: 'ACCEPT',
   btnCancel: 'CANCEL',
 };
@@ -91,6 +93,23 @@ const SWIPER_TEMPLATE = `
     <div class="swiper-button-next"></div>
   </div>`;
 
+const DELAY_NEXT_SLIDE_AUDIO_OFF = 1000;
+
+const DELAY_NEXT_SLIDE_AUDIO_ON = 700;
+
+const REPEAT_NUMBER = 3;
+
+const WORDS_STATUS = {
+  easy: 'easy',
+  difficult: 'difficult',
+  repeat: 'repeat',
+};
+
+const PAGES_LINKS = {
+  promo: './promo.html',
+  about: './about.html',
+};
+
 export {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -99,4 +118,9 @@ export {
   SWIPER_TEMPLATE,
   DEFAULT_USER_SETTINGS,
   WORD_LEARNING_MODES,
+  DELAY_NEXT_SLIDE_AUDIO_OFF,
+  DELAY_NEXT_SLIDE_AUDIO_ON,
+  WORDS_STATUS,
+  PAGES_LINKS,
+  REPEAT_NUMBER,
 };

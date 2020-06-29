@@ -1,7 +1,33 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
-import getRequestBody from '../utils/getRequestBody';
 import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
+
+const REQUEST_PARAMETERS = {
+  url: 'https://afternoon-falls-25894.herokuapp.com/users/',
+};
+
+const getBodyRequest = (method, token, settings) => {
+  const bodyRequest = {
+    method: `${method}`,
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  };
+  if (settings) {
+    bodyRequest.body = JSON.stringify(settings);
+  }
+  return bodyRequest;
+};
+
+const getUserSettingsBodyRequest = (userData) => ({
+  wordsPerDay: userData.cardsTotal,
+  optional: {
+    user: JSON.stringify(userData),
+  },
+});
 
 export default class MainModel {
   constructor() {
@@ -19,11 +45,7 @@ export default class MainModel {
         this.token,
         DEFAULT_USER_SETTINGS,
       );
-      await this.setUserSettings(
-        this.currentUser.userId,
-        this.currentUser.token,
-        getRequestBody(this.currentUser),
-      );
+      await this.setUserSettings(getUserSettingsBodyRequest(this.currentUser));
     }
   }
 
@@ -33,60 +55,115 @@ export default class MainModel {
 
   async updateUserSettings(user) {
     this.currentUser = user;
-    await this.setUserSettings(user.userId, user.token, getRequestBody(user));
+    await this.setUserSettings(getUserSettingsBodyRequest(user));
   }
 
-  async getUser(userId, token) {
+  async getUser() {
     if (this.accessData.username) {
       delete this.accessData.username;
       localStorage.accessKey = JSON.stringify(this.accessData);
       return this.currentUser;
     }
-    const response = await this.getUserSettings(userId, token);
+    const response = await this.getUserSettings();
     this.currentUser = response;
     console.log('getUser', this.currentUser);
     return this.currentUser;
   }
 
-  async setUserSettings(userId, token, settings) {
-    this.rawResponse = await fetch(
-      `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
-      {
-        method: 'PUT',
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      },
+  setUserSettings = async (settings) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/settings`,
+      getBodyRequest('PUT', this.token, settings),
     );
-    const content = await this.rawResponse.json();
+    const content = await rawResponse.json();
     console.log('setUserSettings', content);
-  }
+  };
 
-  async getWords(currentPage, currentGroup, cardsTotal, wordsPerExample) {
-    this.url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
-    const rawResponse = await fetch(this.url);
+  getWords = async (currentPage, currentGroup, cardsTotal, wordsPerExample) => {
+    const url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
+    const rawResponse = await fetch(url);
     const content = await rawResponse.json();
     return content;
-  }
+  };
 
-  async getUserSettings(userId, token) {
-    this.rawResponse = await fetch(
-      `https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`,
-      {
-        method: 'GET',
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      },
+  getAllUsersWords = async () => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words`,
+      getBodyRequest('GET', this.token),
     );
-    const content = await this.rawResponse.json();
+    const content = await rawResponse.json();
+
+    console.log('getAllUsersWords', content);
+    return content;
+  };
+
+  getUsersWordById = async (wordId) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('GET', this.token),
+    );
+    const content = await rawResponse.json();
+
+    console.log('getUsersWordById', content);
+    return content;
+  };
+
+  getAggregatedWords = async (filter) => {
+    let url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords`;
+    if (filter) {
+      const formattedFilter = `${filter}`;
+      url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords?${encodeURIComponent(
+        formattedFilter,
+      )}`;
+    }
+    const rawResponse = await fetch(url, getBodyRequest('GET', this.token));
+    const content = await rawResponse.json();
+
+    console.log('getAggregatedWords', content);
+    return content;
+  };
+
+  getAggregatedWordById = async (wordId) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords/${wordId}`,
+      getBodyRequest('GET', this.token),
+    );
+    const content = await rawResponse.json();
+
+    console.log('getAggregatedWordById', content);
+    return content[0];
+  };
+
+  createUserWord = async (wordId, description) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('POST', this.token, description),
+    );
+    const content = await rawResponse.json();
+
+    console.log(content);
+  };
+
+  updateUserWord = async (wordId, description) => {
+    await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('PUT', this.token, description),
+    );
+  };
+
+  deleteUserWord = async (wordId) => {
+    await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
+      getBodyRequest('DELETE', this.token),
+    );
+  };
+
+  getUserSettings = async () => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/settings`,
+      getBodyRequest('GET', this.token),
+    );
+    const content = await rawResponse.json();
     return JSON.parse(content.optional.user);
-  }
+  };
 }
