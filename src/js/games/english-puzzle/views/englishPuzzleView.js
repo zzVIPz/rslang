@@ -30,6 +30,7 @@ export default class EnglishPuzzleView {
 
     this.currentWordId = null;
     this.wordsStat = { rightWords: [], wrongWords: [] };
+    this.onAudioPlayEnded = this.AudioPlayEnded.bind(this);
   }
 
   /* TODO: Magic numbers -> constants,
@@ -43,7 +44,7 @@ export default class EnglishPuzzleView {
     this.domElements.playField = document.getElementById('playField');
     this.domElements.closeButton = document.getElementById('closeButton');
     this.domElements.sentenceTranslate = document.getElementById('sentenceTranslate');
-    this.domElements.tipAutospeech = document.getElementById('tipAutospeech');
+    this.domElements.tipAutospeech = document.querySelector('.user-tool__button-speaker');
     this.domElements.stopSpeech = document.getElementById('stopSpeech');
     this.domElements.tipSpeech = document.getElementById('tipSpeech');
     this.domElements.tipTranslate = document.getElementById('tipTranslate');
@@ -55,10 +56,13 @@ export default class EnglishPuzzleView {
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
     this.switchTipButtons();
+    this.checkAutospeechTipBtn();
     if (this.currentSentence < 10) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
       this.currentWordId = splitSentencesData[this.currentSentence].wordId;
+
+      this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
 
       splitSentencesData.forEach((el, id) => {
         const elem = document.createElement('div');
@@ -104,11 +108,7 @@ export default class EnglishPuzzleView {
       });
       this.audioModel.getAudioArray();
       if (this.tipAutospeech) {
-        this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
-        const playPromise = this.audio.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {}).catch(() => {});
-        }
+        this.playAudio();
       }
     } else {
       this.domElements.board.innerHTML = '';
@@ -167,14 +167,16 @@ export default class EnglishPuzzleView {
       this.domElements.tipBackground.classList.remove('tips__button_active');
     }
 
-    if (this.tipAutospeech === true) {
-      this.domElements.tipAutospeech.classList.add('tips__button_active');
-    } else {
-      this.domElements.tipAutospeech.classList.remove('tips__button_active');
-    }
-
     this.domElements.difficultSelect.selectedIndex = this.gameDifficult - 1;
     this.domElements.levelSelect.selectedIndex = this.gameLevel - 1;
+  }
+
+  checkAutospeechTipBtn() {
+    if (this.domElements.tipAutospeech.classList.contains('user-tool__button-speaker--active')) {
+      this.tipAutospeech = true;
+    } else {
+      this.tipAutospeech = false;
+    }
   }
 
   addDragAndDrop() {
@@ -270,8 +272,8 @@ export default class EnglishPuzzleView {
         this.currentSentence = 0;
         this.resetWordsStat();
         this.domElements.continueBtn.classList.add('ep-hidden');
+        this.domElements.resultsBtn.classList.add('ep-hidden');
         this.nextRound();
-        this.render();
       } else {
         this.wordsStat.rightWords.push(this.currentWordId);
         this.currentSentence += 1;
@@ -309,7 +311,7 @@ export default class EnglishPuzzleView {
         const modalMainSentenceBlock = document.createElement('div');
         modalMainLine.classList.add('ep-modal__main-line');
         modalAudioBtn.classList.add('ep-modal__audioBtn');
-        /* TODO change to event event delegation */
+        /* TODO change to event delegation */
         const newAudio = new Audio();
         newAudio.src = this.audioModel.audioArr[id];
         modalAudioBtn.append(newAudio);
@@ -338,34 +340,18 @@ export default class EnglishPuzzleView {
         wrongWordsBlock.innerHTML = '';
         this.currentSentence = 0;
         this.nextRound();
-        this.render();
       });
-    });
-
-    this.domElements.tipAutospeech.addEventListener('click', () => {
-      if (this.tipAutospeech === true) {
-        this.tipAutospeech = false;
-        this.audio.pause();
-        this.audio.currentTime = 0.0;
-      } else {
-        this.tipAutospeech = true;
-        this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
-        this.audio.play();
-      }
-      this.switchTipButtons();
-    });
-
-    this.domElements.stopSpeech.addEventListener('click', () => {
-      if (this.audio) {
-        this.audio.pause();
-        this.audio.currentTime = 0.0;
-      }
     });
 
     this.domElements.tipSpeech.addEventListener('click', () => {
       if (this.currentSentence < 10) {
-        this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
-        this.audio.play();
+        if (this.audio.paused) {
+          this.playAudio();
+        } else {
+          this.domElements.tipSpeech.classList.remove('speech-animation');
+          this.audio.pause();
+          this.audio.currentTime = 0.0;
+        }
       }
     });
 
@@ -427,5 +413,19 @@ export default class EnglishPuzzleView {
       document.body.classList.remove('ep-background');
       this.mainView.renderMain(this.user);
     });
+  }
+
+  playAudio() {
+    this.domElements.tipSpeech.classList.add('speech-animation');
+    this.audio.addEventListener('ended', this.onAudioPlayEnded);
+    const playPromise = this.audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {}).catch(() => {});
+    }
+  }
+
+  AudioPlayEnded() {
+    this.domElements.tipSpeech.classList.remove('speech-animation');
+    this.audio.removeEventListener('ended', this.onAudioPlayEnded);
   }
 }

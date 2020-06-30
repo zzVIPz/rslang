@@ -28,18 +28,6 @@
     background-color: #8ddad5;
     border: 2px solid white;
   }
-  &_autospeech {
-    background-image: url(/src/assets/images/ep-icons/ep-audio.png);
-  }
-  &_autospeech-grey {
-    background-color: rgba(0, 0, 0, 0);
-    background: url(/src/assets/svg/speaker-active.svg) center/38px no-repeat;
-    &:hover {
-      background: url(../assets/svg/speaker.svg) center/36px no-repeat;
-      background-color: rgba(0, 0, 0, 0);
-      box-shadow: none;
-    }
-  }
   &_translate {
     background-image: url(/src/assets/images/ep-icons/ep-tip.png);
   }
@@ -49,4 +37,18 @@
   &_background {
     background-image: url(/src/assets/images/ep-icons/ep-gallery.png);
   }
+}
+
+.speech-animation {
+  background-color: rgba(0, 0, 0, 0);
+  animation: 0.7s ease-in-out 0s infinite alternate speech-anim;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0);;
+    box-shadow: none;
+  }
+}
+
+@keyframes speech-anim {
+   from { transform: scale(1.2) }
+   to { transform: scale(0.8) }
 }
