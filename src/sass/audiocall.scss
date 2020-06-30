@@ -27,6 +27,7 @@ main {
   justify-content: center;
   align-items: center;
   width: 100vw;
+  min-width: 100vw;
   height: calc(100vh - 93px);
   overflow: hidden;
 
@@ -39,7 +40,6 @@ main {
   background-position-y: 100%;
   background-size: cover;
 
-  transition: all 1s ease;
   &__final {
     // display: flex;
     display: none;
@@ -49,7 +49,8 @@ main {
     width: 100%;
     max-width: 784px;
     min-height: 646px;
-    margin: 0 auto;
+    // margin: 0 auto;
+    margin: 0 5px;
     padding: 42px 16px;
 
     text-align: center;
@@ -140,7 +141,7 @@ main {
       &__answer-ru {
         flex-grow: 1;
         max-width: calc(50% - 54px);
-        overflow: hidden;
+        // overflow: hidden;
 
         font-size: 16px;
         line-height: 1.25;

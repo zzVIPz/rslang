@@ -7,7 +7,6 @@ class AudiocallModel {
       this.wrongAnswer = [];
       this.indexPositionAnswer = [1, 2, 3, 4];
       this.mainModel = new MainModel();
-      // this.media = new getMediaUrl();
     }
 
     async fetchWords(user, chosenLevel, chosenRound) {

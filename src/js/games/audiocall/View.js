@@ -131,9 +131,14 @@ class AudiocallView {
         }
     }
 
-    checkAnswer() {
-      document.addEventListener('keyup', (event) => {
-        this.responseBlock.classList.add('unclickable');
+    checkAnswer = () => {
+      document.querySelector('body').addEventListener('keyup', (event) => {
+        const answer = document.querySelector('#answer-1');
+        const pointEvent = window.getComputedStyle(answer, null).getPropertyValue('pointer-events');
+        if(pointEvent !== 'none') {
+        this.responseBlock.forEach((el) => {
+          el.classList.add('unclickable');
+        });
         if(event.keyCode === 49) {
           if(document.querySelector('#answer-1').id === `answer-${this.model.indexPositionAnswer[0]}`) {
             sound(soundURL, 'correct.mp3');
@@ -141,7 +146,7 @@ class AudiocallView {
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
           } else {
-            sound('error.mp3');
+            sound(soundURL, 'error.mp3');
             document.querySelector('#answer-1').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
             this.wrong();
           }
@@ -152,7 +157,7 @@ class AudiocallView {
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
           } else {
-            sound('error.mp3');
+            sound(soundURL, 'error.mp3');
             document.querySelector('#answer-2').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
             this.wrong();
           }
@@ -163,7 +168,7 @@ class AudiocallView {
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
           } else {
-            sound('error.mp3');
+            sound(soundURL, 'error.mp3');
             document.querySelector('#answer-3').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
             this.wrong();
           }
@@ -174,18 +179,21 @@ class AudiocallView {
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
           } else {
-            sound('error.mp3');
+            sound(soundURL, 'error.mp3');
             document.querySelector('#answer-4').classList.add('container-game__trainings-audiocall__answer__m-answer-false');
             this.wrong();
           }
-        } else if(event.keyCode === 13) {
+        } 
+      } if(event.keyCode === 13) {
           if(this.answerBtn.innerText === NEXT) {
             this.nextWord();
           }
         }
       });
       this.choosenAnswer.addEventListener('click', (event) => {
-        this.responseBlock.classList.add('unclickable');
+        this.responseBlock.forEach((el) => {
+          el.classList.add('unclickable');
+        });
         if(event.target.classList.contains('container-game__trainings-audiocall__answer')) {
           if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
             sound(soundURL, 'correct.mp3');
@@ -193,7 +201,7 @@ class AudiocallView {
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
           } else {
-              sound('error.mp3');
+              sound(soundURL, 'error.mp3');
               event.target.classList.add('container-game__trainings-audiocall__answer__m-answer-false');
               this.wrong();
             }
@@ -212,7 +220,9 @@ class AudiocallView {
 
     nextWord() {
       this.gamePage.classList.add('animation');
-      this.responseBlock.classList.remove('unclickable');
+      this.responseBlock.forEach((el) => {
+        el.classList.remove('unclickable');
+      });
           setTimeout(() => {
             this.gamePage.classList.remove('animation');
             this.imageWord.classList.remove('show');
@@ -251,9 +261,9 @@ class AudiocallView {
       });
     }
 
-    createEl(array, div) {
+    createEl = (array, div) => {
       for(let i = 0; i < array.length; i++) {
-        this.finalGame = `<div class="container-game__final__slider-answers__answer">
+        const finalGame = `<div class="container-game__final__slider-answers__answer">
                         <span class="container-game__final__sound">
                           <audio preload="metadata">
                             <source src='${getMediaUrl(array[i].audio)}' type= 'audio/mp3'>
@@ -263,7 +273,7 @@ class AudiocallView {
                         <span class="container-game__final__tr">— </span>
                         <div class="container-game__final__slider-answers__answer-ru">${array[i].wordTranslate}</div>
                     </div>`;
-        div.insertAdjacentHTML('beforeend', this.finalGame);
+        div.insertAdjacentHTML('beforeend', finalGame);
       }
 
       for (let item of document.querySelectorAll('.container-game__final__sound')) {
