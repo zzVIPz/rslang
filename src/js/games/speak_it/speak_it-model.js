@@ -1,4 +1,6 @@
-import { QUANTITY_MISS_RIGHT_ANWS, FETCH_URL } from './speak_it-constants';
+import { QUANTITY_MISS_RIGHT_ANWS } from './speak_it-constants';
+import getCorrectUrl from '../../utils/getCorrectUrl';
+
 
 export class Model {
   constructor() {
@@ -21,7 +23,7 @@ export class Model {
   }
 
   getJson(group, page) {
-    return fetch(`${FETCH_URL + page}&group=${group}`)
+    return fetch(getCorrectUrl(page, group, false))
       .then((response) => response.json());
   }
 

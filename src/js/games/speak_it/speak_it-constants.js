@@ -135,9 +135,7 @@ const ONE_CARD = `<div class="card">
                 </div>`;
 const container = document.querySelector('.main');
 const PRELOADING_TIME = 2000;
-const FETCH_URL = 'https://afternoon-falls-25894.herokuapp.com/words?page=';
-const SOURSES_URL = 'https://raw.githubusercontent.com/vitali30/rslang-data/master/';
-const imageURL = `url('${SOURSES_URL}`;
+const MICROPHONE_TIME = 4000;
 const QUANTITY_WORDS_IN_PAGE = 10;
 const QUANTITY_ROUNDS_LEVELS = 6;
 const CORRECT_MP3 = 'correct.mp3';
@@ -150,7 +148,7 @@ const IDS_TEXT = 'ID of this word: ';
 const BACK = 'Назад';
 export {
   START_PAGE, PRELOADER, ONE_START, QUANTITY_MISS_RIGHT_ANWS, QUANTITY_STARS_NEXT_LEVEL,
-  GAME_PAGE, ONE_CARD, container, PRELOADING_TIME, FETCH_URL, SOURSES_URL, imageURL, QUANTITY_WORDS_IN_PAGE,
+  GAME_PAGE, ONE_CARD, container, PRELOADING_TIME, QUANTITY_WORDS_IN_PAGE,
   QUANTITY_ROUNDS_LEVELS, CORRECT_MP3, MISS_MP3, SPEAK_MODE, VIEW_MODE, CORRECT_WORDS, UNCORRECT_WORDS, IDS_TEXT,
-  BACK,
+  BACK, MICROPHONE_TIME 
 };

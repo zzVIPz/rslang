@@ -3,10 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
-<<<<<<< HEAD
-import { MENU_ITEMS_NAMES, HASH_VALUES } from '../constants/constMainView';
 import { startSpeakItGame } from '../games/speak_it/speak_it-main';
-=======
 import {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -16,7 +13,6 @@ import {
   PAGES_LINKS,
   REPEAT_NUMBER,
 } from '../constants/constMainView';
->>>>>>> develop
 
 export default class MainController {
   constructor() {
@@ -55,51 +51,13 @@ export default class MainController {
 
     this.mainView.onNavigationLinkClick = (e) => {
       const dataName = e.target.dataset.name;
-<<<<<<< HEAD
-      if (dataName === MENU_ITEMS_NAMES.mainPage) {
-        this.mainView.renderMain(this.user);
-      }
-      if (dataName === MENU_ITEMS_NAMES.dictionary) {
-        // add dictionary
-      }
-      if (dataName === MENU_ITEMS_NAMES.statistics) {
-        // add statistics
-      }
-      if (dataName === MENU_ITEMS_NAMES.speakit) {
-        startSpeakItGame(this.user, this.mainView);
-      }
-      if (dataName === MENU_ITEMS_NAMES.englishPuzzle) {
-        // add englishPuzzle
-      }
-      if (dataName === MENU_ITEMS_NAMES.audiocall) {
-        // add audiocall
-      }
-      if (dataName === MENU_ITEMS_NAMES.savannah) {
-        // add savannah
-      }
-      if (dataName === MENU_ITEMS_NAMES.sprint) {
-        // add sprint
-      }
-      if (dataName === MENU_ITEMS_NAMES.newGame) {
-        // add newGame
-      }
-      if (dataName === MENU_ITEMS_NAMES.promoPage) {
-        window.open('./promo.html');
-      }
-
-      if (dataName === MENU_ITEMS_NAMES.aboutTeam) {
-        window.open('./about.html');
-      }
-      if (dataName === MENU_ITEMS_NAMES.logOut) {
-        this.mainView.onLogOut();
-        this.mainView.showIndexPage();
-=======
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
           break;
         case MENU_ITEMS_NAMES.statistics:
           break;
         case MENU_ITEMS_NAMES.speakit:
+          startSpeakItGame(this.user, this.mainView);
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
           break;
@@ -127,7 +85,6 @@ export default class MainController {
           e.preventDefault();
           this.setDefaultHash();
           this.mainView.renderMain(this.user);
->>>>>>> develop
       }
     };
 

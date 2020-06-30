@@ -1,9 +1,8 @@
 import {
-  SOURSES_URL,
-  imageURL,
   SPEAK_MODE,
   VIEW_MODE,
 } from './speak_it-constants';
+import getMediaUrl from '../../utils/getMediaUrl'
 
 export class View {
   constructor() {
@@ -39,14 +38,14 @@ export class View {
       this.viewWords(model.datasWords, model.datasTranscription, model.datasAudios,
         model.arrayNumders, model.id);
     }
-    const imageURL = this.createURL(model.datasImages[numerCardInArray]);
+    const imageURL = this.createImageURL(model.datasImages[numerCardInArray]);
     this.image.style.backgroundImage = imageURL;
     this.translation.innerText = model.datasWordTranslate[numerCardInArray];
     this.textMean.innerHTML = model.datasTextMeaning[numerCardInArray];
-    let speakURL = this.createSoundURL(model.datasAudioMeaning[numerCardInArray]);
+    let speakURL = getMediaUrl(model.datasAudioMeaning[numerCardInArray]);
     this.textMean.id = speakURL;
     this.textExplain.innerHTML = model.datasTextExample[numerCardInArray];
-    speakURL = this.createSoundURL(model.datasAudioExample[numerCardInArray]);
+    speakURL = getMediaUrl(model.datasAudioExample[numerCardInArray]);
     this.textExplain.id = speakURL;
     this.translateMean.innerHTML = model.datasTextMeaningTranslate[numerCardInArray];
     this.translateExplain.innerHTML = model.datasTextExampleTranslate[numerCardInArray];
@@ -58,17 +57,13 @@ export class View {
       this.words[i].id = `${numbers[i]}`;
       this.cards[i].id = id[numbers[i]];
       this.transcriptions[i].innerText = arrayTranscripts[numbers[i]];
-      const audioURL = this.createSoundURL(arrayAudios[numbers[i]]);
+      const audioURL = getMediaUrl(arrayAudios[numbers[i]]);
       this.listens[i].id = audioURL;
     }
   }
 
-  createSoundURL(link) {
-    return SOURSES_URL + link;
-  }
-
-  createURL(link) {
-    return `${imageURL + link}')`;
+  createImageURL(link) {
+    return `url('${getMediaUrl(link)}')`;
   }
 
   changeInput() {

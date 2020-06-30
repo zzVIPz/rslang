@@ -28,7 +28,7 @@ export class ModalWindow {
       container.innerHTML = '';
       container.classList.remove('speakIt');
       document.body.classList.remove('speakIt_background');
-      mainView.renderMain(user)
+      mainView.renderMain(user);
     };
   }
 

@@ -5,6 +5,7 @@ import {
   QUANTITY_ROUNDS_LEVELS,
   CORRECT_MP3,
   MISS_MP3,
+  MICROPHONE_TIME
 } from './speak_it-constants';
 import { View } from './speak_it-view';
 import { Model } from './speak_it-model';
@@ -36,6 +37,8 @@ export class Controller {
     this.mainView = mainView;
   }
 
+
+
   initGame() {
     this.model = new Model();
     this.view = new View();
@@ -54,9 +57,8 @@ export class Controller {
     this.clear.onclick = () => {
       this.view.input.innerText = '';
       return true;
-    }; 
+    };
     this.closeStartPage();
-    
   }
 
   async onload() {
@@ -184,7 +186,7 @@ export class Controller {
           this.view.toggleMicrophone();
           this.recognitionMod = !this.recognitionMod;
           return false;
-        }, 4000);
+        }, MICROPHONE_TIME);
       } else {
         recognition.stop();
         this.view.toggleMicrophone();

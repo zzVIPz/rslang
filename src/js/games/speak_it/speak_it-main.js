@@ -5,7 +5,7 @@ import {
   ONE_CARD,
   container,
   PRELOADING_TIME,
-  QUANTITY_WORDS_IN_PAGE,
+  QUANTITY_WORDS_IN_PAGE, 
 } from './speak_it-constants';
 import { StartingClass } from './speak_it-starting-page';
 import { Controller } from './speak_it-controller';
