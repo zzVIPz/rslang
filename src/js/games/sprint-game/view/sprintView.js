@@ -1,6 +1,11 @@
 import { startLayout, gameLayout, finalStatLayout } from './layouts';
 import {
-  MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, CORRECT_SOUND_URL, ERROR_SOUND_URL,
+  MIN_GAME_POINTS,
+  MAX_GAME_POINTS,
+  VALUE_TO_SWITCH,
+  CORRECT_SOUND_URL,
+  ERROR_SOUND_URL,
+  ANSWER_ANIMATION_DELAY,
 } from '../const/sprintConst';
 
 export default class SprintView {
@@ -57,29 +62,29 @@ export default class SprintView {
   }
 
   animateTrue() {
-    this.display = document.querySelector('.sprint-display');
-    this.display.classList.add('sprint-display--green');
+    const display = document.querySelector('.sprint-display');
+    display.classList.add('sprint-display--green');
     if (this.soundButton.classList.contains('user-tool__button-speaker--active')) {
       this.correctSound.play();
     }
     setTimeout(() => {
-      if (this.display.classList.contains('sprint-display--green')) {
-        this.display.classList.remove('sprint-display--green');
+      if (display.classList.contains('sprint-display--green')) {
+        display.classList.remove('sprint-display--green');
       }
-    }, 200);
+    }, ANSWER_ANIMATION_DELAY);
   }
 
   animateFalse() {
-    this.display = document.querySelector('.sprint-display');
-    this.display.classList.add('sprint-display--red');
+    const display = document.querySelector('.sprint-display');
+    display.classList.add('sprint-display--red');
     if (this.soundButton.classList.contains('user-tool__button-speaker--active')) {
       this.errorSound.play();
     }
     setTimeout(() => {
-      if (this.display.classList.contains('sprint-display--red')) {
-        this.display.classList.remove('sprint-display--red');
+      if (display.classList.contains('sprint-display--red')) {
+        display.classList.remove('sprint-display--red');
       }
-    }, 200);
+    }, ANSWER_ANIMATION_DELAY);
   }
 
   showTime(time) {

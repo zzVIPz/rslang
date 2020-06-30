@@ -1,10 +1,11 @@
 import SprintView from '../view/sprintView';
 import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
-import {
-  MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME,
-} from '../const/sprintConst';
+// eslint-disable-next-line import/no-cycle
 import MainView from '../../../views/mainView';
+import {
+  MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
+} from '../const/sprintConst';
 
 export default class SprintController {
   constructor() {
@@ -20,8 +21,6 @@ export default class SprintController {
   }
 
   async prelaunch() {
-    clearTimeout(this.timer);
-
     this.currentWordIndex = 0;
     this.score = 0;
     this.points = MIN_GAME_POINTS;
@@ -112,12 +111,12 @@ export default class SprintController {
       .addEventListener('click', () => { this.prelaunch(); });
   }
 
-  startCountdown(from) {
-    this.current = from;
-    this.current -= 1;
-    if (this.current > 0) {
-      this.view.showTime(this.current);
-      this.timer = setTimeout(this.startCountdown.bind(this), 1000, this.current);
+  startCountdown(gameTime) {
+    this.gameTime = gameTime;
+    this.gameTime -= 1;
+    if (this.gameTime > 0) {
+      this.view.showTime(this.gameTime);
+      this.timer = setTimeout(this.startCountdown.bind(this), COUNTDOWN_DELAY, this.gameTime);
     } else {
       this.endGame();
     }
