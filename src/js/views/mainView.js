@@ -47,6 +47,10 @@ export default class MainView {
     this.addCardBtnsClickHandler();
   }
 
+  addBtnAudiocall() {
+    button-audiocall
+  }
+
   renderMain(user) {
     const formattedTemplate = getMainTemplate(user, MAIN_TEXT);
     this.main.innerHTML = formattedTemplate;

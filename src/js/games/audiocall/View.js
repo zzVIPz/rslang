@@ -35,7 +35,8 @@ class AudiocallView {
       this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
       this.loader = document.querySelector('.container-game__preload');
       this.startBtn = document.querySelector('.container-game__trainings-audiocall__intro-btn');
-      this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers'); 
+      this.gamePage = document.querySelector('.container-game__trainings-audiocall__answers');
+      this.responseBlock = document.querySelectorAll('.container-game__trainings-audiocall__answer'); 
       this.closeBtnGame = document.querySelector('.container-game__trainings-audiocall__close');
       this.modalWindow = document.querySelector('.container-game__modal');
       this.closeModalWindow = document.querySelector('.container-game__modal__close-body');
@@ -132,6 +133,7 @@ class AudiocallView {
 
     checkAnswer() {
       document.addEventListener('keyup', (event) => {
+        this.responseBlock.classList.add('unclickable');
         if(event.keyCode === 49) {
           if(document.querySelector('#answer-1').id === `answer-${this.model.indexPositionAnswer[0]}`) {
             sound(soundURL, 'correct.mp3');
@@ -183,6 +185,7 @@ class AudiocallView {
         }
       });
       this.choosenAnswer.addEventListener('click', (event) => {
+        this.responseBlock.classList.add('unclickable');
         if(event.target.classList.contains('container-game__trainings-audiocall__answer')) {
           if(event.target.id === `answer-${this.model.indexPositionAnswer[0]}`) {
             sound(soundURL, 'correct.mp3');
@@ -209,6 +212,7 @@ class AudiocallView {
 
     nextWord() {
       this.gamePage.classList.add('animation');
+      this.responseBlock.classList.remove('unclickable');
           setTimeout(() => {
             this.gamePage.classList.remove('animation');
             this.imageWord.classList.remove('show');
@@ -217,6 +221,7 @@ class AudiocallView {
             this.answerBtn.innerText = I_DO_NOT_KNOW;
             try {
               sound(getMediaUrl(this.wordsArray[0].audio));
+              this.animationSpeaker();
             } catch(e) {
               console.log(e.stack);
             }
@@ -231,6 +236,7 @@ class AudiocallView {
     wrong() {
       document.querySelector(`#answer-${this.model.indexPositionAnswer[0]}`).classList.add('container-game__trainings-audiocall__answer__m-answer-true');
       this.model.wrongAnswer.push(this.wordsArray[0]);
+      console.log(this.model.wrongAnswer);
       this.setAnswer();
     }
     

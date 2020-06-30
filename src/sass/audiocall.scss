@@ -638,6 +638,9 @@ main {
           transition:         transform .16s ease-in;
           transition:         transform .16s ease-in, -webkit-transform .16s ease-in;
 }
+.unclickable {
+  pointer-events: none;
+}
 .hide {
   display: none;
 }
