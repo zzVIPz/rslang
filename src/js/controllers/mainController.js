@@ -267,9 +267,9 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation &&
-        !this.user.wordPronunciation &&
-        this.user.automaticallyScroll
+        !this.user.textPronunciation
+        && !this.user.wordPronunciation
+        && this.user.automaticallyScroll
       ) {
         setTimeout(() => {
           this.swiper.slideNext();

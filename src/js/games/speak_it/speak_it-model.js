@@ -1,7 +1,6 @@
 import { QUANTITY_MISS_RIGHT_ANWS } from './speak_it-constants';
 import getCorrectUrl from '../../utils/getCorrectUrl';
 
-
 export class Model {
   constructor() {
     this.arrayNumders = Array.from({ length: 20 }, (v, k) => k);
@@ -63,7 +62,11 @@ export class Model {
   }
 
   shuffle(array) {
-    array.sort(() => Math.random() - 0.5);
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 
   checkResult(checkingWord) {
@@ -85,4 +88,11 @@ export class Model {
     const min = max + 4;
     return Math.floor(Math.random() * (max - min)) + min;
   }
+
+  getWords = async (currentPage, currentGroup, cardsTotal, wordsPerExample) => {
+    const url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
+    const rawResponse = await fetch(url);
+    const content = await rawResponse.json();
+    return content;
+  };
 }

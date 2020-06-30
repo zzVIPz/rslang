@@ -2,7 +2,7 @@ import {
   SPEAK_MODE,
   VIEW_MODE,
 } from './speak_it-constants';
-import getMediaUrl from '../../utils/getMediaUrl'
+import getMediaUrl from '../../utils/getMediaUrl';
 
 export class View {
   constructor() {
