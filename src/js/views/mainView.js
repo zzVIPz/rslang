@@ -9,6 +9,7 @@ import getNavLinkTemplate from '../utils/getNavLinkTemplate';
 import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
 import toggleVisibility from '../utils/toggleVisibility';
 import getPlaylist from '../utils/getPlaylist';
+import getHintTemplate from '../utils/getHintTemplate';
 import Card from '../components/card/cardController';
 
 export default class MainView {
@@ -119,9 +120,19 @@ export default class MainView {
     return inputNode;
   };
 
-  disableCurrentInput() {
+  getWordId(currentSlide = this.getCurrentSlide()) {
+    return currentSlide.dataset.id;
+  }
+
+  disableToolButtons(currentSlide = this.getCurrentSlide()) {
+    const buttons = currentSlide.querySelectorAll('button');
+    buttons.forEach((button) => {
+      button.setAttribute('disabled', 'disabled');
+    });
+  }
+
+  disableCurrentInput(currentSlide = this.getCurrentSlide()) {
     // todo: show all data, disable buttons
-    const currentSlide = this.getCurrentSlide();
     const currentInput = this.getCurrentInputNode(currentSlide);
     currentInput.setAttribute('disabled', 'disabled');
     const nodes = currentSlide.querySelectorAll('.card__input-container');
@@ -134,22 +145,50 @@ export default class MainView {
 
   playAudio = (user, currentSlide = this.getCurrentSlide()) => {
     this.stopAudio();
-    this.playlist = getPlaylist(user, currentSlide);
-    if (
-      this.playlist.length
-      && this.speaker.classList.contains('user-tool__button-speaker--active')
-    ) {
-      this.playlist[0].play();
-      this.playlist.forEach((node, i, arr) => {
-        node.addEventListener('ended', () => {
-          if (node.duration === node.currentTime) {
-            const nextAudio = arr[i + 1];
-            if (nextAudio) nextAudio.play();
-          }
+    if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      this.playlist = getPlaylist(user, currentSlide);
+      if (this.playlist.length) {
+        this.playlist[0].play();
+        this.playlist.forEach((node, i, arr) => {
+          node.addEventListener('ended', () => {
+            if (node.duration === node.currentTime) {
+              const nextAudio = arr[i + 1];
+              if (nextAudio) {
+                nextAudio.play();
+              } else if (user.automaticallyScroll) this.swiper.slideNext();
+            }
+          });
         });
-      });
+      }
     }
   };
+
+  showCorrectAnswer(param) {
+    const currentInput = this.getCurrentInputNode();
+    const answer = currentInput.value;
+    const correctAnswer = currentInput.dataset.word;
+    if (param) {
+      currentInput.value = correctAnswer;
+    } else {
+      const removeHintContainer = () => {
+        currentInput.removeEventListener('input', removeHintContainer);
+        this.hintContainer.remove();
+      };
+      if (this.hintContainer) {
+        this.hintContainer.remove();
+      }
+      currentInput.value = '';
+      const hintTemplate = getHintTemplate(answer, correctAnswer);
+      currentInput.insertAdjacentHTML('afterend', hintTemplate);
+      this.hintContainer = document.querySelector('.card__hint-container');
+      this.hintContainer.classList.add('card__hint-container--invisible');
+      currentInput.focus();
+      this.hintContainer.addEventListener('click', () => {
+        currentInput.focus();
+      });
+      currentInput.addEventListener('input', removeHintContainer);
+    }
+  }
 
   renderCards(words, user, swiper) {
     this.swiper = swiper;
@@ -272,9 +311,16 @@ export default class MainView {
     document.addEventListener('click', (e) => {
       const { target } = e;
       if (target.classList.contains('card__btn-check')) {
-        if (target.innerText === 'CHECK') {
-          this.onBtnCheckClick();
-        }
+        this.onBtnCheckClick();
+      }
+      if (target.classList.contains('card__btn-show-answer')) {
+        this.onBtnShowAnswerClick();
+      }
+      if (target.classList.contains('card__btn-know-word')) {
+        this.onBtnKnowClick();
+      }
+      if (target.classList.contains('card__btn-difficult-word')) {
+        this.onBtnDifficultClick();
       }
     });
   }
@@ -321,13 +367,13 @@ export default class MainView {
       toggleVisibility('.card__image-container');
     }
     if (target.id === 'button-i-know') {
-      toggleVisibility('.card__know');
+      toggleVisibility('.card__btn-know-word');
     }
     if (target.id === 'button-difficult') {
-      toggleVisibility('.card__study');
+      toggleVisibility('.card__btn-difficult-word');
     }
     if (target.id === 'show-answer') {
-      toggleVisibility('.card__show-answer');
+      toggleVisibility('.card__btn-show-answer');
     }
   };
 
