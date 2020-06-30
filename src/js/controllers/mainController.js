@@ -12,7 +12,7 @@ import {
   PAGES_LINKS,
   REPEAT_NUMBER,
 } from '../constants/constMainView';
-import EnglishPuzzle from '../games/english-puzzle/views/englishPuzzleStartView';
+import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 
 export default class MainController {
   constructor() {
@@ -59,7 +59,7 @@ export default class MainController {
         case MENU_ITEMS_NAMES.speakit:
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
-          this.englishPuzzle = new EnglishPuzzle(this.user, this.mainView);
+          this.englishPuzzle = new EnglishPuzzleStart(this.user, this.mainView);
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:

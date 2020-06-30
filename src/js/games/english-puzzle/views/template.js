@@ -1,7 +1,8 @@
 /* TODO: check and rename class names, remove useless attributes and then fix styles;
  replace left and right blocks elements between each other */
 const template = `
-      <div class="english-puzzle">
+      <div class="english-puzzle ep-background">
+      <div class="english-puzzle__wrapper">
         <div class="ep-controls">
           <div class="ep-controls__left-side">
             <div id="tipTranslate" class="ep__button tips__button tips__button_translate"></div>
@@ -91,13 +92,17 @@ const template = `
         <div class="ep-tips">
           <p id="sentenceTranslate" class="ep-tips__text-translate"></p>
         </div>
+      <div class="container-outer">
+        <div class="ep-numbers"></div>
+      <div class="container-inner">
         <div class="ep-board-wrapper">
-          <div class="ep-numbers"></div>
           <div id="board" class="ep-board"></div>
         </div>
         <div class="ep-wrapper">
           <div id="playField" class="ep-play__field ep-board__line drag-container"></div>
         </div>
+      </div>
+      </div>
         <div class="ep-play__buttons">
           <button id="skipBtn" class="ep__button" name="skip">I don't know</button>
           <button id="checkBtn" class="ep__button ep-hidden" name="check">Check</button>
@@ -127,6 +132,7 @@ const template = `
             </div>
           </div>
         </div>
+      </div>
       </div>
       `;
 

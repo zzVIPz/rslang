@@ -11,8 +11,8 @@ export default class EnglishPuzzleView {
 
   /* TODO: add and remove 'ep-background' class to 'english-puzzle' div, check this class styles */
   start() {
-    document.body.classList.add('ep-background');
     document.querySelector('.main').innerHTML = this.view;
+    document.querySelector('.ep-startScreen').classList.add('ep-background');
     this.domElements.startButton = document.getElementById('startButton');
     this.domElements.closeButton = document.getElementById('closeButton');
 
@@ -22,7 +22,7 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.closeButton.addEventListener('click', () => {
-      document.body.classList.remove('ep-background');
+      document.querySelector('.ep-startScreen').classList.remove('ep-background');
       this.mainView.renderMain(this.user);
     });
   }
