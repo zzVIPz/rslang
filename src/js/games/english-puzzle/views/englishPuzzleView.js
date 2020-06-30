@@ -75,7 +75,6 @@ export default class EnglishPuzzleView {
 
         lineNumberBlock.textContent = splitSentencesData.indexOf(el) + 1;
         lineNumbersWrapper.append(lineNumberBlock);
-
         document.querySelector('.ep-board').append(elem);
         el.splitSentence.forEach((word) => {
           const elem2 = document.createElement('div');
@@ -140,7 +139,13 @@ export default class EnglishPuzzleView {
       }
       ctx.drawImage(this.img, -positionOffset, -50 * indexString, this.img.width, this.img.height);
     }
-    ctx.font = '20px Verdana';
+    if (this.boardWidth <= 800) {
+      ctx.font = '16px Verdana';
+    } else if (this.boardWidth <= 900) {
+      ctx.font = '18px Verdana';
+    } else {
+      ctx.font = '20px Verdana';
+    }
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     ctx.fillText(text, puzzleCanvas.width / 2, (puzzleCanvas.height / 2) + 6);

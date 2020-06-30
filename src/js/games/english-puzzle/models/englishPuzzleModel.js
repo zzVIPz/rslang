@@ -16,6 +16,7 @@ export default class EnglishPuzzleModel {
     return sentencesData;
   }
 
+  /* TODO: short and long words length -> consts */
   getSplitSentencesData() {
     const splitSentencesData = [];
     const sentencesData = this.getSentencesData();
@@ -30,8 +31,14 @@ export default class EnglishPuzzleModel {
         wordObj.wordName = el2;
         wordObj.line = id;
         wordObj.pos = id2;
-        wordObj.length = el2.length;
-        lettersCount += el2.length;
+        if (el2.length < 3) {
+          wordObj.length = el2.length + 2;
+        } else if (el2.length > 6) {
+          wordObj.length = el2.length - 1;
+        } else {
+          wordObj.length = el2.length;
+        }
+        lettersCount += wordObj.length;
         currentSplitSentenceArr.push(wordObj);
       });
       currentSplitSentenceObj.splitSentence = currentSplitSentenceArr;
