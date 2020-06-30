@@ -304,6 +304,7 @@ export default class EnglishPuzzleView {
         const modalMainSentenceBlock = document.createElement('div');
         modalMainLine.classList.add('ep-modal__main-line');
         modalAudioBtn.classList.add('ep-modal__audioBtn');
+        /* TODO change to event event delegation */
         const newAudio = new Audio();
         newAudio.src = this.audioModel.audioArr[id];
         modalAudioBtn.append(newAudio);
