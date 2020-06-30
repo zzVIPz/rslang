@@ -1,26 +1,30 @@
-import shuffleArray from './savannah-utils/shaffle';
+import shuffleArray from '../utils/shaffle';
 import MainModel from '../../models/mainModel';
+import {
+  INITIAL_BACKGROUND_POSITIONY,
+  REMOVE_DIGITS_REGEXP,
+  INITIAL_CRISTAL_WIDTH,
+  DEFAULT_DISPLAYED_LEVEL,
+} from './constSavannah';
 
 class SavannahModel {
   constructor() {
     this.mainModel = new MainModel();
     this.setDefault();
-    this.removeDigitsRegExp = /\d/g;
     this.audioOn = true;
-    this.backgroundPositionY = 100;
-    this.cristalWidth = 30;
-    this.levelNumForUser = 1;
-    this.isWordClicked = false;
     this.isPreloading = true;
+    this.isWordClicked = false;
+    this.removeDigitsRegExp = REMOVE_DIGITS_REGEXP;
+    this.backgroundPositionY = INITIAL_BACKGROUND_POSITIONY;
+    this.cristalWidth = INITIAL_CRISTAL_WIDTH;
+    this.levelNumForUser = DEFAULT_DISPLAYED_LEVEL;
   }
 
   async fetchWords(user, chosenLevel, chosenRound) {
     this.currentUser = user;
-    this.currentUser.currentGroup = chosenLevel || 0;
-    this.currentUser.currentPage = chosenRound || 0;
 
-    const data = await this.mainModel.getWords(this.currentUser.currentPage,
-      this.currentUser.currentGroup);
+    const data = await this.mainModel.getWords(chosenRound || 0,
+      chosenLevel || 0);
 
     return data;
   }
@@ -76,19 +80,19 @@ class SavannahModel {
     const chosenTranslationText = chosenTranslation.replace(this.removeDigitsRegExp, '');
 
     if (chosenTranslationText === this.correctAnswer) {
-      this.rightAnswer += 1;
+      this.rightAnswersCounter += 1;
 
       return true;
     }
-    this.wrongAnswer += 1;
+    this.wrongAnswerCounter += 1;
 
     return false;
   }
 
   setDefault() {
     this.count = 0;
-    this.rightAnswer = 0;
-    this.wrongAnswer = 0;
+    this.rightAnswersCounter = 0;
+    this.wrongAnswerCounter = 0;
   }
 }
 

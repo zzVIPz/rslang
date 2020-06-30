@@ -1,5 +1,11 @@
 import getMediaUrl from '../../../utils/getMediaUrl';
-import playAudio from '../savannah-utils/playAudio';
+import playAudio from '../../utils/playAudio';
+import INITIAL_BACKGROUND_POSITIONY from '../constSavannah';
+import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
+import {
+  LOSE_ROUND_TITLE,
+  WIN_ROUND_TITLE,
+} from '../../utils/statisticsModalConst';
 
 class GameStatistics {
   constructor() {
@@ -10,7 +16,8 @@ class GameStatistics {
     this.mainView = mainView;
     this.view = view;
     this.model = model;
-    this.finalModal.className = 'statistics statistics__container hidden';
+    this.finalModal.className = 'statistics';
+    this.finalModal.classList.add('statistics__container hidden');
     this.finalModal.innerHTML = this.view.statisticsLayout;
     this.view.appContainer.appendChild(this.finalModal);
     this.title = document.querySelector('.statistics__title');
@@ -18,12 +25,11 @@ class GameStatistics {
   }
 
   loseRound() {
-    this.title.textContent = 'В этот раз не получилось, но продолжай тренироваться!';
+    this.title.textContent = LOSE_ROUND_TITLE;
   }
 
   winRound() {
-    this.title.textContent = `
-    Так держать! Испытай себя на следующем раунде или уровне.`;
+    this.title.textContent = WIN_ROUND_TITLE;
   }
 
   modalListeners() {
@@ -43,52 +49,49 @@ class GameStatistics {
     document.querySelector('.statistics__continue').addEventListener('click', () => {
       this.view.renderSavannah();
       this.model.setDefault();
-      this.view.backgroundPositionY = 100;
+      this.view.backgroundPositionY = INITIAL_BACKGROUND_POSITIONY;
     });
   }
 
   renderWrongAnswersTitle() {
     this.wrongTitle = document.querySelector('.wrong_title');
-    this.wrongTitle.innerHTML = `Ошибок: ${this.model.wrongAnswer}`;
+    this.wrongTitle.innerHTML = `Ошибок: ${this.model.wrongAnswerCounter}`;
   }
 
   renderCorrectAnswerTitle() {
     this.correctTitle = document.querySelector('.correct_title');
-    this.correctTitle.innerHTML = `Знаю: ${this.model.rightAnswer}`;
+    this.correctTitle.innerHTML = `Знаю: ${this.model.rightAnswersCounter}`;
   }
 
   renderWord(word, translation, audio) {
     this.audioUrl = getMediaUrl(audio);
     this.wordBox = document.createElement('div');
     this.wordBox.className = 'wordBox';
-    this.wordBox.innerHTML = `
-    <div class="soundBox">
-      <img class="word-audio" src="../src/assets/images/audio.png" data-url="${this.audioUrl}">
-    </div>
-    <div class="word-eng">${word}</div>
-    <div class="word-trans">— ${translation}</div>
-    `;
+    this.wordBox.innerHTML = getWordBoxTemplate(this.audioUrl, word, translation);
   }
 
-  clickPlayIcon() {
-    this.statisticsContainer = document.querySelector('.statistics__container');
-    this.statisticsContainer.addEventListener('click', ({ target }) => {
+  clickPlayIcon = () => {
+    const statisticsContainer = document.querySelector('.statistics__container');
+
+    statisticsContainer.addEventListener('click', ({ target }) => {
       if (target.classList.contains('word-audio')) {
         playAudio(target.dataset.url);
       }
     });
   }
 
-  appendWrongAnswer(word, translation, audio) {
-    this.wordsWrongBox = document.querySelector('.statistics__words-set_wrong');
+  appendWrongAnswer = (word, translation, audio) => {
+    const wordsWrongBox = document.querySelector('.statistics__words-set_wrong');
+
     this.renderWord(word, translation, audio);
-    this.wordsWrongBox.appendChild(this.wordBox);
+    wordsWrongBox.appendChild(this.wordBox);
   }
 
-  appendCorrectAnswer(word, translation, audio) {
-    this.wordsCorrectBox = document.querySelector('.statistics__words-set_correct');
+  appendCorrectAnswer = (word, translation, audio) => {
+    const wordsCorrectBox = document.querySelector('.statistics__words-set_correct');
+
     this.renderWord(word, translation, audio);
-    this.wordsCorrectBox.appendChild(this.wordBox);
+    wordsCorrectBox.appendChild(this.wordBox);
   }
 }
 

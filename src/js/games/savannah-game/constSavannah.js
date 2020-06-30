@@ -1,4 +1,4 @@
-const gameLayout = `
+const GAME_LAYOUT = `
 <div class="app">
     <div class="app__header">
       <div class="close"></div>
@@ -19,7 +19,7 @@ const gameLayout = `
     </div>
   </div>`;
 
-const groupRound = `
+const GROUP_ROUND = `
   <div class="rating__row rating__group">
     <label class="group star" id="0"></label>
     <label class="group star" id="1"></label>
@@ -40,7 +40,7 @@ const groupRound = `
   <div class="text text_round">Раунд</div>
 `;
 
-const preloader = `
+const PRELOADER = `
 <div class="preloader__conatiner"> 
     <div class="current-level"></div>
     <div class="countdown">3</div>
@@ -57,7 +57,7 @@ const preloader = `
     </div>
 </div>`;
 
-const lives = `
+const LIVES = `
 <span id="life-1">❤</span>
 <span id="life-2">❤</span>
 <span id="life-3">❤</span>
@@ -65,7 +65,7 @@ const lives = `
 <span id="life-5">❤</span>
 `;
 
-const sparkles = `
+const SPARKLES = `
 <div class="sparkle sparkle-circle-one"></div>
 <div class="sparkle sparkle-circle-two"></div>
 <div class="sparkle sparkle-circle-three"></div>
@@ -75,26 +75,42 @@ const sparkles = `
 <div class="sparkle sparkle-dot-four"></div>
   `;
 
-const statisticsModalLayout = `
-  <div class="statistics__title"></div>
-  <div class="statistics__words-set">
-    <div class="statistics__words-set_wrong">
-      <div class="wrong_title">Ошибок</div>
-    </div>
-    <div class="statistics__words-set_correct">
-      <div class="correct_title">Знаю</div>
-    </div>
-  </div>
-  <div class="statistics__continue">Продолжить тренировку</div>
-  <div class="statistics__back">Вернуться к списку тренировок</div>
-`;
+const SOUND_URL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
+const CORRECT_SOUND = 'correct.mp3';
+const ERROR_SOUND = 'error.mp3';
+const ROUND_STARTS_SOUND = 'round-starts.mp3';
 
-const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
-const correctSound = 'correct.mp3';
-const errorSound = 'error.mp3';
-const roundStarts = 'round-starts.mp3';
+const DELAY = 1000;
+const INITIAL_BACKGROUND_POSITIONY = 100;
+const REMOVE_DIGITS_REGEXP = /\d/g;
+const INITIAL_CRISTAL_WIDTH = 30;
+const DEFAULT_DISPLAYED_LEVEL = 1;
+const SAVANNAH_HASH_REGEXP = /#savannah/;
+const START_FLYING_POSITION = 0;
+const FINAL_FLYING_POSITION = 270;
+const START_BANG_POSITION = 400;
+const FINAL_BANG_POSITION = -100;
+const BACKGROUND_MOVE_PX = 5;
 
 export {
-  gameLayout, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
-  correctSound, errorSound, roundStarts,
+  GAME_LAYOUT,
+  PRELOADER,
+  LIVES,
+  SPARKLES,
+  GROUP_ROUND,
+  SOUND_URL,
+  CORRECT_SOUND,
+  ERROR_SOUND,
+  ROUND_STARTS_SOUND,
+  DELAY,
+  INITIAL_BACKGROUND_POSITIONY,
+  REMOVE_DIGITS_REGEXP,
+  INITIAL_CRISTAL_WIDTH,
+  DEFAULT_DISPLAYED_LEVEL,
+  SAVANNAH_HASH_REGEXP,
+  START_FLYING_POSITION,
+  FINAL_FLYING_POSITION,
+  START_BANG_POSITION,
+  FINAL_BANG_POSITION,
+  BACKGROUND_MOVE_PX,
 };
