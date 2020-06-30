@@ -18,7 +18,7 @@ function runGamePage(group, round, user, mainView) {
     for (let j = 0; j < QUANTITY_WORDS_IN_PAGE; j += 1) {
       wordsContainer.innerHTML += ONE_CARD;
     }
-    const controller = new Controller(group, round, user, mainView);
+    const controller = new Controller(group, round, user);
     controller.initGame();
   }, PRELOADING_TIME);
 }

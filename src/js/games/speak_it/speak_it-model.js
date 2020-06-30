@@ -1,5 +1,4 @@
 import { QUANTITY_MISS_RIGHT_ANWS } from './speak_it-constants';
-import getCorrectUrl from '../../utils/getCorrectUrl';
 
 export class Model {
   constructor() {
@@ -19,11 +18,6 @@ export class Model {
     this.correct = [];
     this.uncorrect = [];
     return this;
-  }
-
-  getJson(group, page) {
-    return fetch(getCorrectUrl(page, group, false))
-      .then((response) => response.json());
   }
 
   extractAllDatas(json) {
@@ -88,11 +82,4 @@ export class Model {
     const min = max + 4;
     return Math.floor(Math.random() * (max - min)) + min;
   }
-
-  getWords = async (currentPage, currentGroup, cardsTotal, wordsPerExample) => {
-    const url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
-    const rawResponse = await fetch(url);
-    const content = await rawResponse.json();
-    return content;
-  };
 }

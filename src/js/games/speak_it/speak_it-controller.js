@@ -1,7 +1,6 @@
 import {
   QUANTITY_STARS_NEXT_LEVEL,
   ONE_START,
-  SOURSES_URL,
   QUANTITY_ROUNDS_LEVELS,
   CORRECT_MP3,
   MISS_MP3,
@@ -12,15 +11,15 @@ import { Model } from './speak_it-model';
 import { recognition } from './speak_it-recognition';
 import { ModalWindow } from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
+import MainModel from '../../models/mainModel';
 
 export class Controller {
-  constructor(group, round, user, mainView) {
+  constructor(group, round, user) {
     this.startPage = 0;
     this.startGroup = group;
     this.startRound = round;
     this.buttonRestart = document.querySelector('.restart');
     this.buttonSpeak = document.querySelector('.speak');
-
     this.containerOver = document.querySelector('.container_over');
     this.examples = Array.from(document.querySelectorAll('.examples'));
     this.microphone = document.querySelector('.mic');
@@ -35,7 +34,7 @@ export class Controller {
     this.correctAudio = new Audio(getMediaUrl(CORRECT_MP3));
     this.uncorrectAudio = new Audio(getMediaUrl(MISS_MP3));
     this.user = user;
-    this.mainView = mainView;
+    this.mainModel = new MainModel();
   }
 
   initGame() {
@@ -64,7 +63,7 @@ export class Controller {
     this.cards = Array.from(document.querySelectorAll('.card'));
     this.cards.forEach((card) => card.classList.remove('choosen'));
     this.startPage = this.model.setRandomStartPage(this.startRound);
-    const gettingJson = await this.model.getJson(this.startGroup, this.startPage);
+    const gettingJson = await this.mainModel.getWords(this.startPage, this.startGroup);
     this.model.extractAllDatas(gettingJson);
     this.view.selectCard(false, this.model);
     this.model.chooseWord = this.model.datasWords[this.model.arrayNumders[0]];
