@@ -7,10 +7,10 @@ const templateStart = `
     <div class="ep-startScreen__wrapper">
       <div class="ep-startScreen__container">
         <div class="ep-startScreen__title">English Puzzle</div>
-        <div class="ep-startScreen__description">Click on words, collect phrases.
-        Words can be drag and drop. Select tooltips in the menu.</div>
+        <div class="ep-startScreen__description"><p>Кликай по словам и собирай фразы.</p>
+        <p>Слова можно перетягивать. Выбирай подсказки в меню.</p></div>
         <div class="ep-startScreen__buttons">
-          <button id="startButton" class="ep__startButton">Start</button>
+          <button id="startButton" class="ep__startButton">Старт</button>
         </div>
       </div>
     </div>

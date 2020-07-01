@@ -1,7 +1,7 @@
 .ep__startButton {
   position: relative;
   left: 50%;
-
+  outline: none;
   width: 15rem;
   height: 6.4rem;
   margin-top: 1rem;
@@ -19,10 +19,10 @@
   transform: translate(-50%, 0);
   cursor: pointer;
   &:hover {
-    color: #00c49d;
+    color: #70fdc9;
 
     background-color: #273853;
-    border: 1px solid #00c49d;
+    border: 1px solid #70fdc9;
 
     transition: .3s ease-in-out;
   }
@@ -75,6 +75,9 @@
     color: #ffffff;
 
     opacity: .8;
+    & > p {
+      margin: 0;
+    }
   }
   &__buttons {
     display: flex;
@@ -84,7 +87,7 @@
 .ep-close {
   position: absolute;
   top: 5px;
-  right: 10px;
+  right: 70px;
 
   width: 32px;
   height: 32px;
@@ -112,9 +115,16 @@
 
     transition: .3s ease-in-out;
   }
-  &_app {
-    position: relative;
+  // &_app {
+  //   position: relative;
+  //   top: 0;
+  //   right: 0;
+  //   margin-left: 20px;
+  // }
+}
 
-    margin-left: 20px;
+@media (max-width: 768px) {
+  .ep-close {
+    right: 20px;
   }
 }

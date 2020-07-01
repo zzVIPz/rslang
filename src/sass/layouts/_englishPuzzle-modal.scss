@@ -16,7 +16,7 @@
 
   background-color: rgba(0, 0, 0, .6);
   border-radius: 0;
-
+  overflow: auto;
   &__body {
     position: relative;
 
@@ -29,7 +29,7 @@
     padding: 20px 40px;
 
     background-color: white;
-    border-radius: 8px;;
+    border-radius: 5px;;
   }
 
   &__image {
@@ -37,12 +37,14 @@
     height: 150px;
 
     background-size: cover;
-    border: 1px solid purple;
+    // border: 1px solid purple;
+    box-shadow: 0 0 3px 3px #70fdc9;
     border-radius: 8px;
   }
 
   &__description {
     margin-top: 30px;
+    text-align: center;
   }
 
   &__main {
@@ -51,8 +53,12 @@
       display: flex;
       align-items: center;
       height: 22px;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
     }
+  }
+
+  &__sentence-block {
+    flex: 1;
   }
 
   &__wrong-words-count {
@@ -64,7 +70,8 @@
     text-align: center;
     color: white;
 
-    background-color: red;
+    background-color: #ff0000;
+    box-shadow: 0 0 3px 3px #ff0000;
     border-radius: 50%;
   }
 
@@ -78,6 +85,7 @@
     color: white;
 
     background-color: #00ff00;
+    box-shadow: 0 0 3px 3px #00ff00;
     border-radius: 50%;
   }
 
@@ -104,4 +112,18 @@
   &_hidden {
     display: none;
   }
+}
+
+@media screen and (max-width: 555px) {
+  .ep-modal__main-line {
+    margin-bottom: 15px;
+  }
+  .ep-modal__sentence-block {
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+  }
+  .ep-modal__description, .ep-modal__wrong-words, .ep-modal__right-words {
+    font-size: 1.4rem;
+  }
+
 }

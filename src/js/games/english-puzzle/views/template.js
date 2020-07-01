@@ -1,24 +1,24 @@
 /* TODO: check and rename class names, remove useless attributes and then fix styles;
- replace left and right blocks elements between each other */
+ replace left and right blocks elements between each other + remove values in options */
 const template = `
       <div class="english-puzzle ep-background">
       <div class="english-puzzle__wrapper">
         <div class="ep-controls">
           <div class="ep-controls__left-side">
-            <div id="tipTranslate" class="ep__button tips__button tips__button_translate"></div>
-            <div id="tipSpeech" class="ep__button tips__button tips__button_speech"></div>
-            <div id="tipBackground" class="ep__button tips__button tips__button_background"></div>
+            <div id="tipTranslate" class="tips__button tips__button_translate"></div>
+            <div id="tipSpeech" class="tips__button tips__button_speech"></div>
+            <div id="tipBackground" class="tips__button tips__button_background"></div>
           </div>
           <div class="ep-controls__right-side">
             <label class="ep-label">
             Difficult
             <select id="difficultSelect" class="ep-select" name="difficultSelect">
-              <option value="value1">1</option> 
-              <option value="value2">2</option>
-              <option value="value3">3</option>
-              <option value="value4">4</option> 
-              <option value="value5">5</option>
-              <option value="value6">6</option>
+              <option>1</option> 
+              <option>2</option>
+              <option>3</option>
+              <option>4</option> 
+              <option>5</option>
+              <option>6</option>
             </select>
           </label>
           <label class="ep-label">
@@ -86,7 +86,7 @@ const template = `
               <option value="value3">60</option>
             </select>
           </label>
-            <a href="#" id="closeButton" class="ep-close ep-close_app"></a>
+            <a href="#" id="closeButton" class="ep-close_app"></a>
           </div>
         </div>
         <div class="ep-tips">
