@@ -3,7 +3,7 @@ import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
 
 const REQUEST_PARAMETERS = {
-  url: ' http://pacific-castle-12388.herokuapp.com/users/',
+  url: 'https://afternoon-falls-25894.herokuapp.com/users/',
 };
 
 const getBodyRequest = (method, token, settings) => {

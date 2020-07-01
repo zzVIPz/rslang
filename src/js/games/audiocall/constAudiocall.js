@@ -175,15 +175,15 @@ const audiocallGame = `
 const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
 const DELAY_BEFORE_GAME_START = 5500;
 const REMOVE_ANIMATION_SPEAKER = 2000;
+const AUDIOCALL_HASH_REGEXP = /#audiocall/;
 const NEXT = 'Далее';
 const I_DO_NOT_KNOW = 'Не знаю :(';
 const FAIL = 'В этот раз не получилось, но продолжай тренироваться!';
-const WIN = `Так держать! Испытай себя на следующем раунде или уровне.`;
+const WIN = 'Так держать! Испытай себя на следующем раунде или уровне.';
 const EMPTY_ARRAY = ['пробовать', 'смешивать', 'пахать'];
 
-
-  export { 
-      audiocallGame, soundURL, DELAY_BEFORE_GAME_START, 
-      NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER, 
-      EMPTY_ARRAY
-    };
+export {
+  audiocallGame, soundURL, DELAY_BEFORE_GAME_START,
+  NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
+  EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP,
+};

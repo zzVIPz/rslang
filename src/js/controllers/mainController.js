@@ -61,7 +61,7 @@ export default class MainController {
         case MENU_ITEMS_NAMES.englishPuzzle:
           break;
         case MENU_ITEMS_NAMES.audiocall:
-          this.audiocall = new AudiocallController(this.user, this.mainView); 
+          this.audiocall = new AudiocallController(this.user, this.mainView);
           this.audiocall.init(this.setDefaultHash);
           break;
         case MENU_ITEMS_NAMES.savannah:
@@ -268,9 +268,9 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation &&
-        !this.user.wordPronunciation &&
-        this.user.automaticallyScroll
+        !this.user.textPronunciation
+        && !this.user.wordPronunciation
+        && this.user.automaticallyScroll
       ) {
         setTimeout(() => {
           this.swiper.slideNext();

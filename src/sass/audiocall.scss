@@ -10,6 +10,7 @@ $var9: #00c45f;
 
 body {
   margin: 0 auto;
+  overflow-x: hidden;
 }
 main {
   display: -webkit-box;
@@ -28,7 +29,7 @@ main {
   align-items: center;
   width: 100vw;
   min-width: 100vw;
-  height: calc(100vh - 93px);
+  min-height: calc(100vh - 93px);
   overflow: hidden;
 
   font-family: Open Sans, Helvetica, Arial, sans-serif;
@@ -41,15 +42,14 @@ main {
   background-size: cover;
 
   &__final {
-    // display: flex;
     display: none;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
     width: 100%;
     max-width: 784px;
-    min-height: 646px;
-    // margin: 0 auto;
+    height: 80vh;
+    min-height: 555px;
     margin: 0 5px;
     padding: 42px 16px;
 
@@ -83,7 +83,7 @@ main {
       font-size: 14px;
       line-height: 1.71;
       text-align: center;
-      color: #2582e7;
+      color: $var7;
       text-decoration: underline;
 
       cursor: pointer;
@@ -99,7 +99,7 @@ main {
       font-size: 14px;
       line-height: 1.43;
       text-align: center;
-      color: #2582e7;
+      color: $var7;
 
       background-color: rgba(37,130,231,.08);
       border-radius: 4px;
@@ -131,6 +131,10 @@ main {
 
       cursor: pointer;
     }
+    &__sound:hover {
+      background-color: rgba(25,133,251,.08);
+      border-radius: 5px;
+    }
     &__slider-answers {
       box-sizing: border-box;
       width: 100%;
@@ -141,7 +145,8 @@ main {
       &__answer-ru {
         flex-grow: 1;
         max-width: calc(50% - 54px);
-        // overflow: hidden;
+
+// overflow: hidden;
 
         font-size: 16px;
         line-height: 1.25;
@@ -158,7 +163,7 @@ main {
         font-weight: 600;
         font-size: 16px;
         line-height: 1.25;
-        color: #2582e7;
+        color: $var7;
         white-space: nowrap;
         text-overflow: ellipsis;
         word-break: normal;
@@ -209,6 +214,8 @@ main {
       }
     }
     &__title {
+      padding-bottom: 10px;
+
       font-weight: 300;
       font-size: 34px;
       line-height: .85;
@@ -248,7 +255,7 @@ main {
     }
     &__intro {
       position: absolute;
-      top: 50%;
+      top: 325px;
       right: 0;
       left: 0;
 
@@ -311,7 +318,6 @@ main {
     }
     &__answers {
       position: absolute;
-      top: 5%;
       right: 0;
       left: 0;
 
@@ -721,6 +727,9 @@ main {
   }
 }
 @media screen and (max-width: 544px) {
+  .container-game {
+    height: 800px;
+  }
   .container-game__crossword-modal__cont {
     width: 288px;
   }

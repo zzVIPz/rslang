@@ -1,39 +1,28 @@
 import MainModel from '../../models/mainModel';
 import shuffle from './audiocall-utils/shuffle';
+import getRhymesUrl from './audiocall-utils/getRhymesUrl';
 
 class AudiocallModel {
-    constructor() {
-      this.rightAnswer = [];
-      this.wrongAnswer = [];
-      this.indexPositionAnswer = [1, 2, 3, 4];
-      this.mainModel = new MainModel();
-    }
+  constructor() {
+    this.rightAnswer = [];
+    this.wrongAnswer = [];
+    this.positionAnswerArray = [1, 2, 3, 4];
+    this.mainModel = new MainModel();
+  }
 
-    async fetchWords(user, chosenLevel, chosenRound) {
-        this.currentUser = user;
-        this.currentUser.currentGroup = chosenLevel || 0;
-        this.currentUser.currentPage = chosenRound || 0;
-    
-        console.log('My user:', this.currentUser);
-        const data = await this.mainModel.getWords(this.currentUser.currentPage, this.currentUser.currentGroup);
-        return data;
-      }
-      
-      shuffleArray(data) {
-        return shuffle(data);
-      }
+  async fetchWords(user, chosenLevel, chosenRound) {
+    const data = await this.mainModel.getWords(chosenRound || 0,
+      chosenLevel || 0);
+    return data;
+  }
 
-      async  getWordsForAnswers(words) {
-        const oneWord = words.split(' ');
-        const url = `https://rhymebrain.com/talk?function=getRhymes&lang=ru&maxResults=10&word=${oneWord}`;
-        const res = await fetch(url);
-        const dataWords = await res.json();
-        return dataWords;
-      }
-
-      indexPositionAnswerEl() {
-        return this.shuffleArray(this.indexPositionAnswer);
-      }
+  getWordsForAnswers = async (words) => {
+    const oneWord = words.split(' ');
+    const url = getRhymesUrl(oneWord);
+    const res = await fetch(url);
+    const dataWords = await res.json();
+    return dataWords;
+  }
 }
 
 export default AudiocallModel;

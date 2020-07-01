@@ -1,6 +1,6 @@
 export default class AuthModel {
   async createUser(user) {
-    this.rawResponse = await fetch('http://pacific-castle-12388.herokuapp.com/users', {
+    this.rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/users', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -12,7 +12,7 @@ export default class AuthModel {
   }
 
   async loginUser(user, name) {
-    this.rawResponse = await fetch('http://pacific-castle-12388.herokuapp.com/signin', {
+    this.rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
