@@ -66,7 +66,6 @@ export default class MainModel {
     }
     const response = await this.getUserSettings();
     this.currentUser = response;
-    console.log('getUser', this.currentUser);
     return this.currentUser;
   }
 
@@ -108,13 +107,14 @@ export default class MainModel {
     return content;
   };
 
-  getAggregatedWords = async (filter) => {
-    let url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords`;
+  getAggregatedWords = async (filter, wordsPerPage) => {
+    let url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords?`;
+    if (wordsPerPage) {
+      url = `${url}wordsPerPage=${wordsPerPage}&`;
+    }
     if (filter) {
-      const formattedFilter = `${filter}`;
-      url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords?${encodeURIComponent(
-        formattedFilter,
-      )}`;
+      const formattedFilter = JSON.stringify(filter);
+      url = `${url}filter=${encodeURIComponent(formattedFilter)}`;
     }
     const rawResponse = await fetch(url, getBodyRequest('GET', this.token));
     const content = await rawResponse.json();
