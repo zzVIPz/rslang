@@ -22,16 +22,18 @@
   width: 40px;
   height: 40px;
   margin-left: 10px;
+
+  background-color: #00cdac;
+  background-size: cover;
   border-radius: 5px;
   cursor: pointer;
-  background-size: cover;
-  background-color: #00cdac;
   &:first-child {
     margin-left: 0;
   }
 
   &:hover {
     box-shadow: 0 0 3px 3px #70fdc9;
+
     transition: .3s ease-in-out;
   }
 
@@ -51,10 +53,11 @@
 
 .speech-animation {
   background-color: rgba(0, 0, 0, 0);
-  animation: 0.7s ease-in-out 0s infinite alternate speech-anim;
+
+  animation: .7s ease-in-out 0s infinite alternate speech-anim;
   &:hover {
-    background-color: rgba(0, 0, 0, 0);;
-    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;;
   }
 }
 
@@ -62,10 +65,10 @@
   position: relative;
   top: 0;
   right: 0;
-  margin-left: 20px;
 
   width: 32px;
   height: 32px;
+  margin-left: 20px;
 
   opacity: .3;
   &:before,
@@ -93,8 +96,12 @@
 }
 
 @keyframes speech-anim {
-   from { transform: scale(1.2) }
-   to { transform: scale(0.8) }
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(.8);
+  }
 }
 
 @media screen and (max-width: 555px) {

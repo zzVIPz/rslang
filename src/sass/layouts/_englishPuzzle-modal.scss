@@ -13,10 +13,10 @@
   width: 100%;
   max-width: 100%;
   padding: 36px 16px 16px;
+  overflow: auto;
 
   background-color: rgba(0, 0, 0, .6);
   border-radius: 0;
-  overflow: auto;
   &__body {
     position: relative;
 
@@ -37,13 +37,13 @@
     height: 150px;
 
     background-size: cover;
-    // border: 1px solid purple;
-    box-shadow: 0 0 3px 3px #70fdc9;
     border-radius: 8px;
+    box-shadow: 0 0 3px 3px #70fdc9;
   }
 
   &__description {
     margin-top: 30px;
+
     text-align: center;
   }
 
@@ -71,8 +71,8 @@
     color: white;
 
     background-color: #ff0000;
-    box-shadow: 0 0 3px 3px #ff0000;
     border-radius: 50%;
+    box-shadow: 0 0 3px 3px #ff0000;
   }
 
   &__right-words-count {
@@ -85,8 +85,8 @@
     color: white;
 
     background-color: #00ff00;
-    box-shadow: 0 0 3px 3px #00ff00;
     border-radius: 50%;
+    box-shadow: 0 0 3px 3px #00ff00;
   }
 
   &__audioBtn {
@@ -122,8 +122,9 @@
     font-size: 1.3rem;
     line-height: 1.3rem;
   }
-  .ep-modal__description, .ep-modal__wrong-words, .ep-modal__right-words {
+  .ep-modal__description,
+  .ep-modal__wrong-words,
+  .ep-modal__right-words {
     font-size: 1.4rem;
   }
-
 }

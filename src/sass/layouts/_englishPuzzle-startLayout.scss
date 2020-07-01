@@ -1,7 +1,7 @@
 .ep__startButton {
   position: relative;
   left: 50%;
-  outline: none;
+
   width: 15rem;
   height: 6.4rem;
   margin-top: 1rem;
@@ -16,6 +16,7 @@
   background-color: #1c283b;
   border: 1px solid #ffffff;
   border-radius: 1rem;
+  outline: none;
   transform: translate(-50%, 0);
   cursor: pointer;
   &:hover {
@@ -29,10 +30,6 @@
 }
 
 .ep-startScreen {
-  // position: relative;
-
-  // width: 100vw;
-  // height: 100vh;
   &__header {
     position: sticky;
     top: 0;
@@ -115,12 +112,6 @@
 
     transition: .3s ease-in-out;
   }
-  // &_app {
-  //   position: relative;
-  //   top: 0;
-  //   right: 0;
-  //   margin-left: 20px;
-  // }
 }
 
 @media (max-width: 768px) {
