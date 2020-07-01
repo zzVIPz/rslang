@@ -397,15 +397,6 @@ main {
       &:hover {
         background: hsla(0, 0%, 100%, .1);
       }
-      &__m-answer-false {
-        text-decoration: line-through;
-
-        background: $var8;
-        opacity: .7;
-      }
-      &__m-answer-true {
-        background: $var9;
-      }
     }
     &__number {
       position: absolute;
@@ -644,6 +635,15 @@ main {
           transition: -webkit-transform .16s ease-in;
           transition:         transform .16s ease-in;
           transition:         transform .16s ease-in, -webkit-transform .16s ease-in;
+}
+.audiocall__answer--correct {
+  background: $var9;
+}
+.audiocall__answer--incorrect {
+  text-decoration: line-through;
+
+  background: $var8;
+  opacity: .7;
 }
 .unclickable {
   pointer-events: none;

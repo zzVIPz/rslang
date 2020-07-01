@@ -174,6 +174,8 @@ const audiocallGame = `
 
 const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
 const DELAY_BEFORE_GAME_START = 5500;
+const DELAY_BEFORE_SHOW_WORDS = 1000;
+const DELAY_BEFORE_SHOW_IMAGE_WORD = 100;
 const REMOVE_ANIMATION_SPEAKER = 2000;
 const AUDIOCALL_HASH_REGEXP = /#audiocall/;
 const NEXT = 'Далее';
@@ -185,5 +187,6 @@ const EMPTY_ARRAY = ['пробовать', 'смешивать', 'пахать']
 export {
   audiocallGame, soundURL, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
-  EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP,
+  EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP, DELAY_BEFORE_SHOW_WORDS,
+  DELAY_BEFORE_SHOW_IMAGE_WORD,
 };
