@@ -66,7 +66,6 @@ export default class MainModel {
     }
     const response = await this.getUserSettings();
     this.currentUser = response;
-    console.log('getUser', this.currentUser);
     return this.currentUser;
   }
 
