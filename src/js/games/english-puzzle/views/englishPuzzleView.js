@@ -1,7 +1,7 @@
 /* TODO: Template -> capital letter to lowercase */
 import { Sortable } from '@shopify/draggable';
 import Template from './template';
-import shuffle from '../helpers/shuffle';
+import shuffleChildElements from '../helpers/shuffleChildElements';
 import getElementWidth from '../helpers/getElementWidth';
 import CONSTANTS from '../constants/constants';
 import createPuzzle from './createPuzzleCanvas';
@@ -105,7 +105,7 @@ export default class EnglishPuzzleView {
             posOffset += elWidth;
           }
         });
-        shuffle(this.domElements.playField);
+        shuffleChildElements(this.domElements.playField);
       });
       this.audioModel.getAudioArray();
       if (this.tipAutospeech) {

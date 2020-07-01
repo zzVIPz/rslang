@@ -1,5 +1,4 @@
-/* TODO: rename to shuffleDOMElements */
-export default function shuffle(parent) {
+export default function shuffleChildElements(parent) {
   const childs = parent.children;
   const frag = document.createDocumentFragment();
   while (childs.length) {
