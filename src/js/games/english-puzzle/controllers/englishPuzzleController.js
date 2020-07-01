@@ -1,8 +1,9 @@
+import MainModel from '../../../models/mainModel';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import BackgroundModel from '../models/backgroundModel';
 import AudioModel from '../models/audioModel';
 import EnglishPuzzleView from '../views/englishPuzzleView';
-import MainModel from '../../../models/mainModel';
+import CONSTANTS from '../constants/constants';
 import getPage from '../helpers/getPage';
 
 export default class EnglishPuzzleController {
@@ -14,30 +15,29 @@ export default class EnglishPuzzleController {
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.audioModel = new AudioModel();
     this.wordsData = null;
-    this.page = 0;
+    this.slicedWordsData = null;
     this.gameLevel = 1;
+    this.page = 0;
     this.group = 0;
   }
 
-  /* TODO: define '1' in const as  offsetToFirstIndex */
   async init() {
     this.mainModel.init();
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
     this.englishPuzzleView.audioModel = this.audioModel;
     await this.getData();
-    await this.getPainting(this.group + 1);
+    this.getPainting(this.group + CONSTANTS.INDEX_OFFSET);
     this.subscribeToEvents();
   }
 
-  /* TODO: define slicedWordData in class property and use this or define in helper module */
-  sliceData(dataArr) {
+  sliceData() {
     let partOfArray = [];
     if (this.gameLevel % 2 !== 0) {
-      partOfArray = dataArr.slice(0, 10);
+      partOfArray = this.wordsData.slice(0, 10);
     } else {
-      partOfArray = dataArr.slice(10, 20);
+      partOfArray = this.wordsData.slice(10, 20);
     }
-    return partOfArray;
+    this.slicedWordsData = partOfArray;
   }
 
   subscribeToEvents() {
@@ -48,35 +48,35 @@ export default class EnglishPuzzleController {
         this.page = newPage;
         await this.getData();
       }
-      await this.getPainting(this.group + 1);
+      this.getPainting(this.group + CONSTANTS.INDEX_OFFSET);
     };
 
     this.englishPuzzleView.onDifficultChange = async (difficult, level) => {
-      const newGroup = difficult - 1;
-      this.group = newGroup;
+      this.group = difficult - CONSTANTS.INDEX_OFFSET;
       if (level) {
         this.gameLevel = level;
         this.page = getPage(this.gameLevel);
       }
       await this.getData();
-      await this.getPainting(difficult);
+      this.getPainting(difficult);
     };
   }
 
   async getData() {
-    this.wordsData = await this.mainModel.getWords(this.page, this.group, 20);
+    this.wordsData = await this.mainModel
+      .getWords(this.page, this.group, CONSTANTS.DEFAULT_REQUEST_WORDS_NUMBER);
   }
 
-  async renderView() {
-    const slicedWordData = await this.sliceData(this.wordsData);
-    this.audioModel.data = slicedWordData;
-    this.englishPuzzleModel.data = slicedWordData;
+  renderView() {
+    this.sliceData();
+    this.audioModel.data = this.slicedWordsData;
+    this.englishPuzzleModel.data = this.slicedWordsData;
     this.englishPuzzleView.render();
   }
 
-  async getPainting(difficult) {
+  getPainting(difficult) {
     const backgroundModel = new BackgroundModel(difficult);
-    const backgroundModelData = await backgroundModel.getData(this.gameLevel);
+    const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
     this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/NordOst88/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
     this.englishPuzzleView.img.onload = () => {

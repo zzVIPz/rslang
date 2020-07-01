@@ -10,7 +10,7 @@ export default class BackgroundsModel {
     this.difficultLevel = difficultLevel;
   }
 
-  async getData(gameLevel) {
+  getData(gameLevel) {
     const { difficultLevel } = this;
     let currentData = paintings1;
 

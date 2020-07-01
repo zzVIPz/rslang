@@ -7,12 +7,8 @@ export default function createPuzzle(length, borderColor) {
   puzzle.width = length + 16;
   ctx.lineWidth = 2;
   ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
-  if (borderColor === 'red') {
-    ctx.strokeStyle = '#FF0000';
-  }
-  if (borderColor === 'green') {
-    ctx.strokeStyle = '#00FF00';
-  }
+  ctx.strokeStyle = borderColor;
+
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(puzzle.width - (Math.sqrt(2) / 2 + 1) * 10, 0);

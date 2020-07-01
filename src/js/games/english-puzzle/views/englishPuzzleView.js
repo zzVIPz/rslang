@@ -3,7 +3,7 @@ import { Sortable } from '@shopify/draggable';
 import Template from './template';
 import shuffle from '../helpers/shuffle';
 import getElementWidth from '../helpers/getElementWidth';
-import CONSTANTS_VIEW from './constantsView';
+import CONSTANTS from '../constants/constants';
 import createPuzzle from './createPuzzleCanvas';
 
 /* TODO: Magic numbers -> constants */
@@ -61,7 +61,6 @@ export default class EnglishPuzzleView {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
       this.currentWordId = splitSentencesData[this.currentSentence].wordId;
-
       this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
 
       splitSentencesData.forEach((el, id) => {
@@ -74,35 +73,37 @@ export default class EnglishPuzzleView {
           elem.classList.add('ep-board__line_active');
           elem.classList.add('drag-container');
         }
+
         elem.classList.add('ep-board__line');
         lineNumberBlock.classList.add('ep-board__line_number');
-
-        lineNumberBlock.textContent = splitSentencesData.indexOf(el) + 1;
+        lineNumberBlock.textContent = id + 1;
         lineNumbersWrapper.append(lineNumberBlock);
-        document.querySelector('.ep-board').append(elem);
-        el.splitSentence.forEach((word) => {
-          const elem2 = document.createElement('div');
-          const elWidth = getElementWidth(this.boardWidth, el.lettersCount, word.length);
-          elem2.style.width = `${elWidth}px`;
-          elem2.classList.add('ep-sentences-word');
-          elem2.classList.add('Block--isDraggable');
-          elem2.textContent = word.wordName;
-          elem2.dataset.posOffset = posOffset;
-          elem2.dataset.line = word.line;
-          elem2.dataset.pos = word.pos;
-          const puzzleCanvas = createPuzzle(elWidth);
-          elem2.append(puzzleCanvas);
+        this.domElements.board.append(elem);
 
-          if (id < this.currentSentence) {
-            this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset, id, word.wordName, true);
-            elem.append(elem2);
+        el.splitSentence.forEach((word) => {
+          if (id <= this.currentSentence) {
+            const elem2 = document.createElement('div');
+            const elWidth = getElementWidth(this.boardWidth, el.lettersCount, word.length);
+            elem2.style.width = `${elWidth}px`;
+            elem2.classList.add('ep-sentences-word');
+            elem2.classList.add('Block--isDraggable');
+            elem2.textContent = word.wordName;
+            elem2.dataset.posOffset = posOffset;
+            elem2.dataset.line = word.line;
+            elem2.dataset.pos = word.pos;
+            const puzzleCanvas = createPuzzle(elWidth);
+            elem2.append(puzzleCanvas);
+            if (id < this.currentSentence) {
+              this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset, id, word.wordName, true);
+              elem.append(elem2);
+            }
+            if (id === this.currentSentence) {
+              this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset,
+                id, word.wordName, this.tipBackground);
+              this.domElements.playField.append(elem2);
+            }
+            posOffset += elWidth;
           }
-          if (id === this.currentSentence) {
-            this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset,
-              id, word.wordName, this.tipBackground);
-            this.domElements.playField.append(elem2);
-          }
-          posOffset += elWidth;
         });
         shuffle(this.domElements.playField);
       });
@@ -230,8 +231,7 @@ export default class EnglishPuzzleView {
     }
   }
 
-  /* TODO: define magic numbers in constants,
-   hex color from constants -> borderColor */
+  /* TODO: define magic numbers in constants */
   addListeners() {
     this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;
@@ -242,11 +242,11 @@ export default class EnglishPuzzleView {
         let borderColor;
         if (id !== +el.dataset.pos) {
           el.classList.add('ep-wrongPosition');
-          borderColor = CONSTANTS_VIEW.BORDER_COLOR.RED;
+          borderColor = CONSTANTS.CANVAS_BORDER_COLOR.RED;
           mistakes += 1;
         } else {
           el.classList.add('ep-rightPosition');
-          borderColor = CONSTANTS_VIEW.BORDER_COLOR.GREEN;
+          borderColor = CONSTANTS.CANVAS_BORDER_COLOR.GREEN;
         }
         const puzzleCanvas = createPuzzle(+elWidth, borderColor);
         puzzleCanvas.classList.add('Block--isClickable');
