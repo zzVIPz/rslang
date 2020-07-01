@@ -13,7 +13,8 @@ class GameStatistics {
     this.finalModal = document.createElement('div');
   }
 
-  init(view, mainView, model) {
+  init(view, mainView, model, defaultHash) {
+    this.setDefaultHash = defaultHash;
     this.mainView = mainView;
     this.view = view;
     this.model = model;
@@ -42,6 +43,7 @@ class GameStatistics {
   backToMain() {
     document.querySelector('.statistics__back').addEventListener('click', () => {
       this.view.finishGame();
+      this.setDefaultHash();
       this.mainView.renderMain(this.view.currentUser);
     });
   }

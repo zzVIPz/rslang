@@ -1,6 +1,8 @@
-import getDifficultyLevelRoundId from '../savannah-utils/getDifficultyLevelID';
+// import getDifficultyLevelRoundId from '../../utils/getDifficultyLevelID';
+import getLevel from '../../utils/getLevel';
+import getRound from '../../utils/getRound';
 import GroupRoundView from './groupRoundView';
-import randomInteger from '../../utils/randomInteger';
+// import randomInteger from '../../utils/randomInteger';
 import GameStatistics from './gameStatView';
 import STATISTICS_MODAL_LAYOUT from '../../utils/statisticsModalConst';
 import {
@@ -47,10 +49,10 @@ class SavannahView {
   checkSavannahWindow() {
     if (!SAVANNAH_HASH_REGEXP.test(window.location.href)) {
       this.finishGame();
-      this.appContainer = document.querySelector('.app');
+      this.savannahContainer = document.querySelector('.savannah__app');
 
-      if (this.appContainer) {
-        this.mainContainer.removeChild(this.appContainer);
+      if (this.savannahContainer) {
+        this.mainContainer.removeChild(this.savannahContainer);
       }
     } else {
       setTimeout(() => { this.checkSavannahWindow(); }, DELAY / 2);
@@ -70,7 +72,7 @@ class SavannahView {
     this.renderRating();
     this.addListeners();
     this.setMusicOnOff();
-    this.gameStatistics.init(this, this.mainView, this.model);
+    this.gameStatistics.init(this, this.mainView, this.model, this.setDefaultHash);
   }
 
   addListeners() {
@@ -79,11 +81,13 @@ class SavannahView {
     this.backToMainBtn = document.querySelector('.app__button_close');
     this.startBtn = document.querySelector('.app__button');
     this.rating = document.querySelectorAll('.rating__input');
+    this.stars = document.querySelector('.rating__group');
+    this.starsRound = document.querySelector('.rating__round');
     this.openModal();
     this.closeModal();
     this.backToMainPage();
-    this.getLevelsId();
-    this.getRound();
+    getLevel(this.stars, this, this.model);
+    getRound(this.starsRound, this);
     this.clickStartGameBtn();
   }
 
@@ -426,26 +430,6 @@ class SavannahView {
     }
 
     setTimeout(() => { this.setMusicOnOff(); }, DELAY);
-  }
-
-  getLevelsId() {
-    const stars = document.querySelector('.rating__group');
-    stars.addEventListener('click', ({ target }) => {
-      if (target.classList.contains('group')) {
-        this.level = getDifficultyLevelRoundId(target);
-        this.model.levelNumForUser = this.level + 1;
-      }
-    });
-  }
-
-  getRound() {
-    const starsRound = document.querySelector('.rating__round');
-    starsRound.addEventListener('click', ({ target }) => {
-      if (target.classList.contains('round')) {
-        this.round = getDifficultyLevelRoundId(target);
-        this.round = this.round * 5 + randomInteger(0, 4);
-      }
-    });
   }
 
   moveBackground() {
