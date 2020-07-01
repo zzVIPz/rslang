@@ -1,9 +1,9 @@
 import SavannahView from './Views/View';
 import SavannahModel from './Model';
+import DELAY from './constSavannah';
 
 class SavannahController {
   constructor(user, mainView) {
-    this.userData = '';
     this.user = user;
     this.mainView = mainView;
   }
@@ -14,7 +14,7 @@ class SavannahController {
     this.view = new SavannahView(this.model, this.defaultHash);
     this.view.getViewUser(this.user, this.mainView);
     this.view.renderSavannah();
-    setTimeout(this.view.checkSavannahWindow.bind(this.view), 1000);
+    setTimeout(() => { this.view.checkSavannahWindow(); }, DELAY);
   }
 }
 

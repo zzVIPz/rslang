@@ -3,5 +3,4 @@ const randomInteger = (min, max) => {
   return Math.floor(rand);
 };
 
-const randomIntegerForPages = () => randomInteger(0, 4);
-export default randomIntegerForPages;
+export default randomInteger;

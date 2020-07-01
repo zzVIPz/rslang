@@ -1,6 +1,6 @@
 class GroupRoundView {
-  constructor(html, main) {
-    this.html = html;
+  constructor(ratingTemplate, main) {
+    this.ratingTemplate = ratingTemplate;
     this.main = main;
   }
 
@@ -14,7 +14,7 @@ class GroupRoundView {
 
   renderGroupRound() {
     this.ratingContainer = document.querySelector('.rating__container');
-    this.ratingContainer.innerHTML = this.html;
+    this.ratingContainer.innerHTML = this.ratingTemplate;
   }
 
   addEventHandlerOnRating(array) {

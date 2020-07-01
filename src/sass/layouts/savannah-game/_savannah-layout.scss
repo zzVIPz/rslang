@@ -65,6 +65,7 @@
     cursor: pointer;
 
     user-select: none;
+
 @include media-tablet {
       position: relative;
 
@@ -89,7 +90,6 @@
 
       font-size: 24px;
     }
-
     &:hover {
       color: white;
 
@@ -152,6 +152,9 @@ span .keyboard-num {
 }
 
 .app__background {
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+
   background-image: url("/src/assets/images/savannah-bg.svg");
   background-repeat: no-repeat;
   background-position-x: center;

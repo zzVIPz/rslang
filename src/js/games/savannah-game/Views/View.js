@@ -1,24 +1,39 @@
-import {
-  gameLayout, preloader, lives, sparkles, groupRound, statisticsModalLayout, soundURL,
-  correctSound, errorSound, roundStarts,
-} from '../constSavannah';
 import getDifficultyLevelRoundId from '../savannah-utils/getDifficultyLevelID';
 import GroupRoundView from './groupRoundView';
-import randomIntegerForPages from '../savannah-utils/randomInteger';
+import randomInteger from '../../utils/randomInteger';
 import GameStatistics from './gameStatView';
+import STATISTICS_MODAL_LAYOUT from '../../utils/statisticsModalConst';
+import {
+  GAME_LAYOUT,
+  PRELOADER,
+  LIVES,
+  SPARKLES,
+  GROUP_ROUND,
+  SOUND_URL,
+  CORRECT_SOUND,
+  ERROR_SOUND,
+  ROUND_STARTS_SOUND,
+  SAVANNAH_HASH_REGEXP,
+  DELAY,
+  START_FLYING_POSITION,
+  FINAL_FLYING_POSITION,
+  START_BANG_POSITION,
+  FINAL_BANG_POSITION,
+  BACKGROUND_MOVE_PX,
+} from '../constSavannah';
 
 class SavannahView {
   constructor(model, defaultHash) {
     this.model = model;
     this.setDefaultHash = defaultHash;
-    this.savannahGame = gameLayout;
-    this.preloader = preloader;
-    this.groupRoundHtml = groupRound;
-    this.correctSound = new Audio(soundURL + correctSound);
-    this.errorSound = new Audio(soundURL + errorSound);
-    this.roundStartsSound = new Audio(soundURL + roundStarts);
+    this.savannahGame = GAME_LAYOUT;
+    this.preloader = PRELOADER;
+    this.groupRoundHtml = GROUP_ROUND;
+    this.correctSound = new Audio(SOUND_URL + CORRECT_SOUND);
+    this.errorSound = new Audio(SOUND_URL + ERROR_SOUND);
+    this.roundStartsSound = new Audio(SOUND_URL + ROUND_STARTS_SOUND);
     this.gameStatistics = new GameStatistics();
-    this.statisticsLayout = statisticsModalLayout;
+    this.statisticsLayout = STATISTICS_MODAL_LAYOUT;
     this.mainContainer = document.querySelector('.main');
     this.livesBox = document.createElement('div');
     this.flyingWordBox = document.createElement('div');
@@ -30,9 +45,7 @@ class SavannahView {
   }
 
   checkSavannahWindow() {
-    this.savannahRegEx = /#savannah/;
-
-    if (!this.savannahRegEx.test(window.location.href)) {
+    if (!SAVANNAH_HASH_REGEXP.test(window.location.href)) {
       this.finishGame();
       this.appContainer = document.querySelector('.app');
 
@@ -40,7 +53,7 @@ class SavannahView {
         this.mainContainer.removeChild(this.appContainer);
       }
     } else {
-      setTimeout(this.checkSavannahWindow.bind(this), 500);
+      setTimeout(() => { this.checkSavannahWindow(); }, DELAY / 2);
     }
   }
 
@@ -50,10 +63,10 @@ class SavannahView {
   }
 
   renderSavannah() {
-    document.body.classList.add('app__background');
-    document.body.style.backgroundPositionY = '100%';
-
     this.mainContainer.innerHTML = this.renderGameLayout();
+    this.appContainer = document.querySelector('.app');
+    this.appContainer.classList.add('app__background');
+    this.appContainer.style.backgroundPositionY = '100%';
     this.renderRating();
     this.addListeners();
     this.setMusicOnOff();
@@ -63,7 +76,7 @@ class SavannahView {
   addListeners() {
     this.closeBtn = document.querySelector('.close');
     this.cancelBtn = document.querySelector('.app__modal__box_cancel');
-    this.backToMianBtn = document.querySelector('.app__button_close');
+    this.backToMainBtn = document.querySelector('.app__button_close');
     this.startBtn = document.querySelector('.app__button');
     this.rating = document.querySelectorAll('.rating__input');
     this.openModal();
@@ -92,7 +105,7 @@ class SavannahView {
   }
 
   backToMainPage() {
-    this.backToMianBtn.addEventListener('click', () => {
+    this.backToMainBtn.addEventListener('click', () => {
       this.setDefaultHash();
       this.finishGame();
       this.mainView.renderMain(this.currentUser);
@@ -108,7 +121,7 @@ class SavannahView {
       this.chosenLevel = this.level;
       this.chosenRound = this.round;
       this.addPreloader();
-      setTimeout(this.preloaderCountDown.bind(this), 1000);
+      setTimeout(() => { this.preloaderCountDown(); }, DELAY);
       this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
         .then((data) => {
           this.model.getWordsAndTranslation(data);
@@ -140,12 +153,12 @@ class SavannahView {
 
         if (this.countNumber > 0) {
           document.querySelector('.countdown').innerHTML = this.countNumber;
-          setTimeout(this.preloaderCountDown.bind(this), 1000);
+          setTimeout(() => { this.preloaderCountDown(); }, DELAY);
         } else {
           this.gameMode();
         }
       } else {
-        setTimeout(this.preloaderCountDown.bind(this), 1000);
+        setTimeout(() => { this.preloaderCountDown(); }, DELAY);
       }
     }
   }
@@ -184,7 +197,7 @@ class SavannahView {
         this.wrongTranslationActions(translationEl, wrongAnswer, rightAnswer);
       }
 
-      setTimeout(this.nextWord.bind(this), 1000);
+      setTimeout(() => { this.nextWord(); }, DELAY);
     }
   }
 
@@ -196,7 +209,7 @@ class SavannahView {
     this.flyingWord.classList.add('flying-word_hide');
     this.bangOnRightAnswer();
 
-    setTimeout(this.removeHighlight.bind(this), 1000, translationEl, rightAnswer);
+    setTimeout(() => { this.removeHighlight(translationEl, rightAnswer); }, DELAY);
     this.gameStatistics.appendCorrectAnswer(this.randomEngWord,
       this.model.correctAnswer, this.model.currentWordAudio);
   }
@@ -208,9 +221,9 @@ class SavannahView {
     clearInterval(this.id);
     this.flyingWord.classList.add('flying-word_hide');
 
-    setTimeout(this.removeHighlight.bind(this), 1000, translationEl, wrongAnswer);
-    setTimeout(this.removeHighlight.bind(this), 1000, this.correctHTMLEl, rightAnswer);
-    this.removeLives(this.model.wrongAnswer);
+    setTimeout(() => { this.removeHighlight(translationEl, wrongAnswer); }, DELAY);
+    setTimeout(() => { this.removeHighlight(this.correctHTMLEl, rightAnswer); }, DELAY);
+    this.removeLives(this.model.wrongAnswerCounter);
 
     this.gameStatistics.appendWrongAnswer(this.randomEngWord,
       this.model.correctAnswer, this.model.currentWordAudio);
@@ -226,7 +239,7 @@ class SavannahView {
     const translation = target.classList.contains('translation');
     const keyboardNum = target.classList.contains('keyboard-num');
     if (translation && !keyboardNum && !this.model.isWordClicked) {
-      if (this.pos < 270) {
+      if (this.pos < FINAL_FLYING_POSITION) {
         target.classList.add('noHover');
         this.checkRightTranslation(target);
       }
@@ -297,12 +310,11 @@ class SavannahView {
     this.model.isGameOn = false;
     this.model.isPreloading = false;
     window.removeEventListener('keyup', this.onKeyUp);
-    document.body.classList.remove('app__background');
-    document.body.style.backgroundPositionY = '0%';
+    this.appContainer.classList.remove('app__background');
+    this.appContainer.style.backgroundPositionY = '0%';
   }
 
   renderRating() {
-    this.appContainer = document.querySelector('.app');
     this.groupRoundView = new GroupRoundView(this.groupRoundHtml, this.appContainer);
     this.groupRoundView.init();
   }
@@ -310,7 +322,7 @@ class SavannahView {
   renderHeader() {
     this.appHeader = document.querySelector('.app__header');
     this.livesBox.className = 'lives';
-    this.livesBox.innerHTML = lives;
+    this.livesBox.innerHTML = LIVES;
     this.appHeader.appendChild(this.livesBox);
 
     return this.appHeader;
@@ -325,7 +337,7 @@ class SavannahView {
 
   moveWord() {
     this.model.isWordClicked = false;
-    this.pos = 0;
+    this.pos = START_FLYING_POSITION;
     this.id = setInterval(this.frame.bind(this), 20);
     this.flyingWord = document.querySelector('.flying-word');
     this.flyingWord.classList.remove('flying-word_hide');
@@ -334,14 +346,14 @@ class SavannahView {
   frame() {
     const rightAnswer = true;
     if (!document.querySelector('.burger-menu').classList.contains('burger-menu--active')) {
-      if (this.pos === 270 && this.model.isGameOn) {
+      if (this.pos === FINAL_FLYING_POSITION && this.model.isGameOn) {
         clearInterval(this.id);
         if (this.model.audioOn) {
           this.errorSound.play();
         }
 
         this.correctHTMLEl = this.findCorrectAnswerHTMLel();
-        this.model.wrongAnswer += 1;
+        this.model.wrongAnswerCounter += 1;
 
         this.removeLives();
         this.highlightAnswer(this.correctHTMLEl, rightAnswer);
@@ -349,8 +361,8 @@ class SavannahView {
           this.model.correctAnswer, this.model.currentWordAudio);
         this.flyingWord.classList.add('flying-word_hide');
         this.flyingWord.style.top = '0';
-        setTimeout(this.removeHighlight.bind(this), 1000, this.correctHTMLEl, rightAnswer);
-        setTimeout(this.nextWord.bind(this), 1000);
+        setTimeout(() => { this.removeHighlight(this.correctHTMLEl, rightAnswer); }, DELAY);
+        setTimeout(() => { this.nextWord(); }, DELAY);
       } else {
         this.pos += 1;
         this.flyingWord.style.top = `${this.pos}px`;
@@ -360,12 +372,12 @@ class SavannahView {
 
   bangOnRightAnswer() {
     this.bang.classList.remove('hidden');
-    this.bangPos = 400;
+    this.bangPos = START_BANG_POSITION;
     this.bangId = setInterval(this.bangFrame.bind(this), 1);
   }
 
   bangFrame() {
-    if (this.bangPos === -100 && this.model.isGameOn) {
+    if (this.bangPos === FINAL_BANG_POSITION && this.model.isGameOn) {
       clearInterval(this.bangId);
       this.bang.classList.add('hidden');
     } else {
@@ -400,7 +412,7 @@ class SavannahView {
 
   renderSparkles() {
     this.sparklesBox.className = 'sparkle-container';
-    this.sparklesBox.innerHTML = sparkles;
+    this.sparklesBox.innerHTML = SPARKLES;
     this.cristalBox.appendChild(this.sparklesBox);
   }
 
@@ -413,7 +425,7 @@ class SavannahView {
       this.model.audioOn = false;
     }
 
-    setTimeout(this.setMusicOnOff.bind(this), 1000);
+    setTimeout(() => { this.setMusicOnOff(); }, DELAY);
   }
 
   getLevelsId() {
@@ -431,14 +443,14 @@ class SavannahView {
     starsRound.addEventListener('click', ({ target }) => {
       if (target.classList.contains('round')) {
         this.round = getDifficultyLevelRoundId(target);
-        this.round = this.round * 5 + randomIntegerForPages();
+        this.round = this.round * 5 + randomInteger(0, 4);
       }
     });
   }
 
   moveBackground() {
-    this.model.backgroundPositionY -= 5;
-    document.body.style.backgroundPositionY = `${this.model.backgroundPositionY}%`;
+    this.model.backgroundPositionY -= BACKGROUND_MOVE_PX;
+    this.appContainer.style.backgroundPositionY = `${this.model.backgroundPositionY}%`;
   }
 
   resizeCristal() {
@@ -446,24 +458,20 @@ class SavannahView {
     this.cristalBox.style.width = `${this.model.cristalWidth}px`;
   }
 
-  highlightAnswer(element, isRight) {
+  highlightAnswer = (element, isRight) => {
     if (isRight) {
       element.classList.add('correct-answer');
     } else {
       element.classList.add('wrong-answer');
     }
-
-    return this;
   }
 
-  removeHighlight(element, isRight) {
+  removeHighlight = (element, isRight) => {
     if (isRight) {
       element.classList.remove('correct-answer');
     } else {
       element.classList.remove('wrong-answer');
     }
-
-    return this;
   }
 
   findCorrectAnswerHTMLel() {
@@ -482,10 +490,10 @@ class SavannahView {
   }
 
   removeLives() {
-    if (this.model.wrongAnswer <= 5) {
-      document.getElementById(`life-${this.model.wrongAnswer}`).classList.add('hidden');
+    if (this.model.wrongAnswerCounter <= 5) {
+      document.getElementById(`life-${this.model.wrongAnswerCounter}`).classList.add('hidden');
 
-      if (this.model.wrongAnswer === 5) {
+      if (this.model.wrongAnswerCounter === 5) {
         this.model.isGameOn = false;
         this.renderGameOver(false);
       }
