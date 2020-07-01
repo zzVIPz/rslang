@@ -33,6 +33,7 @@ export default class SprintController {
     this.username = this.user.username;
     this.wordsArray = await this.model.getWordsArray(this.level, this.round);
     console.log(this.wordsArray);
+
     if (this.wordsArray.length > 0) {
       this.view.renderStartLayout(this.username);
       this.addCloseBtnHandler();
@@ -72,6 +73,7 @@ export default class SprintController {
     this.accuracy = this.wordsArray[this.currentWordIndex].accuracy;
     this.checkAnswer();
     this.currentWordIndex += 1;
+
     if (this.currentWordIndex === this.wordsArray.length) {
       this.endGame();
       return;
@@ -88,6 +90,7 @@ export default class SprintController {
   checkAnswer() {
     if (this.answer === this.accuracy) {
       this.rightAnswersCount += 1;
+
       if (this.rightAnswersCount === VALUE_TO_SWITCH && this.points < MAX_GAME_POINTS) {
         this.points *= 2;
         this.rightAnswersCount = 0;
@@ -114,6 +117,7 @@ export default class SprintController {
   startCountdown(gameTime) {
     this.gameTime = gameTime;
     this.gameTime -= 1;
+
     if (this.gameTime > 0) {
       this.view.showTime(this.gameTime);
       this.timer = setTimeout(this.startCountdown.bind(this), COUNTDOWN_DELAY, this.gameTime);

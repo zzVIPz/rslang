@@ -39,6 +39,7 @@ export default class SprintView {
     document.querySelector('.sprint-points-line').innerHTML = `+${points} очков за слово`;
     const marks = document.querySelectorAll('.sprint-mark');
     const activatedMarks = document.querySelectorAll('.sprint-mark');
+
     if (rightAnswersCount > 0 && rightAnswersCount < VALUE_TO_SWITCH && points < MAX_GAME_POINTS) {
       marks[rightAnswersCount - 1].classList.add('activated');
     } else if (activatedMarks || rightAnswersCount === VALUE_TO_SWITCH) {
@@ -64,6 +65,7 @@ export default class SprintView {
   animateTrue() {
     const display = document.querySelector('.sprint-display');
     display.classList.add('sprint-display--green');
+
     if (this.soundButton.classList.contains('user-tool__button-speaker--active')) {
       this.correctSound.play();
     }
@@ -77,6 +79,7 @@ export default class SprintView {
   animateFalse() {
     const display = document.querySelector('.sprint-display');
     display.classList.add('sprint-display--red');
+
     if (this.soundButton.classList.contains('user-tool__button-speaker--active')) {
       this.errorSound.play();
     }
@@ -89,6 +92,7 @@ export default class SprintView {
 
   showTime(time) {
     this.timer = document.querySelector('.sprint-timer');
+
     if (this.timer) { this.timer.innerHTML = time; }
   }
 
@@ -98,6 +102,7 @@ export default class SprintView {
     document.body.classList.remove('sprint-game-bgr');
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
+
     if (errors.length > 0) {
       document.querySelector('.sprint-user-mistakes').innerHTML = `Ошибок ${errors.length}`;
       this.mistakesContainer = document.createElement('div');
