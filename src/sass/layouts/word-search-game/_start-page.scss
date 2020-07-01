@@ -1,9 +1,22 @@
 
 .app__content__title_word-search {
-  color: $main-color;
+  color: $dark-main-color;
+  text-shadow: 0px -2px 0 $text-color;
 }
 
 .app__content__text_word-search {
-  color: $text-color;
-    text-shadow: 0px 2px 0 $main-color;
+    color: $dark-main-color;
+    text-shadow: 0px 1px 0 black;
+    @include media-mobile {
+      color: white;
+      text-shadow: none;
+    }
+}
+
+.word-search_color {
+  text-shadow: 0px 1px 0 $dark-main-color;
+}
+
+.word-search__text {
+  color: $dark-main-color;
 }

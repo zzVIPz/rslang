@@ -1,5 +1,5 @@
-import WordSearchView from './View';
-import WordSearchModel from './Model';
+import WordSearchView from './Word-search-view';
+import WordSearchModel from './Word-search-model';
 
 class WordSearchController {
   constructor(user, mainView) {
@@ -8,10 +8,10 @@ class WordSearchController {
   }
 
   init(defaultHash) {
-    this.defaultHash = defaultHash;
     this.model = new WordSearchModel();
-    this.view = new WordSearchView(this.model, this.defaultHash);
+    this.view = new WordSearchView(this.model, defaultHash);
     this.view.init();
+    this.view.getViewUser(this.user, this.mainView);
   }
 }
 

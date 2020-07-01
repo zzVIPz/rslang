@@ -1,5 +1,5 @@
 const GAME_LAYOUT = `
-<div class="app">
+<div class="app savannah__app">
     <div class="app__header">
       <div class="close"></div>
     </div>

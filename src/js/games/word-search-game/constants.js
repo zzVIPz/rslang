@@ -1,5 +1,5 @@
-const gameLayout = `
-<div class="word-search__app">
+const GAME_LAYOUT = `
+<div class="app word-search__app">
     <div class="app__header">
       <div class="close"></div>
     </div>
@@ -19,7 +19,7 @@ const gameLayout = `
     </div>
   </div>`;
 
-const groupRound = `
+const GROUP_ROUND = `
   <div class="rating__row rating__group">
     <label class="group star" id="0"></label>
     <label class="group star" id="1"></label>
@@ -40,4 +40,12 @@ const groupRound = `
   <div class="text text_round">Раунд</div>
 `;
 
-export { gameLayout, groupRound };
+const PRELOADER_INFO = `
+  Выбери буквы от первой до последней, чтобы составить правильное английское слово к переводу
+`;
+
+export {
+  GAME_LAYOUT,
+  GROUP_ROUND,
+  PRELOADER_INFO,
+};

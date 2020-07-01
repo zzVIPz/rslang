@@ -13,7 +13,7 @@ import {
   PAGES_LINKS,
   REPEAT_NUMBER,
 } from '../constants/constMainView';
-import WordSearchController from '../games/word-search-game/Controller';
+import WordSearchController from '../games/word-search-game/Word-search-controller';
 
 export default class MainController {
   constructor() {

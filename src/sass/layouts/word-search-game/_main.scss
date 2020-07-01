@@ -5,11 +5,25 @@
   min-height: calc(100vh - 93px);
 }
 
+.word-search__content {
+  @include media-mobile {
+    margin-top: 0;
+  }
+}
+
 .word-search__background {
-  background-image: url("/src/assets/images/word-search-bg.jpg");
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+
+  background-image: url("/src/assets/images/word-search-bg.png");
   background-repeat: no-repeat;
   background-position-x: center;
+  background-size: cover;
 
   transition: all 1s ease;
+}
+
+.word-search_hide {
+  display: none;
 }
 
