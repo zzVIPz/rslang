@@ -7,6 +7,7 @@ export default class User {
     this.cardsNew = settings.cardsNew;
     this.currentGroup = settings.currentGroup;
     this.currentPage = settings.currentPage;
+    this.currentWordNumber = 0;
     this.studyMode = settings.studyMode;
     this.learningWordsMode = settings.learningWordsMode;
     this.transcription = settings.transcription;

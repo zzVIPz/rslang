@@ -58,7 +58,7 @@ export default function getCardTemplate(card, settings) {
   const textExample = getFormattedString(card.textExample, textExampleMode, textExampleContent);
 
   return `
-  <div class="swiper-slide card container" data-id=${card.id}>
+  <div class="swiper-slide card container" data-id=${card.id || card._id}>
     <p class="card__state">${CARD_TEXT.newWord}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">

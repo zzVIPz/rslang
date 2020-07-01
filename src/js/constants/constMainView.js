@@ -15,6 +15,13 @@ const MENU_ITEMS_NAMES = {
 
 const HASH_VALUES = {
   training: 'training',
+  audiocall: 'audiocall',
+  speakit: 'speakit',
+  dictionary: 'dictionary',
+  statistics: 'statistics',
+  englishPuzzle: 'english-puzzle',
+  savannah: 'savannah',
+  sprint: 'sprint',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -76,7 +83,7 @@ const MAIN_TEXT = {
   title: 'Dear,',
   subtitle: 'Your goals for today:',
   totalCards: 'Total cards:',
-  newWords: 'Total cards:',
+  newWords: 'Total new words cards:',
   studyMode: 'Study mode:',
   achievements: 'Your achievements:',
   learnedWords: 'Learned words:',
@@ -84,6 +91,9 @@ const MAIN_TEXT = {
   btnStart: 'CONTINUE',
   btnShowGraph: 'SHOW GRAPH',
 };
+
+const AMOUNT_WORDS_PER_PAGE = 19;
+const AMOUNT_PAGES_PER_GROUP = 29;
 
 const SWIPER_TEMPLATE = `
   <div class="swiper-container">
@@ -100,6 +110,7 @@ const DELAY_NEXT_SLIDE_AUDIO_ON = 700;
 const REPEAT_NUMBER = 3;
 
 const WORDS_STATUS = {
+  userWord: 'userWord.difficulty',
   easy: 'easy',
   difficult: 'difficult',
   repeat: 'repeat',
@@ -123,4 +134,6 @@ export {
   WORDS_STATUS,
   PAGES_LINKS,
   REPEAT_NUMBER,
+  AMOUNT_WORDS_PER_PAGE,
+  AMOUNT_PAGES_PER_GROUP,
 };

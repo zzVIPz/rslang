@@ -3,6 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import SavannahController from '../games/savannah-game/Controller';
 import {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -11,6 +12,8 @@ import {
   WORDS_STATUS,
   PAGES_LINKS,
   REPEAT_NUMBER,
+  AMOUNT_WORDS_PER_PAGE,
+  AMOUNT_PAGES_PER_GROUP,
 } from '../constants/constMainView';
 
 export default class MainController {
@@ -62,6 +65,8 @@ export default class MainController {
         case MENU_ITEMS_NAMES.audiocall:
           break;
         case MENU_ITEMS_NAMES.savannah:
+          this.savannah = new SavannahController(this.user, this.mainView);
+          this.savannah.init(this.setDefaultHash);
           break;
         case MENU_ITEMS_NAMES.sprint:
           break;
@@ -87,14 +92,10 @@ export default class MainController {
     };
 
     this.mainView.onBtnStartClick = async (user) => {
-      this.slideIndex = 0;
-      this.mistakesMode = false;
+      await this.setDefaultState();
       this.mainView.setSwiperDefaultState();
-      const wordsList = await this.mainModel.getWords(
-        user.currentPage,
-        user.currentGroup,
-        user.cardsTotal,
-      );
+      const wordsList = await this.getWordList(user);
+      console.log('wordsList', wordsList);
       this.mainView.renderSwiperTemplate();
       this.initSwiper();
       this.mainView.renderCards(wordsList, user, this.swiper);
@@ -149,7 +150,9 @@ export default class MainController {
     };
 
     this.mainView.onEnterPress = () => {
-      this.checkUserAnswer();
+      if (this.getCurrentHash() === HASH_VALUES.training) {
+        this.checkUserAnswer();
+      }
     };
 
     this.mainView.onBtnCheckClick = async () => {
@@ -162,6 +165,7 @@ export default class MainController {
     };
 
     this.mainView.onBtnKnowClick = async () => {
+      this.correctAnswersCounter += 1;
       this.mainView.disableToolButtons();
       await this.saveWord(WORDS_STATUS.easy);
     };
@@ -172,11 +176,54 @@ export default class MainController {
     };
   }
 
+  async getWordList(user) {
+    const repeatWordsAmount = user.cardsTotal - user.cardsNew;
+    let newWordsAmount = user.cardsNew;
+    const aggregatedWords = await this.mainModel.getAggregatedWords(
+      {
+        [WORDS_STATUS.userWord]: `${WORDS_STATUS.repeat}`,
+      },
+      repeatWordsAmount,
+    );
+    const aggregatedWordsAmount = aggregatedWords[0].paginatedResults;
+    if (aggregatedWordsAmount.length < repeatWordsAmount) {
+      newWordsAmount += repeatWordsAmount - aggregatedWordsAmount.length;
+    }
+    const wordsList = await this.mainModel.getWords(
+      user.currentPage,
+      user.currentGroup,
+      newWordsAmount + user.currentWordNumber,
+    );
+    wordsList.splice(0, user.currentWordNumber);
+    if (aggregatedWordsAmount.length) {
+      aggregatedWordsAmount.forEach((word) => {
+        wordsList.push(word);
+      });
+    }
+
+    return wordsList;
+  }
+
+  updateUserSettings() {
+    this.user.currentWordNumber += 1;
+    if (this.user.currentWordNumber > AMOUNT_WORDS_PER_PAGE) {
+      this.user.currentWordNumber = 0;
+      this.user.currentPage += 1;
+      if (this.user.currentPage > AMOUNT_PAGES_PER_GROUP) {
+        this.user.currentPage = 0;
+        this.user.currentGroup += 1;
+      }
+    }
+    this.mainModel.updateUserSettings(this.user);
+  }
+
   checkHashValue() {
-    if (window.location.hash.slice(1) === HASH_VALUES.training) {
+    if (this.getCurrentHash() === HASH_VALUES.training) {
       this.mainView.disableStudyProfileProperties();
     }
   }
+
+  getCurrentHash = () => window.location.hash.slice(1);
 
   showCorrectAnswer() {
     this.mainView.showCorrectAnswer(true);
@@ -204,6 +251,7 @@ export default class MainController {
         await createRecord();
       }
     } else {
+      this.updateUserSettings();
       await createRecord();
     }
     this.showCorrectAnswer();
@@ -225,6 +273,8 @@ export default class MainController {
         if (this.mistakesMode) {
           await this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
         } else {
+          this.currentSeries += 1;
+          this.correctAnswersCounter += 1;
           const currentMistakesCounter = await this.checkMistakesCounter();
           if (currentMistakesCounter) {
             await this.updateUserWord(WORDS_STATUS.repeat, {
@@ -235,9 +285,13 @@ export default class MainController {
             await this.saveWord(WORDS_STATUS.easy);
           }
         }
+        if (this.currentSeries > this.correctAnswersSeries) {
+          this.correctAnswersSeries = this.currentSeries;
+        }
         this.mistakesMode = false;
       } else {
         this.mistakesMode = true;
+        this.currentSeries = 0;
         this.mainView.showCorrectAnswer();
       }
     } else {
@@ -246,14 +300,39 @@ export default class MainController {
     // todo show modal: need text
   }
 
+  async setDefaultState() {
+    this.allUserWordsId = await this.getAllUsersWordsId();
+    this.slideIndex = 0;
+    this.mistakesMode = false;
+    this.correctAnswersCounter = 0;
+    this.currentSeries = 0;
+    this.correctAnswersSeries = 0;
+  }
+
   async checkMistakesCounter() {
     const wordId = this.mainView.getWordId();
-    const wordInfo = await this.mainModel.getUsersWordById(wordId);
-    if (wordInfo.difficulty === WORDS_STATUS.repeat && wordInfo.optional.mistakesCounter) {
-      const { mistakesCounter } = wordInfo.optional;
-      return mistakesCounter - 1;
+    console.log(this.allUserWordsId);
+    if (this.allUserWordsId.includes(wordId)) {
+      const wordInfo = await this.mainModel.getUsersWordById(wordId);
+      if (
+        wordInfo.difficulty === WORDS_STATUS.repeat
+        && wordInfo.optional
+        && wordInfo.optional.mistakesCounter
+      ) {
+        const { mistakesCounter } = wordInfo.optional;
+        return mistakesCounter - 1;
+      }
     }
+
     return false;
+  }
+
+  async getAllUsersWordsId() {
+    let allUsersWords = await this.mainModel.getAllUsersWords();
+    if (allUsersWords.length) {
+      allUsersWords = allUsersWords.map((word) => word.wordId);
+    }
+    return allUsersWords;
   }
 
   allowAccessNextSlide() {
@@ -275,6 +354,14 @@ export default class MainController {
       }
       if (this.slideIndex === this.user.cardsTotal) {
         alert("It's finish!");
+        console.log(
+          'total cards',
+          this.user.cardsTotal,
+          'correctAnswersSeries',
+          this.correctAnswersSeries,
+          '%',
+          Math.ceil((100 * this.correctAnswersSeries) / this.user.cardsTotal),
+        );
       }
     }
   }
