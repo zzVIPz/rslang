@@ -4,6 +4,7 @@ import paintings3 from './paintings-data/level3';
 import paintings4 from './paintings-data/level4';
 import paintings5 from './paintings-data/level5';
 import paintings6 from './paintings-data/level6';
+import CONSTANTS from '../constants/constants';
 
 export default class BackgroundsModel {
   constructor(difficultLevel) {
@@ -37,12 +38,11 @@ export default class BackgroundsModel {
         currentData = paintings1;
     }
 
-    /* TODO: define '1' and '40' to offsetIndex consts */
     let gameLevelIndex = gameLevel;
     if (gameLevel > currentData.length) {
-      gameLevelIndex = gameLevel - 40;
+      gameLevelIndex = gameLevel - CONSTANTS.MISSING_PAINTINGS_DATA_OFFSET;
     } else {
-      gameLevelIndex = gameLevel - 1;
+      gameLevelIndex = gameLevel - CONSTANTS.INDEX_OFFSET;
     }
 
     return currentData[gameLevelIndex];

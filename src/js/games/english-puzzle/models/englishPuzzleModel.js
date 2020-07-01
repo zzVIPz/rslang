@@ -1,3 +1,5 @@
+import CONSTANTS from '../constants/constants';
+
 export default class EnglishPuzzleModel {
   constructor(data) {
     this.data = data;
@@ -16,7 +18,6 @@ export default class EnglishPuzzleModel {
     return sentencesData;
   }
 
-  /* TODO: short and long words length -> consts */
   getSplitSentencesData() {
     const splitSentencesData = [];
     const sentencesData = this.getSentencesData();
@@ -31,9 +32,9 @@ export default class EnglishPuzzleModel {
         wordObj.wordName = el2;
         wordObj.line = id;
         wordObj.pos = id2;
-        if (el2.length < 3) {
+        if (el2.length < CONSTANTS.SHORT_WORDS_MAX_LENGTH) {
           wordObj.length = el2.length + 2;
-        } else if (el2.length > 6) {
+        } else if (el2.length > CONSTANTS.LONG_WORDS_MIN_LENGTH) {
           wordObj.length = el2.length - 1;
         } else {
           wordObj.length = el2.length;

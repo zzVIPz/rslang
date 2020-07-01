@@ -48,6 +48,7 @@
   }
   &__left-side {
     flex-wrap: nowrap;
+    margin-left: 35px;
   }
 }
 
@@ -225,6 +226,7 @@
     }
     &__left-side {
       margin-top: 10px;
+      margin-left: 0;
     }
   }
   .ep-tips__text-translate {
