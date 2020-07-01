@@ -5,6 +5,7 @@ import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
 import {
   LOSE_ROUND_TITLE,
   WIN_ROUND_TITLE,
+  STATISTICS_MODAL_LAYOUT,
 } from '../../utils/statisticsModalConst';
 
 class GameStatistics {
@@ -16,9 +17,9 @@ class GameStatistics {
     this.mainView = mainView;
     this.view = view;
     this.model = model;
-    this.finalModal.className = 'statistics';
-    this.finalModal.classList.add('statistics__container hidden');
-    this.finalModal.innerHTML = this.view.statisticsLayout;
+    this.finalModal.className = 'statistics statistics__container';
+    this.finalModal.classList.add('hidden');
+    this.finalModal.innerHTML = STATISTICS_MODAL_LAYOUT;
     this.view.appContainer.appendChild(this.finalModal);
     this.title = document.querySelector('.statistics__title');
     this.modalListeners();

@@ -45,9 +45,7 @@ class SavannahView {
   }
 
   checkSavannahWindow() {
-    const savannahRegEx = SAVANNAH_HASH_REGEXP;
-
-    if (!savannahRegEx.test(window.location.href)) {
+    if (!SAVANNAH_HASH_REGEXP.test(window.location.href)) {
       this.finishGame();
       this.appContainer = document.querySelector('.app');
 
@@ -65,10 +63,10 @@ class SavannahView {
   }
 
   renderSavannah() {
-    document.body.classList.add('app__background');
-    document.body.style.backgroundPositionY = '100%';
-
     this.mainContainer.innerHTML = this.renderGameLayout();
+    this.appContainer = document.querySelector('.app');
+    this.appContainer.classList.add('app__background');
+    this.appContainer.style.backgroundPositionY = '100%';
     this.renderRating();
     this.addListeners();
     this.setMusicOnOff();
@@ -78,7 +76,7 @@ class SavannahView {
   addListeners() {
     this.closeBtn = document.querySelector('.close');
     this.cancelBtn = document.querySelector('.app__modal__box_cancel');
-    this.backToMianBtn = document.querySelector('.app__button_close');
+    this.backToMainBtn = document.querySelector('.app__button_close');
     this.startBtn = document.querySelector('.app__button');
     this.rating = document.querySelectorAll('.rating__input');
     this.openModal();
@@ -107,7 +105,7 @@ class SavannahView {
   }
 
   backToMainPage() {
-    this.backToMianBtn.addEventListener('click', () => {
+    this.backToMainBtn.addEventListener('click', () => {
       this.setDefaultHash();
       this.finishGame();
       this.mainView.renderMain(this.currentUser);
@@ -312,12 +310,11 @@ class SavannahView {
     this.model.isGameOn = false;
     this.model.isPreloading = false;
     window.removeEventListener('keyup', this.onKeyUp);
-    document.body.classList.remove('app__background');
-    document.body.style.backgroundPositionY = '0%';
+    this.appContainer.classList.remove('app__background');
+    this.appContainer.style.backgroundPositionY = '0%';
   }
 
   renderRating() {
-    this.appContainer = document.querySelector('.app');
     this.groupRoundView = new GroupRoundView(this.groupRoundHtml, this.appContainer);
     this.groupRoundView.init();
   }
@@ -453,7 +450,7 @@ class SavannahView {
 
   moveBackground() {
     this.model.backgroundPositionY -= BACKGROUND_MOVE_PX;
-    document.body.style.backgroundPositionY = `${this.model.backgroundPositionY}%`;
+    this.appContainer.style.backgroundPositionY = `${this.model.backgroundPositionY}%`;
   }
 
   resizeCristal() {

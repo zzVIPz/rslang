@@ -42,9 +42,8 @@
 .text {
   position: absolute;
   top: 46px;
-  right: -7px;
+  right: 62px;
 
-  width: 250px;
   height: 25px;
 
   font-weight: 300;
@@ -64,9 +63,11 @@
   }
   &_round {
     top: 95px;
+    right: 188px;
 
 @include media-mobile {
       top: 75px;
+      right: 0px;
     }
   }
 }
