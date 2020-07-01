@@ -1,12 +1,13 @@
-/* TODO: define magic numbers and colors in constants */
+import CONSTANTS from '../constants/constants';
+
 export default function createPuzzle(length, borderColor) {
   const puzzle = document.createElement('canvas');
   puzzle.classList.add('Block--isClickable');
   const ctx = puzzle.getContext('2d');
-  puzzle.height = 50;
-  puzzle.width = length + 16;
+  puzzle.height = CONSTANTS.PUZZLE_HEIGHT;
+  puzzle.width = length + CONSTANTS.DEFAULT_PUZZLE_CLIP_LENGTH;
   ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
+  ctx.strokeStyle = CONSTANTS.CANVAS_COLORS.WHITE;
   ctx.strokeStyle = borderColor;
 
   ctx.beginPath();
@@ -24,7 +25,7 @@ export default function createPuzzle(length, borderColor) {
   ctx.lineTo(0, 17);
   ctx.lineTo(0, 0);
 
-  ctx.fillStyle = '#1c283b';
+  ctx.fillStyle = CONSTANTS.DEFAULT_PUZZLE_SHIRT_COLOR;
   ctx.fill();
 
   ctx.stroke();

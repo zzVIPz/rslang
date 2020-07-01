@@ -1,17 +1,15 @@
-/* TODO: Template -> capital letter to lowercase */
 import { Sortable } from '@shopify/draggable';
-import Template from './template';
+import template from './template';
 import shuffleChildElements from '../helpers/shuffleChildElements';
 import getElementWidth from '../helpers/getElementWidth';
-import CONSTANTS from '../constants/constants';
 import createPuzzle from './createPuzzleCanvas';
+import CONSTANTS from '../constants/constants';
 
-/* TODO: Magic numbers -> constants */
 export default class EnglishPuzzleView {
   constructor(user, mainView) {
     this.user = user;
     this.mainView = mainView;
-    this.template = Template;
+    this.template = template;
     this.englishPuzzleModel = null;
     this.audioModel = null;
     this.currentSentence = 0;
@@ -33,8 +31,6 @@ export default class EnglishPuzzleView {
     this.onAudioPlayEnded = this.AudioPlayEnded.bind(this);
   }
 
-  /* TODO: Magic numbers -> constants,
-   check doubled actions with DOM and if it is define in separate method */
   render() {
     document.querySelector('.main').innerHTML = this.template;
     this.domElements.skipButton = document.getElementById('skipBtn');
@@ -55,54 +51,55 @@ export default class EnglishPuzzleView {
     this.boardWidth = this.domElements.playField.offsetWidth;
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
-    this.switchTipButtons();
-    this.checkAutospeechTipBtn();
-    if (this.currentSentence < 10) {
+    this.switchTips();
+    if (this.currentSentence < CONSTANTS.MAX_SENTENCES_COUNT) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
       this.currentWordId = splitSentencesData[this.currentSentence].wordId;
       this.audio = this.audioModel.getCurrentAudio(this.currentSentence);
 
-      splitSentencesData.forEach((el, id) => {
-        const elem = document.createElement('div');
+      splitSentencesData.forEach((sentence, sentenceIndex) => {
+        const line = document.createElement('div');
         const lineNumberBlock = document.createElement('div');
-        let posOffset = 0;
+        let imgPositionOffset = 0;
 
-        if (id === this.currentSentence) {
+        if (sentenceIndex === this.currentSentence) {
           lineNumberBlock.classList.add('ep-board__line_number-active');
-          elem.classList.add('ep-board__line_active');
-          elem.classList.add('drag-container');
+          line.classList.add('ep-board__line_active');
+          line.classList.add('drag-container');
         }
 
-        elem.classList.add('ep-board__line');
+        line.classList.add('ep-board__line');
         lineNumberBlock.classList.add('ep-board__line_number');
-        lineNumberBlock.textContent = id + 1;
+        lineNumberBlock.textContent = sentenceIndex + 1;
         lineNumbersWrapper.append(lineNumberBlock);
-        this.domElements.board.append(elem);
+        this.domElements.board.append(line);
 
-        el.splitSentence.forEach((word) => {
-          if (id <= this.currentSentence) {
-            const elem2 = document.createElement('div');
-            const elWidth = getElementWidth(this.boardWidth, el.lettersCount, word.length);
-            elem2.style.width = `${elWidth}px`;
-            elem2.classList.add('ep-sentences-word');
-            elem2.classList.add('Block--isDraggable');
-            elem2.textContent = word.wordName;
-            elem2.dataset.posOffset = posOffset;
-            elem2.dataset.line = word.line;
-            elem2.dataset.pos = word.pos;
-            const puzzleCanvas = createPuzzle(elWidth);
-            elem2.append(puzzleCanvas);
-            if (id < this.currentSentence) {
-              this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset, id, word.wordName, true);
-              elem.append(elem2);
+        sentence.splitSentence.forEach((word) => {
+          if (sentenceIndex <= this.currentSentence) {
+            const wordBlock = document.createElement('div');
+            const wordBlockWidth = getElementWidth(this.boardWidth,
+              sentence.lettersCount, word.length);
+            wordBlock.style.width = `${wordBlockWidth}px`;
+            wordBlock.classList.add('ep-sentences-word');
+            wordBlock.classList.add('Block--isDraggable');
+            wordBlock.textContent = word.wordName;
+            wordBlock.dataset.imgPositionOffset = imgPositionOffset;
+            wordBlock.dataset.line = word.line;
+            wordBlock.dataset.pos = word.pos;
+            const puzzleCanvas = createPuzzle(wordBlockWidth);
+            wordBlock.append(puzzleCanvas);
+            if (sentenceIndex < this.currentSentence) {
+              this.fillPuzzle(puzzleCanvas, wordBlock.dataset.imgPositionOffset,
+                sentenceIndex, word.wordName, true);
+              line.append(wordBlock);
             }
-            if (id === this.currentSentence) {
-              this.fillPuzzle(puzzleCanvas, elem2.dataset.posOffset,
-                id, word.wordName, this.tipBackground);
-              this.domElements.playField.append(elem2);
+            if (sentenceIndex === this.currentSentence) {
+              this.fillPuzzle(puzzleCanvas, wordBlock.dataset.imgPositionOffset,
+                sentenceIndex, word.wordName, this.tipBackground);
+              this.domElements.playField.append(wordBlock);
             }
-            posOffset += elWidth;
+            imgPositionOffset += wordBlockWidth;
           }
         });
         shuffleChildElements(this.domElements.playField);
@@ -125,8 +122,7 @@ export default class EnglishPuzzleView {
     this.addListeners();
   }
 
-  /* TODO: difine magic numbers, font name, text align and color in constants */
-  fillPuzzle(puzzleCanvas, positionOffset, indexString, text, imgRender) {
+  fillPuzzle(puzzleCanvas, imgPositionOffset, indexString, text, imgRender) {
     const ctx = puzzleCanvas.getContext('2d');
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -138,7 +134,8 @@ export default class EnglishPuzzleView {
         this.img.height = 500;
         this.img.width = this.img.height * ratio;
       }
-      ctx.drawImage(this.img, -positionOffset, -50 * indexString, this.img.width, this.img.height);
+      ctx.drawImage(this.img, -imgPositionOffset, -CONSTANTS.PUZZLE_HEIGHT * indexString,
+        this.img.width, this.img.height);
     }
     if (this.boardWidth <= 800) {
       ctx.font = '16px Verdana';
@@ -147,13 +144,12 @@ export default class EnglishPuzzleView {
     } else {
       ctx.font = '20px Verdana';
     }
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = CONSTANTS.CANVAS_COLORS.WHITE;
     ctx.textAlign = 'center';
     ctx.fillText(text, puzzleCanvas.width / 2, (puzzleCanvas.height / 2) + 6);
   }
 
-  /* TODO: define '1' in const as  offsetToFirstIndex */
-  switchTipButtons() {
+  switchTips() {
     if (this.tipTranslate === true) {
       this.domElements.tipTranslate.classList.add('tips__button_active');
       this.domElements.sentenceTranslate.classList.remove('ep-transparent');
@@ -168,16 +164,14 @@ export default class EnglishPuzzleView {
       this.domElements.tipBackground.classList.remove('tips__button_active');
     }
 
-    this.domElements.difficultSelect.selectedIndex = this.gameDifficult - 1;
-    this.domElements.levelSelect.selectedIndex = this.gameLevel - 1;
-  }
-
-  checkAutospeechTipBtn() {
     if (this.domElements.tipAutospeech.classList.contains('user-tool__button-speaker--active')) {
       this.tipAutospeech = true;
     } else {
       this.tipAutospeech = false;
     }
+
+    this.domElements.difficultSelect.selectedIndex = this.gameDifficult - CONSTANTS.INDEX_OFFSET;
+    this.domElements.levelSelect.selectedIndex = this.gameLevel - CONSTANTS.INDEX_OFFSET;
   }
 
   addDragAndDrop() {
@@ -193,7 +187,6 @@ export default class EnglishPuzzleView {
       mirror: {
         constrainDimensions: true,
       },
-      // plugins: [Plugins.ResizeMirror],
     });
     sortable.on('drag:stop', () => {
       if (this.domElements.playField.childNodes.length === 2) {
@@ -209,15 +202,15 @@ export default class EnglishPuzzleView {
     this.wordsStat.wrongWords.length = 0;
   }
 
-  /* TODO: define magic numbers in constants */
   nextRound() {
-    if ((this.gameLevel === 60) && (this.gameDifficult === 6)) {
+    if ((this.gameLevel === CONSTANTS.MAX_GAME_LEVEL)
+     && (this.gameDifficult === CONSTANTS.MAX_GAME_DIFFICULT)) {
       this.gameLevel = 1;
       this.gameDifficult = 1;
       if (this.onDifficultChange !== null) {
         this.onDifficultChange(this.gameDifficult, this.gameLevel);
       }
-    } else if (this.gameLevel === 60) {
+    } else if (this.gameLevel === CONSTANTS.MAX_GAME_LEVEL) {
       this.gameLevel = 1;
       this.gameDifficult += 1;
       if (this.onDifficultChange !== null) {
@@ -231,7 +224,6 @@ export default class EnglishPuzzleView {
     }
   }
 
-  /* TODO: define magic numbers in constants */
   addListeners() {
     this.domElements.checkButton.addEventListener('click', () => {
       let mistakes = 0;
@@ -242,16 +234,16 @@ export default class EnglishPuzzleView {
         let borderColor;
         if (id !== +el.dataset.pos) {
           el.classList.add('ep-wrongPosition');
-          borderColor = CONSTANTS.CANVAS_BORDER_COLOR.RED;
+          borderColor = CONSTANTS.CANVAS_COLORS.RED;
           mistakes += 1;
         } else {
           el.classList.add('ep-rightPosition');
-          borderColor = CONSTANTS.CANVAS_BORDER_COLOR.GREEN;
+          borderColor = CONSTANTS.CANVAS_COLORS.GREEN;
         }
         const puzzleCanvas = createPuzzle(+elWidth, borderColor);
         puzzleCanvas.classList.add('Block--isClickable');
         el.append(puzzleCanvas);
-        this.fillPuzzle(puzzleCanvas, el.dataset.posOffset,
+        this.fillPuzzle(puzzleCanvas, el.dataset.imgPositionOffset,
           this.currentSentence, el.textContent, this.tipBackground);
         el.removeChild(el.childNodes[1]);
       });
@@ -268,7 +260,7 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.continueBtn.addEventListener('click', () => {
-      if (this.currentSentence === 10) {
+      if (this.currentSentence === CONSTANTS.MAX_SENTENCES_COUNT) {
         this.currentSentence = 0;
         this.resetWordsStat();
         this.domElements.continueBtn.classList.add('ep-hidden');
@@ -311,7 +303,6 @@ export default class EnglishPuzzleView {
         const modalMainSentenceBlock = document.createElement('div');
         modalMainLine.classList.add('ep-modal__main-line');
         modalAudioBtn.classList.add('ep-modal__audioBtn');
-        /* TODO change to event delegation */
         const newAudio = new Audio();
         newAudio.src = this.audioModel.audioArr[id];
         modalAudioBtn.append(newAudio);
@@ -344,7 +335,7 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.tipSpeech.addEventListener('click', () => {
-      if (this.currentSentence < 10) {
+      if (this.currentSentence < CONSTANTS.MAX_SENTENCES_COUNT) {
         if (this.audio.paused) {
           this.playAudio();
         } else {
@@ -361,7 +352,7 @@ export default class EnglishPuzzleView {
       } else {
         this.tipTranslate = true;
       }
-      this.switchTipButtons();
+      this.switchTips();
     });
 
     this.domElements.tipBackground.addEventListener('click', () => {

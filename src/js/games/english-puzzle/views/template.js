@@ -1,5 +1,3 @@
-/* TODO: check and rename class names, remove useless attributes and then fix styles;
- replace left and right blocks elements between each other + remove values in options */
 const template = `
       <div class="english-puzzle ep-background">
       <div class="english-puzzle__wrapper">
@@ -24,66 +22,66 @@ const template = `
           <label class="ep-label">
             Level
             <select id="levelSelect" class="ep-select" name="levelSelect">
-              <option value="value1">1</option>
-              <option value="value2">2</option>
-              <option value="value3">3</option>
-              <option value="value1">4</option>
-              <option value="value2">5</option>
-              <option value="value3">6</option>
-              <option value="value1">7</option>
-              <option value="value2">8</option>
-              <option value="value3">9</option>
-              <option value="value1">10</option>
-              <option value="value1">11</option>
-              <option value="value2">12</option>
-              <option value="value3">13</option>
-              <option value="value1">14</option>
-              <option value="value2">15</option>
-              <option value="value3">16</option>
-              <option value="value1">17</option>
-              <option value="value2">18</option>
-              <option value="value3">19</option>
-              <option value="value1">20</option>
-              <option value="value1">21</option>
-              <option value="value2">22</option>
-              <option value="value3">23</option>
-              <option value="value1">24</option>
-              <option value="value2">25</option>
-              <option value="value3">26</option>
-              <option value="value1">27</option>
-              <option value="value2">28</option>
-              <option value="value3">29</option>
-              <option value="value1">30</option>
-              <option value="value1">31</option>
-              <option value="value2">32</option>
-              <option value="value3">33</option>
-              <option value="value1">34</option>
-              <option value="value2">35</option>
-              <option value="value3">36</option>
-              <option value="value1">37</option>
-              <option value="value2">38</option>
-              <option value="value3">39</option>
-              <option value="value1">40</option>
-              <option value="value1">41</option>
-              <option value="value2">42</option>
-              <option value="value3">43</option>
-              <option value="value1">44</option>
-              <option value="value2">45</option>
-              <option value="value3">46</option>
-              <option value="value1">47</option>
-              <option value="value2">48</option>
-              <option value="value3">49</option>
-              <option value="value1">50</option>
-              <option value="value1">51</option>
-              <option value="value2">52</option>
-              <option value="value3">53</option>
-              <option value="value1">54</option>
-              <option value="value2">55</option>
-              <option value="value3">56</option>
-              <option value="value1">57</option>
-              <option value="value2">58</option>
-              <option value="value3">59</option>
-              <option value="value3">60</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+              <option>21</option>
+              <option>22</option>
+              <option>23</option>
+              <option>24</option>
+              <option>25</option>
+              <option>26</option>
+              <option>27</option>
+              <option>28</option>
+              <option>29</option>
+              <option>30</option>
+              <option>31</option>
+              <option>32</option>
+              <option>33</option>
+              <option>34</option>
+              <option>35</option>
+              <option>36</option>
+              <option>37</option>
+              <option>38</option>
+              <option>39</option>
+              <option>40</option>
+              <option>41</option>
+              <option>42</option>
+              <option>43</option>
+              <option>44</option>
+              <option>45</option>
+              <option>46</option>
+              <option>47</option>
+              <option>48</option>
+              <option>49</option>
+              <option>50</option>
+              <option>51</option>
+              <option>52</option>
+              <option>53</option>
+              <option>54</option>
+              <option>55</option>
+              <option>56</option>
+              <option>57</option>
+              <option>58</option>
+              <option>59</option>
+              <option>60</option>
             </select>
           </label>
             <a href="#" id="closeButton" class="ep-close_app"></a>
@@ -104,10 +102,10 @@ const template = `
       </div>
       </div>
         <div class="ep-play__buttons">
-          <button id="skipBtn" class="ep__button" name="skip">I don't know</button>
-          <button id="checkBtn" class="ep__button ep-hidden" name="check">Check</button>
-          <button id="continueBtn" class="ep__button ep-hidden" name="continue">Continue</button>
-          <button id="resultsBtn" class="ep__button ep-hidden" name="results">Results</button>
+          <button id="skipBtn" class="ep__button">I don't know</button>
+          <button id="checkBtn" class="ep__button ep-hidden">Check</button>
+          <button id="continueBtn" class="ep__button ep-hidden">Continue</button>
+          <button id="resultsBtn" class="ep__button ep-hidden">Results</button>
         </div>
         <div id="modal" class="ep-modal ep-modal_hidden">
           <div id="modalBody" class="ep-modal__body ep-modal_hidden">
@@ -128,7 +126,7 @@ const template = `
               </div>
             </div>
             <div class="ep-modal__buttons">
-              <button id="modalContinueBtn" class="ep__button" name="modalContinue">Continue</button>
+              <button id="modalContinueBtn" class="ep__button">Continue</button>
             </div>
           </div>
         </div>
