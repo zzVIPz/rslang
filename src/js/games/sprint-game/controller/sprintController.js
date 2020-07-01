@@ -6,6 +6,7 @@ import MainView from '../../../views/mainView';
 import {
   MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
 } from '../const/sprintConst';
+import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
   constructor() {
@@ -31,17 +32,31 @@ export default class SprintController {
     this.user = await this.model.getCurrenttUser();
     console.log(this.user);
     this.username = this.user.username;
-    this.wordsArray = await this.model.getWordsArray(this.level, this.round);
-    console.log(this.wordsArray);
+    this.view.renderStartLayout(this.username);
+    this.addCloseBtnHandler();
+    this.addRaitingHandler();
+    this.addStartHandler();
+  }
 
-    if (this.wordsArray.length > 0) {
-      this.view.renderStartLayout(this.username);
-      this.addCloseBtnHandler();
-      document.querySelector('.sprint-button--start')
-        .addEventListener('click', () => {
+  addRaitingHandler() {
+    document.querySelector('.sprint-rating__container').addEventListener('click', ({ target }) => {
+      if (target.classList.contains('group')) {
+        this.level = target.id;
+      } else if (target.classList.contains('round')) {
+        this.round = target.id * 5 + randomInteger(0, 4);
+      }
+    });
+  }
+
+  addStartHandler() {
+    document.querySelector('.sprint-button--start')
+      .addEventListener('click', async () => {
+        this.wordsArray = await this.model.getWordsArray(this.round, this.level);
+        console.log(this.wordsArray);
+        if (this.wordsArray.length > 0) {
           this.startGame();
-        });
-    }
+        }
+      });
   }
 
   startGame() {

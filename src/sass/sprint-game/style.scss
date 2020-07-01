@@ -250,11 +250,10 @@ $print-header-third: #e91e62a2;
 
 // sart-page
 .sprint-start-header {
-  margin-top: 5%;
-
   font-weight: 300;
   font-size: 3.2rem;
-  color: $main-color;
+  line-height: 3.2rem;
+  color: $sprint-words-color;
   text-transform: uppercase;
   letter-spacing: 13px;
 }
@@ -336,8 +335,8 @@ $print-header-third: #e91e62a2;
   width: 3.2rem;
   height: 3.2rem;
 }
-.closeBtn:hover{
-cursor: pointer;
+.closeBtn:hover {
+  cursor: pointer;
 }
 .closeBtn::after,
 .closeBtn::before {
@@ -355,4 +354,87 @@ cursor: pointer;
 }
 .closeBtn::after {
   transform: rotate(-45deg);
+}
+
+// raiting
+.sprint-rating__container {
+  position: relative;
+
+  width: 100%;
+  height: 120px;
+}
+
+.rating__row {
+  display: flex;
+  width: 175px;
+}
+
+.rating__group {
+  position: absolute;
+  top: 20px;
+  right: 0;
+}
+
+.rating__round {
+  position: absolute;
+  top: 70px;
+  right: 0;
+}
+
+.sprint-text {
+  position: absolute;
+  top: 46px;
+  right: 25px;
+
+  width: 250px;
+  height: 25px;
+
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 18px;
+  text-align: right;
+  color: $sprint-words-color;
+
+  opacity: .8;
+  &_round {
+    top: 95px;
+  }
+}
+
+.gold::before {
+  content: "★";
+  position: relative;
+
+  display: block;
+  width: 25px;
+
+  font-size: 30px;
+  color: #ffd900;
+
+  cursor: pointer;
+}
+
+.gold_strong::before {
+  content: "★";
+  position: relative;
+
+  display: block;
+  width: 25px;
+
+  font-size: 30px;
+  color: #ffd900!important;
+
+  cursor: pointer;
+}
+.star::before {
+  content: "★";
+  position: relative;
+
+  display: block;
+  width: 25px;
+
+  font-size: 30px;
+  color: #00c49d;
+
+  cursor: pointer;
 }

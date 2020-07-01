@@ -1,5 +1,27 @@
 const startLayout = `<div class="closeBtn"></div>
 <div class="sprint-container">
+
+<div class="sprint-rating__container">
+<div class="rating__row rating__group">
+    <label class="group star" id="0"></label>
+    <label class="group star" id="1"></label>
+    <label class="group star" id="2"></label>
+    <label class="group star" id="3"></label>
+    <label class="group star" id="4"></label>
+    <label class="group star" id="5"></label>
+  </div>
+  <div class="sprint-text">Уровень сложности</div>
+  <div class="rating__row rating__round">
+    <label class="round star" id="0"></label>
+    <label class="round star" id="1"></label>
+    <label class="round star" id="2"></label>
+    <label class="round star" id="3"></label>
+    <label class="round star" id="4"></label>
+    <label class="round star" id="5"></label>
+  </div>
+   <div class="sprint-text sprint-text_round">Раунд</div>
+  </div>
+
 <div class="sprint-start-header">Спринт</div>
 <div class="sprint-notice">
   <div class="sprint-game-descr"></div>

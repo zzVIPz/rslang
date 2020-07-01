@@ -1,4 +1,5 @@
 import { startLayout, gameLayout, finalStatLayout } from './layouts';
+import addEventHandlerOnRating from '../utils/eventHandlerOnRaiting';
 import {
   MIN_GAME_POINTS,
   MAX_GAME_POINTS,
@@ -20,8 +21,16 @@ export default class SprintView {
   }
 
   renderStartLayout(userName) {
+    document.body.classList.add('sprint-game-bgr');
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.startLayout);
+
+    this.group = document.querySelectorAll('.group');
+    addEventHandlerOnRating(this.group);
+
+    this.round = document.querySelectorAll('.round');
+    addEventHandlerOnRating(this.round);
+
     this.gameDescription = document.querySelector('.sprint-game-descr');
     this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или не правильно переведены слова.`;
   }
@@ -99,7 +108,7 @@ export default class SprintView {
   renderFinalStat(score, errors) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
-    document.body.classList.remove('sprint-game-bgr');
+    // document.body.classList.remove('sprint-game-bgr');
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
 
@@ -117,8 +126,8 @@ export default class SprintView {
   }
 
   clearMainContainer() {
-    if (this.mainContainer.classList.contains('sprint-game-bgr')) {
-      this.mainContainer.classList.remove('sprint-game-bgr');
+    if (document.body.classList.contains('sprint-game-bgr')) {
+      document.body.classList.remove('sprint-game-bgr');
     }
     this.mainContainer.innerHTML = '';
   }
