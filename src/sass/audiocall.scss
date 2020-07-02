@@ -8,19 +8,6 @@ $var7: #2582e7;
 $var8: #e13a3a;
 $var9: #00c45f;
 
-body {
-  margin: 0 auto;
-  overflow-x: hidden;
-}
-main {
-  display: -webkit-box;
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-}
 .container-game {
   position: relative;
 
@@ -739,7 +726,6 @@ main {
   .container-game__trainings-audiocall__number {
     top: 13px;
     left: 18px;
-    ;
   }
   .container-game__trainings-audiocall__answer {
     width: 100%;

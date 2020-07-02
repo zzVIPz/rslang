@@ -3,6 +3,8 @@ import {
   SETTING_MODAL_TEXT,
   MAIN_TEXT,
   SWIPER_TEMPLATE,
+  DELAY_HIDE_MENU,
+  DELAY_SET_FOCUS_ON_INPUT,
 } from '../constants/constMainView';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
@@ -10,6 +12,7 @@ import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
 import toggleVisibility from '../utils/toggleVisibility';
 import getPlaylist from '../utils/getPlaylist';
 import getHintTemplate from '../utils/getHintTemplate';
+import getShortStatisticsTemplate from '../utils/getShortStatisticsTemplate';
 import Card from '../components/card/cardController';
 
 export default class MainView {
@@ -68,7 +71,7 @@ export default class MainView {
     if (currentSlide) {
       setTimeout(() => {
         this.getCurrentInputNode(currentSlide).focus();
-      }, 300);
+      }, DELAY_SET_FOCUS_ON_INPUT);
     }
   }
 
@@ -170,10 +173,16 @@ export default class MainView {
     if (param) {
       currentInput.value = correctAnswer;
     } else {
+      const setFocusOnInput = () => {
+        currentInput.focus();
+      };
+
       const removeHintContainer = () => {
         currentInput.removeEventListener('input', removeHintContainer);
+        currentInput.removeEventListener('click', setFocusOnInput);
         this.hintContainer.remove();
       };
+
       if (this.hintContainer) {
         this.hintContainer.remove();
       }
@@ -183,9 +192,7 @@ export default class MainView {
       this.hintContainer = document.querySelector('.card__hint-container');
       this.hintContainer.classList.add('card__hint-container--invisible');
       currentInput.focus();
-      this.hintContainer.addEventListener('click', () => {
-        currentInput.focus();
-      });
+      this.hintContainer.addEventListener('click', setFocusOnInput);
       currentInput.addEventListener('input', removeHintContainer);
     }
   }
@@ -205,14 +212,33 @@ export default class MainView {
     });
   }
 
+  renderShortStatistics = (data) => {
+    const shortStatisticsTemplate = getShortStatisticsTemplate(data);
+    this.showOverlay(shortStatisticsTemplate);
+    // todo: so you can see your modal
+    debugger;
+    this.hideOverlay();
+  };
+
   showSettingsModal(user) {
     this.settings.classList.toggle('user-tool__button-settings--active');
     const formattedTemplate = getModalSettingsTemplate(user, SETTING_MODAL_TEXT);
+    this.showOverlay(formattedTemplate);
+  }
+
+  showOverlay(modalTemplate) {
     const modal = document.createElement('div');
     modal.classList.add('settings__overlay');
-    modal.innerHTML = formattedTemplate;
+    modal.innerHTML = modalTemplate;
     this.main.append(modal);
   }
+
+  hideOverlay = () => {
+    const modal = document.querySelector('.settings__overlay');
+    if (modal) {
+      modal.remove();
+    }
+  };
 
   addSettingsModalListeners() {
     const modal = document.querySelector('.settings');
@@ -255,10 +281,7 @@ export default class MainView {
 
   closeSettingsModal() {
     this.settings.classList.toggle('user-tool__button-settings--active');
-    this.modal = document.querySelector('.settings__overlay');
-    if (this.modal) {
-      this.modal.remove();
-    }
+    this.hideOverlay();
   }
 
   addUserToolClickHandler() {
@@ -347,7 +370,7 @@ export default class MainView {
     if (this.headerNavigation.classList.contains('header__navigation--active')) {
       setTimeout(() => {
         this.headerNavigation.classList.remove('header__navigation--active');
-      }, 170);
+      }, DELAY_HIDE_MENU);
     } else {
       // todo: think about overflow hidden
       // document.body.style.width = `${document.body.offsetWidth}px`;

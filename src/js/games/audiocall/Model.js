@@ -1,5 +1,4 @@
 import MainModel from '../../models/mainModel';
-import shuffle from './audiocall-utils/shuffle';
 import getRhymesUrl from './audiocall-utils/getRhymesUrl';
 
 class AudiocallModel {
