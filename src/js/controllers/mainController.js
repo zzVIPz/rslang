@@ -166,7 +166,8 @@ export default class MainController {
     };
 
     this.mainView.onBtnKnowClick = async () => {
-      this.correctAnswersCounter += 1;
+      this.increaseCounter();
+      this.updateCorrectAnswersSeries();
       this.mainView.disableToolButtons();
       await this.saveWord(WORDS_STATUS.easy);
     };
@@ -179,7 +180,7 @@ export default class MainController {
 
   async getWordsList() {
     const repeatWordsAmount = this.user.cardsTotal - this.user.cardsNew;
-    let newWordsAmount = this.user.cardsNew;
+    this.newWordsAmount = this.user.cardsNew;
     let aggregatedWords = [];
 
     if (repeatWordsAmount) {
@@ -191,17 +192,17 @@ export default class MainController {
       );
       aggregatedWords = aggregatedWords[0].paginatedResults;
       if (aggregatedWords.length < repeatWordsAmount) {
-        newWordsAmount += repeatWordsAmount - aggregatedWords.length;
+        this.newWordsAmount += repeatWordsAmount - aggregatedWords.length;
       }
     }
 
     const totalPagesRequest = Math.ceil(
-      (newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
+      (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
     );
 
     let wordsList = await getWordsList(this.user, totalPagesRequest, this.mainModel.getWords);
 
-    wordsList = wordsList.splice(this.user.currentWordNumber, newWordsAmount);
+    wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
     if (aggregatedWords.length) {
       aggregatedWords.forEach((word) => {
         wordsList.push(word);
@@ -272,8 +273,7 @@ export default class MainController {
         if (this.mistakesMode) {
           await this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
         } else {
-          this.currentSeries += 1;
-          this.correctAnswersCounter += 1;
+          this.increaseCounter();
           const currentMistakesCounter = await this.checkMistakesCounter();
           if (currentMistakesCounter) {
             await this.updateUserWord(WORDS_STATUS.repeat, {
@@ -284,9 +284,7 @@ export default class MainController {
             await this.saveWord(WORDS_STATUS.easy);
           }
         }
-        if (this.currentSeries > this.correctAnswersSeries) {
-          this.correctAnswersSeries = this.currentSeries;
-        }
+        this.updateCorrectAnswersSeries();
         this.mistakesMode = false;
       } else {
         this.mistakesMode = true;
@@ -340,15 +338,15 @@ export default class MainController {
         }, DELAY_NEXT_SLIDE_AUDIO_ON);
       }
       if (this.slideIndex === this.user.cardsTotal) {
-        alert("It's finish!");
-        console.log(
-          'total cards',
-          this.user.cardsTotal,
-          'correctAnswersSeries',
-          this.correctAnswersCounter,
-          '%',
-          Math.ceil((100 * this.correctAnswersCounter) / this.user.cardsTotal),
+        const percentageCorrectAnswers = Math.ceil(
+          (100 * this.correctAnswersCounter) / this.user.cardsTotal,
         );
+        this.mainView.renderShortStatistics({
+          cardsTotal: this.user.cardsTotal,
+          percentageCorrectAnswers,
+          newWordsAmount: this.newWordsAmount,
+          correctAnswersSeries: this.correctAnswersSeries,
+        });
       }
     }
   }
@@ -392,6 +390,17 @@ export default class MainController {
     this.correctAnswersCounter = 0;
     this.currentSeries = 0;
     this.correctAnswersSeries = 0;
+  }
+
+  increaseCounter() {
+    this.currentSeries += 1;
+    this.correctAnswersCounter += 1;
+  }
+
+  updateCorrectAnswersSeries() {
+    if (this.currentSeries > this.correctAnswersSeries) {
+      this.correctAnswersSeries = this.currentSeries;
+    }
   }
 
   checkHashValue() {
