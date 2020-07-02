@@ -61,8 +61,8 @@ const gameLayout = `<div class="sprint-main-wrapper">
   <div id="translation" class="sprint-word sprint-word--translation">нет доступных слов</div>
 </div>
 <div class="sprint-controlls">
-  <button id="wrong" class="sprint-button sprint-button--wrong">&#9668; неверно</button>
-  <button id="right" class="sprint-button sprint-button--right">верно &#9658;</button>
+  <button id="wrong" class="sprint-button sprint-button--wrong">неверно</button>
+  <button id="right" class="sprint-button sprint-button--right">верно</button>
 </div>
 </div>
 </div>`;

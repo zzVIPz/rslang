@@ -52,6 +52,8 @@ export default class SprintController {
     document.querySelector('.sprint-button--start')
       .addEventListener('click', async () => {
         this.wordsArray = await this.model.getWordsArray(this.round, this.level);
+        this.initialWordsArray = this.model.wordsArray;
+        console.log(this.initialWordsArray);
         console.log(this.wordsArray);
         if (this.wordsArray.length > 0) {
           this.startGame();
@@ -116,7 +118,7 @@ export default class SprintController {
       this.points = MIN_GAME_POINTS;
       this.rightAnswersCount = 0;
       this.view.animateFalse();
-      addWord(this.faultyWords, this.wordsArray[this.currentWordIndex]);
+      addWord(this.faultyWords, this.wordsArray[this.currentWordIndex], this.initialWordsArray);
     }
   }
 

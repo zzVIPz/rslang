@@ -7,7 +7,6 @@ export default class SprintModel {
 
   async getWordsArray(level, round) {
     this.wordsArray = await this.mainModel.getWords(level, round);
-    console.log(this.wordsArray);
 
     return this.makeWorkingArr(this.wordsArray);
   }

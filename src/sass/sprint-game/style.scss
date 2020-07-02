@@ -8,6 +8,7 @@ $print-header-second: #9b27b0a4;
 $print-header-third: #e91e62a2;
 
 .sprint-main-wrapper{
+  display: flex;
   min-width: 100vw;
   height: calc(100vh - 93px);
 }
@@ -23,6 +24,7 @@ $print-header-third: #e91e62a2;
   flex-direction: column;
   justify-content: space-between;
   width: 600px;
+  max-width: 90vw;
   height: 70vh;
   margin: 4rem auto;
 
@@ -73,7 +75,7 @@ $print-header-third: #e91e62a2;
 .sprint-marks-line {
   display: flex;
   justify-content: center;
-  padding: 3%;
+  padding: 2rem;
 }
 .sprint-mark {
   margin: 0 1%;
@@ -169,7 +171,7 @@ $print-header-third: #e91e62a2;
   height: 25%;
 }
 .sprint-button {
-  padding: 19px 15px 21px;
+  padding: 19px 5px 21px;
 
   font-weight: 300;
   font-size: 24px;
@@ -182,12 +184,12 @@ $print-header-third: #e91e62a2;
   cursor: pointer;
 }
 .sprint-button--wrong {
-  min-width: 162px;
+  min-width: 40%;
 
   background-color: $sprint-wrong-color;
 }
 .sprint-button--right {
-  min-width: 162px;
+  min-width: 40%;
 
   background-color: $sprint-right-color;
 }
@@ -228,12 +230,12 @@ $print-header-third: #e91e62a2;
   color: $sprint-wrong-color;
 }
 .sprint-mistaken-words {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-direction: column;
+  // flex-wrap: wrap;
   max-height: 160px;
   padding: 1%;
-  overflow: hidden;
+  overflow-y: scroll;
 
   font-size: 1.3rem;
   color: $sprint-border-color;

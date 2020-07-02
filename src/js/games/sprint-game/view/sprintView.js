@@ -10,6 +10,9 @@ import {
   ERROR_SOUND_URL,
   ANSWER_ANIMATION_DELAY,
 } from '../const/sprintConst';
+import getMediaUrl from '../../../utils/getMediaUrl';
+import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
+import playAudio from '../../utils/playAudio';
 
 export default class SprintView {
   constructor() {
@@ -115,6 +118,7 @@ export default class SprintView {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
     this.addCloseModal();
+    document.querySelector('.sprint-main-wrapper').classList.add('sprint-game-bgr');
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
 
@@ -124,9 +128,16 @@ export default class SprintView {
       this.mistakesContainer.className = 'sprint-mistaken-words';
       document.querySelector('.sprint-statistics').appendChild(this.mistakesContainer);
       errors.forEach((el) => {
-        const word = document.createElement('span');
-        word.innerHTML = ` ${el.word} `;
-        this.mistakesContainer.appendChild(word);
+        this.audioUrl = getMediaUrl(el.audio);
+        this.wordBox = document.createElement('div');
+        this.wordBox.className = 'wordBox';
+        this.wordBox.innerHTML = getWordBoxTemplate(this.audioUrl, el.word, el.wordTranslate);
+        this.mistakesContainer.append(this.wordBox);
+      });
+      this.mistakesContainer.addEventListener('click', ({ target }) => {
+        if (target.classList.contains('word-audio')) {
+          playAudio(target.dataset.url);
+        }
       });
     }
   }
