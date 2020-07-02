@@ -7,6 +7,10 @@ $print-header-first: #00bbd4a6;
 $print-header-second: #9b27b0a4;
 $print-header-third: #e91e62a2;
 
+.sprint-main-wrapper{
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+}
 
 .sprint-game-bgr {
   background-image: url(/src/assets/images/savannah-bg.svg);

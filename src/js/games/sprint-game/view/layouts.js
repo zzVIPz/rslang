@@ -1,4 +1,5 @@
-const startLayout = `<div class="closeBtn"></div>
+const startLayout = `<div class="sprint-main-wrapper">
+<div class="closeBtn"></div>
 <div class="sprint-container">
 
 <div class="sprint-rating__container">
@@ -29,9 +30,11 @@ const startLayout = `<div class="closeBtn"></div>
 </div>
 <div class="sprint-start-controlls">
   <button class="sprint-button sprint-button--start app__button">Начать</button>
+</div>
 </div>`;
 
-const gameLayout = `<div class="closeBtn"></div>
+const gameLayout = `<div class="sprint-main-wrapper">
+<div class="closeBtn"></div>
 <div class="sprint-container sprint-container--true">
 <div class="sprint-header">
 <div class="sprint-header-layer">
@@ -61,9 +64,11 @@ const gameLayout = `<div class="closeBtn"></div>
   <button id="wrong" class="sprint-button sprint-button--wrong">&#9668; неверно</button>
   <button id="right" class="sprint-button sprint-button--right">верно &#9658;</button>
 </div>
+</div>
 </div>`;
 
-const finalStatLayout = `<div class="closeBtn"></div>
+const finalStatLayout = `<div class="sprint-main-wrapper">
+<div class="closeBtn"></div>
 <div class="sprint-container">
 <div class="sprint-result-header ">Ваш результат</div>
 <div class="sprint-final-score">Упс...</div>
@@ -73,6 +78,18 @@ const finalStatLayout = `<div class="closeBtn"></div>
 <div class="sprint-result-controlls">
   <button class="sprint-button sprint-button--repeate app__button">повторить</button>
 </div>
+</div>
 </div>`;
 
-export { startLayout, gameLayout, finalStatLayout };
+const closeModal = `<div class="app__modal">
+<div class="app__modal__box">
+  <div class="app__modal__box_title">Тренировка не закончена!</div>
+  <div class="app__modal__box_text">Если вы вернетесь к списку, ваши результаты не будут сохранены</div>
+  <div class="app__button app__button_close">Закрыть</div>
+  <div class="app__modal__box_cancel">Отмена</div>
+</div>
+</div>`;
+
+export {
+  startLayout, gameLayout, finalStatLayout, closeModal,
+};

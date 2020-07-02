@@ -1,4 +1,6 @@
-import { startLayout, gameLayout, finalStatLayout } from './layouts';
+import {
+  startLayout, gameLayout, finalStatLayout, closeModal,
+} from './layouts';
 import addEventHandlerOnRating from '../utils/eventHandlerOnRaiting';
 import {
   MIN_GAME_POINTS,
@@ -15,15 +17,18 @@ export default class SprintView {
     this.startLayout = startLayout;
     this.gameLayout = gameLayout;
     this.finalStatLayout = finalStatLayout;
+    this.closeModal = closeModal;
     this.soundButton = document.querySelector('.user-tool__button-speaker');
     this.correctSound = new Audio(CORRECT_SOUND_URL);
     this.errorSound = new Audio(ERROR_SOUND_URL);
   }
 
   renderStartLayout(userName) {
-    document.body.classList.add('sprint-game-bgr');
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.startLayout);
+    this.addCloseModal();
+
+    document.querySelector('.sprint-main-wrapper').classList.add('sprint-game-bgr');
 
     this.group = document.querySelectorAll('.group');
     addEventHandlerOnRating(this.group);
@@ -38,7 +43,8 @@ export default class SprintView {
   renderGameLayout() {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.gameLayout);
-    document.body.classList.add('sprint-game-bgr');
+    this.addCloseModal();
+    document.querySelector('.sprint-main-wrapper').classList.add('sprint-game-bgr');
   }
 
   renderGameData(score, word, wordTranslate, points, rightAnswersCount) {
@@ -108,7 +114,7 @@ export default class SprintView {
   renderFinalStat(score, errors) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
-    // document.body.classList.remove('sprint-game-bgr');
+    this.addCloseModal();
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
 
@@ -126,9 +132,23 @@ export default class SprintView {
   }
 
   clearMainContainer() {
-    if (document.body.classList.contains('sprint-game-bgr')) {
-      document.body.classList.remove('sprint-game-bgr');
+    this.gameContainer = document.querySelector('.sprint-main-wrapper');
+    if (this.gameContainer.classList.contains('sprint-game-bgr')) {
+      this.gameContainer.classList.remove('sprint-game-bgr');
     }
     this.mainContainer.innerHTML = '';
+  }
+
+  addCloseModal() {
+    this.mainContainer.insertAdjacentHTML('beforeend', this.closeModal);
+  }
+
+  displayModal() {
+    this.appModal = document.querySelector('.app__modal');
+    this.appModal.classList.add('app__modal_visible');
+  }
+
+  hideModal() {
+    this.appModal.classList.remove('app__modal_visible');
   }
 }

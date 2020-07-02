@@ -75,7 +75,7 @@ export default class SprintController {
       this.points,
       this.rightAnswersCount,
     );
-    this.startCountdown(GAME_TIME);
+    this.addCountdown();
   }
 
   handleEvent({ code }) {
@@ -129,6 +129,15 @@ export default class SprintController {
       .addEventListener('click', () => { this.prelaunch(); });
   }
 
+  addCountdown() {
+    this.startCountdown(GAME_TIME);
+    document.querySelector('.navigation').addEventListener('click', ({ target }) => {
+      if (target.classList.contains('navigation__link')) {
+        clearTimeout(this.timer);
+      }
+    });
+  }
+
   startCountdown(gameTime) {
     this.gameTime = gameTime;
     this.gameTime -= 1;
@@ -143,11 +152,21 @@ export default class SprintController {
 
   addCloseBtnHandler() {
     document.querySelector('.closeBtn').addEventListener('click', () => {
-      clearTimeout(this.timer);
-      document.removeEventListener('keydown', this);
-      this.view.clearMainContainer();
-      this.mainView.renderMain(this.user);
-      window.history.replaceState(null, null, ' ');
+      this.view.displayModal();
+      document.querySelector('.app__modal__box_cancel').addEventListener('click', () => {
+        this.view.hideModal();
+      });
+      document.querySelector('.app__button_close').addEventListener('click', () => {
+        this.closeGameWindow();
+      });
     });
+  }
+
+  closeGameWindow() {
+    clearTimeout(this.timer);
+    document.removeEventListener('keydown', this);
+    this.view.clearMainContainer();
+    this.mainView.renderMain(this.user);
+    window.history.replaceState(null, null, ' ');
   }
 }
