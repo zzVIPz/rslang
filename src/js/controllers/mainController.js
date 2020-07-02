@@ -3,6 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import getWordsList from '../utils/getWordsList';
 import SavannahController from '../games/savannah-game/Controller';
 import {
   MENU_ITEMS_NAMES,
@@ -14,6 +15,7 @@ import {
   REPEAT_NUMBER,
   AMOUNT_WORDS_PER_PAGE,
   AMOUNT_PAGES_PER_GROUP,
+  WORDS_PER_PAGE,
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 
@@ -98,8 +100,7 @@ export default class MainController {
     this.mainView.onBtnStartClick = async (user) => {
       await this.setDefaultState();
       this.mainView.setSwiperDefaultState();
-      const wordsList = await this.getWordList(user);
-      console.log('wordsList', wordsList);
+      const wordsList = await this.getWordsList();
       this.mainView.renderSwiperTemplate();
       this.initSwiper();
       this.mainView.renderCards(wordsList, user, this.swiper);
@@ -169,7 +170,8 @@ export default class MainController {
     };
 
     this.mainView.onBtnKnowClick = async () => {
-      this.correctAnswersCounter += 1;
+      this.increaseCounter();
+      this.updateCorrectAnswersSeries();
       this.mainView.disableToolButtons();
       await this.saveWord(WORDS_STATUS.easy);
     };
@@ -180,27 +182,33 @@ export default class MainController {
     };
   }
 
-  async getWordList(user) {
-    const repeatWordsAmount = user.cardsTotal - user.cardsNew;
-    let newWordsAmount = user.cardsNew;
-    const aggregatedWords = await this.mainModel.getAggregatedWords(
-      {
-        [WORDS_STATUS.userWord]: `${WORDS_STATUS.repeat}`,
-      },
-      repeatWordsAmount,
-    );
-    const aggregatedWordsAmount = aggregatedWords[0].paginatedResults;
-    if (aggregatedWordsAmount.length < repeatWordsAmount) {
-      newWordsAmount += repeatWordsAmount - aggregatedWordsAmount.length;
+  async getWordsList() {
+    const repeatWordsAmount = this.user.cardsTotal - this.user.cardsNew;
+    this.newWordsAmount = this.user.cardsNew;
+    let aggregatedWords = [];
+
+    if (repeatWordsAmount) {
+      aggregatedWords = await this.mainModel.getAggregatedWords(
+        {
+          [WORDS_STATUS.userWord]: `${WORDS_STATUS.repeat}`,
+        },
+        repeatWordsAmount,
+      );
+      aggregatedWords = aggregatedWords[0].paginatedResults;
+      if (aggregatedWords.length < repeatWordsAmount) {
+        this.newWordsAmount += repeatWordsAmount - aggregatedWords.length;
+      }
     }
-    const wordsList = await this.mainModel.getWords(
-      user.currentPage,
-      user.currentGroup,
-      newWordsAmount + user.currentWordNumber,
+
+    const totalPagesRequest = Math.ceil(
+      (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
     );
-    wordsList.splice(0, user.currentWordNumber);
-    if (aggregatedWordsAmount.length) {
-      aggregatedWordsAmount.forEach((word) => {
+
+    let wordsList = await getWordsList(this.user, totalPagesRequest, this.mainModel.getWords);
+
+    wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
+    if (aggregatedWords.length) {
+      aggregatedWords.forEach((word) => {
         wordsList.push(word);
       });
     }
@@ -221,14 +229,6 @@ export default class MainController {
     this.mainModel.updateUserSettings(this.user);
   }
 
-  checkHashValue() {
-    if (this.getCurrentHash() === HASH_VALUES.training) {
-      this.mainView.disableStudyProfileProperties();
-    }
-  }
-
-  getCurrentHash = () => window.location.hash.slice(1);
-
   showCorrectAnswer() {
     this.mainView.showCorrectAnswer(true);
     setTimeout(() => {
@@ -236,29 +236,29 @@ export default class MainController {
     }, DELAY_NEXT_SLIDE_AUDIO_OFF);
   }
 
-  setDefaultHash = () => {
-    window.history.replaceState(null, null, ' ');
-  };
-
   async saveWord(category, optional = {}) {
-    const wordId = this.mainView.getWordId();
-    const createRecord = async () => {
-      await this.mainModel.createUserWord(wordId, {
-        difficulty: WORDS_STATUS[category],
-        optional,
-      });
-    };
-    const wordById = await this.mainModel.getAggregatedWordById(wordId);
-    if (wordById.userWord) {
-      if (wordById.userWord.difficulty !== WORDS_STATUS[category]) {
-        await this.mainModel.deleteUserWord(wordId);
+    if (this.slideIndex === this.swiper.realIndex) {
+      const wordId = this.mainView.getWordId();
+      const createRecord = async () => {
+        await this.mainModel.createUserWord(wordId, {
+          difficulty: WORDS_STATUS[category],
+          optional,
+        });
+      };
+      const wordById = await this.mainModel.getAggregatedWordById(wordId);
+      if (wordById.userWord) {
+        if (wordById.userWord.difficulty !== WORDS_STATUS[category]) {
+          await this.mainModel.deleteUserWord(wordId);
+          await createRecord();
+        }
+      } else {
+        this.updateUserSettings();
         await createRecord();
       }
+      this.showCorrectAnswer();
     } else {
-      this.updateUserSettings();
-      await createRecord();
+      this.playAudio();
     }
-    this.showCorrectAnswer();
   }
 
   async updateUserWord(category, optional = {}) {
@@ -277,8 +277,7 @@ export default class MainController {
         if (this.mistakesMode) {
           await this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
         } else {
-          this.currentSeries += 1;
-          this.correctAnswersCounter += 1;
+          this.increaseCounter();
           const currentMistakesCounter = await this.checkMistakesCounter();
           if (currentMistakesCounter) {
             await this.updateUserWord(WORDS_STATUS.repeat, {
@@ -289,9 +288,7 @@ export default class MainController {
             await this.saveWord(WORDS_STATUS.easy);
           }
         }
-        if (this.currentSeries > this.correctAnswersSeries) {
-          this.correctAnswersSeries = this.currentSeries;
-        }
+        this.updateCorrectAnswersSeries();
         this.mistakesMode = false;
       } else {
         this.mistakesMode = true;
@@ -304,18 +301,8 @@ export default class MainController {
     // todo show modal: need text
   }
 
-  async setDefaultState() {
-    this.allUserWordsId = await this.getAllUsersWordsId();
-    this.slideIndex = 0;
-    this.mistakesMode = false;
-    this.correctAnswersCounter = 0;
-    this.currentSeries = 0;
-    this.correctAnswersSeries = 0;
-  }
-
   async checkMistakesCounter() {
     const wordId = this.mainView.getWordId();
-    console.log(this.allUserWordsId);
     if (this.allUserWordsId.includes(wordId)) {
       const wordInfo = await this.mainModel.getUsersWordById(wordId);
       if (
@@ -340,9 +327,7 @@ export default class MainController {
   }
 
   allowAccessNextSlide() {
-    if (this.user.textPronunciation || this.user.wordPronunciation) {
-      this.mainView.playAudio(this.user);
-    }
+    this.playAudio();
     this.mainView.disableCurrentInput();
     if (this.slideIndex === this.swiper.realIndex) {
       this.slideIndex += 1;
@@ -357,15 +342,15 @@ export default class MainController {
         }, DELAY_NEXT_SLIDE_AUDIO_ON);
       }
       if (this.slideIndex === this.user.cardsTotal) {
-        alert("It's finish!");
-        console.log(
-          'total cards',
-          this.user.cardsTotal,
-          'correctAnswersSeries',
-          this.correctAnswersSeries,
-          '%',
-          Math.ceil((100 * this.correctAnswersSeries) / this.user.cardsTotal),
+        const percentageCorrectAnswers = Math.ceil(
+          (100 * this.correctAnswersCounter) / this.user.cardsTotal,
         );
+        this.mainView.renderShortStatistics({
+          cardsTotal: this.user.cardsTotal,
+          percentageCorrectAnswers,
+          newWordsAmount: this.newWordsAmount,
+          correctAnswersSeries: this.correctAnswersSeries,
+        });
       }
     }
   }
@@ -395,4 +380,42 @@ export default class MainController {
       }
     });
   }
+
+  playAudio() {
+    if (this.user.textPronunciation || this.user.wordPronunciation) {
+      this.mainView.playAudio(this.user);
+    }
+  }
+
+  async setDefaultState() {
+    this.allUserWordsId = await this.getAllUsersWordsId();
+    this.slideIndex = 0;
+    this.mistakesMode = false;
+    this.correctAnswersCounter = 0;
+    this.currentSeries = 0;
+    this.correctAnswersSeries = 0;
+  }
+
+  increaseCounter() {
+    this.currentSeries += 1;
+    this.correctAnswersCounter += 1;
+  }
+
+  updateCorrectAnswersSeries() {
+    if (this.currentSeries > this.correctAnswersSeries) {
+      this.correctAnswersSeries = this.currentSeries;
+    }
+  }
+
+  checkHashValue() {
+    if (this.getCurrentHash() === HASH_VALUES.training) {
+      this.mainView.disableStudyProfileProperties();
+    }
+  }
+
+  getCurrentHash = () => window.location.hash.slice(1);
+
+  setDefaultHash = () => {
+    window.history.replaceState(null, null, ' ');
+  };
 }
