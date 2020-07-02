@@ -17,6 +17,7 @@ import {
   AMOUNT_PAGES_PER_GROUP,
   WORDS_PER_PAGE,
 } from '../constants/constMainView';
+import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 
 export default class MainController {
   constructor() {
@@ -63,6 +64,9 @@ export default class MainController {
         case MENU_ITEMS_NAMES.speakit:
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
+          this.englishPuzzle = new EnglishPuzzleStart(this.user,
+            this.mainView, this.setDefaultHash);
+          this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
           break;
