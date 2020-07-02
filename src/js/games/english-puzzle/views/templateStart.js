@@ -2,7 +2,7 @@
 const templateStart = `
   <div class="ep-startScreen">
     <div class="ep-startScreen__header">
-      <a href="#" id="closeButton" class="ep-close"></a>
+      <a id="closeButton" class="ep-close"></a>
     </div>
     <div class="ep-startScreen__wrapper">
       <div class="ep-startScreen__container">

@@ -6,8 +6,9 @@ import createPuzzle from './createPuzzleCanvas';
 import CONSTANTS from '../constants/constants';
 
 export default class EnglishPuzzleView {
-  constructor(user, mainView) {
+  constructor(user, mainView, setDefaultHash) {
     this.user = user;
+    this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
     this.template = template;
     this.englishPuzzleModel = null;
@@ -401,7 +402,7 @@ export default class EnglishPuzzleView {
     });
 
     this.domElements.closeButton.addEventListener('click', () => {
-      document.body.classList.remove('ep-background');
+      this.setDefaultHash();
       this.mainView.renderMain(this.user);
     });
   }

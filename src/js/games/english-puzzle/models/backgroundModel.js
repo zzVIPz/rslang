@@ -16,9 +16,6 @@ export default class BackgroundsModel {
     let currentData = paintings1;
 
     switch (difficultLevel) {
-      case 1:
-        currentData = paintings1;
-        break;
       case 2:
         currentData = paintings2;
         break;

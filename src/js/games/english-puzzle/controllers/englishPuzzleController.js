@@ -7,10 +7,11 @@ import CONSTANTS from '../constants/constants';
 import getPage from '../helpers/getPage';
 
 export default class EnglishPuzzleController {
-  constructor(user, mainView) {
+  constructor(user, mainView, setDefaultHash) {
     this.user = user;
+    this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
-    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView);
+    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView, this.setDefaultHash);
     this.mainModel = new MainModel();
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.audioModel = new AudioModel();
@@ -32,10 +33,11 @@ export default class EnglishPuzzleController {
 
   sliceData() {
     let partOfArray = [];
-    if (this.gameLevel % 2 !== 0) {
-      partOfArray = this.wordsData.slice(0, 10);
+    if (this.gameLevel % 2) {
+      partOfArray = this.wordsData.slice(0, CONSTANTS.FIRST_TEN_SENTENCES_QUERY);
     } else {
-      partOfArray = this.wordsData.slice(10, 20);
+      partOfArray = this.wordsData.slice(CONSTANTS.FIRST_TEN_SENTENCES_QUERY,
+        CONSTANTS.SECOND_TEN_SENTENCES_QUERY);
     }
     this.slicedWordsData = partOfArray;
   }
@@ -79,8 +81,6 @@ export default class EnglishPuzzleController {
     const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
     this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/NordOst88/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
-    this.englishPuzzleView.img.onload = () => {
-      this.renderView();
-    };
+    this.englishPuzzleView.img.addEventListener('load', this.renderView());
   }
 }

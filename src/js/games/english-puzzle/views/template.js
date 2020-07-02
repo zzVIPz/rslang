@@ -84,7 +84,7 @@ const template = `
               <option>60</option>
             </select>
           </label>
-            <a href="#" id="closeButton" class="ep-close_app"></a>
+            <a id="closeButton" class="ep-close_app"></a>
           </div>
         </div>
         <div class="ep-tips">

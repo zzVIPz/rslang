@@ -62,7 +62,8 @@ export default class MainController {
         case MENU_ITEMS_NAMES.speakit:
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
-          this.englishPuzzle = new EnglishPuzzleStart(this.user, this.mainView);
+          this.englishPuzzle = new EnglishPuzzleStart(this.user,
+            this.mainView, this.setDefaultHash);
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
