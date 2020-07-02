@@ -78,7 +78,7 @@ export default class MainModel {
     console.log('setUserSettings', content);
   };
 
-  getWords = async (currentPage, currentGroup, cardsTotal, wordsPerExample) => {
+  getWords = async (currentPage = 0, currentGroup = 0, cardsTotal, wordsPerExample) => {
     const url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
     const rawResponse = await fetch(url);
     const content = await rawResponse.json();
@@ -141,7 +141,7 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
 
-    console.log(content);
+    console.log('createUserWord', content);
   };
 
   updateUserWord = async (wordId, description) => {
