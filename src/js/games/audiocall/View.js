@@ -83,6 +83,7 @@ class AudiocallView {
         this.gamePage.classList.add('show');
         sound(getMediaUrl(this.wordsArray[0].audio));
         this.animationSpeaker();
+        this.removePointerEvents();
       }, DELAY_BEFORE_GAME_START);
     });
   }
@@ -150,9 +151,10 @@ class AudiocallView {
           if (AUDIOCALL_HASH_REGEXP.test(window.location.href)) {
             const answer = document.querySelector('#answer-1');
 
-            if (answer.classList.contains('unclickable') !== 'unclickable') {
-              this.addPointerEvents();
-
+            if (!(answer.classList.contains('unclickable'))) {
+              if(keyCode !== 13 && this.answerBtn.innerText !== NEXT) {
+                this.addPointerEvents();
+              }
               if (keyCode === 49) {
                 if (document.querySelector('#answer-1').id === `answer-${this.model.positionAnswerArray[0]}`) {
                   sound(soundURL, 'correct.mp3');
@@ -233,6 +235,7 @@ class AudiocallView {
         if (this.answerBtn.innerText === NEXT) {
           this.nextWord();
         } else {
+          this.addPointerEvents();
           sound(soundURL, 'error.mp3');
           this.wrong();
         }
@@ -241,13 +244,13 @@ class AudiocallView {
 
     nextWord() {
       this.gamePage.classList.add('animation');
-      this.removePointerEvents();
+      this.answerBtn.innerText = I_DO_NOT_KNOW;
       setTimeout(() => {
         this.gamePage.classList.remove('animation');
         this.imageWord.classList.remove('show');
         this.imageWord.classList.remove('visuallyshow');
         this.headerWord.innerText = '';
-        this.answerBtn.innerText = I_DO_NOT_KNOW;
+        this.removePointerEvents();
         if (this.wordsArray.length !== 0) {
           sound(getMediaUrl(this.wordsArray[0].audio));
           this.animationSpeaker();
@@ -323,17 +326,17 @@ class AudiocallView {
     }
 
     getLevels() {
-      this.levelButtons.addEventListener('click', ({ target }) => {
+      this.levelButtons.addEventListener('click', (event) => {
 
-        this.level = target.dataset.level;
+        this.level = event.target.dataset.level;
         console.log(this.level);
       });
     }
 
     getRounds() {
-      this.roundButtons.addEventListener('click', ({ target }) => {
+      this.roundButtons.addEventListener('click', (event) => {
 
-        this.round = target.dataset.round;
+        this.round = event.target.dataset.round;
         console.log(this.round);
       });
     }
@@ -360,12 +363,14 @@ class AudiocallView {
     }
 
     animationSpeaker = () => {
-      document.querySelector('.small-circle').classList.add('animation-small');
-      document.querySelector('.big-circle').classList.add('animation-big');
-      setTimeout(() => {
-        document.querySelector('.small-circle').classList.remove('animation-small');
-        document.querySelector('.big-circle').classList.remove('animation-big');
-      }, REMOVE_ANIMATION_SPEAKER);
+      if (AUDIOCALL_HASH_REGEXP.test(window.location.href)) {
+        document.querySelector('.small-circle').classList.add('animation-small');
+        document.querySelector('.big-circle').classList.add('animation-big');
+        setTimeout(() => {
+          document.querySelector('.small-circle').classList.remove('animation-small');
+          document.querySelector('.big-circle').classList.remove('animation-big');
+        }, REMOVE_ANIMATION_SPEAKER);
+      }
     }
 
     loseRound() {

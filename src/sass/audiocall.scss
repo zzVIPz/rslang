@@ -325,10 +325,10 @@ main {
 
       text-align: center;
 
-      -webkit-transition: -webkit-transform .7s ease-in;
-              transition: -webkit-transform .7s ease-in;
-              transition:         transform .7s ease-in;
-              transition:         transform .7s ease-in, -webkit-transform .7s ease-in;
+      -webkit-transition: -webkit-transform .3s ease-in;
+              transition: -webkit-transform .3s ease-in;
+              transition:         transform .3s ease-in;
+              transition:         transform .3s ease-in, -webkit-transform .3s ease-in;
       &__header {
         position: relative;
         &__word {

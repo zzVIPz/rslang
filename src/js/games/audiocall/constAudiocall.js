@@ -105,16 +105,16 @@ const audiocallGame = `
                     </div>
                 </div>
                     <div id="choosen-answer">
-                        <div class="container-game__trainings-audiocall__answer" id="answer-1">
+                        <div class="container-game__trainings-audiocall__answer unclickable" id="answer-1">
                             <span class="container-game__trainings-audiocall__number">1</span>
                         </div>
-                        <div class="container-game__trainings-audiocall__answer" id="answer-2">
+                        <div class="container-game__trainings-audiocall__answer unclickable" id="answer-2">
                             <span class="container-game__trainings-audiocall__number">2</span>
                         </div>
-                        <div class="container-game__trainings-audiocall__answer" id="answer-3">
+                        <div class="container-game__trainings-audiocall__answer unclickable" id="answer-3">
                             <span class="container-game__trainings-audiocall__number">3</span>
                         </div>
-                        <div class="container-game__trainings-audiocall__answer" id="answer-4">
+                        <div class="container-game__trainings-audiocall__answer unclickable" id="answer-4">
                             <span class="container-game__trainings-audiocall__number">4</span>
                         </div>
                     </div>
@@ -174,7 +174,7 @@ const audiocallGame = `
 
 const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
 const DELAY_BEFORE_GAME_START = 5500;
-const DELAY_BEFORE_SHOW_WORDS = 1000;
+const DELAY_BEFORE_SHOW_WORDS = 2000;
 const DELAY_BEFORE_SHOW_IMAGE_WORD = 100;
 const REMOVE_ANIMATION_SPEAKER = 2000;
 const AUDIOCALL_HASH_REGEXP = /#audiocall/;
