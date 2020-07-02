@@ -1,4 +1,3 @@
-// import getDifficultyLevelRoundId from '../../utils/getDifficultyLevelID';
 import getLevel from '../../utils/getLevel';
 import getRound from '../../utils/getRound';
 import GroupRoundView from './groupRoundView';
@@ -185,7 +184,6 @@ class SavannahView {
       const answer = (translationEl.textContent).replace(this.model.removeDigitsRegExp, '');
       const result = this.model.isRightTranslation(answer);
 
-      this.model.getCurrentWordId();
       this.model.getCurrentAudioUrl();
 
       if (result === rightAnswer) {
@@ -220,6 +218,7 @@ class SavannahView {
   }
 
   wrongTranslationActions(translationEl, wrongAnswer, rightAnswer) {
+    this.model.incorrectWordsId.push(this.model.currentWordId);
     this.correctHTMLEl = this.findCorrectAnswerHTMLel();
     this.highlightAnswer(translationEl, wrongAnswer);
     this.highlightAnswer(this.correctHTMLEl, rightAnswer);
@@ -303,6 +302,7 @@ class SavannahView {
     this.rendercristal();
     this.renderBang();
     this.renderSparkles();
+    this.model.getCurrentWordId();
   }
 
   renderPlayingPage() {
@@ -357,6 +357,7 @@ class SavannahView {
           this.errorSound.play();
         }
 
+        this.model.incorrectWordsId.push(this.model.currentWordId);
         this.correctHTMLEl = this.findCorrectAnswerHTMLel();
         this.model.wrongAnswerCounter += 1;
 
@@ -492,6 +493,7 @@ class SavannahView {
       if (this.model.isGameOn) {
         this.randomEngWord = this.model.wordsArr[this.model.randomArrOfIndexes[this.model.count]];
         this.renderPlayingPage();
+        this.model.getCurrentWordId();
       }
     } else {
       this.renderGameOver(true);
@@ -499,6 +501,8 @@ class SavannahView {
   }
 
   renderGameOver(isWin) {
+    // TODO array with id of incorrect answers;
+    this.incorrectWordsIdArr = this.model.incorrectWordsId;
     this.translationBox.removeEventListener('click', this.listener1);
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');

@@ -18,6 +18,7 @@ class SavannahModel {
     this.backgroundPositionY = INITIAL_BACKGROUND_POSITIONY;
     this.cristalWidth = INITIAL_CRISTAL_WIDTH;
     this.levelNumForUser = DEFAULT_DISPLAYED_LEVEL;
+    this.incorrectWordsId = [];
   }
 
   async fetchWords(user, chosenLevel, chosenRound) {
