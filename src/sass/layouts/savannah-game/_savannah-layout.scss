@@ -1,0 +1,180 @@
+.app {
+  position: relative;
+
+  width: 100%;
+  min-height: calc(100vh - 93px);
+}
+
+.flying-word {
+  position: absolute;
+  left: 50%;
+
+  width: 50px;
+  height: 50px;
+  margin-left: -50px;
+
+  font-size: 2em;
+  color: $text-color;
+
+@include media-mobile {
+    left: -6px;
+
+    width: 100%;
+    margin-left: 0;
+
+    font-size: 2em;
+  }
+
+  &_hide {
+    display: none;
+  }
+}
+
+
+.app__content__translation-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15%;
+
+  font-size: 1.5em;
+  color: $text-color;
+
+@include media-tablet {
+    flex-wrap: wrap;
+    margin-top: 25%;
+  }
+
+@include media-mobile {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50%;
+
+    font-size: 1em;
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    min-height: 50px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+
+    cursor: pointer;
+
+    user-select: none;
+
+@include media-tablet {
+      position: relative;
+
+      display: inline-block;
+      max-width: 270px;
+      margin: 0 100px 30px;
+      margin-right: 0;
+
+      font-size: 2.5rem;
+      line-height: 30px;
+      vertical-align: top;
+      text-align: left;
+      word-break: break-all;
+    }
+
+@include media-mobile {
+      justify-content: start;
+      width: 90%;
+      max-width: 320px;
+      margin: 0 20px;
+      margin-bottom: 8px;
+
+      font-size: 24px;
+    }
+    &:hover {
+      color: white;
+
+      background: #3d7c807a;
+    }
+  }
+}
+
+span .keyboard-num {
+  max-width: 10px;
+  min-height: 10px;
+  margin: 0;
+
+  font-size: .5em;
+}
+
+.cristal {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+
+  width: 30px;
+  margin-left: -20px;
+
+@include media-mobile {
+    bottom: 30px;
+  }
+
+@include media-tablet {
+    bottom: 35px;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+
+    animation: mover 1s infinite  alternate;
+
+    @keyframes mover {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+  }
+}
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.hideBackgroundImg {
+  background-image: none;
+}
+
+.app__background {
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+
+  background-image: url("/src/assets/images/savannah-bg.svg");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 100%;
+
+  transition: all 1s ease;
+}
+
+.bang {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 2px;
+  height: 18px;
+  margin-left: -6px;
+
+  background: $text-color;
+}
+
+.noHover {
+  pointer-events: none;
+}

@@ -15,6 +15,13 @@ const MENU_ITEMS_NAMES = {
 
 const HASH_VALUES = {
   training: 'training',
+  audiocall: 'audiocall',
+  speakit: 'speakit',
+  dictionary: 'dictionary',
+  statistics: 'statistics',
+  englishPuzzle: 'english-puzzle',
+  savannah: 'savannah',
+  sprint: 'sprint',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -29,6 +36,7 @@ const DEFAULT_USER_SETTINGS = {
   associativePicture: true,
   wordPronunciation: true,
   textPronunciation: true,
+  automaticallyScroll: false,
   btnKnow: true,
   btnDifficult: true,
   btnShowAnswer: true,
@@ -60,6 +68,7 @@ const SETTING_MODAL_TEXT = {
   btnShowAnswer: "Show button 'Show answer'",
   wordPronunciation: 'Pronounce study word',
   textPronunciation: 'Pronounce study text',
+  automaticallyScroll: 'Automatic slide scrolling',
   btnAccept: 'ACCEPT',
   btnCancel: 'CANCEL',
 };
@@ -74,7 +83,7 @@ const MAIN_TEXT = {
   title: 'Dear,',
   subtitle: 'Your goals for today:',
   totalCards: 'Total cards:',
-  newWords: 'Total cards:',
+  newWords: 'Total new words cards:',
   studyMode: 'Study mode:',
   achievements: 'Your achievements:',
   learnedWords: 'Learned words:',
@@ -82,6 +91,12 @@ const MAIN_TEXT = {
   btnStart: 'CONTINUE',
   btnShowGraph: 'SHOW GRAPH',
 };
+
+const AMOUNT_WORDS_PER_PAGE = 19;
+
+const AMOUNT_PAGES_PER_GROUP = 29;
+
+const WORDS_PER_PAGE = 20;
 
 const SWIPER_TEMPLATE = `
   <div class="swiper-container">
@@ -91,6 +106,28 @@ const SWIPER_TEMPLATE = `
     <div class="swiper-button-next"></div>
   </div>`;
 
+const DELAY_NEXT_SLIDE_AUDIO_OFF = 1000;
+
+const DELAY_NEXT_SLIDE_AUDIO_ON = 700;
+
+const DELAY_HIDE_MENU = 170;
+
+const DELAY_SET_FOCUS_ON_INPUT = 300;
+
+const REPEAT_NUMBER = 3;
+
+const WORDS_STATUS = {
+  userWord: 'userWord.difficulty',
+  easy: 'easy',
+  difficult: 'difficult',
+  repeat: 'repeat',
+};
+
+const PAGES_LINKS = {
+  promo: './promo.html',
+  about: './about.html',
+};
+
 export {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -99,4 +136,14 @@ export {
   SWIPER_TEMPLATE,
   DEFAULT_USER_SETTINGS,
   WORD_LEARNING_MODES,
+  DELAY_NEXT_SLIDE_AUDIO_OFF,
+  DELAY_NEXT_SLIDE_AUDIO_ON,
+  WORDS_STATUS,
+  PAGES_LINKS,
+  REPEAT_NUMBER,
+  AMOUNT_WORDS_PER_PAGE,
+  AMOUNT_PAGES_PER_GROUP,
+  WORDS_PER_PAGE,
+  DELAY_HIDE_MENU,
+  DELAY_SET_FOCUS_ON_INPUT,
 };
