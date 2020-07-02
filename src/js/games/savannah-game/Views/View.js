@@ -2,9 +2,8 @@
 import getLevel from '../../utils/getLevel';
 import getRound from '../../utils/getRound';
 import GroupRoundView from './groupRoundView';
-// import randomInteger from '../../utils/randomInteger';
 import GameStatistics from './gameStatView';
-import STATISTICS_MODAL_LAYOUT from '../../utils/statisticsModalConst';
+import { STATISTICS_MODAL_LAYOUT } from '../../utils/statisticsModalConst';
 import {
   GAME_LAYOUT,
   PRELOADER,

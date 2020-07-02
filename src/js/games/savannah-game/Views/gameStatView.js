@@ -1,6 +1,6 @@
 import getMediaUrl from '../../../utils/getMediaUrl';
 import playAudio from '../../utils/playAudio';
-import INITIAL_BACKGROUND_POSITIONY from '../constSavannah';
+import { INITIAL_BACKGROUND_POSITIONY } from '../constSavannah';
 import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
 import {
   LOSE_ROUND_TITLE,

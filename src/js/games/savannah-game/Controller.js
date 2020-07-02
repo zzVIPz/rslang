@@ -1,6 +1,6 @@
 import SavannahView from './Views/View';
 import SavannahModel from './Model';
-import DELAY from './constSavannah';
+import { DELAY } from './constSavannah';
 
 class SavannahController {
   constructor(user, mainView) {
