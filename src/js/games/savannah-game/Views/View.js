@@ -17,10 +17,12 @@ import {
   SAVANNAH_HASH_REGEXP,
   DELAY,
   START_FLYING_POSITION,
-  FINAL_FLYING_POSITION,
   START_BANG_POSITION,
   FINAL_BANG_POSITION,
   BACKGROUND_MOVE_PX,
+  MARGIN_PERCENTAGE,
+  MARGIN_DEADLINE_COEFICIENT,
+  BASE_MARGIN,
 } from '../constSavannah';
 
 class SavannahView {
@@ -43,9 +45,12 @@ class SavannahView {
     this.sparklesBox = document.createElement('div');
     this.muteLine = document.createElement('div');
     this.bang = document.createElement('div');
+    this.marginTop = document.documentElement.clientHeight * 0.3;
   }
 
   checkSavannahWindow() {
+    this.changePositionAccordingToClientHeight();
+
     if (!SAVANNAH_HASH_REGEXP.test(window.location.href)) {
       this.finishGame();
       this.savannahContainer = document.querySelector('.savannah__app');
@@ -151,8 +156,9 @@ class SavannahView {
     if (this.model.isPreloading) {
       const activeMenu = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
       const visibleModal = document.querySelector('.app__modal').classList.contains('app__modal_visible');
+      const settingsVisible = document.querySelector('.settings__overlay');
 
-      if (!activeMenu && !visibleModal) {
+      if (!activeMenu && !visibleModal && !settingsVisible) {
         this.countNumber = this.countTillOne();
 
         if (this.countNumber > 0) {
@@ -243,7 +249,7 @@ class SavannahView {
     const translation = target.classList.contains('translation');
     const keyboardNum = target.classList.contains('keyboard-num');
     if (translation && !keyboardNum && !this.model.isWordClicked) {
-      if (this.pos < FINAL_FLYING_POSITION) {
+      if (this.pos < this.marginTop * MARGIN_DEADLINE_COEFICIENT) {
         target.classList.add('noHover');
         this.checkRightTranslation(target);
       }
@@ -255,9 +261,9 @@ class SavannahView {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
-  checkTransalationOnKeyUp(event) {
-    if (!this.model.isWordClicked) {
-      const translationEl = this.getClickedWord(event.key);
+  checkTransalationOnKeyUp({ key }) {
+    if (!this.model.isWordClicked && key >= 1 && key <= 4) {
+      const translationEl = this.getClickedWord(key);
       this.checkRightTranslation(translationEl);
     }
   }
@@ -350,8 +356,11 @@ class SavannahView {
 
   frame() {
     const rightAnswer = true;
-    if (!document.querySelector('.burger-menu').classList.contains('burger-menu--active')) {
-      if (this.pos === FINAL_FLYING_POSITION && this.model.isGameOn) {
+    const settingsVisible = document.querySelector('.settings__overlay');
+    const menuActive = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
+
+    if (!menuActive && !settingsVisible) {
+      if (this.pos >= (this.marginTop * MARGIN_DEADLINE_COEFICIENT) && this.model.isGameOn) {
         clearInterval(this.id);
         if (this.model.audioOn) {
           this.errorSound.play();
@@ -370,7 +379,7 @@ class SavannahView {
         setTimeout(() => { this.removeHighlight(this.correctHTMLEl, rightAnswer); }, DELAY);
         setTimeout(() => { this.nextWord(); }, DELAY);
       } else {
-        this.pos += 1;
+        this.pos += this.marginTop / BASE_MARGIN;
         this.flyingWord.style.top = `${this.pos}px`;
       }
     }
@@ -402,6 +411,7 @@ class SavannahView {
     });
     this.translationBox.innerHTML = spanArr.join('');
     this.appContent.appendChild(this.translationBox);
+    this.translationBox.style.marginTop = `${this.marginTop}px`;
   }
 
   rendercristal() {
@@ -514,6 +524,14 @@ class SavannahView {
       this.gameStatistics.winRound();
     } else {
       this.gameStatistics.loseRound();
+    }
+  }
+
+  changePositionAccordingToClientHeight() {
+    const marginTop = document.documentElement.clientHeight * MARGIN_PERCENTAGE;
+    if (this.marginTop !== marginTop && document.querySelector('.app__content__translation-box')) {
+      this.marginTop = marginTop;
+      document.querySelector('.app__content__translation-box').style.marginTop = `${this.marginTop}px`;
     }
   }
 }
