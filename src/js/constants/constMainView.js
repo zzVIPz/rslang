@@ -93,7 +93,10 @@ const MAIN_TEXT = {
 };
 
 const AMOUNT_WORDS_PER_PAGE = 19;
+
 const AMOUNT_PAGES_PER_GROUP = 29;
+
+const WORDS_PER_PAGE = 20;
 
 const SWIPER_TEMPLATE = `
   <div class="swiper-container">
@@ -136,4 +139,5 @@ export {
   REPEAT_NUMBER,
   AMOUNT_WORDS_PER_PAGE,
   AMOUNT_PAGES_PER_GROUP,
+  WORDS_PER_PAGE,
 };

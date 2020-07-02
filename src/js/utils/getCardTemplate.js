@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 import getMediaUrl from './getMediaUrl';
 import getRandomInteger from './getRandomInteger';
 import getFormattedString from './getFormattedString';
@@ -5,6 +6,7 @@ import { SETTING_MODAL_TEXT, WORD_LEARNING_MODES } from '../constants/constMainV
 
 const CARD_TEXT = {
   newWord: 'New word',
+  repeat: 'Repeat',
   btnBeFamiliar: 'I KNOW',
   btnToStudy: 'DIFFICULT WORD',
   btnShowAnswer: 'SHOW ANSWER',
@@ -12,8 +14,7 @@ const CARD_TEXT = {
 };
 
 export default function getCardTemplate(card, settings) {
-  // console.log(card);
-  // console.log(settings);
+  const wordStatus = card.id ? CARD_TEXT.newWord : CARD_TEXT.repeat;
   let wordMode = true;
   let textMeaningMode = true;
   let textExampleMode = true;
@@ -59,7 +60,7 @@ export default function getCardTemplate(card, settings) {
 
   return `
   <div class="swiper-slide card container" data-id=${card.id || card._id}>
-    <p class="card__state">${CARD_TEXT.newWord}</p>
+    <p class="card__state">${wordStatus}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
     </div>
