@@ -3,6 +3,7 @@ import getLevel from '../../utils/getLevel';
 import getRound from '../../utils/getRound';
 import GroupRoundView from './groupRoundView';
 import GameStatistics from './gameStatView';
+import setFocus from '../../utils/setFocus';
 import { STATISTICS_MODAL_LAYOUT } from '../../utils/statisticsModalConst';
 import {
   GAME_LAYOUT,
@@ -72,6 +73,7 @@ class SavannahView {
     this.addListeners();
     this.setMusicOnOff();
     this.gameStatistics.init(this, this.mainView, this.model, this.setDefaultHash);
+    setFocus(document.querySelector('.app__button'));
   }
 
   addListeners() {

@@ -22,7 +22,7 @@
     width: 100%;
     margin-left: 0;
 
-    font-size: 2em;
+    font-size: 1.5em;
   }
 
   &_hide {
@@ -35,66 +35,71 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 15%;
+  margin-top: 200px;
 
   font-size: 1.5em;
   color: $text-color;
 
 @include media-tablet {
     flex-wrap: wrap;
-    margin-top: 25%;
+    margin-top: 150px;
   }
 
 @include media-mobile {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50%;
-
-    font-size: 1em;
+    margin-top: 175px;
   }
+}
 
-  span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30%;
-    min-height: 50px;
-    margin-right: 20px;
-    margin-bottom: 40px;
+.translation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  min-height: 50px;
+  margin-bottom: 40px;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    user-select: none;
+  user-select: none;
 
 @include media-tablet {
-      position: relative;
+    position: relative;
 
-      display: inline-block;
-      max-width: 270px;
-      margin: 0 100px 30px;
-      margin-right: 0;
+    display: inline-block;
+    max-width: 270px;
+    margin: 0 100px 10px 87px;
+    margin-right: 0;
 
-      font-size: 2.5rem;
-      line-height: 30px;
-      vertical-align: top;
-      text-align: left;
-      word-break: break-all;
-    }
+    font-size: 2.5rem;
+    line-height: 30px;
+    vertical-align: top;
+    text-align: left;
+    word-break: break-all;
+  }
 
 @include media-mobile {
-      justify-content: start;
-      width: 90%;
-      max-width: 320px;
-      margin: 0 20px;
-      margin-bottom: 8px;
+    margin: 0 35px 5px 50px;
 
-      font-size: 24px;
-    }
-    &:hover {
-      color: white;
+    font-size: 20px;
+  }
 
-      background: #3d7c807a;
-    }
+@include media-mobile-small {
+    margin: 0 15px 5px 39px;
+
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: white;
+
+    background: #3d7c807a;
+  }
+}
+
+.translation-1,
+.translation-3 {
+  @include media-mobile {
+    margin-right: 0;
   }
 }
 
