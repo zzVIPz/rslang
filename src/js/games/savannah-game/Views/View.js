@@ -501,6 +501,7 @@ class SavannahView {
   renderGameOver(isWin) {
     this.translationBox.removeEventListener('click', this.listener1);
     document.querySelector('.statistics__container').classList.remove('hidden');
+    document.querySelector('.statistics__container').classList.add('flex');
     document.querySelector('.app__content').innerHTML = '';
     this.gameStatistics.renderWrongAnswersTitle();
     this.gameStatistics.renderCorrectAnswerTitle();
