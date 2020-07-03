@@ -124,7 +124,7 @@ export default class SprintController {
     document.removeEventListener('keydown', this);
     this.view.renderFinalStat(this.score, this.faultyWords);
     this.addCloseBtnHandler();
-    document.querySelector('.sprint-button--repeate')
+    document.querySelector('.sprint-button--repeat')
       .addEventListener('click', () => { this.prelaunch(); });
   }
 

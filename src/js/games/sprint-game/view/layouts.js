@@ -76,7 +76,7 @@ const finalStatLayout = `<div class="sprint-main-wrapper">
     <div class="sprint-user-mistakes"></div>
 </div>
 <div class="sprint-result-controlls">
-  <button class="sprint-button sprint-button--repeate app__button">повторить</button>
+  <button class="sprint-button sprint-button--repeat app__button">повторить</button>
 </div>
 </div>
 </div>`;
