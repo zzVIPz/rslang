@@ -172,7 +172,7 @@ const audiocallGame = `
             </div>
         </div>`;
 
-const soundURL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
+const DELAY = 1000;
 const DELAY_BEFORE_GAME_START = 5500;
 const DELAY_BEFORE_SHOW_WORDS = 2000;
 const DELAY_BEFORE_SHOW_IMAGE_WORD = 100;
@@ -185,8 +185,8 @@ const WIN = 'Так держать! Испытай себя на следующ�
 const EMPTY_ARRAY = ['пробовать', 'смешивать', 'пахать'];
 
 export {
-  audiocallGame, soundURL, DELAY_BEFORE_GAME_START,
+  audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
   EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP, DELAY_BEFORE_SHOW_WORDS,
-  DELAY_BEFORE_SHOW_IMAGE_WORD,
+  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY,
 };

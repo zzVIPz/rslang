@@ -1,10 +1,11 @@
 import {
-  audiocallGame, soundURL, DELAY_BEFORE_GAME_START,
+  audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
   EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP, DELAY_BEFORE_SHOW_WORDS,
-  DELAY_BEFORE_SHOW_IMAGE_WORD,
+  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY,
 } from './constAudiocall';
-import {SOUND_URL, CORRECT_SOUND, ERROR_SOUND, 
+import {
+  SOUND_URL, CORRECT_SOUND, ERROR_SOUND,
   ROUND_STARTS_SOUND,
 } from '../savannah-game/constSavannah';
 import MainView from '../../views/mainView';
@@ -21,6 +22,22 @@ class AudiocallView {
     this.correctSound = (SOUND_URL + CORRECT_SOUND);
     this.errorSound = (SOUND_URL + ERROR_SOUND);
     this.roundStartsSound = (SOUND_URL + ROUND_STARTS_SOUND);
+    this.isGameOn = true;
+    this.isPreloading = true;
+    this.mainContainer = document.querySelector('.main');
+  }
+
+  checkAudiocallWindow() {
+    if (!AUDIOCALL_HASH_REGEXP.test(window.location.href)) {
+      this.finishGame();
+      this.audiocallContainer = document.querySelector('.container-game');
+
+      if (this.audiocallContainer) {
+        this.mainContainer.removeChild(this.audiocallContainer);
+      }
+    } else {
+      setTimeout(() => { this.checkAudiocallWindow(); }, DELAY / 2);
+    }
   }
 
   getViewUser(user, mainView) {
@@ -84,11 +101,13 @@ class AudiocallView {
       this.loader.classList.add('show');
       this.initWords();
       setTimeout(() => {
-        this.loader.classList.remove('show');
-        this.gamePage.classList.add('show');
-        playAudio(getMediaUrl(this.wordsArray[0].audio));
-        this.animationSpeaker();
-        this.removePointerEvents();
+        if (this.isGameOn) {
+          this.loader.classList.remove('show');
+          this.gamePage.classList.add('show');
+          playAudio(getMediaUrl(this.wordsArray[0].audio));
+          this.animationSpeaker();
+          this.removePointerEvents();
+        }
       }, DELAY_BEFORE_GAME_START);
     });
   }
@@ -252,14 +271,16 @@ class AudiocallView {
       this.gamePage.classList.add('animation');
       this.answerBtn.innerText = I_DO_NOT_KNOW;
       setTimeout(() => {
-        this.gamePage.classList.remove('animation');
-        this.imageWord.classList.remove('show');
-        this.imageWord.classList.remove('visuallyshow');
-        this.headerWord.innerText = '';
-        this.removePointerEvents();
-        if (this.wordsArray.length !== 0) {
-          playAudio(getMediaUrl(this.wordsArray[0].audio));
-          this.animationSpeaker();
+        if (this.isGameOn) {
+          this.gamePage.classList.remove('animation');
+          this.imageWord.classList.remove('show');
+          this.imageWord.classList.remove('visuallyshow');
+          this.headerWord.innerText = '';
+          this.removePointerEvents();
+          if (this.wordsArray.length !== 0) {
+            playAudio(getMediaUrl(this.wordsArray[0].audio));
+            this.animationSpeaker();
+          }
         }
       }, DELAY_BEFORE_SHOW_WORDS);
       this.wordsArray.shift();
@@ -283,6 +304,12 @@ class AudiocallView {
       this.closeBtnGame.addEventListener('click', () => {
         this.modalWindow.classList.add('show-flex');
       });
+    }
+
+    finishGame() {
+      this.isGameOn = false;
+      this.isPreloading = false;
+      this.removePointerEvents();
     }
 
     createEl = (array, div) => {
@@ -322,11 +349,13 @@ class AudiocallView {
     backToMainPage() {
       this.closeBtnModalGame.addEventListener('click', () => {
         this.setDefaultHash();
+        this.finishGame();
         this.mainView.renderMain(this.currentUser);
       });
 
       this.finalBackBtn.addEventListener('click', () => {
         this.setDefaultHash();
+        this.finishGame();
         this.mainView.renderMain(this.currentUser);
       });
     }
