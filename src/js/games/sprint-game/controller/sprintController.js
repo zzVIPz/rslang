@@ -1,7 +1,6 @@
 import SprintView from '../view/sprintView';
 import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
-// eslint-disable-next-line import/no-cycle
 import MainView from '../../../views/mainView';
 import {
   MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
@@ -55,7 +54,7 @@ export default class SprintController {
         this.initialWordsArray = this.model.wordsArray;
         console.log(this.initialWordsArray);
         console.log(this.wordsArray);
-        if (this.wordsArray.length > 0) {
+        if (this.wordsArray.length) {
           this.startGame();
         }
       });
