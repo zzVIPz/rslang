@@ -122,7 +122,7 @@ export default class SprintView {
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
 
-    if (errors.length) {
+    if (errors.length > 0) {
       document.querySelector('.sprint-user-mistakes').innerHTML = `Ошибок ${errors.length}`;
       this.mistakesContainer = document.createElement('div');
       this.mistakesContainer.className = 'sprint-mistaken-words';
