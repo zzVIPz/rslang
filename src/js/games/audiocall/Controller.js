@@ -7,10 +7,11 @@ class AudiocallController {
     this.mainView = mainView;
   }
 
-  init(defaultHash) {
+  init(defaultHash, currentHash) {
     this.defaultHash = defaultHash;
+    this.currentHash = currentHash;
     this.model = new AudiocallModel();
-    this.view = new AudiocallView(this.model, this.defaultHash);
+    this.view = new AudiocallView(this.model, this.defaultHash, this.currentHash);
     this.view.getViewUser(this.user, this.mainView);
     this.view.render();
     this.view.addListeners();

@@ -1,9 +1,10 @@
 import {
   audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
-  EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP, DELAY_BEFORE_SHOW_WORDS,
+  EMPTY_ARRAY, DELAY_BEFORE_SHOW_WORDS,
   DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY,
 } from './constAudiocall';
+import { HASH_VALUES } from '../../constants/constMainView';
 import {
   SOUND_URL, CORRECT_SOUND, ERROR_SOUND,
   ROUND_STARTS_SOUND,
@@ -14,8 +15,9 @@ import playAudio from '../utils/playAudio';
 import shuffle from '../utils/shaffle';
 
 class AudiocallView {
-  constructor(model, defaultHash) {
+  constructor(model, defaultHash, currentHash) {
     this.setDefaultHash = defaultHash;
+    this.getCurrentHash = currentHash;
     this.template = audiocallGame;
     this.model = model;
     this.mainView = new MainView();
@@ -28,7 +30,7 @@ class AudiocallView {
   }
 
   checkAudiocallWindow() {
-    if (!AUDIOCALL_HASH_REGEXP.test(window.location.href)) {
+    if (!(this.getCurrentHash() === HASH_VALUES.audiocall)) {
       this.finishGame();
       this.audiocallContainer = document.querySelector('.container-game');
 
@@ -122,7 +124,7 @@ class AudiocallView {
   }
 
   addWordsEl = async (wordsArray) => {
-    if (wordsArray.length) {
+    if (wordsArray.length && this.isGameOn) {
       const dataWords = await this.model.getWordsForAnswers(wordsArray[0].wordTranslate);
       if (dataWords.length !== 0) {
         this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
@@ -173,7 +175,7 @@ class AudiocallView {
         if (event.keyCode === 49 || event.keyCode === 50
            || event.keyCode === 51 || event.keyCode === 52
            || event.keyCode === 13) {
-          if (AUDIOCALL_HASH_REGEXP.test(window.location.href)) {
+          if (this.getCurrentHash() === HASH_VALUES.audiocall) {
             const answer = document.querySelector('#answer-1');
 
             if (!(answer.classList.contains('unclickable'))) {
@@ -396,7 +398,7 @@ class AudiocallView {
     }
 
     animationSpeaker = () => {
-      if (AUDIOCALL_HASH_REGEXP.test(window.location.href)) {
+      if (this.isGameOn) {
         document.querySelector('.small-circle').classList.add('animation-small');
         document.querySelector('.big-circle').classList.add('animation-big');
         setTimeout(() => {
