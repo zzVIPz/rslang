@@ -35,6 +35,19 @@ export default class SprintController {
     this.addCloseBtnHandler();
     this.addRaitingHandler();
     this.addStartHandler();
+    this.addNavigationClickListener();
+  }
+
+  addNavigationClickListener() {
+    this.navClick = this.navigationClickHandler.bind(this);
+    document.addEventListener('click', this.navClick);
+  }
+
+  navigationClickHandler({ target }) {
+    if (target.classList.contains('navigation__link')) {
+      this.closeGameWindow();
+      document.removeEventListener('click', this.navClick);
+    }
   }
 
   addRaitingHandler() {
@@ -74,7 +87,7 @@ export default class SprintController {
       this.points,
       this.rightAnswersCount,
     );
-    this.addCountdown();
+    this.startCountdown(GAME_TIME);
   }
 
   handleEvent({ code }) {
@@ -126,15 +139,6 @@ export default class SprintController {
     this.addCloseBtnHandler();
     document.querySelector('.sprint-button--repeat')
       .addEventListener('click', () => { this.prelaunch(); });
-  }
-
-  addCountdown() {
-    this.startCountdown(GAME_TIME);
-    document.querySelector('.navigation').addEventListener('click', ({ target }) => {
-      if (target.classList.contains('navigation__link')) {
-        clearTimeout(this.timer);
-      }
-    });
   }
 
   startCountdown(gameTime) {
