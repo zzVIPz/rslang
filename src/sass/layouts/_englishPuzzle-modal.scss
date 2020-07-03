@@ -1,0 +1,130 @@
+.ep-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 36px 16px 16px;
+  overflow: auto;
+
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 0;
+  &__body {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 700px;
+    height: 800px;
+    padding: 20px 40px;
+
+    background-color: white;
+    border-radius: 5px;;
+  }
+
+  &__image {
+    width: 250px;
+    height: 150px;
+
+    background-size: cover;
+    border-radius: 8px;
+    box-shadow: 0 0 3px 3px #70fdc9;
+  }
+
+  &__description {
+    margin-top: 30px;
+
+    text-align: center;
+  }
+
+  &__main {
+    margin-top: 30px;
+    &-line {
+      display: flex;
+      align-items: center;
+      height: 22px;
+      margin-bottom: 14px;
+    }
+  }
+
+  &__sentence-block {
+    flex: 1;
+  }
+
+  &__wrong-words-count {
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    padding-top: 1px;
+
+    text-align: center;
+    color: white;
+
+    background-color: #ff0000;
+    border-radius: 50%;
+    box-shadow: 0 0 3px 3px #ff0000;
+  }
+
+  &__right-words-count {
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    padding-top: 1px;
+
+    text-align: center;
+    color: white;
+
+    background-color: #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 3px 3px #00ff00;
+  }
+
+  &__audioBtn {
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url(/src/assets/images/ep-icons/ep-speaker-grey.png);
+    background-size: cover;
+    cursor: pointer;
+    opacity: .7;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__buttons {
+    margin-top: auto;
+    margin-bottom: 5px;
+  }
+
+  &_hidden {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .ep-modal__main-line {
+    margin-bottom: 15px;
+  }
+  .ep-modal__sentence-block {
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+  }
+  .ep-modal__description,
+  .ep-modal__wrong-words,
+  .ep-modal__right-words {
+    font-size: 1.4rem;
+  }
+}
