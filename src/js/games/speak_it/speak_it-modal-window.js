@@ -1,10 +1,8 @@
 import {
   container,
-  CORRECT_WORDS,
-  UNCORRECT_WORDS,
-  IDS_TEXT,
-  BACK,
+  STATISTICS_MODAL_LAYOUT
 } from './speak_it-constants';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 export class ModalWindow {
   constructor(correct, uncorrect) {
@@ -18,22 +16,19 @@ export class ModalWindow {
   }
 
   runListeners(user, mainView) {
-    this.returnToGame();
-    this.stopGame(user, mainView);
+    this.user = user;
+    this.mainView = mainView;
+    this.cancelBtn.onclick = () => this.toggelModalWindov();
+    this.backToMianBtn.onclick = () => {
+      this.stopGame();
+    }
     this.viewStatisticMethod();
   }
-
-  stopGame(user, mainView) {
-    this.backToMianBtn.onclick = () => {
+  stopGame() {
       container.innerHTML = '';
       container.classList.remove('speakIt');
       document.body.classList.remove('speakIt_background');
-      mainView.renderMain(user);
-    };
-  }
-
-  returnToGame() {
-    this.cancelBtn.onclick = () => this.toggelModalWindov();
+      this.mainView.renderMain(this.user);
   }
 
   toggelModalWindov() {
@@ -43,40 +38,69 @@ export class ModalWindow {
   viewStatisticMethod() {
     this.viewStatistic.onclick = () => {
       this.statisticModalWindow.classList.toggle('not_display');
+      this.statisticModalWindow.innerHTML = STATISTICS_MODAL_LAYOUT;
+      this.backToGame = document.querySelector('.statistics__continue')
+      this.closeGame = document.querySelector('.statistics__back')
+      this.statisticWrongSet = document.querySelector('.statistics__words-set_wrong');
+      this.statisticCorrectSet = document.querySelector('.statistics__words-set_correct');
+      this.wrongTitle = this.statisticModalWindow.querySelector('.wrong_title');
+      this.rightTitle = this.statisticModalWindow.querySelector('.correct_title');
       this.addStatisticToPage();
-      const buttonClose = document.createElement('button');
-      buttonClose.className = 'button close_statistic';
-      buttonClose.innerText = BACK;
-      this.statisticModalWindow.appendChild(buttonClose);
-      this.closeStatistic();
     };
   }
 
   addStatisticToPage() {
-    this.statisticModalWindow.innerHTML = '';
-    const titleCorrect = document.createElement('h2');
-    titleCorrect.innerText = CORRECT_WORDS;
-    this.statisticModalWindow.appendChild(titleCorrect);
-    this.appendWordsToStatistic(this.correctWordsArray);
-
-    const titleUncorrect = document.createElement('h2');
-    titleUncorrect.innerText = UNCORRECT_WORDS;
-    this.statisticModalWindow.appendChild(titleUncorrect);
-    this.appendWordsToStatistic(this.uncorrectWordsArray);
+    this.addWords(this.uncorrectWordsArray, this.statisticWrongSet);
+    this.addWords(this.correctWordsArray, this.statisticCorrectSet);
+    this.wrongTitle.innerText += ': ' + this.uncorrectWordsArray.length;
+    this.rightTitle.innerText += ': ' + this.correctWordsArray.length;
+    this.addStatisticMethods()
   }
 
-  appendWordsToStatistic(array) {
-    for (const element of array) {
-      const wordString = document.createElement('p');
-      wordString.title = IDS_TEXT + element.id;
-      wordString.innerText = element.word;
-      this.statisticModalWindow.appendChild(wordString);
+  addWords(array, container) {
+    for (let word of array) {
+      let oneRow = document.createElement('div');
+    oneRow.classList.add('wordBox');
+    let soundBox = document.createElement('div');
+    soundBox.classList.add('soundBox');
+    let wordAudio = document.createElement('img');
+    wordAudio.classList.add('word-audio')
+    wordAudio.src = "../src/assets/svg/speaker-for-final-modal.svg";
+    wordAudio.id = getMediaUrl(word.soundURL);
+    let wordEng = document.createElement('div');
+    wordEng.classList.add('word-eng');
+    wordEng.innerText = word.word;
+    wordEng.title = 'id of this word is: ' + word.id;
+    let wordTrans = document.createElement('div')
+    wordTrans.classList.add('word-trans');
+    wordTrans.innerText = '- ' + word.wordTranslate;
+    soundBox.appendChild(wordAudio);
+    oneRow.appendChild(soundBox);
+    oneRow.appendChild(wordEng);
+    oneRow.appendChild(wordTrans);
+    container.appendChild(oneRow);
     }
+  };
+
+  addStatisticMethods() {
+    this.backToGame.addEventListener('click', () => {
+      this.closeStatisticWindow();
+    })
+    this.closeGame.addEventListener('click', () => {
+      this.stopGame();
+    })
+    const sounds = this.statisticModalWindow.querySelectorAll('.word-audio');
+    sounds.forEach(sound => sound.addEventListener('click', (e) => {
+      this.playSound(e.target)
+    }));
   }
 
-  closeStatistic() {
-    document.querySelector('.close_statistic').onclick = () => {
-      this.statisticModalWindow.classList.toggle('not_display');
-    };
+  closeStatisticWindow() {
+    this.statisticModalWindow.classList.toggle('not_display');
+    this.statisticModalWindow.innerHTML = '';
+  }
+
+  playSound(sound) {
+    new Audio(sound.id).play();
   }
 }

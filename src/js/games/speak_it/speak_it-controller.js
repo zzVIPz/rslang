@@ -12,6 +12,7 @@ import { recognition } from './speak_it-recognition';
 import { ModalWindow } from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
+import MainView from '../../views/mainView';
 
 export class Controller {
   constructor(group, round, user) {
@@ -28,13 +29,13 @@ export class Controller {
     this.rounds = Array.from(document.querySelectorAll('.page_level > p'));
     this.closeBtn = document.querySelector('.close');
     this.corectAns = 0;
-    this.choosenNowId = '';
-    this.choosenNowWord = '';
+    this.choosenWordIndex = 0;
     this.recognitionMod = false;
     this.correctAudio = new Audio(getMediaUrl(CORRECT_MP3));
     this.uncorrectAudio = new Audio(getMediaUrl(MISS_MP3));
     this.user = user;
     this.mainModel = new MainModel();
+    this.mainView = new MainView();
   }
 
   initGame() {
@@ -68,8 +69,7 @@ export class Controller {
     this.view.selectCard(false, this.model);
     this.model.chooseWord = this.model.datasWords[this.model.arrayNumders[0]];
     this.examples.forEach((example) => example.addEventListener('click', () => this.view.playSound(example.id)));
-    this.choosenNowId = this.cards[0].id;
-    this.choosenNowWord = this.cards[0].querySelector('.word').innerText;
+    this.choosenWordIndex = 0;
   }
 
   chooseCard() {
@@ -80,8 +80,7 @@ export class Controller {
         Array.from(document.querySelectorAll('.card')).forEach((cardSelected) => cardSelected.classList.remove('choosen'));
         card.classList.add('choosen');
         this.view.selectCard(card, this.model);
-        this.choosenNowId = card.id;
-        this.choosenNowWord = card.querySelector('.word').innerText;
+        this.choosenWordIndex = card.querySelector('.word').id
       }
     }));
   }
@@ -100,8 +99,10 @@ export class Controller {
       const result = Array.from(e.results).map((result) => result[0]).map((result) => result.transcript).join('');
       this.view.recognition(result);
       recognition.stop();
+      let num = this.choosenWordIndex;
+      let arr = this.model;
       if (this.model.checkResult(result)) {
-        this.addToCorrectArray(this.choosenNowId, this.choosenNowWord);
+        this.addToCorrectArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
         this.view.result.innerHTML += ONE_START;
         this.addedRightAnwser();
         this.playCorrectAnwser();
@@ -113,22 +114,22 @@ export class Controller {
         }
         this.cards;
       } else {
-        this.addToWrongArray(this.choosenNowId, this.choosenNowWord);
+        this.addToWrongArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
         this.playWrongAnwser();
       }
       return false;
     });
   }
 
-  addToCorrectArray(id, word) {
-    const obj = { word, id };
+  addToCorrectArray(id, word, soundURL, wordTranslate) {
+    const obj = { word, id, soundURL, wordTranslate};
     if (this.isThereRepeat(this.model.correct, word)) {
       this.model.correct.push(obj);
     }
   }
 
-  addToWrongArray(id, word) {
-    const obj = { word, id };
+  addToWrongArray(id, word, soundURL, wordTranslate) {
+    const obj = { word, id, soundURL, wordTranslate };
     if (this.isThereRepeat(this.model.uncorrect, word)) {
       this.model.uncorrect.push(obj);
     }
