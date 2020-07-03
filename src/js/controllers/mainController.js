@@ -5,6 +5,7 @@ import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import getWordsList from '../utils/getWordsList';
 import SavannahController from '../games/savannah-game/Controller';
+import SprintController from '../games/sprint-game/controller/sprintController';
 import {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -75,6 +76,8 @@ export default class MainController {
           this.savannah.init(this.setDefaultHash);
           break;
         case MENU_ITEMS_NAMES.sprint:
+          this.game = new SprintController();
+          this.game.init();
           break;
         case MENU_ITEMS_NAMES.newGame:
           break;
