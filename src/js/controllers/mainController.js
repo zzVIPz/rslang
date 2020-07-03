@@ -16,6 +16,7 @@ import {
   AMOUNT_WORDS_PER_PAGE,
   AMOUNT_PAGES_PER_GROUP,
   WORDS_PER_PAGE,
+  SETTING_MODAL_TEXT,
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 
@@ -35,6 +36,7 @@ export default class MainController {
     this.mainView.init();
     this.accessData = this.mainModel.getAccessData();
     this.user = await this.mainModel.getUser();
+    console.log(this.user);
     this.user.token = this.accessData.token;
     this.mainView.renderMain(this.user);
     if (this.accessData.username) {
@@ -64,8 +66,11 @@ export default class MainController {
         case MENU_ITEMS_NAMES.speakit:
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
-          this.englishPuzzle = new EnglishPuzzleStart(this.user,
-            this.mainView, this.setDefaultHash);
+          this.englishPuzzle = new EnglishPuzzleStart(
+            this.user,
+            this.mainView,
+            this.setDefaultHash,
+          );
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
@@ -100,7 +105,7 @@ export default class MainController {
     this.mainView.onBtnStartClick = async (user) => {
       await this.setDefaultState();
       this.mainView.setSwiperDefaultState();
-      const wordsList = await this.getWordsList();
+      const wordsList = await this.getWordsList(user.studyMode);
       this.mainView.renderSwiperTemplate();
       this.initSwiper();
       this.mainView.renderCards(wordsList, user, this.swiper);
@@ -178,13 +183,23 @@ export default class MainController {
 
     this.mainView.onBtnShowAnswerClick = () => {
       this.mainView.disableToolButtons();
-      this.saveWord(WORDS_STATUS.repeat);
+      this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
     };
   }
 
-  async getWordsList() {
-    const repeatWordsAmount = this.user.cardsTotal - this.user.cardsNew;
+  async getWordsList(studyMode) {
+    let repeatWordsAmount = this.user.cardsTotal - this.user.cardsNew;
     this.newWordsAmount = this.user.cardsNew;
+
+    if (studyMode === SETTING_MODAL_TEXT.studySelect.newWords) {
+      this.newWordsAmount = this.user.cardsTotal;
+      repeatWordsAmount = 0;
+    }
+    if (studyMode === SETTING_MODAL_TEXT.studySelect.repeat) {
+      this.newWordsAmount = 0;
+      repeatWordsAmount = this.user.cardsTotal;
+    }
+
     let aggregatedWords = [];
 
     if (repeatWordsAmount) {
@@ -195,22 +210,30 @@ export default class MainController {
         repeatWordsAmount,
       );
       aggregatedWords = aggregatedWords[0].paginatedResults;
+
       if (aggregatedWords.length < repeatWordsAmount) {
         this.newWordsAmount += repeatWordsAmount - aggregatedWords.length;
       }
     }
 
-    const totalPagesRequest = Math.ceil(
-      (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
-    );
+    let wordsList = [];
 
-    let wordsList = await getWordsList(this.user, totalPagesRequest, this.mainModel.getWords);
-
-    wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
+    if (studyMode !== SETTING_MODAL_TEXT.studySelect.repeat) {
+      const totalPagesRequest = Math.ceil(
+        (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
+      );
+      wordsList = await getWordsList(this.user, totalPagesRequest, this.mainModel.getWords);
+      wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
+    }
     if (aggregatedWords.length) {
+      if (aggregatedWords.length < this.user.cardsTotal) {
+        this.mainView.showNotificationAboutRepeat(aggregatedWords.length);
+      }
       aggregatedWords.forEach((word) => {
         wordsList.push(word);
       });
+    } else {
+      this.mainView.showNotificationAboutRepeat();
     }
 
     return wordsList;
