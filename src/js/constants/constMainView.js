@@ -15,6 +15,13 @@ const MENU_ITEMS_NAMES = {
 
 const HASH_VALUES = {
   training: 'training',
+  audiocall: 'audiocall',
+  speakit: 'speakit',
+  dictionary: 'dictionary',
+  statistics: 'statistics',
+  englishPuzzle: 'english-puzzle',
+  savannah: 'savannah',
+  sprint: 'sprint',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -27,6 +34,9 @@ const DEFAULT_USER_SETTINGS = {
   translate: true,
   transcription: true,
   associativePicture: true,
+  additionalControl: true,
+  dictionaryInfo: true,
+  dictionaryControl: true,
   wordPronunciation: true,
   textPronunciation: true,
   automaticallyScroll: false,
@@ -38,6 +48,9 @@ const DEFAULT_USER_SETTINGS = {
 const SETTING_MODAL_TEXT = {
   title: 'Welcome,',
   subtitle: 'Here you can set up your study profile',
+  textBasicSettings: 'Basic settings (available before training mode)',
+  textAdditionalSettings: 'Advanced settings (available during training mode)',
+  textDictionarySettings: 'Dictionary settings',
   totalCards: 'Choose the total number of cards per day (5 - 100):',
   cardsPerDay: 'Choose the number of new words per day (5 - the total number of cards per day):',
   studyMode: 'Which study mode do you prefer?',
@@ -59,6 +72,9 @@ const SETTING_MODAL_TEXT = {
   btnKnow: "Show button 'I know'",
   btnDifficult: "Show button 'Difficult word'",
   btnShowAnswer: "Show button 'Show answer'",
+  btnAdditionalControl: 'Show additional control buttons',
+  btnDictionaryInfo: 'Show information about words',
+  btnDictionaryControl: 'Show dictionary control buttons',
   wordPronunciation: 'Pronounce study word',
   textPronunciation: 'Pronounce study text',
   automaticallyScroll: 'Automatic slide scrolling',
@@ -76,7 +92,7 @@ const MAIN_TEXT = {
   title: 'Dear,',
   subtitle: 'Your goals for today:',
   totalCards: 'Total cards:',
-  newWords: 'Total cards:',
+  newWords: 'Total new words cards:',
   studyMode: 'Study mode:',
   achievements: 'Your achievements:',
   learnedWords: 'Learned words:',
@@ -84,6 +100,12 @@ const MAIN_TEXT = {
   btnStart: 'CONTINUE',
   btnShowGraph: 'SHOW GRAPH',
 };
+
+const AMOUNT_WORDS_PER_PAGE = 19;
+
+const AMOUNT_PAGES_PER_GROUP = 29;
+
+const WORDS_PER_PAGE = 20;
 
 const SWIPER_TEMPLATE = `
   <div class="swiper-container">
@@ -97,12 +119,24 @@ const DELAY_NEXT_SLIDE_AUDIO_OFF = 1000;
 
 const DELAY_NEXT_SLIDE_AUDIO_ON = 700;
 
+const DELAY_HIDE_MENU = 170;
+
+const DELAY_SET_FOCUS_ON_INPUT = 300;
+
 const REPEAT_NUMBER = 3;
 
 const WORDS_STATUS = {
+  userWord: 'userWord.difficulty',
   easy: 'easy',
   difficult: 'difficult',
   repeat: 'repeat',
+};
+
+const WORD_COMPLEXITY = {
+  easy: 'EASY',
+  normal: 'NORMAL',
+  difficult: 'DIFFICULT',
+  repeat: 'REPEAT AGAIN',
 };
 
 const PAGES_LINKS = {
@@ -123,4 +157,10 @@ export {
   WORDS_STATUS,
   PAGES_LINKS,
   REPEAT_NUMBER,
+  AMOUNT_WORDS_PER_PAGE,
+  AMOUNT_PAGES_PER_GROUP,
+  WORDS_PER_PAGE,
+  DELAY_HIDE_MENU,
+  DELAY_SET_FOCUS_ON_INPUT,
+  WORD_COMPLEXITY,
 };

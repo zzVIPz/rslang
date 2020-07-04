@@ -7,6 +7,7 @@ export default class User {
     this.cardsNew = settings.cardsNew;
     this.currentGroup = settings.currentGroup;
     this.currentPage = settings.currentPage;
+    this.currentWordNumber = 0;
     this.studyMode = settings.studyMode;
     this.learningWordsMode = settings.learningWordsMode;
     this.transcription = settings.transcription;
@@ -15,6 +16,9 @@ export default class User {
     this.wordPronunciation = settings.wordPronunciation;
     this.textPronunciation = settings.textPronunciation;
     this.automaticallyScroll = settings.automaticallyScroll;
+    this.additionalControl = settings.additionalControl;
+    this.dictionaryInfo = settings.dictionaryInfo;
+    this.dictionaryControl = settings.dictionaryControl;
     this.btnKnow = settings.btnKnow;
     this.btnDifficult = settings.btnDifficult;
     this.btnShowAnswer = settings.btnShowAnswer;

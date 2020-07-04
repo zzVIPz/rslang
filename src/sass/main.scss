@@ -25,25 +25,20 @@
 @import "layouts/main";
 @import "layouts/footer";
 @import "layouts/modal-settings";
+@import "layouts/modal-short-stat";
 // pages
 
 // savannah-game
-@import "abstract/savannah-constants";
-@import "components/savannah-button";
-@import "components/savannah-closeBtn";
-@import "components/savannah-rating";
-@import "components/savannah-preloader";
-@import "layouts/savannah-header";
-@import "layouts/savannah-modal";
-@import "layouts/savannah-startPage";
-@import "layouts/savannah-layout";
-@import "components/savannah-sparkles";
+@import "savannah-game";
+
+// audiocall
+@import "audiocall";
+
+// english-puzzle
+@import "english-puzzle";
+
+// sprint-game
+@import "sprint-game/style";
 
 //speak_it-game
-@import "components/speak_it/speak_it-main_container.scss";
-@import "components/speak_it/speak_it-button_container.scss";
-@import "components/speak_it/speak_it-constants.scss";
-@import "components/speak_it/speak_it-inner_container.scss";
-@import "components/speak_it/speak_it-navigation-container.scss";
-@import "components/speak_it/speak_it-words_container.scss";
-@import "components/speak_it/speak_it-modals.scss";
+@import "speakIt";
