@@ -1,6 +1,6 @@
 import getMediaUrl from '../../../utils/getMediaUrl';
 import playAudio from '../../utils/playAudio';
-import INITIAL_BACKGROUND_POSITIONY from '../constSavannah';
+import { INITIAL_BACKGROUND_POSITION } from '../constSavannah';
 import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
 import {
   LOSE_ROUND_TITLE,
@@ -52,7 +52,7 @@ class GameStatistics {
     document.querySelector('.statistics__continue').addEventListener('click', () => {
       this.view.renderSavannah();
       this.model.setDefault();
-      this.view.backgroundPositionY = INITIAL_BACKGROUND_POSITIONY;
+      this.view.backgroundPositionY = INITIAL_BACKGROUND_POSITION;
     });
   }
 

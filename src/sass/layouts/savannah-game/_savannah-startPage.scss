@@ -5,10 +5,9 @@
 
   text-align: center;
 
-@include media-tablet {
-    margin-top: 40px;
+@include media-laptop {
+    margin-top: 0;
   }
-
   &__title {
     margin-bottom: 60px;
 
@@ -20,6 +19,10 @@
     letter-spacing: 13px;
 
     opacity: .8;
+
+@include media-laptop {
+      margin-bottom: 45px;
+    }
 
 @include media-mobile {
       margin-bottom: 15px;
@@ -38,8 +41,11 @@
 
     opacity: .8;
 
-@include media-mobile {
+@include media-laptop {
       margin-bottom: 35px;
+    }
+
+@include media-mobile {
 
       font-size: 15px;
     }
