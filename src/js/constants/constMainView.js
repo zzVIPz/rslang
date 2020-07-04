@@ -34,6 +34,9 @@ const DEFAULT_USER_SETTINGS = {
   translate: true,
   transcription: true,
   associativePicture: true,
+  additionalControl: true,
+  dictionaryInfo: true,
+  dictionaryControl: true,
   wordPronunciation: true,
   textPronunciation: true,
   automaticallyScroll: false,
@@ -45,6 +48,9 @@ const DEFAULT_USER_SETTINGS = {
 const SETTING_MODAL_TEXT = {
   title: 'Welcome,',
   subtitle: 'Here you can set up your study profile',
+  textBasicSettings: 'Basic settings (available before training mode)',
+  textAdditionalSettings: 'Advanced settings (available during training mode)',
+  textDictionarySettings: 'Dictionary settings',
   totalCards: 'Choose the total number of cards per day (5 - 100):',
   cardsPerDay: 'Choose the number of new words per day (5 - the total number of cards per day):',
   studyMode: 'Which study mode do you prefer?',
@@ -66,6 +72,9 @@ const SETTING_MODAL_TEXT = {
   btnKnow: "Show button 'I know'",
   btnDifficult: "Show button 'Difficult word'",
   btnShowAnswer: "Show button 'Show answer'",
+  btnAdditionalControl: 'Show additional control buttons',
+  btnDictionaryInfo: 'Show information about words',
+  btnDictionaryControl: 'Show dictionary control buttons',
   wordPronunciation: 'Pronounce study word',
   textPronunciation: 'Pronounce study text',
   automaticallyScroll: 'Automatic slide scrolling',
@@ -123,6 +132,13 @@ const WORDS_STATUS = {
   repeat: 'repeat',
 };
 
+const WORD_COMPLEXITY = {
+  easy: 'EASY',
+  normal: 'NORMAL',
+  difficult: 'DIFFICULT',
+  repeat: 'REPEAT AGAIN',
+};
+
 const PAGES_LINKS = {
   promo: './promo.html',
   about: './about.html',
@@ -146,4 +162,5 @@ export {
   WORDS_PER_PAGE,
   DELAY_HIDE_MENU,
   DELAY_SET_FOCUS_ON_INPUT,
+  WORD_COMPLEXITY,
 };

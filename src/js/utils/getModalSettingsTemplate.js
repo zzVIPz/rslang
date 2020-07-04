@@ -3,6 +3,7 @@ export default function getModalSettingsTemplate(user, settings) {
     <div class="settings animate__animated animate__backInDown">
       <h3 class="settings__title">${settings.title} ${user.username}</h3>
       <p class="settings__subtitle">${settings.subtitle}</p>
+      <p class="settings__text">${settings.textBasicSettings}</p>
       <div class="settings__cards-amount wrapper">
         <label class="settings__label" for="cards-amount">${settings.totalCards}</label>
         <input class="settings__input" type="number" id="cards-amount" min="5"
@@ -41,6 +42,7 @@ export default function getModalSettingsTemplate(user, settings) {
           </option>
         </select>
       </div>
+      <p class="settings__text">${settings.textAdditionalSettings}</p>
       <div class="settings__translate settings__wrapper">
         <input type="checkbox" id="translate" ${user.translate ? 'checked' : ''}>
         <label class="settings__label" for="translate">${settings.translate}</label>
@@ -66,6 +68,13 @@ export default function getModalSettingsTemplate(user, settings) {
         <input type="checkbox" id="show-answer" ${user.btnShowAnswer ? 'checked' : ''}>
         <label class="settings__label" for="show-answer">${settings.btnShowAnswer}</label>
       </div>
+      <div class="settings__block-show-additional-buttons settings__wrapper">
+        <input type="checkbox" id="show-additional-buttons"
+          ${user.additionalControl ? 'checked' : ''}>
+        <label class="settings__label" for="show-additional-buttons">
+          ${settings.btnAdditionalControl}
+        </label>
+      </div>
       <div class="settings__word-pronunciation settings__wrapper">
         <input type="checkbox" id="word-pronunciation" ${user.wordPronunciation ? 'checked' : ''}>
         <label class="settings__label" for="word-pronunciation">
@@ -79,12 +88,27 @@ export default function getModalSettingsTemplate(user, settings) {
         </label>
       </div>
       <div class="settings__automatically-scroll settings__wrapper">
-      <input type="checkbox" id="automatically-scroll"
-        ${user.automaticallyScroll ? 'checked' : ''}>
-      <label class="settings__label" for="automatically-scroll">
-        ${settings.automaticallyScroll}</label>
-    </div>
-       <div class="settings__buttons">
+        <input type="checkbox" id="automatically-scroll"
+          ${user.automaticallyScroll ? 'checked' : ''}>
+        <label class="settings__label" for="automatically-scroll">
+          ${settings.automaticallyScroll}</label>
+      </div>
+      <p class="settings__text">${settings.textDictionarySettings}</p>
+      <div class="settings__block-dictionary-info settings__wrapper">
+        <input type="checkbox" id="dictionary-info"
+          ${user.dictionaryInfo ? 'checked' : ''}>
+        <label class="settings__label" for="dictionary-info">
+          ${settings.btnDictionaryInfo}
+        </label>
+      </div>
+      <div class="settings__block-dictionary-control settings__wrapper">
+        <input type="checkbox" id="dictionary-control"
+          ${user.dictionaryControl ? 'checked' : ''}>
+        <label class="settings__label" for="dictionary-control">
+          ${settings.btnDictionaryControl}
+        </label>
+      </div>
+      <div class="settings__buttons">
         <button class="settings__button btn-accept">${settings.btnAccept}</button>
         <button class="settings__button btn-cancel">${settings.btnCancel}</button>
       </div>
