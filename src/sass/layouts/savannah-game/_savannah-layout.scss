@@ -16,7 +16,7 @@
   font-size: 2em;
   color: $text-color;
 
-@include media-mobile {
+  @include media-mobile {
     left: -6px;
 
     width: 100%;
@@ -30,22 +30,22 @@
   }
 }
 
-
 .app__content__translation-box {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
   width: 100%;
+  min-height: 50vh;
   margin-top: 200px;
 
   font-size: 1.5em;
   color: $text-color;
 
-@include media-tablet {
+  @include media-tablet {
     flex-wrap: wrap;
     margin-top: 150px;
   }
-
-@include media-mobile {
+  @include media-mobile {
     margin-top: 175px;
   }
 }
@@ -62,12 +62,11 @@
 
   user-select: none;
 
-@include media-tablet {
+  @include media-tablet {
     position: relative;
 
     display: inline-block;
     max-width: 270px;
-    margin: 0 100px 10px 87px;
     margin-right: 0;
 
     font-size: 2.5rem;
@@ -76,16 +75,10 @@
     text-align: left;
     word-break: break-all;
   }
-
-@include media-mobile {
-    margin: 0 35px 5px 50px;
-
+  @include media-mobile {
     font-size: 20px;
   }
-
-@include media-mobile-small {
-    margin: 0 15px 5px 39px;
-
+  @include media-mobile-small {
     font-size: 16px;
   }
 
@@ -106,9 +99,11 @@
 span .keyboard-num {
   max-width: 10px;
   min-height: 10px;
-  margin: 0;
+  margin: 0 3px;
+  padding-top: 3px;
 
   font-size: .5em;
+  color: #840707;
 }
 
 .cristal {
@@ -119,11 +114,10 @@ span .keyboard-num {
   width: 30px;
   margin-left: -20px;
 
-@include media-mobile {
+  @include media-mobile {
     bottom: 30px;
   }
-
-@include media-tablet {
+  @include media-tablet {
     bottom: 35px;
   }
 
@@ -131,7 +125,7 @@ span .keyboard-num {
     width: 100%;
     height: 100%;
 
-    animation: mover 1s infinite  alternate;
+    animation: mover 1s infinite alternate;
 
     @keyframes mover {
       0% {
@@ -186,4 +180,21 @@ span .keyboard-num {
 
 .noHover {
   pointer-events: none;
+}
+
+@media (max-width: 925px) {
+  .app__content__translation-box {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 70vh;
+  }
+
+  .translation {
+    display: flex;
+    justify-content: center;
+    min-width: 100%;
+    min-height: 50px;
+    margin-bottom: 10px;
+  }
 }

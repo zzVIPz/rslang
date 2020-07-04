@@ -1,15 +1,19 @@
 .app__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 100vw;
   max-height: 300px;
-  margin-top: 2%;
 
   text-align: center;
 
-@include media-laptop {
+  @include media-laptop {
     margin-top: 0;
   }
   &__title {
     margin-bottom: 60px;
+    padding-top: 15%;
 
     font-weight: 300;
     font-size: 32px;
@@ -20,11 +24,10 @@
 
     opacity: .8;
 
-@include media-laptop {
+    @include media-laptop {
       margin-bottom: 45px;
     }
-
-@include media-mobile {
+    @include media-mobile {
       margin-bottom: 15px;
 
       font-size: 25px;
@@ -41,12 +44,10 @@
 
     opacity: .8;
 
-@include media-laptop {
+    @include media-laptop {
       margin-bottom: 35px;
     }
-
-@include media-mobile {
-
+    @include media-mobile {
       font-size: 15px;
     }
   }

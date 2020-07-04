@@ -1,6 +1,9 @@
 .rating__container {
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   width: 100%;
   height: 120px;
 }
@@ -12,11 +15,7 @@
 }
 
 .rating__group {
-  position: absolute;
-  top: 20px;
-  right: 0;
-
-@include media-mobile {
+  @include media-mobile {
     position: relative;
     top: 0;
 
@@ -26,13 +25,8 @@
 }
 
 .rating__round {
-  position: absolute;
-  top: 70px;
-  right: 0;
-
-@include media-mobile {
+  @include media-mobile {
     position: relative;
-    top: 25px;
 
     justify-content: center;
     margin: 0 auto;
@@ -40,20 +34,17 @@
 }
 
 .text {
-  position: absolute;
-  top: 46px;
-  right: 62px;
-
-  height: 25px;
+  width: 250px;
+  padding-bottom: 10px;
 
   font-weight: 300;
   font-size: 18px;
-  line-height: 18px;
-  color: $text-color;
+  line-height: 20px;
+  color: #ffffff;
 
   opacity: .8;
 
-@include media-mobile {
+  @include media-mobile {
     top: 25px;
     right: 0;
 
@@ -65,9 +56,9 @@
     top: 95px;
     right: 188px;
 
-@include media-mobile {
+    @include media-mobile {
       top: 75px;
-      right: 0px;
+      right: 0;
     }
   }
 }
@@ -80,7 +71,7 @@
   width: 25px;
 
   font-size: 30px;
-  color: #ffd900!important;
+  color: #ffd900 !important;
 
   cursor: pointer;
 }
@@ -93,7 +84,7 @@
   width: 25px;
 
   font-size: 30px;
-  color: #ffd900!important;
+  color: #ffd900 !important;
 
   cursor: pointer;
 }
