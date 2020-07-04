@@ -18,6 +18,7 @@ import {
   WORDS_PER_PAGE,
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
+import DictionaryController from '../components/dictionary/dictionaryController';
 
 export default class MainController {
   constructor() {
@@ -58,6 +59,8 @@ export default class MainController {
       const dataName = e.target.dataset.name;
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
+          this.dictionary = new DictionaryController(this.mainModel);
+          this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
           break;
