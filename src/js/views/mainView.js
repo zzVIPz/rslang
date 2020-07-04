@@ -13,6 +13,7 @@ import toggleVisibility from '../utils/toggleVisibility';
 import getPlaylist from '../utils/getPlaylist';
 import getHintTemplate from '../utils/getHintTemplate';
 import getShortStatisticsTemplate from '../utils/getShortStatisticsTemplate';
+import getNotificationTemplate from '../utils/getNotificationTemplate';
 import Card from '../components/card/cardController';
 
 export default class MainView {
@@ -102,10 +103,12 @@ export default class MainView {
   disableStudyProfileProperties = () => {
     const totalCards = document.getElementById('cards-amount');
     const wordAmount = document.getElementById('word-amount');
-    const selectMode = document.querySelector('.settings__study-select');
+    const selectStudyMode = document.querySelector('.settings__study-select');
+    const selectTrainingMode = document.querySelector('.settings__text-select');
     totalCards.setAttribute('disabled', 'disabled');
     wordAmount.setAttribute('disabled', 'disabled');
-    selectMode.setAttribute('disabled', 'disabled');
+    selectStudyMode.setAttribute('disabled', 'disabled');
+    selectTrainingMode.setAttribute('disabled', 'disabled');
   };
 
   getUserAnswer(currentSlide = this.getCurrentSlide()) {
@@ -212,13 +215,21 @@ export default class MainView {
     });
   }
 
-  renderShortStatistics = (data) => {
+  renderShortStatistics(data) {
     const shortStatisticsTemplate = getShortStatisticsTemplate(data);
     this.showOverlay(shortStatisticsTemplate);
-    //todo: so you can see your modal
+    // todo: to Dima: so you can see your modal
     debugger;
     this.hideOverlay();
-  };
+  }
+
+  showNotificationAboutRepeat(cardsAmount) {
+    const notification = getNotificationTemplate(cardsAmount);
+    this.showOverlay(notification);
+    // debugger;
+    // todo: to Dima: so you can see your modal
+    this.hideOverlay();
+  }
 
   showSettingsModal(user) {
     this.settings.classList.toggle('user-tool__button-settings--active');
