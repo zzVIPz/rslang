@@ -16,6 +16,9 @@ export default class User {
     this.wordPronunciation = settings.wordPronunciation;
     this.textPronunciation = settings.textPronunciation;
     this.automaticallyScroll = settings.automaticallyScroll;
+    this.additionalControl = settings.additionalControl;
+    this.dictionaryInfo = settings.dictionaryInfo;
+    this.dictionaryControl = settings.dictionaryControl;
     this.btnKnow = settings.btnKnow;
     this.btnDifficult = settings.btnDifficult;
     this.btnShowAnswer = settings.btnShowAnswer;

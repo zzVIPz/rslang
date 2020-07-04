@@ -226,7 +226,7 @@ export default class MainView {
   showNotificationAboutRepeat(cardsAmount) {
     const notification = getNotificationTemplate(cardsAmount);
     this.showOverlay(notification);
-    debugger;
+    // debugger;
     // todo: to Dima: so you can see your modal
     this.hideOverlay();
   }

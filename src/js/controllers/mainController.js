@@ -109,6 +109,7 @@ export default class MainController {
       this.mainView.renderSwiperTemplate();
       this.initSwiper();
       this.mainView.renderCards(wordsList, user, this.swiper);
+      this.swiper.update();
       this.mainView.disableSwiperNextSlide();
       this.mainView.setFocusToInput();
       window.location.hash = HASH_VALUES.training;
@@ -211,7 +212,7 @@ export default class MainController {
       );
       aggregatedWords = aggregatedWords[0].paginatedResults;
 
-      if (aggregatedWords.length < repeatWordsAmount) {
+      if (aggregatedWords.length < repeatWordsAmount && this.newWordsAmount) {
         this.newWordsAmount += repeatWordsAmount - aggregatedWords.length;
       }
     }
@@ -225,16 +226,19 @@ export default class MainController {
       wordsList = await getWordsList(this.user, totalPagesRequest, this.mainModel.getWords);
       wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
     }
+
     if (aggregatedWords.length) {
-      if (aggregatedWords.length < this.user.cardsTotal) {
-        this.mainView.showNotificationAboutRepeat(aggregatedWords.length);
-      }
       aggregatedWords.forEach((word) => {
         wordsList.push(word);
       });
+      if (aggregatedWords.length < this.user.cardsTotal) {
+        this.mainView.showNotificationAboutRepeat(aggregatedWords.length);
+      }
     } else {
       this.mainView.showNotificationAboutRepeat();
     }
+
+    console.log('current training words', wordsList);
 
     return wordsList;
   }
@@ -262,34 +266,20 @@ export default class MainController {
   async saveWord(category, optional = {}) {
     if (this.slideIndex === this.swiper.realIndex) {
       const wordId = this.mainView.getWordId();
-      const createRecord = async () => {
-        await this.mainModel.createUserWord(wordId, {
-          difficulty: WORDS_STATUS[category],
-          optional,
-        });
-      };
+
       const wordById = await this.mainModel.getAggregatedWordById(wordId);
       if (wordById.userWord) {
         if (wordById.userWord.difficulty !== WORDS_STATUS[category]) {
-          await this.mainModel.deleteUserWord(wordId);
-          await createRecord();
+          await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], optional);
         }
       } else {
         this.updateUserSettings();
-        await createRecord();
+        await this.mainModel.createUserWord(wordId, WORDS_STATUS[category], optional);
       }
       this.showCorrectAnswer();
     } else {
       this.playAudio();
     }
-  }
-
-  async updateUserWord(category, optional = {}) {
-    const wordId = this.mainView.getWordId();
-    await this.mainModel.updateUserWord(wordId, {
-      difficulty: WORDS_STATUS[category],
-      optional,
-    });
   }
 
   async checkUserAnswer() {
@@ -303,9 +293,11 @@ export default class MainController {
           this.increaseCounter();
           const currentMistakesCounter = await this.checkMistakesCounter();
           if (currentMistakesCounter) {
-            await this.updateUserWord(WORDS_STATUS.repeat, {
+            const wordId = this.mainView.getWordId();
+            await this.mainModel.updateUserWord(wordId, WORDS_STATUS.repeat, {
               mistakesCounter: currentMistakesCounter,
             });
+
             this.allowAccessNextSlide();
           } else {
             await this.saveWord(WORDS_STATUS.easy);
@@ -329,9 +321,9 @@ export default class MainController {
     if (this.allUserWordsId.includes(wordId)) {
       const wordInfo = await this.mainModel.getUsersWordById(wordId);
       if (
-        wordInfo.difficulty === WORDS_STATUS.repeat
-        && wordInfo.optional
-        && wordInfo.optional.mistakesCounter
+        wordInfo.difficulty === WORDS_STATUS.repeat &&
+        wordInfo.optional &&
+        wordInfo.optional.mistakesCounter
       ) {
         const { mistakesCounter } = wordInfo.optional;
         return mistakesCounter - 1;
@@ -356,9 +348,9 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation
-        && !this.user.wordPronunciation
-        && this.user.automaticallyScroll
+        !this.user.textPronunciation &&
+        !this.user.wordPronunciation &&
+        this.user.automaticallyScroll
       ) {
         setTimeout(() => {
           this.swiper.slideNext();
