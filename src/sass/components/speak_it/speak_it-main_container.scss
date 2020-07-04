@@ -74,46 +74,20 @@
   transition: background-color .5s ease-out;
   @extend %text;
 }
-
-
-
 .speakIt_game{
   background: url(/src/assets/images/speak_it-background.jpg) rgb(124, 123, 123);
   min-width: 100vw;
-  // height: calc(100vh - 93px);
   background-position: 0;
 }
 .preloader_cont{
   padding-top: 70px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .examples:hover {
   color: $color_text;
 
   cursor: pointer;
 }
-
-// .speakIt_background {
-//   background: url(/src/assets/images/speak_it-background.jpg) rgb(124, 123, 123);
-//   background-position-x: center;
-// }
 .main {
   padding: 0;
 }
@@ -127,5 +101,16 @@
 
     background-size: 85vw 59vw;
   }
+
+  .container_over {
+    width: 85vw;
+    height: 63vw;
+}
+
+
+  .examples, .tanslations, .button, .inner, .text, .word_look {
+    font-size: 4vw!important;
+    line-height: 4vw!important;
+}
 }
 
