@@ -55,18 +55,17 @@ const PRELOADER = `
 </div>`;
 
 const STATISTICS_MODAL_LAYOUT = `
-  <div class="statistics__title"></div>
-  <div class="statistics__words-set">
+  <div class="statistics__title">Попробуй еще раз!</div>
+  <div class="statistics__words_speak">
     <div class="statistics__words-set_wrong">
       <div class="wrong_title">Ошибок</div>
     </div>
     <div class="statistics__words-set_correct">
       <div class="correct_title">Знаю</div>
     </div>
-  </div>
-  <div class="statistics__continue">Продолжить тренировку</div>
-  <div class="statistics__back">Вернуться к списку тренировок</div>
-`;
+    <div class="statistics__continue">Продолжить тренировку</div>
+    <div class="statistics__back">Вернуться к списку тренировок</div>
+  </div>`;
 
 const ONE_START = ' <label class="group gold" id="0"></label>';
 const QUANTITY_MISS_RIGHT_ANWS = 1;
@@ -85,7 +84,6 @@ const GAME_PAGE = ` <div class="app speakIt_game">
                           <label class="group star" id="5"></label>
                         </div>
                         <div class="text_raiting">Уровень сложности</div>
-
                         <div class="raiting_row rating_round">
                           <label class="round star" id="0"></label>
                           <label class="round star" id="1"></label>
@@ -95,10 +93,8 @@ const GAME_PAGE = ` <div class="app speakIt_game">
                           <label class="round star" id="5"></label>
                         </div>
                         <div class="text_raiting">Раунд</div>
-                      
                         <div class="level result"></div>
                       </div>
-
                       <div class="container_over">
                         <div class="card_over">
                           <div class="front">
@@ -116,16 +112,13 @@ const GAME_PAGE = ` <div class="app speakIt_game">
                           </div>
                         </div>
                       </div>
-
                       <p class="translation">Перевод слова</p>
                       <div class="inner_container not_display">
                         <div class="mic icon"></div>
                         <div class="inner"></div>
                         <div class="clear icon"></div>
                       </div>
-
                       <div class="modal_container not_display">
-                      
                         <div class="modal_window">
                           <div class="app__modal__box_title">Вы действительно хотите выйти?</div>
                           <div class="app__modal__box_text"></div>
@@ -146,18 +139,9 @@ const GAME_PAGE = ` <div class="app speakIt_game">
                           </div>
                         </div>
                         <div class="statistics__continue">Продолжить тренировку</div>
-                        <div class="statistics__back">Вернуться к списку тренировок</div>
-                      
-                      
-                      
+                        <div class="statistics__back">Вернуться к списку тренировок</div>                  
                       </div>
-                     
-                        
                       <div class="words_container"></div>
-
-
-
-
                       <div class="button_container">
                         <button class="button restart">More Words</button>
                         <button class="button speak">Speak Please</button>
@@ -183,9 +167,11 @@ const CORRECT_WORDS = 'Правильно произнесенные слова'
 const UNCORRECT_WORDS = 'Неправильно произнесенные слова';
 const IDS_TEXT = 'ID of this word: ';
 const BACK = 'Назад';
+const SVG_URL = "../src/assets/svg/speaker-for-final-modal.svg";
+const ID_OF_WORD = 'id of this word is: ';
 export {
   START_PAGE, PRELOADER, ONE_START, QUANTITY_MISS_RIGHT_ANWS, QUANTITY_STARS_NEXT_LEVEL,
   GAME_PAGE, ONE_CARD, container, PRELOADING_TIME, QUANTITY_WORDS_IN_PAGE,
   QUANTITY_ROUNDS_LEVELS, CORRECT_MP3, MISS_MP3, SPEAK_MODE, VIEW_MODE, CORRECT_WORDS, UNCORRECT_WORDS, IDS_TEXT,
-  BACK, MICROPHONE_TIME, STATISTICS_MODAL_LAYOUT 
+  BACK, MICROPHONE_TIME, STATISTICS_MODAL_LAYOUT, SVG_URL, ID_OF_WORD
 };

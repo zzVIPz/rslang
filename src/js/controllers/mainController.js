@@ -66,7 +66,7 @@ export default class MainController {
         case MENU_ITEMS_NAMES.statistics:
           break;
         case MENU_ITEMS_NAMES.speakit:
-          startSpeakItGame(this.user, this.mainView);
+          startSpeakItGame(this.user);
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
           this.englishPuzzle = new EnglishPuzzleStart(

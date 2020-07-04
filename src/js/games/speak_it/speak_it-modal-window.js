@@ -1,6 +1,8 @@
 import {
   container,
-  STATISTICS_MODAL_LAYOUT
+  STATISTICS_MODAL_LAYOUT, 
+  SVG_URL,
+  ID_OF_WORD
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
 
@@ -26,9 +28,8 @@ export class ModalWindow {
   }
   stopGame() {
       container.innerHTML = '';
-      // container.classList.remove('speakIt');
-      // document.body.classList.remove('speakIt_background');
       this.mainView.renderMain(this.user);
+      window.history.replaceState(null, null, ' ');
   }
 
   toggelModalWindov() {
@@ -65,12 +66,12 @@ export class ModalWindow {
     soundBox.classList.add('soundBox');
     let wordAudio = document.createElement('img');
     wordAudio.classList.add('word-audio')
-    wordAudio.src = "../src/assets/svg/speaker-for-final-modal.svg";
+    wordAudio.src = SVG_URL;
     wordAudio.id = getMediaUrl(word.soundURL);
     let wordEng = document.createElement('div');
     wordEng.classList.add('word-eng');
     wordEng.innerText = word.word;
-    wordEng.title = 'id of this word is: ' + word.id;
+    wordEng.title = ID_OF_WORD + word.id;
     let wordTrans = document.createElement('div')
     wordTrans.classList.add('word-trans');
     wordTrans.innerText = '- ' + word.wordTranslate;

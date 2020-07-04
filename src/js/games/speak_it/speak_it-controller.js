@@ -8,7 +8,6 @@ import {
 } from './speak_it-constants';
 import { View } from './speak_it-view';
 import { Model } from './speak_it-model';
-import { recognition } from './speak_it-recognition';
 import { ModalWindow } from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
@@ -36,6 +35,13 @@ export class Controller {
     this.user = user;
     this.mainModel = new MainModel();
     this.mainView = new MainView();
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    this.recognition = new SpeechRecognition();
+    this.recognition.interimResults = true;
+    this.recognition.lang = 'en-US';
+    this.recognition.maxAlternatives = 1;
+    this.recognition.continuous = true;
+    this.recognition.interimResults = false;
   }
 
   initGame() {
@@ -95,16 +101,14 @@ export class Controller {
   }
 
   getResultOfSpeak() {
-    recognition.addEventListener('result', (e) => {
-      const result = Array.from(e.results).map((result) => result[0]).map((result) => result.transcript).join('');
+    this.recognition.addEventListener('result', (e) => {
+      const result = e.results[0][0].transcript;
       this.view.recognition(result);
-      recognition.stop();
       let num = this.choosenWordIndex;
       let arr = this.model;
       if (this.model.checkResult(result)) {
         this.addToCorrectArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
         this.view.result.innerHTML += ONE_START;
-        console.log(arr.datasWords[num]);
         this.addedRightAnwser();
         this.playCorrectAnwser();
         const correctelement = document.querySelector('.choosen');
@@ -116,14 +120,11 @@ export class Controller {
         this.cards;
       } else {
         this.addToWrongArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
-        console.log(arr.datasWords[num]);
-        
         this.playWrongAnwser();
       }
-      return false;
     });
+    this.recognition.stop();
   }
-
   addToCorrectArray(id, word, soundURL, wordTranslate) {
     const obj = { word, id, soundURL, wordTranslate};
     if (this.isThereRepeat(this.model.correct, word)) {
@@ -164,7 +165,7 @@ export class Controller {
 
   closeStartPage() {
     this.closeBtn.onclick = () => {
-      const modal = new ModalWindow(this.model.correct, this.model.uncorrect);
+      const modal = new ModalWindow(this.model.correct, this.model.uncorrect, this.setDefaultHash);
       modal.runListeners(this.user, this.mainView);
       modal.toggelModalWindov();
     };
@@ -182,16 +183,16 @@ export class Controller {
     this.microphone.onclick = () => {
       this.recognitionMod = !this.recognitionMod;
       if (this.recognitionMod) {
-        recognition.start();
+        this.recognition.start();
         this.view.toggleMicrophone();
         setTimeout(() => {
-          recognition.stop();
+          this.recognition.stop();
           this.view.toggleMicrophone();
           this.recognitionMod = !this.recognitionMod;
           return false;
         }, MICROPHONE_TIME);
       } else {
-        recognition.stop();
+        this.recognition.stop();
         this.view.toggleMicrophone();
         return false;
       }

@@ -29,131 +29,36 @@
   box-shadow: 1px 0 2px 0 rgba(0, 0, 0, .16);
 }
 .modal_statistic {
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  box-sizing: border-box;
   width: 100%;
-  max-width: 784px;
-  height: calc(100% - 100px);
-  max-height: 400px;
-  margin: 0 auto;
-  padding: 15px 16px;
-  overflow: auto;
-  text-align: center;
-  background-color: #ffffff;
-  border: 1px solid #e6e9ee;
-  border-radius: 8px;                
-  display: flex;
-  z-index: 4;
-  position: fixed;
-  top: calc((100% - 400px) /2);
-  left: calc((100% - 784px) /2);
+    max-width: 784px;
+    position: fixed;
+    z-index: 4;
+    top: 46px;
+    left: calc((100% - 784px) /2);
 }
-.statistics__title {
-  font-weight: 300;
-  font-size: 25px;
-  line-height: .85;
-  color: #37383c;
-}
-.statistics__words-set {
+
+.statistics__words_speak {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 542px;
-  max-height: 500px;
+  max-height: 66vh;
+  min-height: 400px;
   margin: 0 auto;
   margin-top: 20px;
   overflow: auto;
 }
-.statistics__words-set_wrong {
-  width: 100%;
-  font-size: 12px;
-  line-height: 1.33;
-  color: #ed593b;
-  text-transform: uppercase;
-}
+
 .wrong_title, .correct_title {
   font-weight: 700;
-}
-.wordBox {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-}
-.soundBox {
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-  line-height: 0;
-}
-.word-eng {
-  max-width: calc(50% - 54px);
-  margin-right: 6px;
-  overflow: hidden;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #2582e7;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: normal;
-  cursor: pointer;
-}
-.word-trans {
-  flex-grow: 1;
-  max-width: calc(50% - 54px);
-  overflow: hidden;
-  font-size: 16px;
-  line-height: 1.25;
-  text-align: start;
-  color: #37383c;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: normal;
-}
-.statistics__words-set_correct {
-  width: 100%;
-  font-size: 12px;
-  line-height: 1.33;
-  color: #28c38a;
-  text-transform: uppercase;
-}
-.word-audio {
-  width: 100%;
-  cursor: pointer;
-}
-.statistics__continue{
-  width: 200px;
-  margin: 0 auto;
-  margin-top: 10px;
-  padding: 10px 42px;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.43;
   text-align: center;
-  color: #fff;
-  background-color: #00c49d;
-  border-radius: 4px;
-  cursor: pointer;
 }
 .statistics__continue:hover{
   color: #00c49d;
   background-color: #fff;
-}
-.statistics__back{
-  margin-top: 20px;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.71;
-  text-align: center;
-  color: #00c49d;
-  text-decoration: underline;
-  cursor: pointer;
 }
 .modal_view {
   margin-top: 20px;
