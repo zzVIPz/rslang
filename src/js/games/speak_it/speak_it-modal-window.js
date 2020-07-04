@@ -26,8 +26,8 @@ export class ModalWindow {
   }
   stopGame() {
       container.innerHTML = '';
-      container.classList.remove('speakIt');
-      document.body.classList.remove('speakIt_background');
+      // container.classList.remove('speakIt');
+      // document.body.classList.remove('speakIt_background');
       this.mainView.renderMain(this.user);
   }
 

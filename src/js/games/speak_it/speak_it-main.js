@@ -24,8 +24,8 @@ function runGamePage(group, round, user, mainView) {
 }
 
 export function startSpeakItGame(user, mainView) {
-  document.body.classList.add('speakIt_background');
-  container.classList.add('speakIt');
+  // document.body.classList.add('speakIt_background');
+  // container.classList.add('speakIt');
   container.innerHTML = START_PAGE;
   const preload = new StartingClass();
   preload.addListeners();

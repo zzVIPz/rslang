@@ -1,5 +1,5 @@
 const START_PAGE = `
-<div class="app">
+<div class="app speakIt_game">
     <div class="header_close">
       <a href="#" class="close"></a>
     </div>
@@ -40,7 +40,7 @@ const START_PAGE = `
   </div>`;
 
 const PRELOADER = `
-<div class="preloader__conatiner"> 
+<div class="preloader_cont speakIt_game"> 
     <div class="preloader">
       <div class="item-1"></div>
       <div class="item-2"></div>
@@ -71,7 +71,8 @@ const STATISTICS_MODAL_LAYOUT = `
 const ONE_START = ' <label class="group gold" id="0">★</label>';
 const QUANTITY_MISS_RIGHT_ANWS = 1;
 const QUANTITY_STARS_NEXT_LEVEL = 10;
-const GAME_PAGE = ` <div class="header_close">
+const GAME_PAGE = ` <div class="app speakIt_game">
+                      <div class="header_close">
                         <a href="#" class="close"></a>
                       </div>
                       <div class="raiting_container">
@@ -160,7 +161,8 @@ const GAME_PAGE = ` <div class="header_close">
                       <div class="button_container">
                         <button class="button restart">More Words</button>
                         <button class="button speak">Speak Please</button>
-                      </div>`;
+                      </div>
+                    </div>`;
 const ONE_CARD = `<div class="card">
                   <div class='word_listen'></div>
                   <div class="word_look">
