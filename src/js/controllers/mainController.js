@@ -3,13 +3,10 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
-<<<<<<< HEAD
 import { startSpeakItGame } from '../games/speak_it/speak_it-main';
-=======
 import getWordsList from '../utils/getWordsList';
 import SavannahController from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
->>>>>>> develop
 import {
   MENU_ITEMS_NAMES,
   HASH_VALUES,

@@ -1,31 +1,31 @@
 const START_PAGE = `
 <div class="app speakIt_game">
     <div class="header_close">
-      <a href="#" class="close"></a>
+      <a href="#" class="close speakIt_close"></a>
     </div>
     <div class="raiting_container">
       <div class="raiting_row rating_group ">
-        <label class="group star" id="0">★</label>
-        <label class="group star" id="1">★</label>
-        <label class="group star" id="2">★</label>
-        <label class="group star" id="3">★</label>
-        <label class="group star" id="4">★</label>
-        <label class="group star" id="5">★</label>
+        <label class="group star" id="0"></label>
+        <label class="group star" id="1"></label>
+        <label class="group star" id="2"></label>
+        <label class="group star" id="3"></label>
+        <label class="group star" id="4"></label>
+        <label class="group star" id="5"></label>
       </div>
-      <div class="text">Уровень сложности</div>
+      <div class="text_raiting">Уровень сложности</div>
     <div class="raiting_row rating_round">
-      <label class="round star" id="0">★</label>
-      <label class="round star" id="1">★</label>
-      <label class="round star" id="2">★</label>
-      <label class="round star" id="3">★</label>
-      <label class="round star" id="4">★</label>
-      <label class="round star" id="5">★</label>
+      <label class="round star" id="0"></label>
+      <label class="round star" id="1"></label>
+      <label class="round star" id="2"></label>
+      <label class="round star" id="3"></label>
+      <label class="round star" id="4"></label>
+      <label class="round star" id="5"></label>
     </div>
-    <div class="text">Раунд</div>
+    <div class="text_raiting">Раунд</div>
   </div>
 
     <div class="app__content">
-      <div class="app__content__title">Speak it simply</div>
+      <div class="app__content__title speakIt_title">Speak it simply</div>
       <div class="app__content__text">Потренируйся в произношении слов</div>
       <button class="app__button">Начать</button>
     </div>
@@ -68,33 +68,33 @@ const STATISTICS_MODAL_LAYOUT = `
   <div class="statistics__back">Вернуться к списку тренировок</div>
 `;
 
-const ONE_START = ' <label class="group gold" id="0">★</label>';
+const ONE_START = ' <label class="group gold" id="0"></label>';
 const QUANTITY_MISS_RIGHT_ANWS = 1;
 const QUANTITY_STARS_NEXT_LEVEL = 10;
 const GAME_PAGE = ` <div class="app speakIt_game">
                       <div class="header_close">
-                        <a href="#" class="close"></a>
+                        <a href="#" class="close speakIt_close"></a>
                       </div>
                       <div class="raiting_container">
                         <div class="raiting_row rating_group ">
-                          <label class="group star" id="0">★</label>
-                          <label class="group star" id="1">★</label>
-                          <label class="group star" id="2">★</label>
-                          <label class="group star" id="3">★</label>
-                          <label class="group star" id="4">★</label>
-                          <label class="group star" id="5">★</label>
+                          <label class="group star" id="0"></label>
+                          <label class="group star" id="1"></label>
+                          <label class="group star" id="2"></label>
+                          <label class="group star" id="3"></label>
+                          <label class="group star" id="4"></label>
+                          <label class="group star" id="5"></label>
                         </div>
-                        <div class="text">Уровень сложности</div>
+                        <div class="text_raiting">Уровень сложности</div>
 
                         <div class="raiting_row rating_round">
-                          <label class="round star" id="0">★</label>
-                          <label class="round star" id="1">★</label>
-                          <label class="round star" id="2">★</label>
-                          <label class="round star" id="3">★</label>
-                          <label class="round star" id="4">★</label>
-                          <label class="round star" id="5">★</label>
+                          <label class="round star" id="0"></label>
+                          <label class="round star" id="1"></label>
+                          <label class="round star" id="2"></label>
+                          <label class="round star" id="3"></label>
+                          <label class="round star" id="4"></label>
+                          <label class="round star" id="5"></label>
                         </div>
-                        <div class="text">Раунд</div>
+                        <div class="text_raiting">Раунд</div>
                       
                         <div class="level result"></div>
                       </div>

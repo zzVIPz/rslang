@@ -23,6 +23,10 @@
 
 @extend %box_shadow;
 }
+
+.card:hover {
+  background: radial-gradient(circle, rgba(200, 255, 250, 0.6) 0%, rgba(99, 104, 168, 0.7) 100%);
+}
 .word_listen {
   width: 35px;
   height: 35px;
@@ -48,7 +52,7 @@
   text-align: center;
 }
 .choosen {
-  background: radial-gradient(circle, rgba(174,250,242,.4) 0%, rgba(56,63,168,.5) 100%);
+  background: radial-gradient(circle, rgba(174,250,242,.2) 0%, rgba(56,63,168,.3) 100%);
   border: 1px solid transparent;
   box-shadow: 0 1px 1px $color_shadow;
 }

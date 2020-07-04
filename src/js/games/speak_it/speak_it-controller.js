@@ -104,6 +104,7 @@ export class Controller {
       if (this.model.checkResult(result)) {
         this.addToCorrectArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
         this.view.result.innerHTML += ONE_START;
+        console.log(arr.datasWords[num]);
         this.addedRightAnwser();
         this.playCorrectAnwser();
         const correctelement = document.querySelector('.choosen');
@@ -115,6 +116,8 @@ export class Controller {
         this.cards;
       } else {
         this.addToWrongArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
+        console.log(arr.datasWords[num]);
+        
         this.playWrongAnwser();
       }
       return false;
