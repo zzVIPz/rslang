@@ -1,12 +1,12 @@
 import {
   container,
-  STATISTICS_MODAL_LAYOUT, 
+  STATISTICS_MODAL_LAYOUT,
   SVG_URL,
-  ID_OF_WORD
+  ID_OF_WORD,
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
 
-export class ModalWindow {
+export default class ModalWindow {
   constructor(correct, uncorrect) {
     this.cancelBtn = document.querySelector('.modal_cancel');
     this.backToMianBtn = document.querySelector('.modal_close');
@@ -23,13 +23,14 @@ export class ModalWindow {
     this.cancelBtn.onclick = () => this.toggelModalWindov();
     this.backToMianBtn.onclick = () => {
       this.stopGame();
-    }
+    };
     this.viewStatisticMethod();
   }
+
   stopGame() {
-      container.innerHTML = '';
-      this.mainView.renderMain(this.user);
-      window.history.replaceState(null, null, ' ');
+    container.innerHTML = '';
+    this.mainView.renderMain(this.user);
+    window.history.replaceState(null, null, ' ');
   }
 
   toggelModalWindov() {
@@ -40,8 +41,8 @@ export class ModalWindow {
     this.viewStatistic.onclick = () => {
       this.statisticModalWindow.classList.toggle('not_display');
       this.statisticModalWindow.innerHTML = STATISTICS_MODAL_LAYOUT;
-      this.backToGame = document.querySelector('.statistics__continue')
-      this.closeGame = document.querySelector('.statistics__back')
+      this.backToGame = document.querySelector('.statistics__continue');
+      this.closeGame = document.querySelector('.statistics__back');
       this.statisticWrongSet = document.querySelector('.statistics__words-set_wrong');
       this.statisticCorrectSet = document.querySelector('.statistics__words-set_correct');
       this.wrongTitle = this.statisticModalWindow.querySelector('.wrong_title');
@@ -53,46 +54,46 @@ export class ModalWindow {
   addStatisticToPage() {
     this.addWords(this.uncorrectWordsArray, this.statisticWrongSet);
     this.addWords(this.correctWordsArray, this.statisticCorrectSet);
-    this.wrongTitle.innerText += ': ' + this.uncorrectWordsArray.length;
-    this.rightTitle.innerText += ': ' + this.correctWordsArray.length;
-    this.addStatisticMethods()
+    this.wrongTitle.innerText += `: ${this.uncorrectWordsArray.length}`;
+    this.rightTitle.innerText += `: ${this.correctWordsArray.length}`;
+    this.addStatisticMethods();
   }
 
-  addWords(array, container) {
-    for (let word of array) {
-      let oneRow = document.createElement('div');
-    oneRow.classList.add('wordBox');
-    let soundBox = document.createElement('div');
-    soundBox.classList.add('soundBox');
-    let wordAudio = document.createElement('img');
-    wordAudio.classList.add('word-audio')
-    wordAudio.src = SVG_URL;
-    wordAudio.id = getMediaUrl(word.soundURL);
-    let wordEng = document.createElement('div');
-    wordEng.classList.add('word-eng');
-    wordEng.innerText = word.word;
-    wordEng.title = ID_OF_WORD + word.id;
-    let wordTrans = document.createElement('div')
-    wordTrans.classList.add('word-trans');
-    wordTrans.innerText = '- ' + word.wordTranslate;
-    soundBox.appendChild(wordAudio);
-    oneRow.appendChild(soundBox);
-    oneRow.appendChild(wordEng);
-    oneRow.appendChild(wordTrans);
-    container.appendChild(oneRow);
+  addWords(array, placeForPutting) {
+    for (const word of array) {
+      const oneRow = document.createElement('div');
+      oneRow.classList.add('wordBox');
+      const soundBox = document.createElement('div');
+      soundBox.classList.add('soundBox');
+      const wordAudio = document.createElement('img');
+      wordAudio.classList.add('word-audio');
+      wordAudio.src = SVG_URL;
+      wordAudio.id = getMediaUrl(word.soundURL);
+      const wordEng = document.createElement('div');
+      wordEng.classList.add('word-eng');
+      wordEng.innerText = word.word;
+      wordEng.title = ID_OF_WORD + word.id;
+      const wordTrans = document.createElement('div');
+      wordTrans.classList.add('word-trans');
+      wordTrans.innerText = `- ${word.wordTranslate}`;
+      soundBox.appendChild(wordAudio);
+      oneRow.appendChild(soundBox);
+      oneRow.appendChild(wordEng);
+      oneRow.appendChild(wordTrans);
+      placeForPutting.appendChild(oneRow);
     }
-  };
+  }
 
   addStatisticMethods() {
     this.backToGame.addEventListener('click', () => {
       this.closeStatisticWindow();
-    })
+    });
     this.closeGame.addEventListener('click', () => {
       this.stopGame();
-    })
+    });
     const sounds = this.statisticModalWindow.querySelectorAll('.word-audio');
-    sounds.forEach(sound => sound.addEventListener('click', (e) => {
-      this.playSound(e.target)
+    sounds.forEach((sound) => sound.addEventListener('click', (e) => {
+      this.playSound(e.target);
     }));
   }
 

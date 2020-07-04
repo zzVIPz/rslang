@@ -7,8 +7,8 @@ import {
   PRELOADING_TIME,
   QUANTITY_WORDS_IN_PAGE,
 } from './speak_it-constants';
-import { StartingClass } from './speak_it-starting-page';
-import { Controller } from './speak_it-controller';
+import StartingClass from './speak_it-starting-page';
+import Controller from './speak_it-controller';
 
 function runGamePage(group, round, user) {
   container.innerHTML = PRELOADER;
@@ -23,7 +23,7 @@ function runGamePage(group, round, user) {
   }, PRELOADING_TIME);
 }
 
-export function startSpeakItGame(user) {
+export default function startSpeakItGame(user) {
   container.innerHTML = START_PAGE;
   const preload = new StartingClass();
   preload.addListeners();

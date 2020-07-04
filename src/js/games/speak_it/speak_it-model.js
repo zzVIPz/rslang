@@ -1,6 +1,6 @@
 import { QUANTITY_MISS_RIGHT_ANWS } from './speak_it-constants';
 
-export class Model {
+export default class Model {
   constructor() {
     this.arrayNumders = Array.from({ length: 20 }, (v, k) => k);
     this.datasWords = [];
@@ -75,6 +75,7 @@ export class Model {
     if (mis <= QUANTITY_MISS_RIGHT_ANWS) {
       return true;
     }
+    return false;
   }
 
   setRandomStartPage(round) {

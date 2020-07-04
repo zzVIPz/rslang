@@ -3,7 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
-import { startSpeakItGame } from '../games/speak_it/speak_it-main';
+import startSpeakItGame from '../games/speak_it/speak_it-main';
 import getWordsList from '../utils/getWordsList';
 import SavannahController from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
@@ -326,9 +326,9 @@ export default class MainController {
     if (this.allUserWordsId.includes(wordId)) {
       const wordInfo = await this.mainModel.getUsersWordById(wordId);
       if (
-        wordInfo.difficulty === WORDS_STATUS.repeat &&
-        wordInfo.optional &&
-        wordInfo.optional.mistakesCounter
+        wordInfo.difficulty === WORDS_STATUS.repeat
+        && wordInfo.optional
+        && wordInfo.optional.mistakesCounter
       ) {
         const { mistakesCounter } = wordInfo.optional;
         return mistakesCounter - 1;

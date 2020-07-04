@@ -6,14 +6,14 @@ import {
   MISS_MP3,
   MICROPHONE_TIME,
 } from './speak_it-constants';
-import { View } from './speak_it-view';
-import { Model } from './speak_it-model';
-import { ModalWindow } from './speak_it-modal-window';
+import View from './speak_it-view';
+import Model from './speak_it-model';
+import ModalWindow from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
 import MainView from '../../views/mainView';
 
-export class Controller {
+export default class Controller {
   constructor(group, round, user) {
     this.startPage = 0;
     this.startGroup = group;
@@ -86,17 +86,17 @@ export class Controller {
         Array.from(document.querySelectorAll('.card')).forEach((cardSelected) => cardSelected.classList.remove('choosen'));
         card.classList.add('choosen');
         this.view.selectCard(card, this.model);
-        this.choosenWordIndex = card.querySelector('.word').id
+        this.choosenWordIndex = card.querySelector('.word').id;
       }
     }));
   }
 
   rotateCard() {
-    this.containerOver.onmouseover = function () {
-      this.querySelector('.card_over').classList.add('rotate');
+    this.containerOver.onmouseover = () => {
+      document.querySelector('.card_over').classList.add('rotate');
     };
-    this.containerOver.onmouseout = function () {
-      this.querySelector('.card_over').classList.remove('rotate');
+    this.containerOver.onmouseout = () => {
+      document.querySelector('.card_over').classList.remove('rotate');
     };
   }
 
@@ -104,10 +104,13 @@ export class Controller {
     this.recognition.addEventListener('result', (e) => {
       const result = e.results[0][0].transcript;
       this.view.recognition(result);
-      let num = this.choosenWordIndex;
-      let arr = this.model;
+      const num = this.choosenWordIndex;
+      const arr = this.model;
       if (this.model.checkResult(result)) {
-        this.addToCorrectArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
+        this.addToCorrectArray(arr.id[num],
+          arr.datasWords[num],
+          arr.datasAudios[num],
+          arr.datasWordTranslate[num]);
         this.view.result.innerHTML += ONE_START;
         this.addedRightAnwser();
         this.playCorrectAnwser();
@@ -119,21 +122,29 @@ export class Controller {
         }
         this.cards;
       } else {
-        this.addToWrongArray(arr.id[num], arr.datasWords[num], arr.datasAudios[num], arr.datasWordTranslate[num]);
+        this.addToWrongArray(arr.id[num],
+          arr.datasWords[num],
+          arr.datasAudios[num],
+          arr.datasWordTranslate[num]);
         this.playWrongAnwser();
       }
     });
     this.recognition.stop();
   }
+
   addToCorrectArray(id, word, soundURL, wordTranslate) {
-    const obj = { word, id, soundURL, wordTranslate};
+    const obj = {
+      word, id, soundURL, wordTranslate,
+    };
     if (this.isThereRepeat(this.model.correct, word)) {
       this.model.correct.push(obj);
     }
   }
 
   addToWrongArray(id, word, soundURL, wordTranslate) {
-    const obj = { word, id, soundURL, wordTranslate };
+    const obj = {
+      word, id, soundURL, wordTranslate,
+    };
     if (this.isThereRepeat(this.model.uncorrect, word)) {
       this.model.uncorrect.push(obj);
     }
@@ -196,6 +207,7 @@ export class Controller {
         this.view.toggleMicrophone();
         return false;
       }
+      return true;
     };
   }
 }

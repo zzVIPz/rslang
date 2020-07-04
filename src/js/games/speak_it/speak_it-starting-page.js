@@ -1,6 +1,6 @@
 import { container } from './speak_it-constants';
 
-export class StartingClass {
+export default class StartingClass {
   constructor() {
     this.choosenGroup = 0;
     this.choosenPage = 0;
@@ -21,14 +21,14 @@ export class StartingClass {
 
   hoverGroupStars(array) {
     array.forEach((star) => star.addEventListener('mouseover', () => {
-      for (let i = 0; i <= star.id; i++) {
+      for (let i = 0; i <= star.id; i += 1) {
         array[i].classList.remove('star');
         array[i].classList.add('gold');
       }
     }));
     array.forEach((star) => star.addEventListener('mouseout', () => {
-      array.forEach((star) => star.classList.remove('gold'));
-      array.forEach((star) => star.classList.add('star'));
+      array.forEach((starClear) => starClear.classList.remove('gold'));
+      array.forEach((starSimple) => starSimple.classList.add('star'));
     }));
     array.forEach((star) => star.addEventListener('click', () => {
       if (star.classList.contains('group')) {
@@ -36,8 +36,8 @@ export class StartingClass {
       } else if (star.classList.contains('round')) {
         this.choosenPage = star.id;
       }
-      array.forEach((star) => star.classList.remove('gold_strong'));
-      for (let i = 0; i <= star.id; i += 1) {
+      array.forEach((starCheck) => starCheck.classList.remove('gold_strong'));
+      for (let i = 0; i <= starCheck.id; i += 1) {
         array[i].classList.remove('star');
         array[i].classList.remove('gold');
         array[i].classList.add('gold_strong');

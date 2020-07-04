@@ -4,7 +4,7 @@ import {
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
 
-export class View {
+export default class View {
   constructor() {
     this.image = document.querySelector('.image');
     this.translation = document.querySelector('.translation');
