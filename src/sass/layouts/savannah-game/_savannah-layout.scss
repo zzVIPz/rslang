@@ -31,22 +31,28 @@
 }
 
 
-.app__content__translation-box {
+.app__content_translation-box {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
   width: 100%;
-  margin-top: 200px;
+  min-height: 45vh;
 
   font-size: 1.5em;
   color: $text-color;
 
 @include media-tablet {
     flex-wrap: wrap;
-    margin-top: 150px;
+    justify-content: space-between;
+    margin-top: 15%;
   }
 
 @include media-mobile {
-    margin-top: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25%;
   }
 }
 
@@ -54,7 +60,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 35%;
   min-height: 50px;
   margin-bottom: 40px;
 
@@ -65,9 +71,7 @@
 @include media-tablet {
     position: relative;
 
-    display: inline-block;
-    max-width: 270px;
-    margin: 0 100px 10px 87px;
+    display: flex;
     margin-right: 0;
 
     font-size: 2.5rem;
@@ -78,14 +82,15 @@
   }
 
 @include media-mobile {
-    margin: 0 35px 5px 50px;
+    width: 80%;
+    min-height: auto;
+    margin-bottom: 10px;
 
     font-size: 20px;
+    line-height: normal;
   }
 
 @include media-mobile-small {
-    margin: 0 15px 5px 39px;
-
     font-size: 16px;
   }
 
@@ -93,13 +98,6 @@
     color: white;
 
     background: #3d7c807a;
-  }
-}
-
-.translation-1,
-.translation-3 {
-  @include media-mobile {
-    margin-right: 0;
   }
 }
 
@@ -111,7 +109,7 @@ span .keyboard-num {
   font-size: .5em;
 }
 
-.cristal {
+.crystal {
   position: absolute;
   bottom: 60px;
   left: 50%;
@@ -184,6 +182,6 @@ span .keyboard-num {
   background: $text-color;
 }
 
-.noHover {
+.hover-disabled {
   pointer-events: none;
 }

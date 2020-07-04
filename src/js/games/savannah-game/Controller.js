@@ -1,6 +1,6 @@
 import SavannahView from './Views/View';
 import SavannahModel from './Model';
-import { DELAY } from './constSavannah';
+import { DELAY_CHECK_HASH } from './constSavannah';
 
 class SavannahController {
   constructor(user, mainView) {
@@ -8,13 +8,14 @@ class SavannahController {
     this.mainView = mainView;
   }
 
-  init(defaultHash) {
+  init(defaultHash, currentHash) {
     this.defaultHash = defaultHash;
+    this.currentHash = currentHash;
     this.model = new SavannahModel();
-    this.view = new SavannahView(this.model, this.defaultHash);
+    this.view = new SavannahView(this.model, this.defaultHash, this.currentHash);
     this.view.getViewUser(this.user, this.mainView);
     this.view.renderSavannah();
-    setTimeout(() => { this.view.checkSavannahWindow(); }, DELAY);
+    setTimeout(() => { this.view.checkSavannahWindow(); }, DELAY_CHECK_HASH);
   }
 }
 

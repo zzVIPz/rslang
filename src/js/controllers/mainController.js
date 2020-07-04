@@ -68,7 +68,7 @@ export default class MainController {
           break;
         case MENU_ITEMS_NAMES.savannah:
           this.savannah = new SavannahController(this.user, this.mainView);
-          this.savannah.init(this.setDefaultHash);
+          this.savannah.init(this.setDefaultHash, this.getCurrentHash);
           break;
         case MENU_ITEMS_NAMES.sprint:
           break;

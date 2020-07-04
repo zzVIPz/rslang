@@ -41,7 +41,7 @@ const GROUP_ROUND = `
 `;
 
 const PRELOADER = `
-<div class="preloader__conatiner"> 
+<div class="preloader__container"> 
     <div class="current-level"></div>
     <div class="countdown">3</div>
     <div class="preloader">
@@ -75,24 +75,26 @@ const SPARKLES = `
 <div class="sparkle sparkle-dot-four"></div>
   `;
 
-const SOUND_URL = 'https://raw.githubusercontent.com/staceysych/rslang-data/master/';
 const CORRECT_SOUND = 'correct.mp3';
 const ERROR_SOUND = 'error.mp3';
 const ROUND_STARTS_SOUND = 'round-starts.mp3';
 
-const DELAY = 1000;
-const INITIAL_BACKGROUND_POSITIONY = 100;
+const DELAY_CHECK_HASH = 1000;
+const DELAY_PRELOADER_COUNT_DOWN = 1000;
+const DELAY_NEXT_WORD = 1000;
+const DELAY_HIGHLIGHT = 1000;
+const DELAY_MUSIC_OFF = 1000;
+const INITIAL_BACKGROUND_POSITION = 100;
 const REMOVE_DIGITS_REGEXP = /\d/g;
-const INITIAL_CRISTAL_WIDTH = 30;
+const INITIAL_CRYSTAL_WIDTH = 30;
 const DEFAULT_DISPLAYED_LEVEL = 1;
-const SAVANNAH_HASH_REGEXP = /#savannah/;
 const START_FLYING_POSITION = 0;
 const START_BANG_POSITION = 400;
 const FINAL_BANG_POSITION = -100;
 const BACKGROUND_MOVE_PX = 5;
-const MARGIN_PERCENTAGE = 0.3;
-const MARGIN_DEADLINE_COEFICIENT = 1.2;
+const MARGIN_PERCENTAGE = 0.33;
 const BASE_MARGIN = 250;
+const NUMBER_OF_LIVES = 5;
 
 export {
   GAME_LAYOUT,
@@ -100,21 +102,23 @@ export {
   LIVES,
   SPARKLES,
   GROUP_ROUND,
-  SOUND_URL,
   CORRECT_SOUND,
   ERROR_SOUND,
   ROUND_STARTS_SOUND,
-  DELAY,
-  INITIAL_BACKGROUND_POSITIONY,
+  DELAY_CHECK_HASH,
+  DELAY_PRELOADER_COUNT_DOWN,
+  INITIAL_BACKGROUND_POSITION,
+  DELAY_NEXT_WORD,
+  DELAY_MUSIC_OFF,
   REMOVE_DIGITS_REGEXP,
-  INITIAL_CRISTAL_WIDTH,
+  INITIAL_CRYSTAL_WIDTH,
   DEFAULT_DISPLAYED_LEVEL,
-  SAVANNAH_HASH_REGEXP,
   START_FLYING_POSITION,
   START_BANG_POSITION,
   FINAL_BANG_POSITION,
+  DELAY_HIGHLIGHT,
   BACKGROUND_MOVE_PX,
   MARGIN_PERCENTAGE,
-  MARGIN_DEADLINE_COEFICIENT,
   BASE_MARGIN,
+  NUMBER_OF_LIVES,
 };
