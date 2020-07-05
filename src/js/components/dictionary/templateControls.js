@@ -1,9 +1,9 @@
 const templateControls = `
   <div class="dictionary">
     <div class="dictionary__controls">
-      <div class="controlsBtn">RepeatWords</div>
-      <div class="controlsBtn">DifficultWords</div>
-      <div class="controlsBtn">EasyWords</div>
+      <div class="controlsBtn" data-state="repeat">RepeatWords</div>
+      <div class="controlsBtn" data-state="difficult">DifficultWords</div>
+      <div class="controlsBtn" data-state="easy">EasyWords</div>
     </div>
     <div class="wordsData"></div>
   </div>

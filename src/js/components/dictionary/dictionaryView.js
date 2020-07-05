@@ -5,14 +5,18 @@ export default class DictionaryController {
   constructor() {
     this.templateControls = templateControls;
     this.domElements = {};
+    this.onStateChange = null;
   }
 
   render() {
     document.querySelector('.main').innerHTML = this.templateControls;
+    this.domElements.dictControls = document.querySelector('.dictionary__controls');
     this.domElements.wordsData = document.querySelector('.wordsData');
+    this.addListeners();
   }
 
   renderData(data) {
+    this.domElements.wordsData.innerHTML = '';
     data.forEach((el) => {
       const line = document.createElement('div');
       line.classList.add('dict__word-line');
@@ -52,6 +56,21 @@ export default class DictionaryController {
     this.domElements.wordsData.addEventListener('click', ({ target }) => {
       if (target.classList.contains('dict__word-audio')) {
         target.firstChild.play();
+      }
+    });
+  }
+
+  addListeners() {
+    this.domElements.dictControls.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('controlsBtn')) {
+        const btns = document.querySelectorAll('.controlsBtn');
+        [].forEach.call(btns, (el) => {
+          el.classList.remove('controlsBtn_active');
+        });
+        target.classList.add('controlsBtn_active');
+        if (this.onStateChange != null) {
+          this.onStateChange(target.dataset.state);
+        }
       }
     });
   }
