@@ -189,6 +189,30 @@ export default class MainController {
       this.mainView.disableToolButtons();
       this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
     };
+
+    this.mainView.onBtnEasyWordClick = () => {
+      this.mainView.disableAdditionalControlButtons();
+      this.saveWord(WORDS_STATUS.easy);
+      this.showNextSlide();
+    };
+
+    this.mainView.onBtnNormalWordClick = () => {
+      this.mainView.disableAdditionalControlButtons();
+      this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
+      this.showNextSlide();
+    };
+    this.mainView.onBtnDifficultWordClick = () => {
+      this.mainView.disableAdditionalControlButtons();
+      this.saveWord(WORDS_STATUS.difficult);
+      this.showNextSlide();
+    };
+    this.mainView.onBtnRepeatAgainClick = async () => {
+      this.mainView.disableAdditionalControlButtons();
+      console.log('123');
+      const wordId = this.mainView.getWordId();
+      const wordDescription = await this.mainModel.getAggregatedWordById(wordId);
+      this.mainView.addCardToRepeat(wordDescription, this.user);
+    };
   }
 
   async getWordsList(studyMode) {
@@ -267,9 +291,8 @@ export default class MainController {
   }
 
   async saveWord(category, optional = {}) {
+    const wordId = this.mainView.getWordId();
     if (this.slideIndex === this.swiper.realIndex) {
-      const wordId = this.mainView.getWordId();
-
       const wordById = await this.mainModel.getAggregatedWordById(wordId);
       if (wordById.userWord) {
         if (wordById.userWord.difficulty !== WORDS_STATUS[category]) {
@@ -281,6 +304,9 @@ export default class MainController {
       }
       this.showCorrectAnswer();
     } else {
+      if (this.user.additionalControl) {
+        await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], optional);
+      }
       this.playAudio();
     }
   }
@@ -308,6 +334,11 @@ export default class MainController {
         }
         this.updateCorrectAnswersSeries();
         this.mistakesMode = false;
+        if (this.user.additionalControl) {
+          this.mainView.showAdditionalControlButtons();
+        } else {
+          this.mainView.disableToolButtons();
+        }
       } else {
         this.mistakesMode = true;
         this.currentSeries = 0;
@@ -324,9 +355,9 @@ export default class MainController {
     if (this.allUserWordsId.includes(wordId)) {
       const wordInfo = await this.mainModel.getUsersWordById(wordId);
       if (
-        wordInfo.difficulty === WORDS_STATUS.repeat &&
-        wordInfo.optional &&
-        wordInfo.optional.mistakesCounter
+        wordInfo.difficulty === WORDS_STATUS.repeat
+        && wordInfo.optional
+        && wordInfo.optional.mistakesCounter
       ) {
         const { mistakesCounter } = wordInfo.optional;
         return mistakesCounter - 1;
@@ -351,13 +382,12 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation &&
-        !this.user.wordPronunciation &&
-        this.user.automaticallyScroll
+        !this.user.textPronunciation
+        && !this.user.wordPronunciation
+        && this.user.automaticallyScroll
+        && !this.user.additionalControl
       ) {
-        setTimeout(() => {
-          this.swiper.slideNext();
-        }, DELAY_NEXT_SLIDE_AUDIO_ON);
+        this.showNextSlide();
       }
       if (this.slideIndex === this.user.cardsTotal) {
         const percentageCorrectAnswers = Math.ceil(
@@ -371,6 +401,12 @@ export default class MainController {
         });
       }
     }
+  }
+
+  showNextSlide() {
+    setTimeout(() => {
+      this.swiper.slideNext();
+    }, DELAY_NEXT_SLIDE_AUDIO_ON);
   }
 
   initSwiper() {
