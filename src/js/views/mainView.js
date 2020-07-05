@@ -136,7 +136,7 @@ export default class MainView {
   }
 
   disableToolButtons(currentSlide = this.getCurrentSlide()) {
-    const buttons = currentSlide.querySelectorAll('button');
+    const buttons = currentSlide.querySelectorAll('.card__btn-primary');
     buttons.forEach((button) => {
       button.setAttribute('disabled', 'disabled');
     });
@@ -163,6 +163,7 @@ export default class MainView {
 
   playAudio = (user, currentSlide = this.getCurrentSlide()) => {
     this.stopAudio();
+
     if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
       this.playlist = getPlaylist(user, currentSlide);
       if (this.playlist.length) {
@@ -173,7 +174,10 @@ export default class MainView {
               const nextAudio = arr[i + 1];
               if (nextAudio) {
                 nextAudio.play();
-              } else if (user.automaticallyScroll && !user.additionalControl) {
+              } else if (
+                user.automaticallyScroll
+                && !currentSlide.querySelector('.card__buttons-container').classList.contains('hidden')
+              ) {
                 this.swiper.slideNext();
               }
             }

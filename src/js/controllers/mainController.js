@@ -193,25 +193,25 @@ export default class MainController {
     this.mainView.onBtnEasyWordClick = () => {
       this.mainView.disableAdditionalControlButtons();
       this.saveWord(WORDS_STATUS.easy);
-      this.showNextSlide();
+      this.showNextSlide(DELAY_NEXT_SLIDE_AUDIO_OFF);
     };
 
     this.mainView.onBtnNormalWordClick = () => {
       this.mainView.disableAdditionalControlButtons();
       this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
-      this.showNextSlide();
+      this.showNextSlide(DELAY_NEXT_SLIDE_AUDIO_OFF);
     };
+
     this.mainView.onBtnDifficultWordClick = () => {
       this.mainView.disableAdditionalControlButtons();
       this.saveWord(WORDS_STATUS.difficult);
-      this.showNextSlide();
+      this.showNextSlide(DELAY_NEXT_SLIDE_AUDIO_OFF);
     };
+
     this.mainView.onBtnRepeatAgainClick = async () => {
       this.mainView.disableAdditionalControlButtons();
-      console.log('123');
-      const wordId = this.mainView.getWordId();
-      const wordDescription = await this.mainModel.getAggregatedWordById(wordId);
-      this.mainView.addCardToRepeat(wordDescription, this.user);
+      await this.addCardToRepeat();
+      this.showNextSlide(DELAY_NEXT_SLIDE_AUDIO_OFF);
     };
   }
 
@@ -283,6 +283,12 @@ export default class MainController {
     this.mainModel.updateUserSettings(this.user);
   }
 
+  async addCardToRepeat() {
+    const wordId = this.mainView.getWordId();
+    const wordDescription = await this.mainModel.getAggregatedWordById(wordId);
+    this.mainView.addCardToRepeat(wordDescription, this.user);
+  }
+
   showCorrectAnswer() {
     this.mainView.showCorrectAnswer(true);
     setTimeout(() => {
@@ -318,6 +324,7 @@ export default class MainController {
       if (userAnswer === correctValue) {
         if (this.mistakesMode) {
           await this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
+          await this.addCardToRepeat();
         } else {
           this.increaseCounter();
           const currentMistakesCounter = await this.checkMistakesCounter();
@@ -384,11 +391,12 @@ export default class MainController {
       if (
         !this.user.textPronunciation
         && !this.user.wordPronunciation
-        && this.user.automaticallyScroll
         && !this.user.additionalControl
       ) {
         this.showNextSlide();
       }
+
+      // todo: what is about slides?
       if (this.slideIndex === this.user.cardsTotal) {
         const percentageCorrectAnswers = Math.ceil(
           (100 * this.correctAnswersCounter) / this.user.cardsTotal,
@@ -403,10 +411,12 @@ export default class MainController {
     }
   }
 
-  showNextSlide() {
-    setTimeout(() => {
-      this.swiper.slideNext();
-    }, DELAY_NEXT_SLIDE_AUDIO_ON);
+  showNextSlide(delay = DELAY_NEXT_SLIDE_AUDIO_ON) {
+    if (this.user.automaticallyScroll) {
+      setTimeout(() => {
+        this.swiper.slideNext();
+      }, delay);
+    }
   }
 
   initSwiper() {
