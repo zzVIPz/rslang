@@ -8,7 +8,7 @@ export default class DictionaryController {
 
   async init() {
     this.dictionaryView.render();
-    const wordsData = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'easy' });
+    const wordsData = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'repeat' });
     this.dictionaryView.renderData(wordsData[0].paginatedResults);
   }
 }
