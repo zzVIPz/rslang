@@ -174,10 +174,7 @@ export default class MainView {
               const nextAudio = arr[i + 1];
               if (nextAudio) {
                 nextAudio.play();
-              } else if (
-                user.automaticallyScroll
-                && !currentSlide.querySelector('.card__buttons-container').classList.contains('hidden')
-              ) {
+              } else if (user.automaticallyScroll && this.checkActiveButtonsBlock(currentSlide)) {
                 this.swiper.slideNext();
               }
             }
@@ -186,6 +183,12 @@ export default class MainView {
       }
     }
   };
+
+  checkActiveButtonsBlock(currentSlide = this.getCurrentSlide()) {
+    return currentSlide
+      .querySelector('.card__additional-buttons-container')
+      .classList.contains('hidden');
+  }
 
   showCorrectAnswer(param) {
     const currentInput = this.getCurrentInputNode();

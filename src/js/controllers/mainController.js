@@ -391,7 +391,7 @@ export default class MainController {
       if (
         !this.user.textPronunciation
         && !this.user.wordPronunciation
-        && !this.user.additionalControl
+        && this.mainView.checkActiveButtonsBlock()
       ) {
         this.showNextSlide();
       }
