@@ -1,4 +1,5 @@
 import templateControls from './templateControls';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 export default class DictionaryController {
   constructor() {
@@ -18,6 +19,9 @@ export default class DictionaryController {
 
       const soundBox = document.createElement('div');
       soundBox.classList.add('dict__word-audio');
+      const audio = new Audio();
+      audio.src = getMediaUrl(el.audio);
+      soundBox.append(audio);
       line.append(soundBox);
 
       const wordEngTrans = document.createElement('div');
@@ -44,6 +48,11 @@ export default class DictionaryController {
       line.append(wordRemove);
 
       this.domElements.wordsData.append(line);
+    });
+    this.domElements.wordsData.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('dict__word-audio')) {
+        target.firstChild.play();
+      }
     });
   }
 }
