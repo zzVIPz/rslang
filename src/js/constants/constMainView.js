@@ -144,6 +144,16 @@ const PAGES_LINKS = {
   about: './about.html',
 };
 
+const SHORT_STATISTICS_TEXT = {
+  targetTitle: 'Congratulations! Your goal has been achieved!',
+  targetPassedCards: 'Total passed cards : ',
+  targetPercentage: 'Percentage of correct answers : ',
+  targetNewWords: 'Learned new words : ',
+  targetSuccessSeries: 'Longest series of correct answers : ',
+  btnContinue: 'CONTINUE',
+  btnFinish: 'FINISH',
+};
+
 export {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -163,4 +173,5 @@ export {
   DELAY_HIDE_MENU,
   DELAY_SET_FOCUS_ON_INPUT,
   WORD_COMPLEXITY,
+  SHORT_STATISTICS_TEXT,
 };

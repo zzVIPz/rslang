@@ -398,6 +398,7 @@ export default class MainController {
 
       // todo: what is about slides?
       if (this.slideIndex === this.user.cardsTotal) {
+        console.log('here');
         const percentageCorrectAnswers = Math.ceil(
           (100 * this.correctAnswersCounter) / this.user.cardsTotal,
         );

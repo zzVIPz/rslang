@@ -249,9 +249,8 @@ export default class MainView {
   renderShortStatistics(data) {
     const shortStatisticsTemplate = getShortStatisticsTemplate(data);
     this.showOverlay(shortStatisticsTemplate);
-    // todo: to Dima: so you can see your modal
-    debugger;
-    this.hideOverlay();
+
+    // this.hideOverlay();
   }
 
   showNotificationAboutRepeat(cardsAmount) {
