@@ -1,10 +1,17 @@
 export default function getNotificationTemplate(cardsAmount) {
-  // todo: here need implement temlate
   let template = '';
   if (cardsAmount) {
-    template = ` You have only ${cardsAmount} card(s) to repeat `;
+    template = `<div class="notification-modal">
+    <div class="notification-modal__title">
+    У Вас только ${cardsAmount} карточек для повторения</div>
+    <div class="app__button app__button_close">OK</div>
+    </div>`;
   } else {
-    template = 'You have no cards to repeat!';
+    template = `<div class="notification-modal">
+    <div class="notification-modal__title">
+    У Вас нет карточек для повторения</div>
+    <div class="app__button app__button_close">OK</div>
+    </div>`;
   }
   return template;
 }
