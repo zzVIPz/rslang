@@ -4,7 +4,7 @@ export default function getShortStatisticsTemplate(data, slidesAmount) {
   let text = '';
   let template = '';
   const btnFinishTemplate = `
-        <button class="short-stat__button short-stat__button-finish">
+        <button class="modal-button short-stat__button-finish">
           ${SHORT_STATISTICS_TEXT.btnFinish}
         </button>`;
 
@@ -35,7 +35,7 @@ export default function getShortStatisticsTemplate(data, slidesAmount) {
       </div>
       ${slidesAmount ? text : ''}
       <div class="short-stat__buttons-block">
-        <button class="short-stat__button short-stat__button-continue
+        <button class="modal-button short-stat__button-continue
           ${slidesAmount ? '' : 'hidden'}">
            ${SHORT_STATISTICS_TEXT.btnContinue}
         </button>
@@ -44,12 +44,12 @@ export default function getShortStatisticsTemplate(data, slidesAmount) {
   } else {
     template = `
       <p class="short-stat__title">${SHORT_STATISTICS_TEXT.additionalTitle}</p>
-      <div class="short-stat__logo short-stat__logo-medal"></div>
+      <div class="short-stat__logo-medal"></div>
       <div class="short-stat__buttons-block">
         ${btnFinishTemplate}
       </div>
      `;
   }
 
-  return `<div class="short-stat__container">${template}</div>`;
+  return `<div class="short-stat__container modal">${template}</div>`;
 }

@@ -257,18 +257,23 @@ export default class MainView {
     }
   }
 
-  removeShortStatisticsListeners() {
+  removeModalListeners() {
     if (this.btnFinish) {
       this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
     }
     if (this.btnContinue) {
       this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
     }
+    if (this.btnNotificationFinish) {
+      this.btnNotificationFinish.removeEventListener('click', this.onNotificationBtnFinishClick);
+    }
   }
 
   showNotificationAboutRepeat(user, cardsAmount) {
     const notification = getNotificationTemplate(user, cardsAmount);
     this.showOverlay(notification);
+    this.btnNotificationFinish = document.querySelector('.modal-button');
+    this.btnNotificationFinish.addEventListener('click', this.onNotificationBtnFinishClick);
   }
 
   showSettingsModal(user) {
