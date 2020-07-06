@@ -71,30 +71,33 @@ export default class DictionaryController {
 
       line.append(wordEngTrans);
 
-      const wordInfo = document.createElement('div');
-      wordInfo.classList.add('dict__word-information');
-      wordInfo.dataset.id = el._id;
-      line.append(wordInfo);
-
-      if (state === CONSTANTS.DICT_STATES.LEARNING) {
-        const wordToDifficult = document.createElement('div');
-        wordToDifficult.classList.add('dict__word-difficult');
-        wordToDifficult.dataset.id = el._id;
-        line.append(wordToDifficult);
-
-        const wordRemove = document.createElement('div');
-        wordRemove.classList.add('dict__word-remove');
-        wordRemove.dataset.id = el._id;
-        line.append(wordRemove);
+      if (this.settings.showInfo) {
+        const wordInfo = document.createElement('div');
+        wordInfo.classList.add('dict__word-information');
+        wordInfo.dataset.id = el._id;
+        line.append(wordInfo);
       }
 
-      if (state === CONSTANTS.DICT_STATES.REMOVED || state === CONSTANTS.DICT_STATES.DIFFICULT) {
-        const wordRestore = document.createElement('div');
-        wordRestore.classList.add('dict__word-restore');
-        wordRestore.dataset.id = el._id;
-        line.append(wordRestore);
-      }
+      if (this.settings.showControls) {
+        if (state === CONSTANTS.DICT_STATES.LEARNING) {
+          const wordToDifficult = document.createElement('div');
+          wordToDifficult.classList.add('dict__word-difficult');
+          wordToDifficult.dataset.id = el._id;
+          line.append(wordToDifficult);
 
+          const wordRemove = document.createElement('div');
+          wordRemove.classList.add('dict__word-remove');
+          wordRemove.dataset.id = el._id;
+          line.append(wordRemove);
+        }
+
+        if (state === CONSTANTS.DICT_STATES.REMOVED || state === CONSTANTS.DICT_STATES.DIFFICULT) {
+          const wordRestore = document.createElement('div');
+          wordRestore.classList.add('dict__word-restore');
+          wordRestore.dataset.id = el._id;
+          line.append(wordRestore);
+        }
+      }
       this.domElements.wordsData.append(line);
     });
   }

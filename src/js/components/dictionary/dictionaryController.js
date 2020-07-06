@@ -7,9 +7,13 @@ export default class DictionaryController {
     this.dictionaryView = new DictionaryView();
     this.wordsData = null;
     this.state = CONSTANTS.DEFAULT_DICT_STATE;
+    this.settings = {};
   }
 
   async init() {
+    this.settings.showInfo = this.mainModel.currentUser.dictionaryInfo;
+    this.settings.showControls = this.mainModel.currentUser.dictionaryControl;
+    this.dictionaryView.settings = this.settings;
     await this.getData();
     this.dictionaryView.render();
     this.dictionaryView.renderData(this.wordsData, this.state);
@@ -51,6 +55,13 @@ export default class DictionaryController {
     this.dictionaryView.onInfoRequest = async (id) => {
       const wordInfo = await this.mainModel.getAggregatedWordById(id);
       this.dictionaryView.showModal(wordInfo);
+    };
+
+    this.mainModel.setUserSettings = () => {
+      this.settings.showInfo = this.mainModel.currentUser.dictionaryInfo;
+      this.settings.showControls = this.mainModel.currentUser.dictionaryControl;
+      this.dictionaryView.settings = this.settings;
+      this.dictionaryView.renderData(this.wordsData, this.state);
     };
   }
 }
