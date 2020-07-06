@@ -174,10 +174,7 @@ export default class MainView {
               const nextAudio = arr[i + 1];
               if (nextAudio) {
                 nextAudio.play();
-              } else if (
-                user.automaticallyScroll
-                && !currentSlide.querySelector('.card__buttons-container').classList.contains('hidden')
-              ) {
+              } else if (user.automaticallyScroll && this.checkActiveButtonsBlock(currentSlide)) {
                 this.swiper.slideNext();
               }
             }
@@ -186,6 +183,12 @@ export default class MainView {
       }
     }
   };
+
+  checkActiveButtonsBlock(currentSlide = this.getCurrentSlide()) {
+    return currentSlide
+      .querySelector('.card__additional-buttons-container')
+      .classList.contains('hidden');
+  }
 
   showCorrectAnswer(param) {
     const currentInput = this.getCurrentInputNode();
@@ -243,20 +246,29 @@ export default class MainView {
     });
   }
 
-  renderShortStatistics(data) {
-    const shortStatisticsTemplate = getShortStatisticsTemplate(data);
+  renderShortStatistics(data, slidesAmount) {
+    const shortStatisticsTemplate = getShortStatisticsTemplate(data, slidesAmount);
     this.showOverlay(shortStatisticsTemplate);
-    // todo: to Dima: so you can see your modal
-    debugger;
-    this.hideOverlay();
+    this.btnFinish = document.querySelector('.short-stat__button-finish');
+    this.btnContinue = document.querySelector('.short-stat__button-continue');
+    this.btnFinish.addEventListener('click', this.onShortStatisticsBtnFinishClick);
+    if (data) {
+      this.btnContinue.addEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
   }
 
-  showNotificationAboutRepeat(cardsAmount) {
-    const notification = getNotificationTemplate(cardsAmount);
+  removeShortStatisticsListeners() {
+    if (this.btnFinish) {
+      this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
+    }
+    if (this.btnContinue) {
+      this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
+  }
+
+  showNotificationAboutRepeat(user, cardsAmount) {
+    const notification = getNotificationTemplate(user, cardsAmount);
     this.showOverlay(notification);
-    // debugger;
-    // todo: to Dima: so you can see your modal
-    this.hideOverlay();
   }
 
   showSettingsModal(user) {
