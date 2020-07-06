@@ -78,14 +78,13 @@ class WordSearchView extends SavannahView {
       if (this.model.audioOn) {
         this.roundStartsSound.play();
       }
-      console.log(chosenLevel, chosenRound);
+
       this.addPreloader();
       this.changePreloaderInfo();
       this.model.fetchWords(this.currentUser, chosenLevel, chosenRound)
         .then((data) => {
           this.model.getWordsAndTranslation(data);
           this.model.getWordIdsAndAudio(data);
-          console.log(this.model.wordsArr, this.model.translation);
         });
     });
   }

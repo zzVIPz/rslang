@@ -1,12 +1,19 @@
 .word-search__app {
   position: relative;
 
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: calc(100vh - 93px);
 }
 
 .word-search__content {
-  @include media-mobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+@include media-mobile {
     margin-top: 0;
   }
 }
