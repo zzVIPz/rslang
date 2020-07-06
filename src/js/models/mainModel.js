@@ -29,6 +29,11 @@ const getUserSettingsBodyRequest = (userData) => ({
   },
 });
 
+const getWordDescription = (category, optional) => ({
+  difficulty: category,
+  optional,
+});
+
 export default class MainModel {
   constructor() {
     this.accessData = JSON.parse(localStorage.accessKey);
@@ -78,7 +83,7 @@ export default class MainModel {
     console.log('setUserSettings', content);
   };
 
-  getWords = async (currentPage, currentGroup, cardsTotal, wordsPerExample) => {
+  getWords = async (currentPage = 0, currentGroup = 0, cardsTotal, wordsPerExample) => {
     const url = getCorrectUrl(currentPage, currentGroup, cardsTotal, wordsPerExample);
     const rawResponse = await fetch(url);
     const content = await rawResponse.json();
@@ -107,13 +112,14 @@ export default class MainModel {
     return content;
   };
 
-  getAggregatedWords = async (filter) => {
-    let url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords`;
+  getAggregatedWords = async (filter, wordsPerPage) => {
+    let url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords?`;
+    if (wordsPerPage) {
+      url = `${url}wordsPerPage=${wordsPerPage}&`;
+    }
     if (filter) {
-      const formattedFilter = `${filter}`;
-      url = `${REQUEST_PARAMETERS.url}${this.userId}/aggregatedWords?${encodeURIComponent(
-        formattedFilter,
-      )}`;
+      const formattedFilter = JSON.stringify(filter);
+      url = `${url}filter=${encodeURIComponent(formattedFilter)}`;
     }
     const rawResponse = await fetch(url, getBodyRequest('GET', this.token));
     const content = await rawResponse.json();
@@ -133,17 +139,19 @@ export default class MainModel {
     return content[0];
   };
 
-  createUserWord = async (wordId, description) => {
+  createUserWord = async (wordId, category, optional = {}) => {
+    const description = getWordDescription(category, optional);
     const rawResponse = await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
       getBodyRequest('POST', this.token, description),
     );
     const content = await rawResponse.json();
 
-    console.log(content);
+    console.log('createUserWord', content);
   };
 
-  updateUserWord = async (wordId, description) => {
+  updateUserWord = async (wordId, category, optional = {}) => {
+    const description = getWordDescription(category, optional);
     await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
       getBodyRequest('PUT', this.token, description),

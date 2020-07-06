@@ -31,9 +31,9 @@ class GroupRoundView {
 
     array.forEach((star) => star.addEventListener('click', () => {
       if (star.classList.contains('group')) {
-        this.choosenGroup = star.id;
+        this.chosenGroup = star.id;
       } else if (star.classList.contains('round')) {
-        this.choosenPage = star.id;
+        this.chosenPage = star.id;
       }
 
       array.forEach((el) => el.classList.remove('gold_strong'));

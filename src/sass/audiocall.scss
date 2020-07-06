@@ -8,18 +8,6 @@ $var7: #2582e7;
 $var8: #e13a3a;
 $var9: #00c45f;
 
-body {
-  margin: 0 auto;
-}
-main {
-  display: -webkit-box;
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-}
 .container-game {
   font-family: Open Sans, Helvetica, Arial, sans-serif;
   &__trainings-audiocall {
@@ -142,7 +130,6 @@ main {
           text-align: left;
           color: #ffffff;
 
-
           -webkit-user-select: none;
              -moz-user-select: none;
               -ms-user-select: none;
@@ -154,14 +141,15 @@ main {
         width: 140px;
         height: 140px;
         margin: 0 auto;
-        opacity: 0;
+
         border: 5px solid $var3;
         border-radius: 50%;
+        opacity: 0;
 
-        -webkit-transition: all 0.7s ease-in-out;
-           -moz-transition: all 0.7s ease-in-out;
-             -o-transition: all 0.7s ease-in-out;
-                transition: all 0.7s ease-in-out;
+        -webkit-transition: all .7s ease-in-out;
+           -moz-transition: all .7s ease-in-out;
+             -o-transition: all .7s ease-in-out;
+                transition: all .7s ease-in-out;
 
         -o-object-fit: cover;
            object-fit: cover;
@@ -458,9 +446,9 @@ main {
 .animation {
   transform: translateX(-100%);
 }
-.visuallyshow {  
-  opacity: 1;  
- }
+.visuallyshow {
+  opacity: 1;
+}
 .position-center {
   display: flex;
   justify-content: center;
@@ -476,7 +464,6 @@ main {
   .container-game__trainings-audiocall__number {
     top: 13px;
     left: 18px;
-    ;
   }
   .container-game__trainings-audiocall__answer {
     width: 100%;

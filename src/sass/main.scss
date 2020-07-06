@@ -25,6 +25,7 @@
 @import "layouts/main";
 @import "layouts/footer";
 @import "layouts/modal-settings";
+@import "layouts/modal-short-stat";
 // pages
 
 // savannah-game
@@ -35,3 +36,9 @@
 
 //word-search
 @import "word-search";
+
+// english-puzzle
+@import "english-puzzle";
+
+// sprint-game
+@import "sprint-game/style";

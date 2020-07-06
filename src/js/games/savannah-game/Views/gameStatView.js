@@ -1,6 +1,6 @@
 import getMediaUrl from '../../../utils/getMediaUrl';
 import playAudio from '../../utils/playAudio';
-import INITIAL_BACKGROUND_POSITIONY from '../constSavannah';
+import { INITIAL_BACKGROUND_POSITION } from '../constSavannah';
 import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
 import {
   LOSE_ROUND_TITLE,
@@ -13,7 +13,8 @@ class GameStatistics {
     this.finalModal = document.createElement('div');
   }
 
-  init(view, mainView, model) {
+  init(view, mainView, model, defaultHash) {
+    this.setDefaultHash = defaultHash;
     this.mainView = mainView;
     this.view = view;
     this.model = model;
@@ -42,6 +43,7 @@ class GameStatistics {
   backToMain() {
     document.querySelector('.statistics__back').addEventListener('click', () => {
       this.view.finishGame();
+      this.setDefaultHash();
       this.mainView.renderMain(this.view.currentUser);
     });
   }
@@ -50,7 +52,7 @@ class GameStatistics {
     document.querySelector('.statistics__continue').addEventListener('click', () => {
       this.view.renderSavannah();
       this.model.setDefault();
-      this.view.backgroundPositionY = INITIAL_BACKGROUND_POSITIONY;
+      this.view.backgroundPositionY = INITIAL_BACKGROUND_POSITION;
     });
   }
 

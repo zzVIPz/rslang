@@ -1,4 +1,4 @@
-export default function getFormattedString(string, mode, textTranslate) {
+export default function getFormattedString(string = '', mode, textTranslate) {
   const matchResult = string.match(/<[b,i]>(.*)<\/[b,i]>/);
   const dataAttribute = matchResult ? matchResult[1] : string;
   const { length } = dataAttribute;

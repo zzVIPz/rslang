@@ -3,6 +3,8 @@ import {
   SETTING_MODAL_TEXT,
   MAIN_TEXT,
   SWIPER_TEMPLATE,
+  DELAY_HIDE_MENU,
+  DELAY_SET_FOCUS_ON_INPUT,
 } from '../constants/constMainView';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
@@ -10,6 +12,8 @@ import getModalSettingsTemplate from '../utils/getModalSettingsTemplate';
 import toggleVisibility from '../utils/toggleVisibility';
 import getPlaylist from '../utils/getPlaylist';
 import getHintTemplate from '../utils/getHintTemplate';
+import getShortStatisticsTemplate from '../utils/getShortStatisticsTemplate';
+import getNotificationTemplate from '../utils/getNotificationTemplate';
 import Card from '../components/card/cardController';
 
 export default class MainView {
@@ -68,7 +72,7 @@ export default class MainView {
     if (currentSlide) {
       setTimeout(() => {
         this.getCurrentInputNode(currentSlide).focus();
-      }, 300);
+      }, DELAY_SET_FOCUS_ON_INPUT);
     }
   }
 
@@ -99,10 +103,12 @@ export default class MainView {
   disableStudyProfileProperties = () => {
     const totalCards = document.getElementById('cards-amount');
     const wordAmount = document.getElementById('word-amount');
-    const selectMode = document.querySelector('.settings__study-select');
+    const selectStudyMode = document.querySelector('.settings__study-select');
+    const selectTrainingMode = document.querySelector('.settings__text-select');
     totalCards.setAttribute('disabled', 'disabled');
     wordAmount.setAttribute('disabled', 'disabled');
-    selectMode.setAttribute('disabled', 'disabled');
+    selectStudyMode.setAttribute('disabled', 'disabled');
+    selectTrainingMode.setAttribute('disabled', 'disabled');
   };
 
   getUserAnswer(currentSlide = this.getCurrentSlide()) {
@@ -124,8 +130,20 @@ export default class MainView {
     return currentSlide.dataset.id;
   }
 
+  showAdditionalControlButtons(currentSlide = this.getCurrentSlide()) {
+    currentSlide.querySelector('.card__buttons-container').classList.add('hidden');
+    currentSlide.querySelector('.card__additional-buttons-container').classList.remove('hidden');
+  }
+
   disableToolButtons(currentSlide = this.getCurrentSlide()) {
-    const buttons = currentSlide.querySelectorAll('button');
+    const buttons = currentSlide.querySelectorAll('.card__btn-primary');
+    buttons.forEach((button) => {
+      button.setAttribute('disabled', 'disabled');
+    });
+  }
+
+  disableAdditionalControlButtons(currentSlide = this.getCurrentSlide()) {
+    const buttons = currentSlide.querySelectorAll('.card__btn-additional');
     buttons.forEach((button) => {
       button.setAttribute('disabled', 'disabled');
     });
@@ -145,6 +163,7 @@ export default class MainView {
 
   playAudio = (user, currentSlide = this.getCurrentSlide()) => {
     this.stopAudio();
+
     if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
       this.playlist = getPlaylist(user, currentSlide);
       if (this.playlist.length) {
@@ -155,13 +174,21 @@ export default class MainView {
               const nextAudio = arr[i + 1];
               if (nextAudio) {
                 nextAudio.play();
-              } else if (user.automaticallyScroll) this.swiper.slideNext();
+              } else if (user.automaticallyScroll && this.checkActiveButtonsBlock(currentSlide)) {
+                this.swiper.slideNext();
+              }
             }
           });
         });
       }
     }
   };
+
+  checkActiveButtonsBlock(currentSlide = this.getCurrentSlide()) {
+    return currentSlide
+      .querySelector('.card__additional-buttons-container')
+      .classList.contains('hidden');
+  }
 
   showCorrectAnswer(param) {
     const currentInput = this.getCurrentInputNode();
@@ -170,10 +197,16 @@ export default class MainView {
     if (param) {
       currentInput.value = correctAnswer;
     } else {
+      const setFocusOnInput = () => {
+        currentInput.focus();
+      };
+
       const removeHintContainer = () => {
         currentInput.removeEventListener('input', removeHintContainer);
+        currentInput.removeEventListener('click', setFocusOnInput);
         this.hintContainer.remove();
       };
+
       if (this.hintContainer) {
         this.hintContainer.remove();
       }
@@ -183,19 +216,27 @@ export default class MainView {
       this.hintContainer = document.querySelector('.card__hint-container');
       this.hintContainer.classList.add('card__hint-container--invisible');
       currentInput.focus();
-      this.hintContainer.addEventListener('click', () => {
-        currentInput.focus();
-      });
+      this.hintContainer.addEventListener('click', setFocusOnInput);
       currentInput.addEventListener('input', removeHintContainer);
     }
   }
 
   renderCards(words, user, swiper) {
+    console.log('words', words);
     this.swiper = swiper;
     words.forEach((word) => {
       const card = new Card(word, user);
       this.swiper.appendSlide(card.renderTemplate());
+      this.swiper.update();
     });
+  }
+
+  addCardToRepeat(word, user) {
+    console.log('word', word);
+    const card = new Card(word, user);
+    // this.swiper.addSlide(this.swiper.slides.length, card.renderTemplate());
+    this.swiper.appendSlide(card.renderTemplate());
+    console.log(this.swiper);
   }
 
   renderMenu() {
@@ -205,14 +246,50 @@ export default class MainView {
     });
   }
 
+  renderShortStatistics(data, slidesAmount) {
+    const shortStatisticsTemplate = getShortStatisticsTemplate(data, slidesAmount);
+    this.showOverlay(shortStatisticsTemplate);
+    this.btnFinish = document.querySelector('.short-stat__button-finish');
+    this.btnContinue = document.querySelector('.short-stat__button-continue');
+    this.btnFinish.addEventListener('click', this.onShortStatisticsBtnFinishClick);
+    if (data) {
+      this.btnContinue.addEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
+  }
+
+  removeShortStatisticsListeners() {
+    if (this.btnFinish) {
+      this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
+    }
+    if (this.btnContinue) {
+      this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
+  }
+
+  showNotificationAboutRepeat(user, cardsAmount) {
+    const notification = getNotificationTemplate(user, cardsAmount);
+    this.showOverlay(notification);
+  }
+
   showSettingsModal(user) {
     this.settings.classList.toggle('user-tool__button-settings--active');
     const formattedTemplate = getModalSettingsTemplate(user, SETTING_MODAL_TEXT);
+    this.showOverlay(formattedTemplate);
+  }
+
+  showOverlay(modalTemplate) {
     const modal = document.createElement('div');
     modal.classList.add('settings__overlay');
-    modal.innerHTML = formattedTemplate;
+    modal.innerHTML = modalTemplate;
     this.main.append(modal);
   }
+
+  hideOverlay = () => {
+    const modal = document.querySelector('.settings__overlay');
+    if (modal) {
+      modal.remove();
+    }
+  };
 
   addSettingsModalListeners() {
     const modal = document.querySelector('.settings');
@@ -227,12 +304,10 @@ export default class MainView {
     this.wordAmount.addEventListener('focusout', () => {
       this.onInputComplete();
     });
-    this.btnAccept = document.querySelector('.btn-accept');
-    this.btnAccept.addEventListener('click', () => {
+    document.querySelector('.btn-accept').addEventListener('click', () => {
       this.onButtonAcceptClick();
     });
-    this.btnCancel = document.querySelector('.btn-cancel');
-    this.btnCancel.addEventListener('click', () => {
+    document.querySelector('.btn-cancel').addEventListener('click', () => {
       this.onModalBtnCancelClick();
     });
   }
@@ -255,10 +330,7 @@ export default class MainView {
 
   closeSettingsModal() {
     this.settings.classList.toggle('user-tool__button-settings--active');
-    this.modal = document.querySelector('.settings__overlay');
-    if (this.modal) {
-      this.modal.remove();
-    }
+    this.hideOverlay();
   }
 
   addUserToolClickHandler() {
@@ -322,6 +394,18 @@ export default class MainView {
       if (target.classList.contains('card__btn-difficult-word')) {
         this.onBtnDifficultClick();
       }
+      if (target.classList.contains('card__btn-easy-word')) {
+        this.onBtnEasyWordClick();
+      }
+      if (target.classList.contains('card__btn-normal-word')) {
+        this.onBtnNormalWordClick();
+      }
+      if (target.classList.contains('card__btn-complex-word')) {
+        this.onBtnDifficultWordClick();
+      }
+      if (target.classList.contains('card__btn-repeat-again')) {
+        this.onBtnRepeatAgainClick();
+      }
     });
   }
 
@@ -347,7 +431,7 @@ export default class MainView {
     if (this.headerNavigation.classList.contains('header__navigation--active')) {
       setTimeout(() => {
         this.headerNavigation.classList.remove('header__navigation--active');
-      }, 170);
+      }, DELAY_HIDE_MENU);
     } else {
       // todo: think about overflow hidden
       // document.body.style.width = `${document.body.offsetWidth}px`;
