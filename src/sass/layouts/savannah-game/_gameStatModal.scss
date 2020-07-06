@@ -1,13 +1,12 @@
 .statistics__container {
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
   box-sizing: border-box;
   width: 100%;
   max-width: 784px;
-  min-height: 70vh;
-  max-height: 600px;
+  height: calc(100% - 100px);
   margin: 0 auto;
-  margin-top: -66px;
   padding: 15px 16px;
   overflow: auto;
 
@@ -18,12 +17,11 @@
   border-radius: 8px;
 
 @include media-tablet {
-    margin: 0;
-    margin-top: -50px;
+    max-width: 500px;
   }
 
-@include media-mobile {
-    margin-top: -86px;
+  @include media-mobile {
+    max-width: 300px;
   }
 }
 
@@ -46,7 +44,6 @@
     align-items: center;
     width: 100%;
     max-width: 542px;
-    min-height: 315px;
     max-height: 500px;
     margin: 0 auto;
     margin-top: 20px;

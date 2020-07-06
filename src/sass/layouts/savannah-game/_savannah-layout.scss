@@ -22,7 +22,7 @@
     width: 100%;
     margin-left: 0;
 
-    font-size: 2em;
+    font-size: 1.5em;
   }
 
   &_hide {
@@ -31,70 +31,73 @@
 }
 
 
-.app__content__translation-box {
+.app__content_translation-box {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
   width: 100%;
-  margin-top: 15%;
+  min-height: 45vh;
 
   font-size: 1.5em;
   color: $text-color;
 
 @include media-tablet {
     flex-wrap: wrap;
-    margin-top: 25%;
+    justify-content: space-between;
+    margin-top: 15%;
   }
 
 @include media-mobile {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50%;
-
-    font-size: 1em;
-  }
-
-  span {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 30%;
-    min-height: 50px;
-    margin-right: 20px;
-    margin-bottom: 40px;
+    margin-top: 25%;
+  }
+}
 
-    cursor: pointer;
+.translation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  min-height: 50px;
+  margin-bottom: 40px;
 
-    user-select: none;
+  cursor: pointer;
+
+  user-select: none;
 
 @include media-tablet {
-      position: relative;
+    position: relative;
 
-      display: inline-block;
-      max-width: 270px;
-      margin: 0 100px 30px;
-      margin-right: 0;
+    display: flex;
+    margin-right: 0;
 
-      font-size: 2.5rem;
-      line-height: 30px;
-      vertical-align: top;
-      text-align: left;
-      word-break: break-all;
-    }
+    font-size: 2.5rem;
+    line-height: 30px;
+    vertical-align: top;
+    text-align: left;
+    word-break: break-all;
+  }
 
 @include media-mobile {
-      justify-content: start;
-      width: 90%;
-      max-width: 320px;
-      margin: 0 20px;
-      margin-bottom: 8px;
+    width: 80%;
+    min-height: auto;
+    margin-bottom: 10px;
 
-      font-size: 24px;
-    }
-    &:hover {
-      color: white;
+    font-size: 20px;
+    line-height: normal;
+  }
 
-      background: #3d7c807a;
-    }
+@include media-mobile-small {
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: white;
+
+    background: #3d7c807a;
   }
 }
 
@@ -106,7 +109,7 @@ span .keyboard-num {
   font-size: .5em;
 }
 
-.cristal {
+.crystal {
   position: absolute;
   bottom: 60px;
   left: 50%;
@@ -143,6 +146,10 @@ span .keyboard-num {
   display: block;
 }
 
+.flex {
+  display: flex;
+}
+
 .hidden {
   display: none;
 }
@@ -175,6 +182,6 @@ span .keyboard-num {
   background: $text-color;
 }
 
-.noHover {
+.hover-disabled {
   pointer-events: none;
 }

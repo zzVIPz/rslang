@@ -1,20 +1,19 @@
-
 import AudiocallController from './Controller';
 import {
   audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
   EMPTY_ARRAY, DELAY_BEFORE_SHOW_WORDS,
-  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY,
+  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY, COLOR_ARRAY,
 } from './constAudiocall';
 import { HASH_VALUES } from '../../constants/constMainView';
 import {
-  SOUND_URL, CORRECT_SOUND, ERROR_SOUND,
+  CORRECT_SOUND, ERROR_SOUND,
   ROUND_STARTS_SOUND,
 } from '../savannah-game/constSavannah';
 import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
-import shuffle from '../utils/shaffle';
+import shuffleArray from '../utils/shuffle';
 
 class AudiocallView {
   constructor(model, defaultHash, currentHash) {
@@ -23,9 +22,9 @@ class AudiocallView {
     this.template = audiocallGame;
     this.model = model;
     this.mainView = new MainView();
-    this.correctSound = (SOUND_URL + CORRECT_SOUND);
-    this.errorSound = (SOUND_URL + ERROR_SOUND);
-    this.roundStartsSound = (SOUND_URL + ROUND_STARTS_SOUND);
+    this.correctSound = getMediaUrl(CORRECT_SOUND);
+    this.errorSound = getMediaUrl(ERROR_SOUND);
+    this.roundStartsSound = getMediaUrl(ROUND_STARTS_SOUND);
     this.isGameOn = true;
     this.isPreloading = true;
     this.mainContainer = document.querySelector('.main');
@@ -34,7 +33,6 @@ class AudiocallView {
   checkAudiocallWindow() {
     if (!(this.getCurrentHash() === HASH_VALUES.audiocall)) {
       this.finishGame();
-      this.audiocallContainer = document.querySelector('.container-game');
 
       if (this.audiocallContainer) {
         this.mainContainer.removeChild(this.audiocallContainer);
@@ -55,9 +53,10 @@ class AudiocallView {
 
   addListeners() {
     this.mainContainer = document.querySelector('.main');
+    this.audiocallContainer = document.querySelector('.container-game');
     this.levelsContainer = document.querySelector('.container-game__levels-container');
-    this.roundContainer = document.querySelector('.select');
-    this.levelButtons = document.querySelector('.rating');
+    this.roundContainer = document.querySelector('.audiocall__rounds-block');
+    this.levelButtons = document.querySelector('.audiocall__level');
     this.roundButtons = document.querySelector('.select__content');
     this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
     this.loader = document.querySelector('.container-game__preload');
@@ -119,7 +118,7 @@ class AudiocallView {
   initWords() {
     this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
       .then((data) => {
-        shuffle(data);
+        shuffleArray(data);
         this.wordsArray = data;
         this.addWordsEl(this.wordsArray);
       });
@@ -134,7 +133,7 @@ class AudiocallView {
         this.WrongWordsArray = EMPTY_ARRAY;
       }
 
-      shuffle(this.model.positionAnswerArray);
+      shuffleArray(this.model.positionAnswerArray);
       this.imageWord.setAttribute('src', getMediaUrl(this.wordsArray[0].image));
       this.imageWord.setAttribute('alt', wordsArray[0].word);
       document.querySelector(`#answer-${this.model.positionAnswerArray[0]}`).childNodes[0].textContent = wordsArray[0].wordTranslate;
@@ -174,6 +173,9 @@ class AudiocallView {
 
   onCorrectAnswer(id) {
     playAudio(this.correctSound);
+    shuffleArray(COLOR_ARRAY);
+    this.audiocallContainer.style.backgroundColor = COLOR_ARRAY[0];
+    COLOR_ARRAY.shift();
     document.querySelector(`#answer-${id}`).classList.add('audiocall__answer--correct');
     this.model.rightAnswer.push(this.wordsArray[0]);
     this.setAnswer();
@@ -242,6 +244,9 @@ class AudiocallView {
         if (target.classList.contains('container-game__trainings-audiocall__answer')) {
           if (target.id === `answer-${this.model.positionAnswerArray[0]}`) {
             playAudio(this.correctSound);
+            shuffleArray(COLOR_ARRAY);
+            this.audiocallContainer.style.backgroundColor = COLOR_ARRAY[0];
+            COLOR_ARRAY.shift();
             target.classList.add('audiocall__answer--correct');
             this.model.rightAnswer.push(this.wordsArray[0]);
             this.setAnswer();
@@ -357,29 +362,27 @@ class AudiocallView {
     }
 
     getLevels() {
-      if (this.getCurrentHash() === HASH_VALUES.audiocall) {
-      this.levelButtons.addEventListener('click', ({ target }) => {
-        this.level = target.dataset.level;
-        console.log(this.level);
-      });
-      }
+        this.levelButtons.addEventListener('click', ({ target }) => {
+          if (this.getCurrentHash() === HASH_VALUES.audiocall) {
+          this.level = target.dataset.level;
+          console.log(this.level);
+          }
+        });
     }
 
     getRounds() {
-      if (this.getCurrentHash() === HASH_VALUES.audiocall) {
-      this.roundButtons.addEventListener('click', ({ target }) => {
-        this.round = target.dataset.round;
-        console.log(this.round);
-      });
-      }
+        this.roundButtons.addEventListener('click', ({ target }) => {
+          if (this.getCurrentHash() === HASH_VALUES.audiocall) {
+          this.round = target.dataset.round;
+          console.log(this.round);
+          }
+        });
     }
 
     continueGame() {
       this.finalContinueBtn.addEventListener('click', () => {
         this.audiocall = new AudiocallController(this.user, this.mainView);
-          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
-        // this.model.setDefault();
-        // this.render();
+        this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
       });
     }
 

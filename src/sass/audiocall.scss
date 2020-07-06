@@ -547,8 +547,8 @@ $var9: #00c45f;
   }
   &__levels-container {
     position: absolute;
-    top: 40px;
-    right: 0;
+    top: 26px;
+    right: 200px;
   }
   &__round-container {
     position: absolute;
@@ -588,7 +588,7 @@ $var9: #00c45f;
 }
 .select {
   position: absolute;
-  top: 27px;
+  top: 48px;
   right: 68px;
 
   display: flex;
@@ -618,7 +618,7 @@ $var9: #00c45f;
   display: none;
 
   &:checked + label {
-    background-color: #d8093a;
+    background-color: #014776;
   }
   &:disabled + label {
     opacity: .6;
@@ -644,14 +644,91 @@ $var9: #00c45f;
   &:hover {
     color: #ffffff;
 
-    background-color: #d8093a !important;
+    background-color: #014776 !important;
   }
+}
+.audiocall__round__text {
+  position: absolute;
+  top: 26px;
+  right: -16px;
+
+  width: 200px;
+
+  font-weight: 300;
+  font-size: 18px;
+  color: #ffffff;
+
+  opacity: .8;
 }
 .wrapp-flex {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.audiocall__levels-block {
+  position: relative;
+
+  width: 100%;
+  height: 40px;
+}
+.audiocall__level {
+  position: absolute;
+  top: 30px;
+  right: 0;
+
+  display: flex;
+
+  transform: translate(-40%, -50%) rotateY(180deg);
+}
+.audiocall__level__input {
+  display: none;
+}
+.audiocall__level__label {
+  display: block;
+  width: 25px;
+
+  cursor: pointer;
+}
+.audiocall__level__label:before {
+  content: "★";
+  position: relative;
+
+  display: block;
+
+  font-size: 30px;
+  color: #014776;
+}
+.audiocall__level__label:after {
+  content: "★";
+  position: absolute;
+  top: 0;
+
+  display: block;
+
+  font-size: 30px;
+  color: gold;
+
+  transform: .3s;
+  opacity: 0;
+}
+.audiocall__level__text {
+  position: absolute;
+  top: 0;
+  right: 20px;
+
+  width: 200px;
+
+  font-weight: 300;
+  font-size: 18px;
+  color: #ffffff;
+
+  opacity: .8;
+}
+.audiocall__level__label:hover:after,
+.audiocall__level__label:hover ~ .audiocall__level__label:after,
+.audiocall__level__input:checked ~ .audiocall__level__label:after {
+  opacity: 1;
 }
 .rating-round {
   position: absolute;
@@ -797,4 +874,11 @@ $var9: #00c45f;
 
     font-size: 24px;
   }
+  .container-game__trainings-audiocall__intro {
+    top: 440px;
+  }
+  .container-game__levels-container {
+    top: 194px;
+    right: 12px;
+}
 }

@@ -3,38 +3,39 @@ const audiocallGame = `
         <div class="container-game__trainings-audiocall">
             <div class="container-game__trainings-audiocall__close"></div>
             <div class="container-game__levels-container">
-                <div class="app__rating">
-                    <div class="rating">
+                <div class="audiocall__levels-block">
+                    <div class="audiocall__level">
                         <div>
-                            <input class="rating__input" type="radio" id="star6" name="star"/>
-                            <label class="rating__label" for="star6" title="level-6" data-level="5"></label>
+                            <input class="audiocall__level__input" type="radio" id="star6" name="star"/>
+                            <label class="audiocall__level__label" for="star6" title="level-6" data-level="5"></label>
                         </div>
                         <div>
-                            <input class="rating__input" type="radio" id="star5" name="star"/>
-                            <label class="rating__label" for="star5" title="level-5" data-level="4"></label>
+                            <input class="audiocall__level__input" type="radio" id="star5" name="star"/>
+                            <label class="audiocall__level__label" for="star5" title="level-5" data-level="4"></label>
                         </div>
                         <div>
-                            <input class="rating__input" type="radio" id="star4" name="star"/>
-                            <label class="rating__label" for="star4" title="level-4" data-level="3"></label>
+                            <input class="audiocall__level__input" type="radio" id="star4" name="star"/>
+                            <label class="audiocall__level__label" for="star4" title="level-4" data-level="3"></label>
                         </div>
                         <div>
-                            <input class="rating__input" type="radio" id="star3" name="star"/>
-                            <label class="rating__label" for="star3" title="level-3" data-level="2"></label>
+                            <input class="audiocall__level__input" type="radio" id="star3" name="star"/>
+                            <label class="audiocall__level__label" for="star3" title="level-3" data-level="2"></label>
                         </div>
                         <div>
-                            <input class="rating__input" type="radio" id="star2" name="star"/>
-                            <label class="rating__label" for="star2" title="level-2" data-level="1"></label>
+                            <input class="audiocall__level__input" type="radio" id="star2" name="star"/>
+                            <label class="audiocall__level__label" for="star2" title="level-2" data-level="1"></label>
                         </div>
                         <div>
-                            <input class="rating__input" type="radio" id="star1" name="star"/>
-                            <label class="rating__label" for="star1" title="level-1" data-level="0"></label>
+                            <input class="audiocall__level__input" type="radio" id="star1" name="star"/>
+                            <label class="audiocall__level__label" for="star1" title="level-1" data-level="0"></label>
                         </div>
                     </div>
-                    <div class="rating__text">
+                    <div class="audiocall__level__text">
                         <span>Уровень сложности</span>
                     </div>
                 </div>
             </div>
+            <div class="audiocall__rounds-block">
             <div class="select">
                 <div class="select__content">
                     <input id="select-1" class="select__input" type="checkbox" checked />
@@ -98,6 +99,10 @@ const audiocallGame = `
                     <input id="select-30" class="select__input" type="checkbox" />
                     <label for="select-30" class="select__label" data-round="29">30</label>
                 </div>
+            </div>
+            <div class="audiocall__round__text">
+                <span>Раунд</span>
+            </div>
             </div>
                 <div class="container-game__trainings-audiocall__intro">
                     <div class="container-game__trainings-audiocall__intro-title">
@@ -214,10 +219,15 @@ const I_DO_NOT_KNOW = 'Не знаю :(';
 const FAIL = 'В этот раз не получилось, но продолжай тренироваться!';
 const WIN = 'Так держать! Испытай себя на следующем раунде или уровне.';
 const EMPTY_ARRAY = ['пробовать', 'смешивать', 'пахать'];
+const COLOR_ARRAY = ['#ff0000', '#ff9d00', '#fffb00', '#b0ff00', '#3bff00',
+                    '#00ff53', '#00ff8e', '#00ffd4', '#00d7ff', '#009dff',
+                    '#0056ff', '#0033ff', '#7e00ff', '#ff00f3', '#ff0000',
+                    '#61ad2c', '#000000', '#4bff9ee3', '#9eff4be3', '#61ad2c8f'
+                    ]
 
 export {
   audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
   EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP, DELAY_BEFORE_SHOW_WORDS,
-  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY,
+  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY, COLOR_ARRAY,
 };

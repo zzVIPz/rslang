@@ -2,7 +2,11 @@
 import getMediaUrl from './getMediaUrl';
 import getRandomInteger from './getRandomInteger';
 import getFormattedString from './getFormattedString';
-import { SETTING_MODAL_TEXT, WORD_LEARNING_MODES } from '../constants/constMainView';
+import {
+  SETTING_MODAL_TEXT,
+  WORD_LEARNING_MODES,
+  WORD_COMPLEXITY,
+} from '../constants/constMainView';
 
 const CARD_TEXT = {
   newWord: 'New word',
@@ -70,14 +74,30 @@ export default function getCardTemplate(card, settings) {
     ${textMeaning}
     ${textExample}
     <div class ="card__buttons-container">
-      <button class="card__btn-know-word ${settings.btnKnow ? '' : 'hidden'}">
+      <button class="card__btn-know-word card__btn-primary ${settings.btnKnow ? '' : 'hidden'}">
         ${CARD_TEXT.btnBeFamiliar}
       </button>
-      <button class="card__btn-difficult-word ${settings.btnDifficult ? '' : 'hidden'}">
-        ${CARD_TEXT.btnToStudy}
+      <button class="card__btn-difficult-word card__btn-primary
+        ${settings.btnDifficult ? '' : 'hidden'}">
+          ${CARD_TEXT.btnToStudy}
       </button>
-      <button class="card__btn-show-answer ${settings.btnShowAnswer ? '' : 'hidden'}">
-        ${CARD_TEXT.btnShowAnswer}
+      <button class="card__btn-show-answer card__btn-primary
+        ${settings.btnShowAnswer ? '' : 'hidden'}">
+          ${CARD_TEXT.btnShowAnswer}
+      </button>
+    </div>
+    <div class ="card__additional-buttons-container hidden">
+      <button class="card__btn-easy-word card__btn-additional">
+        ${WORD_COMPLEXITY.easy}
+      </button>
+      <button class="card__btn-normal-word card__btn-additional">
+        ${WORD_COMPLEXITY.normal}
+      </button>
+      <button class="card__btn-complex-word card__btn-additional">
+        ${WORD_COMPLEXITY.difficult}
+      </button>
+      <button class="card__btn-repeat-again card__btn-additional">
+        ${WORD_COMPLEXITY.repeat}
       </button>
     </div>
     <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
