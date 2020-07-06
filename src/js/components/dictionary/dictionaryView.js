@@ -20,9 +20,15 @@ export default class DictionaryController {
     this.domElements.dictionary = document.querySelector('.dictionary');
     this.domElements.modal = document.querySelector('.dictModal');
     this.domElements.modalImg = document.querySelector('.dictModal__image');
+    this.domElements.modalWord = document.querySelector('.dictModal__word');
+    this.domElements.modalWordEng = document.querySelector('.dictModal__wordEnglish');
+    this.domElements.modalWordTranscipt = document.querySelector('.dictModal__wordTranscription');
+    this.domElements.modalWordTranslate = document.querySelector('.dictModal__wordTranslate');
     this.domElements.modalTextMeaning = document.querySelector('.dictModal__textMeaning');
     this.domElements.modalTextMeaningTranslate = document.querySelector('.dictModal__textMeaningTranslate');
-    this.domElements.modalInfoClose = document.querySelector('.dict-info-close');
+    this.domElements.modalTextExample = document.querySelector('.dictModal__textExample');
+    this.domElements.modalTextExampleTranslate = document.querySelector('.dictModal__textExampleTranslate');
+    this.domElements.modalInfoClose = document.getElementById('modalClose');
   }
 
   renderData(data, state) {
@@ -113,24 +119,64 @@ export default class DictionaryController {
       }
     });
 
+    this.domElements.modal.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('dict__word-audio')) {
+        target.firstChild.play();
+      }
+    });
+
     this.domElements.modalInfoClose.addEventListener('click', () => {
       this.hideModal();
     });
   }
 
   showModal(data) {
+    this.clearModal();
     const img = document.createElement('img');
     img.src = getMediaUrl(data.image);
     this.domElements.modalImg.append(img);
-    this.domElements.modalTextMeaning.textContent = data.textMeaning;
+
+    this.addAudioElement('modalWord', data.audio);
+    this.domElements.modalWordEng.textContent = data.word;
+    this.domElements.modalWordTranscipt.textContent = data.transcription;
+    this.domElements.modalWordTranslate.textContent = data.wordTranslate;
+
+    this.addAudioElement('modalTextMeaning', data.audioMeaning);
+    this.domElements.modalTextMeaning.insertAdjacentHTML('beforeend', data.textMeaning);
     this.domElements.modalTextMeaningTranslate.textContent = data.textMeaningTranslate;
-    this.domElements.modal.classList.remove('dictModal_hidden');
+
+    this.addAudioElement('modalTextExample', data.audioExample);
+    this.domElements.modalTextExample.insertAdjacentHTML('beforeend', data.textExample);
+    this.domElements.modalTextExampleTranslate.textContent = data.textExampleTranslate;
+
+    img.addEventListener('load', () => {
+      this.domElements.modal.classList.remove('dictModal_hidden');
+    });
   }
 
   hideModal() {
-    this.domElements.modalImg.innerHTML = '';
-    this.domElements.modalTextMeaning.textContent = '';
-    this.domElements.modalTextMeaningTranslate.textContent = '';
     this.domElements.modal.classList.add('dictModal_hidden');
+  }
+
+  addAudioElement(parent, src) {
+    const audio = document.createElement('audio');
+    audio.src = getMediaUrl(src);
+    this.domElements[parent].childNodes[1].append(audio);
+  }
+
+  clearModal() {
+    this.domElements.modalImg.innerHTML = '';
+
+    this.domElements.modalWord.childNodes[1].innerHTML = '';
+
+    this.domElements.modalTextMeaning.childNodes[1].innerHTML = '';
+    while (this.domElements.modalTextMeaning.childNodes.length > 2) {
+      this.domElements.modalTextMeaning.removeChild(this.domElements.modalTextMeaning.lastChild);
+    }
+
+    this.domElements.modalTextExample.childNodes[1].innerHTML = '';
+    while (this.domElements.modalTextExample.childNodes.length > 2) {
+      this.domElements.modalTextExample.removeChild(this.domElements.modalTextExample.lastChild);
+    }
   }
 }

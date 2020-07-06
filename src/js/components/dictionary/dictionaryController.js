@@ -43,7 +43,6 @@ export default class DictionaryController {
 
     this.dictionaryView.onInfoRequest = async (id) => {
       const wordInfo = await this.mainModel.getAggregatedWordById(id);
-      console.log(wordInfo);
       this.dictionaryView.showModal(wordInfo);
     };
   }
