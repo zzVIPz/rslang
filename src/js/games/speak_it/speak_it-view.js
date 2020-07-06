@@ -25,7 +25,7 @@ export default class View {
     this.resultForNextRound = 0;
     this.mic = document.querySelector('.mic');
     this.buttonSpeak = document.querySelector('.speak');
-    this.speaker = document.querySelector('.user-tool__button-speaker')
+    this.speaker = document.querySelector('.user-tool__button-speaker');
     return this;
   }
 
@@ -63,7 +63,7 @@ export default class View {
     }
   }
 
-  createImageURL(link) {
+  createImageURL = (link) => {
     return `url('${getMediaUrl(link)}')`;
   }
 
@@ -90,7 +90,9 @@ export default class View {
 
   playSound(sound) {
     if (this.audios.length > 0) {
-      this.audios.forEach((el) => el.muted = true);
+      this.audios.forEach((el) => {
+        el.muted = true
+      });
       this.audios = [];
     }
     const audio = new Audio(sound);

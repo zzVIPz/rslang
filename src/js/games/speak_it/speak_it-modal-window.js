@@ -33,21 +33,21 @@ export default class ModalWindow {
 
   stopGame() {
     const missArrayId = [];
-    for (let el of this.uncorrectWordsArray) {
-      missArrayId.push(el.id)
+    for (const el of this.uncorrectWordsArray) {
+      missArrayId.push(el.id);
     }
     checkUserWords(missArrayId);
-    let statisticObject = {
-      "learnedWords": 999,
-        "optional": {
-          "speak": 999,
-          "puzzle": 999,
-          "call": 999,
-          "savanna": 999,
-          "sprint": 999,
-          "newGame": 999
-        }
-      };
+    const statisticObject = {
+      learnedWords: 999,
+      optional: {
+        speak: 999,
+        puzzle: 999,
+        call: 999,
+        savanna: 999,
+        sprint: 999,
+        newGame: 999,
+      },
+    };
     this.mainModel.setUserStatistic(statisticObject);
     container.innerHTML = '';
     this.mainView.renderMain(this.user);
@@ -80,7 +80,7 @@ export default class ModalWindow {
     this.addStatisticMethods();
   }
 
-  addWords(array, placeForPutting) {
+  addWords = (array, placeForPutting) => {
     for (const word of array) {
       const oneRow = document.createElement('div');
       oneRow.classList.add('wordBox');
@@ -123,8 +123,8 @@ export default class ModalWindow {
     this.statisticModalWindow.innerHTML = '';
   }
 
-  playSound(sound) {
-    const speaker = document.querySelector('.user-tool__button-speaker')
+  playSound = (sound) => {
+    const speaker = document.querySelector('.user-tool__button-speaker');
     if (speaker.classList.contains('user-tool__button-speaker--active')) {
       new Audio(sound.id).play();
     }

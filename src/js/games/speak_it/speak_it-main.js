@@ -28,5 +28,6 @@ export default function startSpeakItGame(user, mainView) {
   const preload = new StartingClass(user, mainView);
   preload.addListeners();
   document.querySelector('.app__button').onclick = () => {
-    runGamePage(preload.choosenGroup, preload.choosenPage, user, mainView)};
+    runGamePage(preload.choosenGroup, preload.choosenPage, user, mainView);
+  };
 }

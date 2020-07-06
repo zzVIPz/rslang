@@ -55,7 +55,7 @@ export default class Model {
     this.datasWordTranslate = [];
   }
 
-  shuffle(array) {
+  shuffle = (array) => {
     for (let i = array.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -78,7 +78,7 @@ export default class Model {
     return false;
   }
 
-  setRandomStartPage(round) {
+  setRandomStartPage = (round) => {
     const max = round * 5;
     const min = max + 4;
     return Math.floor(Math.random() * (max - min)) + min;

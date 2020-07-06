@@ -1,5 +1,5 @@
 @import "speak_it-constants";
-.speakIt_title{
+.speakIt_title {
   margin-top: 15%;
 }
 
@@ -76,14 +76,16 @@
   color: $color_text_hover;
 
   transition: background-color .5s ease-out;
-  @extend %text;
+
+@extend %text;
 }
-.speakIt_game{
-  background: url(/src/assets/images/speak_it-background.jpg) rgb(124, 123, 123);
+.speakIt_game {
   min-width: 100vw;
+
+  background: url(/src/assets/images/speak_it-background.jpg) rgb(124, 123, 123);
   background-position: 0;
 }
-.preloader_cont{
+.preloader_cont {
   padding-top: 70px;
 }
 
@@ -109,12 +111,17 @@
   .container_over {
     width: 85vw;
     height: 63vw;
-}
+  }
 
 
-  .examples, .tanslations, .button, .inner, .text, .word_look {
+  .examples,
+  .tanslations,
+  .button,
+  .inner,
+  .text,
+  .word_look {
     font-size: 4vw!important;
     line-height: 4vw!important;
-}
+  }
 }
 

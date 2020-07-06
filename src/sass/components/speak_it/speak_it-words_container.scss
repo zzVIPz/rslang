@@ -25,7 +25,7 @@
 }
 
 .speak_card:hover {
-  background: radial-gradient(circle, rgba(200, 255, 250, 0.6) 0%, rgba(99, 104, 168, 0.7) 100%);
+  background: radial-gradient(circle, rgba(200, 255, 250, .6) 0%, rgba(99, 104, 168, .7) 100%);
 }
 .word_listen {
   width: 35px;
@@ -41,6 +41,7 @@
 }
 .word_look {
   margin-top: 10px;
+
   font-weight: initial!important;
   font-size: 16px!important;
 

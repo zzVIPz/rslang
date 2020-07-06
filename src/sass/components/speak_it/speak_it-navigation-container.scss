@@ -62,16 +62,17 @@
   transition: background-color .2s cubic-bezier(0, -1.85, .27, 1.75);
 }
 
-.speakIt_close{
-  opacity: 0.7;
+.speakIt_close {
+  opacity: .7;
 }
-.speakIt_close:hover{
+.speakIt_close:hover {
   opacity: 1;
 }
 @media only screen and (max-width: 920px) {
   .raiting_container {
     position: inherit;
-    top: 0px;
+    top: 0;
+
     width: 230px;
     margin: auto;
     margin-top: 15px;

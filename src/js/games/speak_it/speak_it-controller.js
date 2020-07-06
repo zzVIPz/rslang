@@ -11,9 +11,8 @@ import Model from './speak_it-model';
 import ModalWindow from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
-import MainView from '../../views/mainView';
 
-export default class Controller { 
+export default class Controller {
   constructor(group, round, user, mainView) {
     this.startPage = 0;
     this.startGroup = group;
@@ -27,7 +26,7 @@ export default class Controller {
     this.groups = Array.from(document.querySelectorAll('.hard_level > p'));
     this.rounds = Array.from(document.querySelectorAll('.page_level > p'));
     this.closeBtn = document.querySelector('.close');
-    this.speaker = document.querySelector('.user-tool__button-speaker')
+    this.speaker = document.querySelector('.user-tool__button-speaker');
     this.corectAns = 0;
     this.choosenWordIndex = 0;
     this.recognitionMod = false;
@@ -43,7 +42,7 @@ export default class Controller {
     this.recognition.maxAlternatives = 1;
     this.recognition.continuous = true;
     this.recognition.interimResults = false;
-    this.mainModel.getUserStatistic(); 
+    this.mainModel.getUserStatistic();
   }
 
   initGame() {
@@ -152,7 +151,7 @@ export default class Controller {
     }
   }
 
-  isThereRepeat(array, word) {
+  isThereRepeat = (array, word) => {
     for (const elem of array) {
       if (elem.word === word) {
         return false;
@@ -178,7 +177,10 @@ export default class Controller {
 
   closeStartPage() {
     this.closeBtn.onclick = () => {
-      const modal = new ModalWindow(this.model.correct, this.model.uncorrect, this.setDefaultHash, this.user);
+      const modal = new ModalWindow(this.model.correct, 
+        this.model.uncorrect, 
+        this.setDefaultHash, 
+        this.user);
       modal.runListeners(this.user, this.mainView);
       modal.toggelModalWindov();
     };
