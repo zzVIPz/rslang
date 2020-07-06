@@ -39,6 +39,7 @@
 .dict {
   &__word-line {
     display: flex;
+    margin-bottom: 0.5rem;
   }
   &__word-audio {
     width: 2.6rem;
@@ -97,5 +98,92 @@
       background-color: #00cdac;
       border-radius: 50%;
     }
+  }
+  &__word-restore {
+    width: 2.6rem;
+    height: 2.6rem;
+    cursor: pointer;
+    background-image: url(../assets/images/restore.png);
+    background-size: cover;
+    &:hover {
+      box-shadow: 0 0 4px 3px #00cdac;
+      background-color: #00cdac;
+      border-radius: 50%;
+    }
+  }
+}
+
+.dictModal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 36px 16px 16px;
+  overflow: auto;
+
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 0;
+
+  &__body {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 700px;
+    height: 800px;
+    padding: 20px 40px;
+
+    background-color: white;
+    border-radius: 5px;;
+  }
+
+  &_hidden {
+    display: none;
+  }
+}
+
+.dict-info-close {
+  position: relative;
+  top: 0;
+  right: 0;
+
+  width: 32px;
+  height: 32px;
+  margin-left: 20px;
+
+  cursor: pointer;
+  opacity: .3;
+  &:before,
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 15px;
+
+    width: 2px;
+    height: 33px;
+
+    background-color: white;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+  &:hover {
+    opacity: 1;
+
+    transition: .3s ease-in-out;
   }
 }
