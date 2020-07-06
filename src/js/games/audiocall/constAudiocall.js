@@ -35,39 +35,70 @@ const audiocallGame = `
                     </div>
                 </div>
             </div>
-            <div class="container-game__round-container">
-                <div class="app__rating">
-                    <div class="rating-round">
-                        <div>
-                            <input class="rating__input" type="radio" id="star6" name="star"/>
-                            <label class="rating__label" for="star6" title="round-6" data-round="5"></label>
-                        </div>
-                        <div>
-                            <input class="rating__input" type="radio" id="star5" name="star"/>
-                            <label class="rating__label" for="star5" title="round-5" data-round="4"></label>
-                        </div>
-                        <div>
-                            <input class="rating__input" type="radio" id="star4" name="star"/>
-                            <label class="rating__label" for="star4" title="round-4" data-round="3"></label>
-                        </div>
-                        <div>
-                            <input class="rating__input" type="radio" id="star3" name="star"/>
-                            <label class="rating__label" for="star3" title="round-3" data-round="2"></label>
-                        </div>
-                        <div>
-                            <input class="rating__input" type="radio" id="star2" name="star"/>
-                            <label class="rating__label" for="star2" title="round-2" data-round="1"></label>
-                        </div>
-                        <div>
-                            <input class="rating__input" type="radio" id="star1" name="star"/>
-                            <label class="rating__label" for="star1" title="round-1" data-round="0"></label>
-                        </div>
-                        </div>
-                        <div class="rating__text">
-                            <span>Раунд</span>
-                        </div>
-                    </div>
+            <div class="select">
+                <div class="select__content">
+                    <input id="select-1" class="select__input" type="checkbox" checked />
+                    <label for="select-1" class="select__label" data-round="0">1</label>
+                    <input id="select-2" class="select__input" type="checkbox" />
+                    <label for="select-2" class="select__label" data-round="1">2</label>
+                    <input id="select-3" class="select__input" type="checkbox" />
+                    <label for="select-3" class="select__label" data-round="2">3</label>
+                    <input id="select-4" class="select__input" type="checkbox" />
+                    <label for="select-4" class="select__label" data-round="3">4</label>
+                    <input id="select-5" class="select__input" type="checkbox" />
+                    <label for="select-5" class="select__label" data-round="4">5</label>
+                    <input id="select-6" class="select__input" type="checkbox" />
+                    <label for="select-6" class="select__label" data-round="5">6</label>
+                    <input id="select-7" class="select__input" type="checkbox" />
+                    <label for="select-7" class="select__label" data-round="6">7</label>
+                    <input id="select-8" class="select__input" type="checkbox" />
+                    <label for="select-8" class="select__label" data-round="7">8</label>
+                    <input id="select-9" class="select__input" type="checkbox" />
+                    <label for="select-9" class="select__label" data-round="8">9</label>
+                    <input id="select-10" class="select__input" type="checkbox" />
+                    <label for="select-10" class="select__label" data-round="9">10</label>
+                    <input id="select-11" class="select__input" type="checkbox" />
+                    <label for="select-11" class="select__label" data-round="10">11</label>
+                    <input id="select-12" class="select__input" type="checkbox" />
+                    <label for="select-12" class="select__label" data-round="11">12</label>
+                    <input id="select-13" class="select__input" type="checkbox" />
+                    <label for="select-13" class="select__label" data-round="12">13</label>
+                    <input id="select-14" class="select__input" type="checkbox" />
+                    <label for="select-14" class="select__label" data-round="13">14</label>
+                    <input id="select-15" class="select__input" type="checkbox" />
+                    <label for="select-15" class="select__label" data-round="14">15</label>
+                    <input id="select-16" class="select__input" type="checkbox" />
+                    <label for="select-16" class="select__label" data-round="15">16</label>
+                    <input id="select-17" class="select__input" type="checkbox" />
+                    <label for="select-17" class="select__label" data-round="16">17</label>
+                    <input id="select-18" class="select__input" type="checkbox" />
+                    <label for="select-18" class="select__label" data-round="17">18</label>
+                    <input id="select-19" class="select__input" type="checkbox" />
+                    <label for="select-19" class="select__label" data-round="18">19</label>
+                    <input id="select-20" class="select__input" type="checkbox" />
+                    <label for="select-20" class="select__label" data-round="19">20</label>
+                    <input id="select-21" class="select__input" type="checkbox" />
+                    <label for="select-21" class="select__label" data-round="20">21</label>
+                    <input id="select-22" class="select__input" type="checkbox" />
+                    <label for="select-22" class="select__label" data-round="21">22</label>
+                    <input id="select-23" class="select__input" type="checkbox" />
+                    <label for="select-23" class="select__label" data-round="22">23</label>
+                    <input id="select-24" class="select__input" type="checkbox" />
+                    <label for="select-24" class="select__label" data-round="23">24</label>
+                    <input id="select-25" class="select__input" type="checkbox" />
+                    <label for="select-25" class="select__label" data-round="24">25</label>
+                    <input id="select-26" class="select__input" type="checkbox" />
+                    <label for="select-26" class="select__label" data-round="25">26</label>
+                    <input id="select-27" class="select__input" type="checkbox" />
+                    <label for="select-27" class="select__label" data-round="26">27</label>
+                    <input id="select-28" class="select__input" type="checkbox" />
+                    <label for="select-28" class="select__label" data-round="27">28</label>
+                    <input id="select-29" class="select__input" type="checkbox" />
+                    <label for="select-29" class="select__label" data-round="28">29</label>
+                    <input id="select-30" class="select__input" type="checkbox" />
+                    <label for="select-30" class="select__label" data-round="29">30</label>
                 </div>
+            </div>
                 <div class="container-game__trainings-audiocall__intro">
                     <div class="container-game__trainings-audiocall__intro-title">
                         <span>Аудиовызов</span>

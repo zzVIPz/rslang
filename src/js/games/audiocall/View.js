@@ -56,7 +56,7 @@ class AudiocallView {
     this.levelsContainer = document.querySelector('.container-game__levels-container');
     this.roundContainer = document.querySelector('.container-game__round-container');
     this.levelButtons = document.querySelector('.rating');
-    this.roundButtons = document.querySelector('.rating-round');
+    this.roundButtons = document.querySelector('.select__content');
     this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
     this.loader = document.querySelector('.container-game__preload');
     this.startBtn = document.querySelector('.container-game__trainings-audiocall__intro-btn');
@@ -269,7 +269,6 @@ class AudiocallView {
       setTimeout(() => {
         if (this.isGameOn) {
           this.gamePage.classList.remove('animation');
-          // this.imageWord.classList.remove('visuallyshow');
           this.headerWord.innerText = '';
           this.removePointerEvents();
           if (this.wordsArray.length !== 0) {
@@ -356,17 +355,21 @@ class AudiocallView {
     }
 
     getLevels() {
-      this.levelButtons.addEventListener('click', (event) => {
-        this.level = event.target.dataset.level;
+      if (this.getCurrentHash() === HASH_VALUES.audiocall) {
+      this.levelButtons.addEventListener('click', ({ target }) => {
+        this.level = target.dataset.level;
         console.log(this.level);
       });
+      }
     }
 
     getRounds() {
-      this.roundButtons.addEventListener('click', (event) => {
-        this.round = event.target.dataset.round;
+      if (this.getCurrentHash() === HASH_VALUES.audiocall) {
+      this.roundButtons.addEventListener('click', ({ target }) => {
+        this.round = target.dataset.round;
         console.log(this.round);
       });
+      }
     }
 
     continueGame() {
