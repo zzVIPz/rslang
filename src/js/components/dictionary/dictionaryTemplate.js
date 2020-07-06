@@ -25,7 +25,7 @@ const dictionaryTemplate = `
           <div class="dict__word-audio"></div>
         </div>
         <div class="dictModal__textExampleTranslate"></div>
-        <div class="dictModal__closeBtn dictModal_hidden">Close</div>
+        <div class="dictModal__closeBtn">CLOSE</div>
       </div>
       <a id="modalClose" class="ep-close_app"></a>
     </div>
