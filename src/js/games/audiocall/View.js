@@ -1,3 +1,5 @@
+
+import AudiocallController from './Controller';
 import {
   audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
@@ -54,7 +56,7 @@ class AudiocallView {
   addListeners() {
     this.mainContainer = document.querySelector('.main');
     this.levelsContainer = document.querySelector('.container-game__levels-container');
-    this.roundContainer = document.querySelector('.container-game__round-container');
+    this.roundContainer = document.querySelector('.select');
     this.levelButtons = document.querySelector('.rating');
     this.roundButtons = document.querySelector('.select__content');
     this.introPage = document.querySelector('.container-game__trainings-audiocall__intro');
@@ -374,6 +376,9 @@ class AudiocallView {
 
     continueGame() {
       this.finalContinueBtn.addEventListener('click', () => {
+        this.audiocall = new AudiocallController(this.user, this.mainView);
+          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+        // this.model.setDefault();
         // this.render();
       });
     }

@@ -25,6 +25,12 @@ class AudiocallModel {
     const dataWords = await res.json();
     return dataWords;
   }
+
+  setDefault() {
+    this.rightAnswer = [];
+    this.wrongAnswer = [];
+    this.positionAnswerArray = [1, 2, 3, 4];
+  }
 }
 
 export default AudiocallModel;
