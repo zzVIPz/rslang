@@ -23,8 +23,6 @@ export default class Controller {
     this.examples = Array.from(document.querySelectorAll('.examples'));
     this.microphone = document.querySelector('.mic');
     this.clear = document.querySelector('.clear');
-    this.groups = Array.from(document.querySelectorAll('.hard_level > p'));
-    this.rounds = Array.from(document.querySelectorAll('.page_level > p'));
     this.closeBtn = document.querySelector('.close');
     this.speaker = document.querySelector('.user-tool__button-speaker');
     this.corectAns = 0;
@@ -105,13 +103,13 @@ export default class Controller {
     this.recognition.addEventListener('result', (e) => {
       const result = e.results[0][0].transcript;
       this.view.recognition(result);
-      const num = this.choosenWordIndex;
-      const arr = this.model;
+      const word = this.model.datasWords[this.choosenWordIndex];
+      const id = this.model.id[this.choosenWordIndex];
+      const soundURL = this.model.datasAudios[this.choosenWordIndex];
+      const wordTranslate = this.model.datasWordTranslate[this.choosenWordIndex];
+      let object = {word, id, soundURL, wordTranslate};
       if (this.model.checkResult(result)) {
-        this.addToCorrectArray(arr.id[num],
-          arr.datasWords[num],
-          arr.datasAudios[num],
-          arr.datasWordTranslate[num]);
+        this.addToCorrectArray(object, word);
         this.view.result.innerHTML += ONE_START;
         this.addedRightAnwser();
         this.playAudio(this.correctAudio);
@@ -123,29 +121,20 @@ export default class Controller {
         }
         this.cards;
       } else {
-        this.addToWrongArray(arr.id[num],
-          arr.datasWords[num],
-          arr.datasAudios[num],
-          arr.datasWordTranslate[num]);
+        this.addToWrongArray(object, word);
         this.playAudio(this.uncorrectAudio);
       }
     });
     this.recognition.stop();
   }
 
-  addToCorrectArray(id, word, soundURL, wordTranslate) {
-    const obj = {
-      word, id, soundURL, wordTranslate,
-    };
+  addToCorrectArray(obj, word) {
     if (this.isThereRepeat(this.model.correct, word)) {
       this.model.correct.push(obj);
     }
   }
 
-  addToWrongArray(id, word, soundURL, wordTranslate) {
-    const obj = {
-      word, id, soundURL, wordTranslate,
-    };
+  addToWrongArray(obj, word) {
     if (this.isThereRepeat(this.model.uncorrect, word)) {
       this.model.uncorrect.push(obj);
     }

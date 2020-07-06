@@ -17,7 +17,6 @@ export default class Model {
     this.datasWordTranslate = [];
     this.correct = [];
     this.uncorrect = [];
-    return this;
   }
 
   extractAllDatas(json) {
