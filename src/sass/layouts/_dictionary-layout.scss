@@ -11,29 +11,52 @@
 .controlsBtn {
   width: 15rem;
   height: 5rem;
-  border: 1px solid #000000;
   border-radius: 0.5rem;
   margin-right: 2rem;
   text-align: center;
   padding-top: 1.4rem;
+
+  font-weight: 100;
+  font-size: 2rem;
+  font-family: inherit;
+  color: #ffffff;
+  letter-spacing: .1rem;
+  background-color: #00cdac;
+  
   cursor: pointer;
   &:last-child {
     margin-right: 0;
   }
   &:hover {
     box-shadow: 0 0 4px 1px #00cdac;
-    background-color: #00cdac ;
+
   }
   &_active {
     box-shadow: 0 0 4px 1px #00cdac;
+    border: 2px solid #ffffff;
   }
 }
 
 .wordsData {
   margin-top: 2rem;
-  max-width: 400px;
+  max-width: 550px;
   margin-left: auto;
   margin-right: auto;
+  max-height: calc(100vh - 183px);
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 5px;
+  &::-webkit-scrollbar {
+    width: 1em;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 5px;
+    outline: 1px solid slategrey;
+  }
 }
 
 .dict {
@@ -48,6 +71,7 @@
     background-image: url(../assets/images/audio.png);
     background-size: cover;
     margin-right: 1rem;
+    min-width: 1.8rem;
     &:hover {
       box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
@@ -65,6 +89,11 @@
     font-weight: 600;
     color: #2582e7;
     text-transform: uppercase;
+    line-height: 1.6;
+    margin-right: 1rem;
+  }
+  &__word-transcription {
+    font-size: 1.6rem;
     line-height: 1.6;
     margin-right: 1rem;
   }
@@ -87,12 +116,26 @@
       border-radius: 50%;
     }
   }
+  &__word-difficult {
+    width: 2.6rem;
+    height: 2.6rem;
+    cursor: pointer;
+    background-image: url(../assets/images/difficult.png);
+    background-size: cover;
+    margin-right: 1rem;
+    &:hover {
+      box-shadow: 0 0 4px 3px #00cdac;
+      background-color: #00cdac;
+      border-radius: 50%;
+    }
+  }
   &__word-remove {
     width: 2.6rem;
     height: 2.6rem;
     cursor: pointer;
     background-image: url(../assets/images/remove.png);
     background-size: cover;
+    // margin-right: 1rem;
     &:hover {
       box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
@@ -110,6 +153,18 @@
       background-color: #00cdac;
       border-radius: 50%;
     }
+  }
+  &__no-words {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #f56714;
+    text-transform: uppercase;
+    line-height: 1.6;
+    text-align: center;
+    
+    overflow: hidden;
+    white-space: nowrap;
+
   }
 }
 
@@ -149,8 +204,8 @@
   }
 
   &__image {
-    width: 380px;
-    height: 250px;
+    width: 340px;
+    height: 240px;
     border-radius: 5px;
     overflow: hidden;
     margin-bottom: 1rem;
@@ -167,6 +222,11 @@
     text-transform: uppercase;
     line-height: 1.6;
     margin-right: 1rem;
+
+    max-width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
     }
     &Transcription {
       font-size: 1.6rem;
@@ -201,7 +261,7 @@
   &__textMeaningTranslate, &__textExampleTranslate {
     font-size: 1.6rem;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     overflow: hidden;
     white-space: nowrap;
   }
@@ -212,24 +272,110 @@
   }
 
   &__closeBtn {
-    width: 15rem;
-    height: 5rem;
-    border: 1px solid #000000;
-    border-radius: 0.5rem;
-    margin-right: 2rem;
-    text-align: center;
-    padding-top: 1.4rem;
-    cursor: pointer;
-    &:hover {
-      box-shadow: 0 0 4px 1px #00cdac;
-      background-color: #00cdac ;
-    }
-    &_active {
-      box-shadow: 0 0 4px 1px #00cdac;
-    }
+      width: 15rem;
+      height: 5rem;
+      border-radius: 0.5rem;
+      margin-right: 2rem;
+      text-align: center;
+      padding-top: 1.4rem;
+    
+      font-weight: 100;
+      font-size: 2rem;
+      font-family: inherit;
+      color: #ffffff;
+      letter-spacing: .1rem;
+      background-color: #00cdac;
+      display: none;
+      cursor: pointer;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:hover {
+        box-shadow: 0 0 4px 1px #00cdac;
+      }
   }
 
   &_hidden {
     display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .ep-close_app {
+    display: none;
+  }
+  .dictModal__closeBtn {
+
+    display: block;
+  }
+  .dictModal__body {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .controlsBtn {
+    width: 12rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    line-height: 1rem;
+  }
+  .dict__word-audio, .dict__word-difficult, .dict__word-information {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-right: 0.5rem;
+  }
+  .dict__word-remove, .dict__word-restore {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .dict__word-english, .dict__word-transcription, .dict__word-translate,
+  .dictModal__wordEnglish, .dictModal__wordTranscription, .dictModal__wordTranslate,
+  .dictModal__meaning, .dictModal__example,
+  .dictModal__textMeaning, .dictModal__textMeaningTranslate, .dictModal__textExample, .dictModal__textExampleTranslate {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin-right: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
+  }
+
+  
+}
+
+@media screen and (max-width: 450px) {
+  .controlsBtn {
+    margin-right: 1rem;
+    width: 9rem;
+    font-size: 1.3rem;
+  }
+  .dict__word-audio, .dict__word-difficult, .dict__word-information {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: 0.3rem;
+  }
+  .dict__word-remove, .dict__word-restore {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .dict__word-english, .dict__word-transcription, .dict__word-translate,
+  .dictModal__wordEnglish, .dictModal__wordTranscription, .dictModal__wordTranslate,
+  .dictModal__meaning, .dictModal__example,
+  .dictModal__textMeaning, .dictModal__textMeaningTranslate, .dictModal__textExample, .dictModal__textExampleTranslate {
+    font-size: 1rem;
+    line-height: 1.8rem;
+    margin-right: 0.3rem;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
+  }
+  .dictModal__image {
+    width: 270px;
   }
 }

@@ -1,9 +1,9 @@
 const dictionaryTemplate = `
   <div class="dictionary">
     <div class="dictionary__controls">
-      <div class="controlsBtn" data-state="repeat">RepeatWords</div>
-      <div class="controlsBtn" data-state="difficult">DifficultWords</div>
-      <div class="controlsBtn" data-state="easy">EasyWords</div>
+      <div class="controlsBtn controlsBtn_active" data-state="repeat">LEARNING</div>
+      <div class="controlsBtn" data-state="difficult">DIFFICULT</div>
+      <div class="controlsBtn" data-state="easy">REMOVED</div>
     </div>
     <div class="wordsData"></div>
     <div class="dictModal dictModal_hidden">

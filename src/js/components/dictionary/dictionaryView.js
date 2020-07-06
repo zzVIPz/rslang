@@ -9,6 +9,7 @@ export default class DictionaryController {
     this.domElements = {};
     this.onStateChange = null;
     this.onWordRemove = null;
+    this.onWordToDifficult = null;
     this.onWordRestore = null;
     this.onInfoRequest = null;
   }
@@ -29,10 +30,17 @@ export default class DictionaryController {
     this.domElements.modalTextExample = document.querySelector('.dictModal__textExample');
     this.domElements.modalTextExampleTranslate = document.querySelector('.dictModal__textExampleTranslate');
     this.domElements.modalInfoClose = document.getElementById('modalClose');
+    this.domElements.modalInfoCloseBtn = document.querySelector('.dictModal__closeBtn');
   }
 
   renderData(data, state) {
     this.domElements.wordsData.innerHTML = '';
+    if (data.length === 0) {
+      const noWords = document.createElement('div');
+      noWords.classList.add('dict__no-words');
+      noWords.textContent = 'There is no words to view';
+      this.domElements.wordsData.append(noWords);
+    }
     data.forEach((el) => {
       const line = document.createElement('div');
       line.classList.add('dict__word-line');
@@ -51,6 +59,11 @@ export default class DictionaryController {
       wordEng.textContent = el.word;
       wordEngTrans.append(wordEng);
 
+      const wordTranscript = document.createElement('div');
+      wordTranscript.classList.add('dict__word-transcription');
+      wordTranscript.textContent = el.transcription;
+      wordEngTrans.append(wordTranscript);
+
       const wordTrans = document.createElement('div');
       wordTrans.classList.add('dict__word-translate');
       wordTrans.textContent = `— ${el.wordTranslate}`;
@@ -64,13 +77,18 @@ export default class DictionaryController {
       line.append(wordInfo);
 
       if (state === CONSTANTS.DICT_STATES.LEARNING) {
+        const wordToDifficult = document.createElement('div');
+        wordToDifficult.classList.add('dict__word-difficult');
+        wordToDifficult.dataset.id = el._id;
+        line.append(wordToDifficult);
+
         const wordRemove = document.createElement('div');
         wordRemove.classList.add('dict__word-remove');
         wordRemove.dataset.id = el._id;
         line.append(wordRemove);
       }
 
-      if (state === CONSTANTS.DICT_STATES.REMOVED) {
+      if (state === CONSTANTS.DICT_STATES.REMOVED || state === CONSTANTS.DICT_STATES.DIFFICULT) {
         const wordRestore = document.createElement('div');
         wordRestore.classList.add('dict__word-restore');
         wordRestore.dataset.id = el._id;
@@ -112,6 +130,12 @@ export default class DictionaryController {
         }
       }
 
+      if (target.classList.contains('dict__word-difficult')) {
+        if (this.onWordToDifficult != null) {
+          this.onWordToDifficult(target.dataset.id);
+        }
+      }
+
       if (target.classList.contains('dict__word-restore')) {
         if (this.onWordRestore != null) {
           this.onWordRestore(target.dataset.id);
@@ -126,6 +150,10 @@ export default class DictionaryController {
     });
 
     this.domElements.modalInfoClose.addEventListener('click', () => {
+      this.hideModal();
+    });
+
+    this.domElements.modalInfoCloseBtn.addEventListener('click', () => {
       this.hideModal();
     });
   }

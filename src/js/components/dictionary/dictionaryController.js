@@ -15,6 +15,7 @@ export default class DictionaryController {
     this.dictionaryView.renderData(this.wordsData, this.state);
     this.subscribeToEvents();
     this.dictionaryView.addListeners();
+    console.log(this.mainModel.userId, this.mainModel.token);
   }
 
   async getData() {
@@ -29,6 +30,12 @@ export default class DictionaryController {
       this.dictionaryView.renderData(this.wordsData, this.state);
     };
 
+    this.dictionaryView.onWordToDifficult = async (id) => {
+      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.DIFFICULT);
+      await this.getData();
+      this.dictionaryView.renderData(this.wordsData, this.state);
+    };
+
     this.dictionaryView.onWordRemove = async (id) => {
       await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.REMOVED);
       await this.getData();
@@ -36,7 +43,8 @@ export default class DictionaryController {
     };
 
     this.dictionaryView.onWordRestore = async (id) => {
-      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.LEARNING);
+      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.LEARNING,
+        CONSTANTS.DEFAULT_MISTAKES_COUNT);
       await this.getData();
       this.dictionaryView.renderData(this.wordsData, this.state);
     };
