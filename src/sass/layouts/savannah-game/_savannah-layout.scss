@@ -13,7 +13,7 @@
   height: 50px;
   margin-left: -50px;
 
-  font-size: 2em;
+  font-size: 4rem;
   color: $text-color;
 
 @include media-mobile {
@@ -74,7 +74,7 @@
     display: flex;
     margin-right: 0;
 
-    font-size: 2.5rem;
+    font-size: 2rem;
     line-height: 30px;
     vertical-align: top;
     text-align: left;
@@ -86,7 +86,7 @@
     min-height: auto;
     margin-bottom: 10px;
 
-    font-size: 20px;
+    font-size: 1.5rem;
     line-height: normal;
   }
 
@@ -105,8 +105,11 @@ span .keyboard-num {
   max-width: 10px;
   min-height: 10px;
   margin: 0;
+  margin: 0 3px;
+  padding-top: 3px;
 
   font-size: .5em;
+  color: #ffffff;
 }
 
 .crystal {
@@ -129,7 +132,7 @@ span .keyboard-num {
     width: 100%;
     height: 100%;
 
-    animation: mover 1s infinite  alternate;
+    animation: mover 1s infinite alternate;
 
     @keyframes mover {
       0% {
@@ -160,7 +163,7 @@ span .keyboard-num {
 
 .app__background {
   min-width: 100vw;
-  height: calc(100vh - 93px);
+  height: calc(100vh - 88px);
 
   background-image: url("/src/assets/images/savannah-bg.svg");
   background-repeat: no-repeat;

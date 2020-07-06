@@ -25,6 +25,7 @@ import {
   BACKGROUND_MOVE_PX,
   DELAY_HIGHLIGHT,
   MARGIN_PERCENTAGE,
+  MARGIN_PERCENTAGE_SMALL,
   BASE_MARGIN,
   NUMBER_OF_LIVES,
 } from '../constSavannah';
@@ -535,7 +536,11 @@ class SavannahView {
   }
 
   changePositionAccordingToClientHeight() {
-    const marginTop = document.documentElement.clientHeight * MARGIN_PERCENTAGE;
+    let marginTop = document.documentElement.clientHeight * MARGIN_PERCENTAGE;
+    if (document.documentElement.clientWidth <= 425) {
+      marginTop = document.documentElement.clientHeight * MARGIN_PERCENTAGE_SMALL;
+    }
+
     if (this.marginTop !== marginTop) {
       this.marginTop = marginTop;
     }
