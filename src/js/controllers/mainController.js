@@ -109,13 +109,15 @@ export default class MainController {
       await this.setDefaultState();
       this.mainView.setSwiperDefaultState();
       const wordsList = await this.getWordsList(user.studyMode);
-      this.mainView.renderSwiperTemplate();
-      this.initSwiper();
-      this.mainView.renderCards(wordsList, user, this.swiper);
-      this.swiper.update();
-      this.mainView.disableSwiperNextSlide();
-      this.mainView.setFocusToInput();
-      window.location.hash = HASH_VALUES.training;
+      if (wordsList.length) {
+        this.mainView.renderSwiperTemplate();
+        this.initSwiper();
+        this.mainView.renderCards(wordsList, user, this.swiper);
+        this.swiper.update();
+        this.mainView.disableSwiperNextSlide();
+        this.mainView.setFocusToInput();
+        window.location.hash = HASH_VALUES.training;
+      }
     };
 
     this.mainView.onButtonAcceptClick = () => {
@@ -271,10 +273,10 @@ export default class MainController {
         wordsList.push(word);
       });
       if (aggregatedWords.length < this.user.cardsTotal) {
-        this.mainView.showNotificationAboutRepeat(aggregatedWords.length);
+        this.mainView.showNotificationAboutRepeat(this.user, aggregatedWords.length);
       }
     } else {
-      this.mainView.showNotificationAboutRepeat();
+      this.mainView.showNotificationAboutRepeat(this.user);
     }
 
     console.log('current training words', wordsList);

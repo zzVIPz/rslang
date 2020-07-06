@@ -266,12 +266,9 @@ export default class MainView {
     }
   }
 
-  showNotificationAboutRepeat(cardsAmount) {
-    const notification = getNotificationTemplate(cardsAmount);
+  showNotificationAboutRepeat(user, cardsAmount) {
+    const notification = getNotificationTemplate(user, cardsAmount);
     this.showOverlay(notification);
-    // debugger;
-    // todo: to Dima: so you can see your modal
-    this.hideOverlay();
   }
 
   showSettingsModal(user) {

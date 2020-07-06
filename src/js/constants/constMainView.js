@@ -157,6 +157,10 @@ const SHORT_STATISTICS_TEXT = {
   btnFinish: 'FINISH',
 };
 
+const NOTIFICATION_TEXT = {
+  btnAccept: 'OK',
+};
+
 export {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -177,4 +181,5 @@ export {
   DELAY_SET_FOCUS_ON_INPUT,
   WORD_COMPLEXITY,
   SHORT_STATISTICS_TEXT,
+  NOTIFICATION_TEXT,
 };
