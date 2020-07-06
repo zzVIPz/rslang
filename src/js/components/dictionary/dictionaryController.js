@@ -15,7 +15,6 @@ export default class DictionaryController {
     this.dictionaryView.renderData(this.wordsData, this.state);
     this.subscribeToEvents();
     this.dictionaryView.addListeners();
-    console.log(this.mainModel.userId, this.mainModel.token);
   }
 
   async getData() {

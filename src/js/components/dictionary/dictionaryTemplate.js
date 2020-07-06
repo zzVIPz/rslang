@@ -7,7 +7,7 @@ const dictionaryTemplate = `
     </div>
     <div class="wordsData"></div>
     <div class="dictModal dictModal_hidden">
-      <div class="dictModal__body">
+      <div class="dictModal__body animate__animated animate__backInDown">
         <div class="dictModal__image"></div>
         <div class="dictModal__word">
           <div class="dict__word-audio"></div>

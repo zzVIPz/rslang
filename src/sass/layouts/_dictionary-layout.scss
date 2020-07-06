@@ -11,41 +11,40 @@
 .controlsBtn {
   width: 15rem;
   height: 5rem;
-  border-radius: 0.5rem;
   margin-right: 2rem;
-  text-align: center;
   padding-top: 1.4rem;
 
   font-weight: 100;
   font-size: 2rem;
   font-family: inherit;
+  text-align: center;
   color: #ffffff;
   letter-spacing: .1rem;
+
   background-color: #00cdac;
-  
+  border-radius: .5rem;
   cursor: pointer;
   &:last-child {
     margin-right: 0;
   }
   &:hover {
     box-shadow: 0 0 4px 1px #00cdac;
-
   }
   &_active {
-    box-shadow: 0 0 4px 1px #00cdac;
     border: 2px solid #ffffff;
+    box-shadow: 0 0 4px 1px #00cdac;
   }
 }
 
 .wordsData {
-  margin-top: 2rem;
   max-width: 550px;
-  margin-left: auto;
-  margin-right: auto;
   max-height: calc(100vh - 183px);
+  margin-top: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 5px;
   overflow: auto;
   overflow-x: hidden;
-  padding: 5px;
   &::-webkit-scrollbar {
     width: 1em;
   }
@@ -62,109 +61,116 @@
 .dict {
   &__word-line {
     display: flex;
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem;
   }
   &__word-audio {
     width: 2.6rem;
+    min-width: 1.8rem;
     height: 2.6rem;
-    cursor: pointer;
+    margin-right: 1rem;
+
     background-image: url(../assets/images/audio.png);
     background-size: cover;
-    margin-right: 1rem;
-    min-width: 1.8rem;
+    cursor: pointer;
     &:hover {
-      box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
       border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
     }
   }
   &__word-eng-trans {
     display: flex;
     flex: 1;
     overflow: hidden;
+
     white-space: nowrap;
   }
   &__word-english {
-    font-size: 1.6rem;
+    margin-right: 1rem;
+
     font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
     color: #2582e7;
     text-transform: uppercase;
-    line-height: 1.6;
-    margin-right: 1rem;
   }
   &__word-transcription {
+    margin-right: 1rem;
+
     font-size: 1.6rem;
     line-height: 1.6;
-    margin-right: 1rem;
   }
   &__word-translate {
-    text-transform: uppercase;
+    margin-right: 1rem;
+
     font-size: 1.6rem;
     line-height: 1.6;
-    margin-right: 1rem;
+    text-transform: uppercase;
   }
   &__word-information {
     width: 2.6rem;
     height: 2.6rem;
-    cursor: pointer;
+    margin-right: 1rem;
+
     background-image: url(../assets/images/info.png);
     background-size: cover;
-    margin-right: 1rem;
+    cursor: pointer;
     &:hover {
-      box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
       border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
     }
   }
   &__word-difficult {
     width: 2.6rem;
     height: 2.6rem;
-    cursor: pointer;
+    margin-right: 1rem;
+
     background-image: url(../assets/images/difficult.png);
     background-size: cover;
-    margin-right: 1rem;
+    cursor: pointer;
     &:hover {
-      box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
       border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
     }
   }
   &__word-remove {
     width: 2.6rem;
     height: 2.6rem;
-    cursor: pointer;
+
     background-image: url(../assets/images/remove.png);
     background-size: cover;
-    // margin-right: 1rem;
+    cursor: pointer;
     &:hover {
-      box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
       border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
     }
   }
   &__word-restore {
     width: 2.6rem;
     height: 2.6rem;
-    cursor: pointer;
+
     background-image: url(../assets/images/restore.png);
     background-size: cover;
+    cursor: pointer;
     &:hover {
-      box-shadow: 0 0 4px 3px #00cdac;
       background-color: #00cdac;
       border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
     }
   }
   &__no-words {
-    font-size: 1.6rem;
+    overflow: hidden;
+
     font-weight: 600;
-    color: #f56714;
-    text-transform: uppercase;
+    font-size: 1.6rem;
     line-height: 1.6;
     text-align: center;
-    
-    overflow: hidden;
+    color: #f56714;
+    text-transform: uppercase;
     white-space: nowrap;
-
   }
 }
 
@@ -206,9 +212,10 @@
   &__image {
     width: 340px;
     height: 240px;
-    border-radius: 5px;
-    overflow: hidden;
     margin-bottom: 1rem;
+    overflow: hidden;
+
+    border-radius: 5px;
   }
 
   &__word {
@@ -216,83 +223,93 @@
     margin-bottom: 1rem;
 
     &English {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #2582e7;
-    text-transform: uppercase;
-    line-height: 1.6;
-    margin-right: 1rem;
+      max-width: 100%;
+      margin-right: 1rem;
+      overflow: hidden;
 
-    max-width: 100%;
-    overflow: hidden;
-    white-space: pre;
-    text-overflow: ellipsis;
+      font-weight: 600;
+      font-size: 1.6rem;
+      line-height: 1.6;
+      color: #2582e7;
+      text-transform: uppercase;
+      white-space: pre;
+      text-overflow: ellipsis;
     }
     &Transcription {
+      margin-right: 1rem;
+
       font-size: 1.6rem;
       line-height: 1.6;
-      margin-right: 1rem;
     }
     &Translate {
-      text-transform: uppercase;
+      margin-right: 1rem;
+
       font-size: 1.6rem;
       line-height: 1.6;
-      margin-right: 1rem;
+      text-transform: uppercase;
     }
   }
 
-  &__meaning, &__example {
-    font-size: 1.6rem;
+  &__meaning,
+  &__example {
+    margin-bottom: 1rem;
+
     font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
     color: #00cdac;
     text-transform: uppercase;
-    line-height: 1.6;
-    margin-bottom: 1rem;
   }
 
-  &__textMeaning, &__textExample {
+  &__textMeaning,
+  &__textExample {
     display: flex;
-    white-space: pre;
+    margin-bottom: 1rem;
+
     font-size: 1.6rem;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    white-space: pre;
   }
 
-  &__textMeaningTranslate, &__textExampleTranslate {
-    font-size: 1.6rem;
-    line-height: 1.6;
+  &__textMeaningTranslate,
+  &__textExampleTranslate {
     margin-bottom: 2rem;
     overflow: hidden;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
     white-space: nowrap;
   }
 
   &__textExample {
     display: flex;
+
     white-space: pre;
   }
 
   &__closeBtn {
-      width: 15rem;
-      height: 5rem;
-      border-radius: 0.5rem;
-      margin-right: 2rem;
-      text-align: center;
-      padding-top: 1.4rem;
-    
-      font-weight: 100;
-      font-size: 2rem;
-      font-family: inherit;
-      color: #ffffff;
-      letter-spacing: .1rem;
-      background-color: #00cdac;
-      display: none;
-      cursor: pointer;
-      &:last-child {
-        margin-right: 0;
-      }
-      &:hover {
-        box-shadow: 0 0 4px 1px #00cdac;
-      }
+    display: none;
+    width: 15rem;
+    height: 5rem;
+    margin-right: 2rem;
+    padding-top: 1.4rem;
+
+    font-weight: 100;
+    font-size: 2rem;
+    font-family: inherit;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: .1rem;
+
+    background-color: #00cdac;
+    border-radius: .5rem;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      box-shadow: 0 0 4px 1px #00cdac;
+    }
   }
 
   &_hidden {
@@ -305,7 +322,6 @@
     display: none;
   }
   .dictModal__closeBtn {
-
     display: block;
   }
   .dictModal__body {
@@ -321,60 +337,84 @@
   .controlsBtn {
     width: 12rem;
     height: 4rem;
+
     font-size: 1.5rem;
     line-height: 1rem;
   }
-  .dict__word-audio, .dict__word-difficult, .dict__word-information {
+  .dict__word-audio,
+  .dict__word-difficult,
+  .dict__word-information {
     width: 2.2rem;
     height: 2.2rem;
-    margin-right: 0.5rem;
+    margin-right: .5rem;
   }
-  .dict__word-remove, .dict__word-restore {
+  .dict__word-remove,
+  .dict__word-restore {
     width: 2.2rem;
     height: 2.2rem;
   }
 
-  .dict__word-english, .dict__word-transcription, .dict__word-translate,
-  .dictModal__wordEnglish, .dictModal__wordTranscription, .dictModal__wordTranslate,
-  .dictModal__meaning, .dictModal__example,
-  .dictModal__textMeaning, .dictModal__textMeaningTranslate, .dictModal__textExample, .dictModal__textExampleTranslate {
+  .dict__word-english,
+  .dict__word-transcription,
+  .dict__word-translate,
+  .dictModal__wordEnglish,
+  .dictModal__wordTranscription,
+  .dictModal__wordTranslate,
+  .dictModal__meaning,
+  .dictModal__example,
+  .dictModal__textMeaning,
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExample,
+  .dictModal__textExampleTranslate {
+    max-width: 100%;
+    margin-right: .5rem;
+    overflow: hidden;
+
     font-size: 1.4rem;
     line-height: 1.4;
-    margin-right: 0.5rem;
-    max-width: 100%;
-    overflow: hidden;
     white-space: pre;
     text-overflow: ellipsis;
   }
-
-  
 }
 
 @media screen and (max-width: 450px) {
   .controlsBtn {
-    margin-right: 1rem;
     width: 9rem;
+    margin-right: 1rem;
+
     font-size: 1.3rem;
   }
-  .dict__word-audio, .dict__word-difficult, .dict__word-information {
+  .dict__word-audio,
+  .dict__word-difficult,
+  .dict__word-information {
     width: 1.8rem;
     height: 1.8rem;
-    margin-right: 0.3rem;
+    margin-right: .3rem;
   }
-  .dict__word-remove, .dict__word-restore {
+  .dict__word-remove,
+  .dict__word-restore {
     width: 1.8rem;
     height: 1.8rem;
   }
 
-  .dict__word-english, .dict__word-transcription, .dict__word-translate,
-  .dictModal__wordEnglish, .dictModal__wordTranscription, .dictModal__wordTranslate,
-  .dictModal__meaning, .dictModal__example,
-  .dictModal__textMeaning, .dictModal__textMeaningTranslate, .dictModal__textExample, .dictModal__textExampleTranslate {
+  .dict__word-english,
+  .dict__word-transcription,
+  .dict__word-translate,
+  .dictModal__wordEnglish,
+  .dictModal__wordTranscription,
+  .dictModal__wordTranslate,
+  .dictModal__meaning,
+  .dictModal__example,
+  .dictModal__textMeaning,
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExample,
+  .dictModal__textExampleTranslate {
+    max-width: 100%;
+    margin-right: .3rem;
+    overflow: hidden;
+
     font-size: 1rem;
     line-height: 1.8rem;
-    margin-right: 0.3rem;
-    max-width: 100%;
-    overflow: hidden;
     white-space: pre;
     text-overflow: ellipsis;
   }
