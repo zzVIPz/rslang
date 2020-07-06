@@ -170,6 +170,19 @@ class AudiocallView {
     });
   }
 
+  onCorrectAnswer(id) {
+    playAudio(this.correctSound);
+    document.querySelector(`#answer-${id}`).classList.add('audiocall__answer--correct');
+    this.model.rightAnswer.push(this.wordsArray[0]);
+    this.setAnswer();
+  }
+
+  onIncorrectAnswer(id) {
+    playAudio(this.errorSound);
+    document.querySelector(`#answer-${id}`).classList.add('audiocall__answer--incorrect');
+    this.wrong();
+  }
+
     checkAnswer = () => {
       document.querySelector('body').addEventListener('keydown', (event) => {
         if (event.keyCode === 49 || event.keyCode === 50
@@ -184,47 +197,27 @@ class AudiocallView {
               }
               if (event.keyCode === 49) {
                 if (document.querySelector('#answer-1').id === `answer-${this.model.positionAnswerArray[0]}`) {
-                  playAudio(this.correctSound);
-                  document.querySelector('#answer-1').classList.add('audiocall__answer--correct');
-                  this.model.rightAnswer.push(this.wordsArray[0]);
-                  this.setAnswer();
+                  this.onCorrectAnswer(1);
                 } else {
-                  playAudio(this.errorSound);
-                  document.querySelector('#answer-1').classList.add('audiocall__answer--incorrect');
-                  this.wrong();
+                  this.onIncorrectAnswer(1);
                 }
               } else if (event.keyCode === 50) {
                 if (document.querySelector('#answer-2').id === `answer-${this.model.positionAnswerArray[0]}`) {
-                  playAudio(this.correctSound);
-                  document.querySelector('#answer-2').classList.add('audiocall__answer--correct');
-                  this.model.rightAnswer.push(this.wordsArray[0]);
-                  this.setAnswer();
+                  this.onCorrectAnswer(2);
                 } else {
-                  playAudio(this.errorSound);
-                  document.querySelector('#answer-2').classList.add('audiocall__answer--incorrect');
-                  this.wrong();
+                  this.onIncorrectAnswer(2);
                 }
               } else if (event.keyCode === 51) {
                 if (document.querySelector('#answer-3').id === `answer-${this.model.positionAnswerArray[0]}`) {
-                  playAudio(this.correctSound);
-                  document.querySelector('#answer-3').classList.add('audiocall__answer--correct');
-                  this.model.rightAnswer.push(this.wordsArray[0]);
-                  this.setAnswer();
+                  this.onCorrectAnswer(3);
                 } else {
-                  playAudio(this.errorSound);
-                  document.querySelector('#answer-3').classList.add('audiocall__answer--incorrect');
-                  this.wrong();
+                  this.onIncorrectAnswer(3);
                 }
               } else if (event.keyCode === 52) {
                 if (document.querySelector('#answer-4').id === `answer-${this.model.positionAnswerArray[0]}`) {
-                  playAudio(this.correctSound);
-                  document.querySelector('#answer-4').classList.add('audiocall__answer--correct');
-                  this.model.rightAnswer.push(this.wordsArray[0]);
-                  this.setAnswer();
+                  this.onCorrectAnswer(4);
                 } else {
-                  playAudio(this.errorSound);
-                  document.querySelector('#answer-4').classList.add('audiocall__answer--incorrect');
-                  this.wrong();
+                  this.onIncorrectAnswer(4);
                 }
               } else if (event.keyCode === 13) {
                 if (this.answerBtn.innerText === NEXT) {
@@ -272,11 +265,11 @@ class AudiocallView {
     nextWord() {
       this.gamePage.classList.add('animation');
       this.answerBtn.innerText = I_DO_NOT_KNOW;
+      this.imageWord.classList.remove('visuallyshow');
       setTimeout(() => {
         if (this.isGameOn) {
           this.gamePage.classList.remove('animation');
-          this.imageWord.classList.remove('show');
-          this.imageWord.classList.remove('visuallyshow');
+          // this.imageWord.classList.remove('visuallyshow');
           this.headerWord.innerText = '';
           this.removePointerEvents();
           if (this.wordsArray.length !== 0) {
@@ -383,7 +376,6 @@ class AudiocallView {
     }
 
     showImageWord(words) {
-      this.imageWord.classList.add('show');
       setTimeout(() => {
         this.imageWord.classList.add('visuallyshow');
       }, DELAY_BEFORE_SHOW_IMAGE_WORD);

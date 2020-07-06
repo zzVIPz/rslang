@@ -10,8 +10,11 @@ class AudiocallModel {
   }
 
   async fetchWords(user, chosenLevel, chosenRound) {
+    this.currentUser = user;
+
     const data = await this.mainModel.getWords(chosenRound || 0,
       chosenLevel || 0);
+
     return data;
   }
 
