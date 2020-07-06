@@ -29,6 +29,11 @@ const getUserSettingsBodyRequest = (userData) => ({
   },
 });
 
+const getWordDescription = (category, optional) => ({
+  difficulty: category,
+  optional,
+});
+
 export default class MainModel {
   constructor() {
     this.accessData = JSON.parse(localStorage.accessKey);
@@ -134,7 +139,8 @@ export default class MainModel {
     return content[0];
   };
 
-  createUserWord = async (wordId, description) => {
+  createUserWord = async (wordId, category, optional = {}) => {
+    const description = getWordDescription(category, optional);
     const rawResponse = await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
       getBodyRequest('POST', this.token, description),
@@ -144,7 +150,8 @@ export default class MainModel {
     console.log('createUserWord', content);
   };
 
-  updateUserWord = async (wordId, description) => {
+  updateUserWord = async (wordId, category, optional = {}) => {
+    const description = getWordDescription(category, optional);
     await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
       getBodyRequest('PUT', this.token, description),
