@@ -4,7 +4,7 @@ import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import getWordsList from '../utils/getWordsList';
-import SavannahController from '../games/savannah-game/Controller';
+import createSavannaGame from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
 import {
   MENU_ITEMS_NAMES,
@@ -77,8 +77,7 @@ export default class MainController {
         case MENU_ITEMS_NAMES.audiocall:
           break;
         case MENU_ITEMS_NAMES.savannah:
-          this.savannah = new SavannahController(this.user, this.mainView);
-          this.savannah.init(this.setDefaultHash, this.getCurrentHash);
+          createSavannaGame(this);
           break;
         case MENU_ITEMS_NAMES.sprint:
           this.game = new SprintController();

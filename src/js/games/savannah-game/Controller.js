@@ -19,4 +19,11 @@ class SavannahController {
   }
 }
 
-export default SavannahController;
+function createSavannaGame(mainCtrl) {
+  if (!document.querySelector('.savannah__app')) {
+    const savannah = new SavannahController(mainCtrl.user, mainCtrl.mainView);
+    savannah.init(mainCtrl.setDefaultHash, mainCtrl.getCurrentHash);
+  }
+}
+
+export default createSavannaGame;
