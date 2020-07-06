@@ -12,6 +12,7 @@ export default class DictionaryController {
     this.onWordToDifficult = null;
     this.onWordRestore = null;
     this.onInfoRequest = null;
+    this.audio = new Audio();
   }
 
   render() {
@@ -118,7 +119,7 @@ export default class DictionaryController {
 
     this.domElements.wordsData.addEventListener('click', ({ target }) => {
       if (target.classList.contains('dict__word-audio')) {
-        target.firstChild.play();
+        this.playAudio(target.firstChild);
       }
 
       if (target.classList.contains('dict__word-information')) {
@@ -148,7 +149,7 @@ export default class DictionaryController {
 
     this.domElements.modal.addEventListener('click', ({ target }) => {
       if (target.classList.contains('dict__word-audio')) {
-        target.firstChild.play();
+        this.playAudio(target.firstChild);
       }
     });
 
@@ -159,6 +160,25 @@ export default class DictionaryController {
     this.domElements.modalInfoCloseBtn.addEventListener('click', () => {
       this.hideModal();
     });
+  }
+
+  playAudio(targetAudio) {
+    if (this.audio === targetAudio) {
+      if (this.audio.paused) {
+        this.audio.play();
+      } else {
+        this.audio.pause();
+        this.audio.currentTime = 0.0;
+      }
+    } else if (this.audio.paused) {
+      this.audio = targetAudio;
+      this.audio.play();
+    } else {
+      this.audio.pause();
+      this.audio.currentTime = 0.0;
+      this.audio = targetAudio;
+      this.audio.play();
+    }
   }
 
   showModal(data) {
