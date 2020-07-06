@@ -1,9 +1,9 @@
-import shuffleArray from '../utils/shaffle';
+import shuffleArray from '../utils/shuffle';
 import MainModel from '../../models/mainModel';
 import {
-  INITIAL_BACKGROUND_POSITIONY,
+  INITIAL_BACKGROUND_POSITION,
   REMOVE_DIGITS_REGEXP,
-  INITIAL_CRISTAL_WIDTH,
+  INITIAL_CRYSTAL_WIDTH,
   DEFAULT_DISPLAYED_LEVEL,
 } from './constSavannah';
 
@@ -15,9 +15,10 @@ class SavannahModel {
     this.isPreloading = true;
     this.isWordClicked = false;
     this.removeDigitsRegExp = REMOVE_DIGITS_REGEXP;
-    this.backgroundPositionY = INITIAL_BACKGROUND_POSITIONY;
-    this.cristalWidth = INITIAL_CRISTAL_WIDTH;
+    this.backgroundPositionY = INITIAL_BACKGROUND_POSITION;
+    this.crystalWidth = INITIAL_CRYSTAL_WIDTH;
     this.levelNumForUser = DEFAULT_DISPLAYED_LEVEL;
+    this.incorrectWordsId = [];
   }
 
   async fetchWords(user, chosenLevel, chosenRound) {
