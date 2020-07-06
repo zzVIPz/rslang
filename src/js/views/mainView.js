@@ -130,8 +130,20 @@ export default class MainView {
     return currentSlide.dataset.id;
   }
 
+  showAdditionalControlButtons(currentSlide = this.getCurrentSlide()) {
+    currentSlide.querySelector('.card__buttons-container').classList.add('hidden');
+    currentSlide.querySelector('.card__additional-buttons-container').classList.remove('hidden');
+  }
+
   disableToolButtons(currentSlide = this.getCurrentSlide()) {
-    const buttons = currentSlide.querySelectorAll('button');
+    const buttons = currentSlide.querySelectorAll('.card__btn-primary');
+    buttons.forEach((button) => {
+      button.setAttribute('disabled', 'disabled');
+    });
+  }
+
+  disableAdditionalControlButtons(currentSlide = this.getCurrentSlide()) {
+    const buttons = currentSlide.querySelectorAll('.card__btn-additional');
     buttons.forEach((button) => {
       button.setAttribute('disabled', 'disabled');
     });
@@ -151,6 +163,7 @@ export default class MainView {
 
   playAudio = (user, currentSlide = this.getCurrentSlide()) => {
     this.stopAudio();
+
     if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
       this.playlist = getPlaylist(user, currentSlide);
       if (this.playlist.length) {
@@ -161,13 +174,21 @@ export default class MainView {
               const nextAudio = arr[i + 1];
               if (nextAudio) {
                 nextAudio.play();
-              } else if (user.automaticallyScroll) this.swiper.slideNext();
+              } else if (user.automaticallyScroll && this.checkActiveButtonsBlock(currentSlide)) {
+                this.swiper.slideNext();
+              }
             }
           });
         });
       }
     }
   };
+
+  checkActiveButtonsBlock(currentSlide = this.getCurrentSlide()) {
+    return currentSlide
+      .querySelector('.card__additional-buttons-container')
+      .classList.contains('hidden');
+  }
 
   showCorrectAnswer(param) {
     const currentInput = this.getCurrentInputNode();
@@ -201,11 +222,21 @@ export default class MainView {
   }
 
   renderCards(words, user, swiper) {
+    console.log('words', words);
     this.swiper = swiper;
     words.forEach((word) => {
       const card = new Card(word, user);
       this.swiper.appendSlide(card.renderTemplate());
+      this.swiper.update();
     });
+  }
+
+  addCardToRepeat(word, user) {
+    console.log('word', word);
+    const card = new Card(word, user);
+    // this.swiper.addSlide(this.swiper.slides.length, card.renderTemplate());
+    this.swiper.appendSlide(card.renderTemplate());
+    console.log(this.swiper);
   }
 
   renderMenu() {
@@ -215,20 +246,29 @@ export default class MainView {
     });
   }
 
-  renderShortStatistics(data) {
-    const shortStatisticsTemplate = getShortStatisticsTemplate(data);
+  renderShortStatistics(data, slidesAmount) {
+    const shortStatisticsTemplate = getShortStatisticsTemplate(data, slidesAmount);
     this.showOverlay(shortStatisticsTemplate);
-    // todo: to Dima: so you can see your modal
-    debugger;
-    this.hideOverlay();
+    this.btnFinish = document.querySelector('.short-stat__button-finish');
+    this.btnContinue = document.querySelector('.short-stat__button-continue');
+    this.btnFinish.addEventListener('click', this.onShortStatisticsBtnFinishClick);
+    if (data) {
+      this.btnContinue.addEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
   }
 
-  showNotificationAboutRepeat(cardsAmount) {
-    const notification = getNotificationTemplate(cardsAmount);
+  removeShortStatisticsListeners() {
+    if (this.btnFinish) {
+      this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
+    }
+    if (this.btnContinue) {
+      this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
+  }
+
+  showNotificationAboutRepeat(user, cardsAmount) {
+    const notification = getNotificationTemplate(user, cardsAmount);
     this.showOverlay(notification);
-    // debugger;
-    // todo: to Dima: so you can see your modal
-    this.hideOverlay();
   }
 
   showSettingsModal(user) {
@@ -264,12 +304,10 @@ export default class MainView {
     this.wordAmount.addEventListener('focusout', () => {
       this.onInputComplete();
     });
-    this.btnAccept = document.querySelector('.btn-accept');
-    this.btnAccept.addEventListener('click', () => {
+    document.querySelector('.btn-accept').addEventListener('click', () => {
       this.onButtonAcceptClick();
     });
-    this.btnCancel = document.querySelector('.btn-cancel');
-    this.btnCancel.addEventListener('click', () => {
+    document.querySelector('.btn-cancel').addEventListener('click', () => {
       this.onModalBtnCancelClick();
     });
   }
@@ -355,6 +393,18 @@ export default class MainView {
       }
       if (target.classList.contains('card__btn-difficult-word')) {
         this.onBtnDifficultClick();
+      }
+      if (target.classList.contains('card__btn-easy-word')) {
+        this.onBtnEasyWordClick();
+      }
+      if (target.classList.contains('card__btn-normal-word')) {
+        this.onBtnNormalWordClick();
+      }
+      if (target.classList.contains('card__btn-complex-word')) {
+        this.onBtnDifficultWordClick();
+      }
+      if (target.classList.contains('card__btn-repeat-again')) {
+        this.onBtnRepeatAgainClick();
       }
     });
   }

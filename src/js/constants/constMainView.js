@@ -144,6 +144,23 @@ const PAGES_LINKS = {
   about: './about.html',
 };
 
+const SHORT_STATISTICS_TEXT = {
+  targetTitle: 'Congratulations! Your goal has been achieved!',
+  additionalTitle: 'Congratulations! You have completed all your goals!',
+  targetPassedCards: 'Total passed cards : ',
+  targetPercentage: 'Percentage of correct answers : ',
+  targetNewWords: 'Learned new words : ',
+  targetSuccessSeries: 'Longest series of correct answers : ',
+  targetText:
+    'You have {param} word(s) left to repeat. If you want to continue training, click "Continue" or click "Finish" to complete this training',
+  btnContinue: 'CONTINUE',
+  btnFinish: 'FINISH',
+};
+
+const NOTIFICATION_TEXT = {
+  btnAccept: 'OK',
+};
+
 export {
   MENU_ITEMS_NAMES,
   HASH_VALUES,
@@ -163,4 +180,6 @@ export {
   DELAY_HIDE_MENU,
   DELAY_SET_FOCUS_ON_INPUT,
   WORD_COMPLEXITY,
+  SHORT_STATISTICS_TEXT,
+  NOTIFICATION_TEXT,
 };
