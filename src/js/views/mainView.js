@@ -246,11 +246,24 @@ export default class MainView {
     });
   }
 
-  renderShortStatistics(data) {
-    const shortStatisticsTemplate = getShortStatisticsTemplate(data);
+  renderShortStatistics(data, slidesAmount) {
+    const shortStatisticsTemplate = getShortStatisticsTemplate(data, slidesAmount);
     this.showOverlay(shortStatisticsTemplate);
+    this.btnFinish = document.querySelector('.short-stat__button-finish');
+    this.btnContinue = document.querySelector('.short-stat__button-continue');
+    this.btnFinish.addEventListener('click', this.onShortStatisticsBtnFinishClick);
+    if (data) {
+      this.btnContinue.addEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
+  }
 
-    // this.hideOverlay();
+  removeShortStatisticsListeners() {
+    if (this.btnFinish) {
+      this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
+    }
+    if (this.btnContinue) {
+      this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
+    }
   }
 
   showNotificationAboutRepeat(cardsAmount) {

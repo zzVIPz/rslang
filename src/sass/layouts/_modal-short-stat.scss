@@ -19,7 +19,15 @@
 
     background: url(../assets/svg/target.svg) center/50px no-repeat;
     cursor: pointer;
+
+    &-medal {
+      width: 100px;
+      height: 100px;
+
+      background: url(../assets/svg/medal.svg) center/100px no-repeat;
+    }
   }
+
   &__title {
     margin-bottom: 2rem;
 
@@ -30,12 +38,17 @@
     color: #2a487a;
   }
 
+  &__notification-text {
+    font-size: 1.2rem;
+    text-align: justify;
+    color: #ff5722;
+  }
+
   &__info {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
 
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 
     border-bottom: 1px solid $short-stat-border-color;
     &_finished {

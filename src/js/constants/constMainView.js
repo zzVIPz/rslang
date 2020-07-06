@@ -146,10 +146,13 @@ const PAGES_LINKS = {
 
 const SHORT_STATISTICS_TEXT = {
   targetTitle: 'Congratulations! Your goal has been achieved!',
+  additionalTitle: 'Congratulations! You have completed all your goals!',
   targetPassedCards: 'Total passed cards : ',
   targetPercentage: 'Percentage of correct answers : ',
   targetNewWords: 'Learned new words : ',
   targetSuccessSeries: 'Longest series of correct answers : ',
+  targetText:
+    'You have {param} word(s) left to repeat. If you want to continue training, click "Continue" or click "Finish" to complete this training',
   btnContinue: 'CONTINUE',
   btnFinish: 'FINISH',
 };

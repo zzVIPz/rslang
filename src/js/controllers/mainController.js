@@ -213,6 +213,18 @@ export default class MainController {
       await this.addCardToRepeat();
       this.showNextSlide(DELAY_NEXT_SLIDE_AUDIO_OFF);
     };
+
+    this.mainView.onShortStatisticsBtnFinishClick = () => {
+      this.mainView.removeShortStatisticsListeners();
+      this.mainView.hideOverlay();
+      this.mainView.renderMain(this.user);
+      this.setDefaultHash();
+    };
+
+    this.mainView.onShortStatisticsBtnContinueClick = () => {
+      this.mainView.removeShortStatisticsListeners();
+      this.mainView.hideOverlay();
+    };
   }
 
   async getWordsList(studyMode) {
@@ -271,22 +283,27 @@ export default class MainController {
   }
 
   updateUserSettings() {
-    this.user.currentWordNumber += 1;
-    if (this.user.currentWordNumber > AMOUNT_WORDS_PER_PAGE) {
-      this.user.currentWordNumber = 0;
-      this.user.currentPage += 1;
-      if (this.user.currentPage > AMOUNT_PAGES_PER_GROUP) {
-        this.user.currentPage = 0;
-        this.user.currentGroup += 1;
+    if (this.slideIndex <= this.user.cardsTotal) {
+      this.user.currentWordNumber += 1;
+      if (this.user.currentWordNumber > AMOUNT_WORDS_PER_PAGE) {
+        this.user.currentWordNumber = 0;
+        this.user.currentPage += 1;
+        if (this.user.currentPage > AMOUNT_PAGES_PER_GROUP) {
+          this.user.currentPage = 0;
+          this.user.currentGroup += 1;
+        }
       }
+      this.mainModel.updateUserSettings(this.user);
     }
-    this.mainModel.updateUserSettings(this.user);
   }
 
   async addCardToRepeat() {
     const wordId = this.mainView.getWordId();
-    const wordDescription = await this.mainModel.getAggregatedWordById(wordId);
-    this.mainView.addCardToRepeat(wordDescription, this.user);
+    if (!this.wordsToRepeat.includes(wordId)) {
+      this.wordsToRepeat.push(wordId);
+      const wordDescription = await this.mainModel.getAggregatedWordById(wordId);
+      this.mainView.addCardToRepeat(wordDescription, this.user);
+    }
   }
 
   showCorrectAnswer() {
@@ -354,7 +371,6 @@ export default class MainController {
     } else {
       this.mainView.setFocusToInput();
     }
-    // todo show modal: need text
   }
 
   async checkMistakesCounter() {
@@ -395,19 +411,21 @@ export default class MainController {
       ) {
         this.showNextSlide();
       }
-
-      // todo: what is about slides?
       if (this.slideIndex === this.user.cardsTotal) {
-        console.log('here');
         const percentageCorrectAnswers = Math.ceil(
           (100 * this.correctAnswersCounter) / this.user.cardsTotal,
         );
-        this.mainView.renderShortStatistics({
-          cardsTotal: this.user.cardsTotal,
-          percentageCorrectAnswers,
-          newWordsAmount: this.newWordsAmount,
-          correctAnswersSeries: this.correctAnswersSeries,
-        });
+        this.mainView.renderShortStatistics(
+          {
+            cardsTotal: this.user.cardsTotal,
+            percentageCorrectAnswers,
+            newWordsAmount: this.newWordsAmount,
+            correctAnswersSeries: this.correctAnswersSeries,
+          },
+          this.swiper.slides.length - this.slideIndex,
+        );
+      } else if (this.swiper.isEnd) {
+        this.mainView.renderShortStatistics();
       }
     }
   }
@@ -454,6 +472,7 @@ export default class MainController {
 
   async setDefaultState() {
     this.allUserWordsId = await this.getAllUsersWordsId();
+    this.wordsToRepeat = [];
     this.slideIndex = 0;
     this.mistakesMode = false;
     this.correctAnswersCounter = 0;
