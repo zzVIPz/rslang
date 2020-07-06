@@ -7,7 +7,7 @@
   margin: auto;
   margin-top: 20px;
 }
-.card {
+.speak_card {
   display: flex;
   justify-content: space-around;
   width: 150px;
@@ -24,7 +24,7 @@
 @extend %box_shadow;
 }
 
-.card:hover {
+.speak_card:hover {
   background: radial-gradient(circle, rgba(200, 255, 250, 0.6) 0%, rgba(99, 104, 168, 0.7) 100%);
 }
 .word_listen {

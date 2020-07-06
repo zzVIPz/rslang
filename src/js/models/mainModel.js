@@ -5,6 +5,17 @@ import User from '../components/defaultUser/defaultUser';
 const REQUEST_PARAMETERS = {
   url: 'https://afternoon-falls-25894.herokuapp.com/users/',
 };
+const defaultStatisticObject = {
+  "learnedWords": 0,
+    "optional": {
+      "speak": 0,
+      "puzzle": 0,
+      "call": 0,
+      "savanna": 0,
+      "sprint": 0,
+      "newGame": 0
+    }
+  };
 
 const getBodyRequest = (method, token, settings) => {
   const bodyRequest = {
@@ -173,4 +184,20 @@ export default class MainModel {
     const content = await rawResponse.json();
     return JSON.parse(content.optional.user);
   };
+
+  getUserStatistic = async () => {
+    const currentStatistic = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+    getBodyRequest('GET', this.token) ) 
+    .then(respons => respons.json())
+  console.log('now statistic object is: ', currentStatistic);
+  return currentStatistic;
+}
+
+  setUserStatistic = async (getStatisticObject) => {
+    const statisticObject = getStatisticObject || defaultStatisticObject;
+    const result = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+    getBodyRequest('PUT', this.token, statisticObject))
+    .then(respons => respons.json())
+    console.log('You set statistic object. Response is: ', result);
+  }
 }

@@ -13,8 +13,8 @@ import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
 import MainView from '../../views/mainView';
 
-export default class Controller {
-  constructor(group, round, user) {
+export default class Controller { 
+  constructor(group, round, user, mainView) {
     this.startPage = 0;
     this.startGroup = group;
     this.startRound = round;
@@ -27,6 +27,7 @@ export default class Controller {
     this.groups = Array.from(document.querySelectorAll('.hard_level > p'));
     this.rounds = Array.from(document.querySelectorAll('.page_level > p'));
     this.closeBtn = document.querySelector('.close');
+    this.speaker = document.querySelector('.user-tool__button-speaker')
     this.corectAns = 0;
     this.choosenWordIndex = 0;
     this.recognitionMod = false;
@@ -34,7 +35,7 @@ export default class Controller {
     this.uncorrectAudio = new Audio(getMediaUrl(MISS_MP3));
     this.user = user;
     this.mainModel = new MainModel();
-    this.mainView = new MainView();
+    this.mainView = mainView;
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     this.recognition = new SpeechRecognition();
     this.recognition.interimResults = true;
@@ -42,6 +43,7 @@ export default class Controller {
     this.recognition.maxAlternatives = 1;
     this.recognition.continuous = true;
     this.recognition.interimResults = false;
+    this.mainModel.getUserStatistic(); 
   }
 
   initGame() {
@@ -67,7 +69,7 @@ export default class Controller {
   }
 
   async onload() {
-    this.cards = Array.from(document.querySelectorAll('.card'));
+    this.cards = Array.from(document.querySelectorAll('.speak_card'));
     this.cards.forEach((card) => card.classList.remove('choosen'));
     this.startPage = this.model.setRandomStartPage(this.startRound);
     const gettingJson = await this.mainModel.getWords(this.startPage, this.startGroup);
@@ -113,7 +115,7 @@ export default class Controller {
           arr.datasWordTranslate[num]);
         this.view.result.innerHTML += ONE_START;
         this.addedRightAnwser();
-        this.playCorrectAnwser();
+        this.playAudio(this.correctAudio);
         const correctelement = document.querySelector('.choosen');
         for (let i = 0; i < this.cards.length; i += 1) {
           if (this.cards[i] === correctelement) {
@@ -126,7 +128,7 @@ export default class Controller {
           arr.datasWords[num],
           arr.datasAudios[num],
           arr.datasWordTranslate[num]);
-        this.playWrongAnwser();
+        this.playAudio(this.uncorrectAudio);
       }
     });
     this.recognition.stop();
@@ -176,18 +178,16 @@ export default class Controller {
 
   closeStartPage() {
     this.closeBtn.onclick = () => {
-      const modal = new ModalWindow(this.model.correct, this.model.uncorrect, this.setDefaultHash);
+      const modal = new ModalWindow(this.model.correct, this.model.uncorrect, this.setDefaultHash, this.user);
       modal.runListeners(this.user, this.mainView);
       modal.toggelModalWindov();
     };
   }
 
-  playCorrectAnwser() {
-    this.correctAudio.play();
-  }
-
-  playWrongAnwser() {
-    this.uncorrectAudio.play();
+  playAudio(audio) {
+    if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      audio.play();
+    }
   }
 
   speechRecognition() {

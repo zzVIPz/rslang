@@ -1,7 +1,7 @@
 import { container } from './speak_it-constants';
 
 export default class StartingClass {
-  constructor() {
+  constructor(user, mainView) {
     this.choosenGroup = 0;
     this.choosenPage = 0;
     this.closeBtn = document.querySelector('.close');
@@ -11,6 +11,8 @@ export default class StartingClass {
     this.appModal = document.querySelector('.app__modal');
     this.cancelBtn = document.querySelector('.app__modal__box_cancel');
     this.backToMianBtn = document.querySelector('.app__button_close');
+    this.user = user;
+    this.mainView = mainView;
   }
 
   addListeners() {
@@ -60,8 +62,7 @@ export default class StartingClass {
     this.cancelBtn.onclick = () => this.toggleModal();
     this.backToMianBtn.onclick = () => {
       container.innerHTML = '';
-      container.style.display = 'flex';
-      container.classList.add('app__background');
+      this.mainView.renderMain(this.user);
     };
   }
 }

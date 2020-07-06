@@ -5,9 +5,11 @@ import {
   ID_OF_WORD,
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
+import MainModel from '../../models/mainModel';
+import checkUserWords from '../../utils/checkUserWords';
 
 export default class ModalWindow {
-  constructor(correct, uncorrect) {
+  constructor(correct, uncorrect, user) {
     this.cancelBtn = document.querySelector('.modal_cancel');
     this.backToMianBtn = document.querySelector('.modal_close');
     this.viewStatistic = document.querySelector('.modal_view');
@@ -15,6 +17,8 @@ export default class ModalWindow {
     this.statisticModalWindow = document.querySelector('.modal_statistic');
     this.correctWordsArray = correct;
     this.uncorrectWordsArray = uncorrect;
+    this.user = user;
+    this.mainModel = new MainModel();
   }
 
   runListeners(user, mainView) {
@@ -28,6 +32,23 @@ export default class ModalWindow {
   }
 
   stopGame() {
+    const missArrayId = [];
+    for (let el of this.uncorrectWordsArray) {
+      missArrayId.push(el.id)
+    }
+    checkUserWords(missArrayId);
+    let statisticObject = {
+      "learnedWords": 999,
+        "optional": {
+          "speak": 999,
+          "puzzle": 999,
+          "call": 999,
+          "savanna": 999,
+          "sprint": 999,
+          "newGame": 999
+        }
+      };
+    this.mainModel.setUserStatistic(statisticObject);
     container.innerHTML = '';
     this.mainView.renderMain(this.user);
     window.history.replaceState(null, null, ' ');
@@ -103,6 +124,9 @@ export default class ModalWindow {
   }
 
   playSound(sound) {
-    new Audio(sound.id).play();
+    const speaker = document.querySelector('.user-tool__button-speaker')
+    if (speaker.classList.contains('user-tool__button-speaker--active')) {
+      new Audio(sound.id).play();
+    }
   }
 }

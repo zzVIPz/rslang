@@ -13,7 +13,7 @@ export default class View {
     this.listens = Array.from(document.querySelectorAll('.word_listen'));
     this.words = Array.from(document.querySelectorAll('.word'));
     this.transcriptions = Array.from(document.querySelectorAll('.transcription'));
-    this.cards = Array.from(document.querySelectorAll('.card'));
+    this.cards = Array.from(document.querySelectorAll('.speak_card'));
     this.textMean = document.querySelector('.text_mean');
     this.textExplain = document.querySelector('.text_explain');
     this.translateMean = document.querySelector('.translate_mean');
@@ -25,6 +25,7 @@ export default class View {
     this.resultForNextRound = 0;
     this.mic = document.querySelector('.mic');
     this.buttonSpeak = document.querySelector('.speak');
+    this.speaker = document.querySelector('.user-tool__button-speaker')
     return this;
   }
 
@@ -94,7 +95,9 @@ export default class View {
     }
     const audio = new Audio(sound);
     this.audios.push(audio);
-    audio.play();
+    if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      audio.play();
+    }
   }
 
   recognition(record) {
