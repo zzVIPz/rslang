@@ -23,19 +23,10 @@ const START_PAGE = `
     </div>
     <div class="text_raiting">Раунд</div>
   </div>
-
     <div class="app__content">
       <div class="app__content__title speakIt_title">Speak it simply</div>
       <div class="app__content__text">Потренируйся в произношении слов</div>
       <button class="app__button">Начать</button>
-    </div>
-    <div class="app__modal not_display">
-      <div class="app__modal__box">
-        <div class="app__modal__box_title">Тренировка не закончена!</div>
-        <div class="app__modal__box_text">Если вы вернетесь к списку, ваши результаты не будут сохранены</div>
-        <div class="app__button app__button_close">Закрыть</div>
-        <div class="app__modal__box_cancel">Отмена</div>
-      </div>
     </div>
   </div>`;
 

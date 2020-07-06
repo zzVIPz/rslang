@@ -8,9 +8,6 @@ export default class StartingClass {
     this.groups = Array.from(document.querySelectorAll('.group'));
     this.rounds = Array.from(document.querySelectorAll('.round'));
     this.startBtn = document.querySelector('.app__button');
-    this.appModal = document.querySelector('.app__modal');
-    this.cancelBtn = document.querySelector('.app__modal__box_cancel');
-    this.backToMianBtn = document.querySelector('.app__button_close');
     this.user = user;
     this.mainView = mainView;
   }
@@ -49,18 +46,6 @@ export default class StartingClass {
 
   closeStartPage() {
     this.closeBtn.onclick = () => {
-      this.toggleModal();
-      this.modalListeners();
-    };
-  }
-
-  toggleModal() {
-    this.appModal.classList.toggle('not_display');
-  }
-
-  modalListeners() {
-    this.cancelBtn.onclick = () => this.toggleModal();
-    this.backToMianBtn.onclick = () => {
       container.innerHTML = '';
       this.mainView.renderMain(this.user);
     };
