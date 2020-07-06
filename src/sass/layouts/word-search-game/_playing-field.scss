@@ -1,0 +1,196 @@
+.word-search__container {
+  height: 100%;
+
+  text-align: center;
+}
+
+.word-search__content {
+  position: relative;
+
+  width: 50%;
+  max-width: 500px;
+  height: 80%;
+
+  margin-right: 10px;
+  overflow: hidden;
+
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0,0,0,.12);
+}
+
+.word-search__board {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 7px;
+  &_inner {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.word-search__template {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+
+  height: 100%;
+  overflow: hidden;
+
+  font-size: 35px;
+  line-height: 63px;
+  color: #333333;
+}
+
+.word-search-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.word-search__title {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 0 0 0;
+
+  font-weight: bold;
+  font-size: 21px;
+  line-height: 1em;
+
+  opacity: 1.0;
+
+  transition: .25s opacity ease;
+  &_box {
+    display: inline-block;
+    width: 21px;
+    height: 20px;
+    margin: 0 3px 0 0;
+
+    line-height: 20px;
+    text-align: center;
+    color: $dark-main-color;
+
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  }
+}
+
+.W {
+  position: relative;
+  top: -1px;
+}
+
+.R {
+  position: relative;
+  top: -1px;
+}
+
+.word-search__title_search {
+  display: inline-block;
+  margin: 0 0 0 5px;
+
+  font-size: 21px;
+  color: white;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 10%;
+}
+
+.row7 {
+  height: 14.28571%;
+}
+
+.cell {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 9.28571%;
+  height: 100%;
+
+  vertical-align: top;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  user-select: none;
+  &:hover {
+    background: $main-color;
+  }
+}
+
+.cellVal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+
+  font-weight: bold;
+  text-align: center;
+}
+
+.word-search__words-container {
+  width: 40%;
+
+  background: $dark-main-color;
+}
+
+.word-search__words {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 4px 0;
+  padding: 0;
+  padding: 20px;
+
+  list-style-type: none;
+  font-size: 18px;
+}
+
+.word {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50px;
+  padding: 0 4px;
+
+  font-weight: bold;
+  font-size: 2rem;
+  line-height: 1.5em;
+  color: $text-color;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+
+  cursor: pointer;
+
+  user-select: none;
+  &:hover {
+    background: $main-color;
+  }
+}
+
+.game-field {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

@@ -44,8 +44,45 @@ const PRELOADER_INFO = `
   Выбери буквы от первой до последней, чтобы составить правильное английское слово к переводу
 `;
 
+const WORD_SEARCH_TITLE = `
+    <span class='word-search__title_box W'>W</span>
+    <span class='word-search__title_box O'>O</span>
+    <span class='word-search__title_box R'>R</span>
+    <span class='word-search__title_box D'>D</span>
+    <span class='word-search__title_search'>SEARCH</span>
+`;
+
+const WORD_SEARCH_CONTENT = `
+    <div class="word-search__board">
+        <div class="word-search__board_inner">
+            <div class="word-search__template">
+                <div class="word-search-grid"></div>
+            </div>
+        </div>
+    </div>
+`;
+
+const ROWS = `
+        <div class="row row-0"></div>
+        <div class="row row-1"></div>
+        <div class="row row-2"></div>
+        <div class="row row-3"></div>
+        <div class="row row-4"></div>
+        <div class="row row-5"></div>
+        <div class="row row-6"></div>
+        <div class="row row-7"></div>
+        <div class="row row-8"></div>
+        <div class="row row-9"></div>
+    `;
+
+const WORDS_CONTAINER = '<ul class="word-search__words"></ul>';
+
 export {
   GAME_LAYOUT,
   GROUP_ROUND,
   PRELOADER_INFO,
+  WORD_SEARCH_TITLE,
+  WORD_SEARCH_CONTENT,
+  ROWS,
+  WORDS_CONTAINER,
 };

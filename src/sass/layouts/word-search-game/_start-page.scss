@@ -1,23 +1,27 @@
 
-.app__content__title_word-search {
+.word-search__main-title {
   color: $dark-main-color;
-  text-shadow: 0px -2px 0 $text-color;
+  text-shadow: 0 -2px 0 $text-color;
 }
 
-.app__content__text_word-search {
-    color: $dark-main-color;
-    text-shadow: 0px 1px 0 black;
-    @include media-mobile {
-      color: white;
-      text-shadow: none;
-    }
+.word-search__description {
+  color: $dark-main-color;
+  text-shadow: 0 1px 0 black;
+
+@include media-tablet {
+    color: white;
+  }
+
+@include media-mobile {
+    text-shadow: none;
+  }
 }
 
 .word-search_color {
-  text-shadow: 0px 1px 0 $dark-main-color;
+  text-shadow: 0 1px 0 $dark-main-color;
 }
 
-.word-search__text {
+.word-search__rating_text {
   color: $dark-main-color;
 }
 

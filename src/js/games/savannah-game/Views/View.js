@@ -134,7 +134,6 @@ class SavannahView {
       window.removeEventListener('keyup', this.onKeyUp);
       this.chosenLevel = this.level;
       this.chosenRound = this.round;
-      console.log(this.level, this.round);
       this.addPreloader();
       setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
       this.model.fetchWords(this.currentUser, this.chosenLevel, this.chosenRound)
