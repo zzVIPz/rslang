@@ -1,0 +1,70 @@
+.speakit-game,
+.english-puzzle-game,
+.savannah-game {
+  position: relative;
+  z-index: 1;
+
+  width: 100vw;
+  &__image-block {
+    height: unset;
+    min-height: unset;
+  }
+  &__image-block img {
+    width: 100%;
+    height: unset;
+  }
+  &__content {
+    position: relative;
+    z-index: 1;
+
+    margin: 3% auto 0 auto;
+
+    text-align: center;
+    color: #000000;
+  }
+  &__content h1 {
+    font-weight: 700;
+    font-size: 4vw;
+    font-family: "Balsamiq Sans", cursive;
+    color: #0086cb;
+    text-transform: uppercase;
+  }
+  &__content p {
+    width: 30em;
+    margin: 3% auto 0 auto;
+
+    font-weight: 700;
+    font-size: 2vw;
+    line-height: 1.25;
+    font-family: "Balsamiq Sans", cursive;
+    text-transform: uppercase;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .speakit-game__content p,
+  .english-puzzle-game__content p,
+  .savannah-game__content p {
+    font-size: 1.3em;
+  }
+  .speakit-game__content h1,
+  .english-puzzle-game__content h1,
+  .savannah-game__content h1 {
+    font-size: 3em;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .speakit-game__content p,
+  .english-puzzle-game__content p,
+  .savannah-game__content p {
+    width: 100%;
+    max-width: 35em;
+    padding: 0;
+
+    font-size: 1em;
+  }
+  .speakit-game__content h1,
+  .english-puzzle-game__content h1,
+  .savannah-game__content h1 {
+    font-size: 2em;
+  }
+}
