@@ -1,4 +1,4 @@
-export default function getFormattedString(string = '', mode, textTranslate) {
+export default function getFormattedString(string = '', mode, textTranslate, wordTranslate) {
   const matchResult = string.match(/<[b,i]>(.*)<\/[b,i]>/);
   const dataAttribute = matchResult ? matchResult[1] : string;
   const { length } = dataAttribute;
@@ -11,6 +11,7 @@ export default function getFormattedString(string = '', mode, textTranslate) {
   formattedString = matchResult ? string.replace(matchResult[0], formattedString) : formattedString;
   return `
     <div class="card__input-container ${mode ? '' : 'hidden'}">
+      ${wordTranslate || ''}
       ${formattedString}
       ${textTranslate}
     </div>`;
