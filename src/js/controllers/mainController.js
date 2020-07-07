@@ -127,6 +127,7 @@ export default class MainController {
       if (
         !this.aggregatedWords.length
         && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.mixed
       ) {
         this.mainView.showNotificationAboutRepeat(this.user);
       }

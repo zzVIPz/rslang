@@ -15,7 +15,7 @@ export default function getShortStatisticsTemplate(data, slidesAmount) {
     }
 
     template = `
-      <div class="short-stat__logo"></div>
+      <div class="short-stat__logo logo-modal"></div>
       <p class="short-stat__title">${SHORT_STATISTICS_TEXT.targetTitle}</p>
       <div class="short-stat__info short-stat__info_finished">
           <p class="short-stat__text">${SHORT_STATISTICS_TEXT.targetPassedCards}</p>
