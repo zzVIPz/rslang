@@ -4,16 +4,17 @@ import CONSTANTS from './dictionaryConstants';
 export default class DictionaryController {
   constructor(mainModel) {
     this.mainModel = mainModel;
-    this.dictionaryView = new DictionaryView();
+    this.user = this.mainModel.currentUser;
+    this.dictionaryView = new DictionaryView(this.user);
     this.wordsData = null;
     this.state = CONSTANTS.DEFAULT_DICT_STATE;
-    this.settings = {};
+    // this.settings = {};
   }
 
   async init() {
-    this.settings.showInfo = this.mainModel.currentUser.dictionaryInfo;
-    this.settings.showControls = this.mainModel.currentUser.dictionaryControl;
-    this.dictionaryView.settings = this.settings;
+    // this.settings.showInfo = this.mainModel.currentUser.dictionaryInfo;
+    // this.settings.showControls = this.mainModel.currentUser.dictionaryControl;
+    // this.dictionaryView.settings = this.settings;
     await this.getData();
     this.dictionaryView.render();
     this.dictionaryView.renderData(this.wordsData, this.state);
@@ -58,9 +59,11 @@ export default class DictionaryController {
     };
 
     this.mainModel.setUserSettings = () => {
-      this.settings.showInfo = this.mainModel.currentUser.dictionaryInfo;
-      this.settings.showControls = this.mainModel.currentUser.dictionaryControl;
-      this.dictionaryView.settings = this.settings;
+      // this.settings.showInfo = this.mainModel.currentUser.dictionaryInfo;
+      // this.settings.showControls = this.mainModel.currentUser.dictionaryControl;
+      // this.dictionaryView.settings = this.settings;
+      this.user = this.mainModel.currentUser;
+      this.dictionaryView.user = this.user;
       this.dictionaryView.renderData(this.wordsData, this.state);
     };
   }

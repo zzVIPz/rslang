@@ -4,7 +4,8 @@ import getMediaUrl from '../../utils/getMediaUrl';
 import CONSTANTS from './dictionaryConstants';
 
 export default class DictionaryController {
-  constructor() {
+  constructor(user) {
+    this.user = user;
     this.template = dictionaryTemplate;
     this.domElements = {};
     this.onStateChange = null;
@@ -30,7 +31,6 @@ export default class DictionaryController {
     this.domElements.modalTextMeaningTranslate = document.querySelector('.dictModal__textMeaningTranslate');
     this.domElements.modalTextExample = document.querySelector('.dictModal__textExample');
     this.domElements.modalTextExampleTranslate = document.querySelector('.dictModal__textExampleTranslate');
-    this.domElements.modalInfoClose = document.getElementById('modalClose');
     this.domElements.modalInfoCloseBtn = document.querySelector('.dictModal__closeBtn');
   }
 
@@ -60,10 +60,12 @@ export default class DictionaryController {
       wordEng.textContent = el.word;
       wordEngTrans.append(wordEng);
 
-      const wordTranscript = document.createElement('div');
-      wordTranscript.classList.add('dict__word-transcription');
-      wordTranscript.textContent = el.transcription;
-      wordEngTrans.append(wordTranscript);
+      if (this.user.transcription) {
+        const wordTranscript = document.createElement('div');
+        wordTranscript.classList.add('dict__word-transcription');
+        wordTranscript.textContent = el.transcription;
+        wordEngTrans.append(wordTranscript);
+      }
 
       const wordTrans = document.createElement('div');
       wordTrans.classList.add('dict__word-translate');
@@ -72,14 +74,14 @@ export default class DictionaryController {
 
       line.append(wordEngTrans);
 
-      if (this.settings.showInfo) {
+      if (this.user.dictionaryInfo) {
         const wordInfo = document.createElement('div');
         wordInfo.classList.add('dict__word-information');
         wordInfo.dataset.id = el._id;
         line.append(wordInfo);
       }
 
-      if (this.settings.showControls) {
+      if (this.user.dictionaryControl) {
         if (state === CONSTANTS.DICT_STATES.LEARNING) {
           const wordToDifficult = document.createElement('div');
           wordToDifficult.classList.add('dict__word-difficult');
@@ -153,10 +155,6 @@ export default class DictionaryController {
       }
     });
 
-    this.domElements.modalInfoClose.addEventListener('click', () => {
-      this.hideModal();
-    });
-
     this.domElements.modalInfoCloseBtn.addEventListener('click', () => {
       this.hideModal();
     });
@@ -186,18 +184,28 @@ export default class DictionaryController {
     const img = document.createElement('img');
     img.src = getMediaUrl(data.image);
     this.domElements.modalImg.append(img);
+    if (!this.user.associativePicture) {
+      this.domElements.modalImg.classList.add('hidden');
+    }
 
     this.addAudioElement('modalWord', data.audio);
     this.domElements.modalWordEng.textContent = data.word;
     this.domElements.modalWordTranscipt.textContent = data.transcription;
+    if (!this.user.transcription) {
+      this.domElements.modalWordTranscipt.classList.add('hidden');
+    }
     this.domElements.modalWordTranslate.textContent = data.wordTranslate;
 
     this.addAudioElement('modalTextMeaning', data.audioMeaning);
-    this.domElements.modalTextMeaning.insertAdjacentHTML('beforeend', data.textMeaning);
+    const paragraph1 = document.createElement('p');
+    paragraph1.insertAdjacentHTML('beforeend', data.textMeaning);
+    this.domElements.modalTextMeaning.append(paragraph1);
     this.domElements.modalTextMeaningTranslate.textContent = data.textMeaningTranslate;
 
     this.addAudioElement('modalTextExample', data.audioExample);
-    this.domElements.modalTextExample.insertAdjacentHTML('beforeend', data.textExample);
+    const paragraph2 = document.createElement('p');
+    paragraph2.insertAdjacentHTML('beforeend', data.textExample);
+    this.domElements.modalTextExample.append(paragraph2);
     this.domElements.modalTextExampleTranslate.textContent = data.textExampleTranslate;
 
     img.addEventListener('load', () => {
@@ -219,6 +227,9 @@ export default class DictionaryController {
     this.domElements.modalImg.innerHTML = '';
 
     this.domElements.modalWord.childNodes[1].innerHTML = '';
+
+    this.domElements.modalImg.classList.remove('hidden');
+    this.domElements.modalWordTranscipt.classList.remove('hidden');
 
     this.domElements.modalTextMeaning.childNodes[1].innerHTML = '';
     while (this.domElements.modalTextMeaning.childNodes.length > 2) {
