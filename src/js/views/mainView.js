@@ -150,13 +150,14 @@ export default class MainView {
   }
 
   disableCurrentInput(currentSlide = this.getCurrentSlide()) {
-    // todo: show all data, disable buttons
     const currentInput = this.getCurrentInputNode(currentSlide);
     currentInput.setAttribute('disabled', 'disabled');
     const nodes = currentSlide.querySelectorAll('.card__input-container');
     nodes.forEach((node) => {
       if (!node.classList.contains('hidden')) {
-        node.querySelector('.card__text-translate').classList.remove('hidden');
+        node
+          .querySelectorAll('.card__text-translate')
+          .forEach((el) => el.classList.remove('hidden'));
       }
     });
   }
@@ -257,18 +258,23 @@ export default class MainView {
     }
   }
 
-  removeShortStatisticsListeners() {
+  removeModalListeners() {
     if (this.btnFinish) {
       this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
     }
     if (this.btnContinue) {
       this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
     }
+    if (this.btnNotificationFinish) {
+      this.btnNotificationFinish.removeEventListener('click', this.onNotificationBtnFinishClick);
+    }
   }
 
   showNotificationAboutRepeat(user, cardsAmount) {
     const notification = getNotificationTemplate(user, cardsAmount);
     this.showOverlay(notification);
+    this.btnNotificationFinish = document.querySelector('.modal-button');
+    this.btnNotificationFinish.addEventListener('click', this.onNotificationBtnFinishClick);
   }
 
   showSettingsModal(user) {
