@@ -144,7 +144,7 @@ export default class SprintView {
 
   clearMainContainer() {
     this.gameContainer = document.querySelector('.sprint-main-wrapper');
-    if (this.gameContainer.classList.contains('sprint-game-bgr')) {
+    if (this.gameContainer && this.gameContainer.classList.contains('sprint-game-bgr')) {
       this.gameContainer.classList.remove('sprint-game-bgr');
     }
     this.mainContainer.innerHTML = '';

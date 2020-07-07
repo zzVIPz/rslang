@@ -51,7 +51,7 @@ export default class SprintController {
   }
 
   addRaitingHandler() {
-    document.querySelector('.sprint-rating__container').addEventListener('click', ({ target }) => {
+    document.querySelector('.sprint-rating').addEventListener('click', ({ target }) => {
       if (target.classList.contains('group')) {
         this.level = target.id;
       } else if (target.classList.contains('round')) {

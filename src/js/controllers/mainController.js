@@ -119,7 +119,20 @@ export default class MainController {
         this.swiper.update();
         this.mainView.disableSwiperNextSlide();
         this.mainView.setFocusToInput();
-        window.location.hash = HASH_VALUES.training;
+        this.setCurrentHash(HASH_VALUES.training);
+      }
+      if (
+        this.aggregatedWords.length
+        && this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
+      ) {
+        this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
+      }
+      if (
+        !this.aggregatedWords.length
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.mixed
+      ) {
+        this.mainView.showNotificationAboutRepeat(this.user);
       }
     };
 
@@ -220,14 +233,19 @@ export default class MainController {
     };
 
     this.mainView.onShortStatisticsBtnFinishClick = () => {
-      this.mainView.removeShortStatisticsListeners();
+      this.mainView.removeModalListeners();
       this.mainView.hideOverlay();
       this.mainView.renderMain(this.user);
       this.setDefaultHash();
     };
 
     this.mainView.onShortStatisticsBtnContinueClick = () => {
-      this.mainView.removeShortStatisticsListeners();
+      this.mainView.removeModalListeners();
+      this.mainView.hideOverlay();
+    };
+
+    this.mainView.onNotificationBtnFinishClick = () => {
+      this.mainView.removeModalListeners();
       this.mainView.hideOverlay();
     };
   }
@@ -245,19 +263,19 @@ export default class MainController {
       repeatWordsAmount = this.user.cardsTotal;
     }
 
-    let aggregatedWords = [];
+    this.aggregatedWords = [];
 
     if (repeatWordsAmount) {
-      aggregatedWords = await this.mainModel.getAggregatedWords(
+      this.aggregatedWords = await this.mainModel.getAggregatedWords(
         {
           [WORDS_STATUS.userWord]: `${WORDS_STATUS.repeat}`,
         },
         repeatWordsAmount,
       );
-      aggregatedWords = aggregatedWords[0].paginatedResults;
+      this.aggregatedWords = this.aggregatedWords[0].paginatedResults;
 
-      if (aggregatedWords.length < repeatWordsAmount && this.newWordsAmount) {
-        this.newWordsAmount += repeatWordsAmount - aggregatedWords.length;
+      if (this.aggregatedWords.length < repeatWordsAmount && this.newWordsAmount) {
+        this.newWordsAmount += repeatWordsAmount - this.aggregatedWords.length;
       }
     }
 
@@ -271,15 +289,10 @@ export default class MainController {
       wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
     }
 
-    if (aggregatedWords.length) {
-      aggregatedWords.forEach((word) => {
+    if (this.aggregatedWords.length) {
+      this.aggregatedWords.forEach((word) => {
         wordsList.push(word);
       });
-      if (aggregatedWords.length < this.user.cardsTotal) {
-        this.mainView.showNotificationAboutRepeat(this.user, aggregatedWords.length);
-      }
-    } else {
-      this.mainView.showNotificationAboutRepeat(this.user);
     }
 
     console.log('current training words', wordsList);
@@ -501,6 +514,10 @@ export default class MainController {
       this.mainView.disableStudyProfileProperties();
     }
   }
+
+  setCurrentHash = (hash) => {
+    window.location.hash = hash;
+  };
 
   getCurrentHash = () => window.location.hash.slice(1);
 

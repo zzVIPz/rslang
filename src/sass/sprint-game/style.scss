@@ -1,5 +1,5 @@
 $sprint-border-color: #616161;
-$sprint-words-color: #1c3d5d;
+$sprint-words-color: #1c3d5dcc;
 $sprint-star-on: #ffd700;
 $sprint-wrong-color: #e7717d;
 $sprint-right-color: #afd274;
@@ -7,7 +7,7 @@ $print-header-first: #00bbd4a6;
 $print-header-second: #9b27b0a4;
 $print-header-third: #e91e62a2;
 
-.sprint-main-wrapper{
+.sprint-main-wrapper {
   display: flex;
   min-width: 100vw;
   height: calc(100vh - 93px);
@@ -230,9 +230,6 @@ $print-header-third: #e91e62a2;
   color: $sprint-wrong-color;
 }
 .sprint-mistaken-words {
-  // display: flex;
-  // flex-direction: column;
-  // flex-wrap: wrap;
   max-height: 160px;
   padding: 1%;
   overflow-y: scroll;
@@ -267,7 +264,7 @@ $print-header-third: #e91e62a2;
 .sprint-user-advice {
   margin-bottom: 1%;
 
-  color: $main-color;
+  color: $sprint-words-color;
 }
 .sprint-start-controlls {
   display: flex;
@@ -363,31 +360,28 @@ $print-header-third: #e91e62a2;
 }
 
 // raiting
-.sprint-rating__container {
-  position: relative;
-
-  width: 100%;
-  height: 120px;
-}
-
-.rating__row {
-  display: flex;
-  width: 175px;
-}
-
-.rating__group {
+.rating__group_sprint {
   position: absolute;
   top: 20px;
   right: 0;
-}
 
-.rating__round {
+  display: flex;
+  width: 175px;
+
+  color: $sprint-words-color;
+}
+.rating__round_sprint {
   position: absolute;
   top: 70px;
   right: 0;
+
+  display: flex;
+  width: 175px;
+
+  color: $sprint-words-color;
 }
 
-.sprint-text {
+.text_sprint {
   position: absolute;
   top: 46px;
   right: 25px;
@@ -405,42 +399,4 @@ $print-header-third: #e91e62a2;
   &_round {
     top: 95px;
   }
-}
-
-.gold::before {
-  content: "★";
-  position: relative;
-
-  display: block;
-  width: 25px;
-
-  font-size: 30px;
-  color: #ffd900;
-
-  cursor: pointer;
-}
-
-.gold_strong::before {
-  content: "★";
-  position: relative;
-
-  display: block;
-  width: 25px;
-
-  font-size: 30px;
-  color: #ffd900!important;
-
-  cursor: pointer;
-}
-.star::before {
-  content: "★";
-  position: relative;
-
-  display: block;
-  width: 25px;
-
-  font-size: 30px;
-  color: #00c49d;
-
-  cursor: pointer;
 }
