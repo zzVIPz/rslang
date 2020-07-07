@@ -1,0 +1,11 @@
+.notification-modal {
+  &__title {
+    text-align: center;
+
+    @include font($size: 1.5rem, $height: 1.6rem, $weight: normal, $color: #37383c);
+  }
+
+  &__logo {
+    background: url(../assets/svg/attention.svg) center/50px no-repeat;
+  }
+}
