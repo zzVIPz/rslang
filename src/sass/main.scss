@@ -18,6 +18,9 @@
 @import "components/user-tool";
 @import "components/swiper";
 @import "components/card";
+@import "components/modal-window";
+@import "components/logo-modal";
+@import "components/modal-button";
 
 // Layout
 
@@ -26,7 +29,10 @@
 @import "layouts/footer";
 @import "layouts/modal-settings";
 @import "layouts/modal-short-stat";
+@import "layouts/modal-notification";
+
 // pages
+@import "pages/main";
 
 // savannah-game
 @import "savannah-game";
@@ -42,3 +48,7 @@
 
 //speak_it-game
 @import "speakIt";
+
+// dictionary
+@import "dictionary";
+

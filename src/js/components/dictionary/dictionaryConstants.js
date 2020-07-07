@@ -1,0 +1,11 @@
+const DICT_STATES = { LEARNING: 'repeat', DIFFICULT: 'difficult', REMOVED: 'easy' };
+const DEFAULT_DICT_STATE = DICT_STATES.LEARNING;
+const DEFAULT_MISTAKES_COUNT = { mistakesCounter: 3 };
+
+const CONSTANTS = {
+  DICT_STATES,
+  DEFAULT_DICT_STATE,
+  DEFAULT_MISTAKES_COUNT,
+};
+
+export default CONSTANTS;
