@@ -15,6 +15,14 @@ class AudiocallController {
     this.view.getViewUser(this.user, this.mainView);
     this.view.render();
     this.view.addListeners();
+    this.subscribeToEvents();
+  }
+
+  subscribeToEvents() {
+    this.view.onContinueGame = () => {
+      this.view.audiocall = new AudiocallController(this.user, this.mainView);
+      this.view.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+    };
   }
 }
 

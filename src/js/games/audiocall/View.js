@@ -1,4 +1,3 @@
-import AudiocallController from './Controller';
 import {
   audiocallGame, DELAY_BEFORE_GAME_START,
   NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
@@ -362,27 +361,27 @@ class AudiocallView {
     }
 
     getLevels() {
-        this.levelButtons.addEventListener('click', ({ target }) => {
-          if (this.getCurrentHash() === HASH_VALUES.audiocall) {
+      debugger;
+      this.levelButtons.addEventListener('click', ({ target }) => {
+        if (this.getCurrentHash() === HASH_VALUES.audiocall) {
           this.level = target.dataset.level;
           console.log(this.level);
-          }
-        });
+        }
+      });
     }
 
     getRounds() {
-        this.roundButtons.addEventListener('click', ({ target }) => {
-          if (this.getCurrentHash() === HASH_VALUES.audiocall) {
+      this.roundButtons.addEventListener('click', ({ target }) => {
+        if (this.getCurrentHash() === HASH_VALUES.audiocall) {
           this.round = target.dataset.round;
           console.log(this.round);
-          }
-        });
+        }
+      });
     }
 
     continueGame() {
       this.finalContinueBtn.addEventListener('click', () => {
-        this.audiocall = new AudiocallController(this.user, this.mainView);
-        this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+        this.onContinueGame();
       });
     }
 
