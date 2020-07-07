@@ -25,6 +25,7 @@ class WordSearchView extends SavannahView {
     this.mainContainer = document.querySelector('.main');
     this.appContainer = document.querySelector('.word-search__app');
     this.groupRoundHtml = GROUP_ROUND;
+    this.chosenWord = [];
   }
 
   getViewUser(user, mainView) {
@@ -198,6 +199,7 @@ class WordSearchView extends SavannahView {
           document.querySelector('.countdown').innerHTML = this.countNumber;
           setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
         } else {
+          console.log(this.model);
           this.gameMode();
         }
       } else {
@@ -240,7 +242,7 @@ class WordSearchView extends SavannahView {
     this.clearBtn = document.createElement('div');
     this.clearBtn.className = ('app__button');
     this.clearBtn.classList.add('word-search__controllers');
-    this.checkBtn.classList.add('clear');
+    this.clearBtn.classList.add('clear');
     this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
     this.controllersContainer.appendChild(this.clearBtn);
   }
@@ -257,8 +259,9 @@ class WordSearchView extends SavannahView {
 
   addGameModeListeners() {
     const wordsBox = document.querySelector('.word-search-grid');
-    this.addEventHandler(wordsBox, this.onLetterClick);
-    this.addEventHandler(this.clearBtn, this.onClearBtnClick);
+    this.addEventHandler(wordsBox, this.onLetterClick.bind(this));
+    this.addEventHandler(this.clearBtn, this.onClearBtnClick.bind(this));
+    this.addEventHandler(this.checkBtn, this.onCheckBtnClick.bind(this));
   }
 
   addEventHandler = (element, func) => {
@@ -267,8 +270,20 @@ class WordSearchView extends SavannahView {
 
   onLetterClick = ({ target }) => {
     if (target.classList.contains('cell')) {
-      target.classList.add('chosen-letter');
-      // TODO get textContent
+      if (!target.classList.contains('chosen-letter')) {
+        target.classList.add('chosen-letter');
+        this.chosenWord.push(target.textContent.toLowerCase());
+      }
+    }
+  }
+
+  onCheckBtnClick() {
+    if (this.matrixObj.words.includes(this.chosenWord.join(''))) {
+      console.log('includes');
+      this.chosenWord = [];
+      // TODO add right word styles
+    } else {
+      console.log('wrong');
     }
   }
 
