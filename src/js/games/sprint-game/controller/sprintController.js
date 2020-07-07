@@ -169,7 +169,6 @@ export default class SprintController {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
     this.view.clearMainContainer();
-    this.mainView.renderMain(this.user);
     window.history.replaceState(null, null, ' ');
   }
 }
