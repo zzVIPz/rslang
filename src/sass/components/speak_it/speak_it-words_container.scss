@@ -14,7 +14,6 @@
   height: 70px;
   margin: 10px 10px;
 
-  background: radial-gradient(circle, rgba(174,250,242,.6) 0%, rgba(56,63,168,.7) 100%);
   border: 1px solid rgb(27, 27, 27);
   border-radius: 5px;
   cursor: pointer;
@@ -23,20 +22,30 @@
 
 @extend %box_shadow;
 }
-
-.speak_card:hover {
+.speak_card_active {
+  background: radial-gradient(circle, rgba(174,250,242,.6) 0%, rgba(56,63,168,.7) 100%);
+}
+.speak_card_active:hover {
   background: radial-gradient(circle, rgba(200, 255, 250, .6) 0%, rgba(99, 104, 168, .7) 100%);
 }
-.word_listen {
+
+.speak_card_not_active {
+  background: radial-gradient(circle, rgba(124, 124, 124, .2) 0%, rgba(23, 23, 24, .3) 100%);
+}
+.speak_card_not_active:hover {
+  background: radial-gradient(circle, rgba(124, 124, 124, .2) 0%, rgba(23, 23, 24, .3) 100%);
+}
+.link_word_listen {
   width: 35px;
   height: 35px;
   margin-top: 20px;
 
   background-image: url(../assets/svg/list1.png);
   background-size: 35px;
+  background-size: 35px;
   cursor: pointer;
 }
-.word_listen:hover {
+.word_listen_active:hover {
   background-image: url(../assets/svg/list2.png);
 }
 .word_look {

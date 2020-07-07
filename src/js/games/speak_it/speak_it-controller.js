@@ -54,7 +54,7 @@ export default class Controller {
       this.onload();
     };
     this.buttonSpeak.onclick = () => this.view.changeInput();
-    this.view.listens.forEach((word) => word.addEventListener('click', () => this.view.playSound(word.id)));
+    this.playWordsPronunciation();
     this.speechRecognition();
     this.clear.onclick = () => {
       this.view.input.innerText = '';
@@ -73,8 +73,8 @@ export default class Controller {
   }
 
   async onload() {
+    this.view.renderCardsStyles();
     this.cards = Array.from(document.querySelectorAll('.speak_card'));
-    this.cards.forEach((card) => card.classList.remove('choosen'));
     this.startPage = this.model.setRandomStartPage(this.startRound);
     const gettingJson = await this.mainModel.getWords(this.startPage, this.startGroup);
     this.model.extractAllDatas(gettingJson);
@@ -85,11 +85,12 @@ export default class Controller {
   }
 
   chooseCard() {
+    this.cards = Array.from(document.querySelectorAll('.speak_card'));
     this.cards.forEach((card) => card.addEventListener('click', () => {
       if (this.cards.includes(card)) {
         this.view.clearTranslation();
-        this.model.chooseWord = this.model.datasWords[card.querySelector('.word').id];
-        Array.from(document.querySelectorAll('.card')).forEach((cardSelected) => cardSelected.classList.remove('choosen'));
+        this.model.chooseWord = card.querySelector('.word').innerText;
+        this.cards.forEach((allCards) => allCards.classList.remove('choosen'));
         card.classList.add('choosen');
         this.view.selectCard(card, this.model);
         this.choosenWordIndex = card.querySelector('.word').id;
@@ -114,23 +115,20 @@ export default class Controller {
       const id = this.model.id[this.choosenWordIndex];
       const soundURL = this.model.datasAudios[this.choosenWordIndex];
       const wordTranslate = this.model.datasWordTranslate[this.choosenWordIndex];
-      const object = {
+      const objectWithResult = {
         word, id, soundURL, wordTranslate,
       };
+      const choosenElement = document.querySelector('.choosen');
       if (this.model.checkResult(result)) {
-        this.addToCorrectArray(object, word);
-        this.view.result.innerHTML += ONE_START;
-        this.addedRightAnwser();
-        this.playAudio(this.correctAudio);
-        const correctelement = document.querySelector('.choosen');
-        for (let i = 0; i < this.cards.length; i += 1) {
-          if (this.cards[i] === correctelement) {
-            delete this.cards[i];
-          }
+        if (this.model.isCardAnswered(choosenElement, this.cards)) {
+          this.addToCorrectArray(objectWithResult, word);
+          this.view.result.innerHTML += ONE_START;
+          this.playAudio(this.correctAudio);
+          this.cards = this.view.removeChoosenCardStiles(choosenElement, this.cards);
+          this.addedRightAnwser();
         }
-        // this.cards;
       } else {
-        this.addToWrongArray(object, word);
+        this.addToWrongArray(objectWithResult, word);
         this.playAudio(this.uncorrectAudio);
       }
     });
@@ -209,5 +207,13 @@ export default class Controller {
       }
       return true;
     };
+  }
+
+  playWordsPronunciation() {
+    this.view.listens.forEach((pronunciation) => pronunciation.addEventListener('click', () => {
+      if (pronunciation.classList.contains('word_listen_active')) {
+        this.view.playSound(pronunciation.id);
+      }
+    }));
   }
 }

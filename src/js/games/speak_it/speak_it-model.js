@@ -81,6 +81,8 @@ export default class Model {
     return false;
   }
 
+  isCardAnswered = (choosenCard, ArrayWithCards) => (ArrayWithCards.indexOf(choosenCard) !== -1)
+
   setRandomStartPage = (round) => {
     const max = round * 5;
     const min = max + 4;

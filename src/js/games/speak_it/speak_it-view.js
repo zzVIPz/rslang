@@ -10,7 +10,7 @@ export default class View {
     this.translation = document.querySelector('.translation');
     this.input = document.querySelector('.inner');
     this.inputContainer = document.querySelector('.inner_container');
-    this.listens = Array.from(document.querySelectorAll('.word_listen'));
+    this.listens = Array.from(document.querySelectorAll('.link_word_listen'));
     this.words = Array.from(document.querySelectorAll('.word'));
     this.transcriptions = Array.from(document.querySelectorAll('.transcription'));
     this.cards = Array.from(document.querySelectorAll('.speak_card'));
@@ -26,7 +26,6 @@ export default class View {
     this.mic = document.querySelector('.mic');
     this.buttonSpeak = document.querySelector('.speak');
     this.speaker = document.querySelector('.user-tool__button-speaker');
-    return this;
   }
 
   selectCard(card, model) {
@@ -111,5 +110,30 @@ export default class View {
 
   toggleMicrophone() {
     this.mic.classList.toggle('mic_active');
+  }
+
+  removeChoosenCardStiles = (choosenCard, arrayWithAllCards) => {
+    choosenCard.classList.remove('speak_card_active');
+    choosenCard.classList.remove('choosen');
+    choosenCard.classList.add('speak_card_not_active');
+    const iconPlayWord = choosenCard.querySelector('.link_word_listen');
+    iconPlayWord.classList.remove('word_listen_active');
+    const newArray = arrayWithAllCards;
+    for (let i = 0; i < newArray.length; i += 1) {
+      if (newArray[i] === choosenCard) {
+        delete newArray[i];
+      }
+    }
+    return newArray;
+  }
+
+  renderCardsStyles = () => {
+    document.querySelectorAll('.speak_card_not_active').forEach((card) => {
+      card.classList.remove('speak_card_not_active');
+      card.classList.add('speak_card_active');
+    });
+    document.querySelectorAll('.link_word_listen').forEach((link) => {
+      link.classList.add('word_listen_active');
+    });
   }
 }

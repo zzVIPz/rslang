@@ -138,8 +138,8 @@ const GAME_PAGE = ` <div class="app speakIt_game">
                         <button class="button speak">Speak Please</button>
                       </div>
                     </div>`;
-const ONE_CARD = `<div class="speak_card">
-                  <div class='word_listen'></div>
+const ONE_CARD = `<div class="speak_card speak_card_active">
+                  <div class='link_word_listen word_listen_active'></div>
                   <div class="word_look">
                     <p class="word"></p>
                     <p class="transcription"></p>
