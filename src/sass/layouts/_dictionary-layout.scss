@@ -81,9 +81,6 @@
   &__word-eng-trans {
     display: flex;
     flex: 1;
-    // overflow: hidden;
-
-    // white-space: nowrap;
   }
   &__word-english {
     margin-right: 1rem;
@@ -162,15 +159,12 @@
     }
   }
   &__no-words {
-    // overflow: hidden;
-
     font-weight: 600;
     font-size: 1.6rem;
     line-height: 1.6;
     text-align: center;
     color: #f56714;
     text-transform: uppercase;
-    // white-space: nowrap;
   }
 }
 
@@ -179,6 +173,7 @@
   top: 0;
   right: 0;
   z-index: 999;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -186,7 +181,8 @@
   width: 100vw;
   height: 100vh;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
+
+  background-color: rgba(0, 0, 0, .6);
 
   &__body {
     position: relative;
@@ -219,15 +215,12 @@
     &English {
       max-width: 100%;
       margin-right: 1rem;
-      // overflow: hidden;
 
       font-weight: 600;
       font-size: 1.6rem;
       line-height: 1.6;
       color: #2582e7;
       text-transform: uppercase;
-      // white-space: pre;
-      // text-overflow: ellipsis;
     }
     &Transcription {
       margin-right: 1rem;
@@ -262,9 +255,9 @@
 
     font-size: 1.6rem;
     line-height: 1.6;
-    // white-space: pre;
     & > p {
       margin: 0;
+
       text-align: justify;
     }
   }
@@ -272,18 +265,14 @@
   &__textMeaningTranslate,
   &__textExampleTranslate {
     margin-bottom: 2rem;
-    // overflow: hidden;
     margin-left: 2.6rem;
 
     font-size: 1.6rem;
     line-height: 1.6;
-    // white-space: nowrap;
   }
 
   &__textExample {
     display: flex;
-
-    // white-space: pre;
   }
 
   &__closeBtn {
@@ -338,7 +327,6 @@
   .dict__word-information {
     width: 2.2rem;
     height: 2.2rem;
-    // margin-right: .5rem;
   }
   .dict__word-remove,
   .dict__word-restore {
@@ -358,14 +346,10 @@
   .dictModal__textMeaningTranslate,
   .dictModal__textExample,
   .dictModal__textExampleTranslate {
-    // max-width: 100%;
     margin-right: .5rem;
-    // overflow: hidden;
 
     font-size: 1.4rem;
     line-height: 1.4;
-    // white-space: pre;
-    // text-overflow: ellipsis;
   }
   .dictModal__textMeaningTranslate,
   .dictModal__textExampleTranslate {
@@ -407,12 +391,9 @@
   .dictModal__textExampleTranslate {
     max-width: 100%;
     margin-right: .3rem;
-    // overflow: hidden;
 
     font-size: 1rem;
     line-height: 1.8rem;
-    // white-space: pre;
-    // text-overflow: ellipsis;
   }
   .dictModal__image {
     width: 270px;

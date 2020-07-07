@@ -1,11 +1,10 @@
-/* eslint-disable no-underscore-dangle */
 import dictionaryTemplate from './dictionaryTemplate';
+import dictionaryModalTemplate from './dictionaryModalTemplate';
+import dictionaryLineTemplate from './dictionaryLineTemplate';
 import getMediaUrl from '../../utils/getMediaUrl';
-import CONSTANTS from './dictionaryConstants';
 
 export default class DictionaryController {
-  constructor(user) {
-    this.user = user;
+  constructor() {
     this.template = dictionaryTemplate;
     this.domElements = {};
     this.onStateChange = null;
@@ -21,20 +20,9 @@ export default class DictionaryController {
     this.domElements.dictControls = document.querySelector('.dictionary__controls');
     this.domElements.wordsData = document.querySelector('.wordsData');
     this.domElements.dictionary = document.querySelector('.dictionary');
-    this.domElements.modal = document.querySelector('.dictModal');
-    this.domElements.modalImg = document.querySelector('.dictModal__image');
-    this.domElements.modalWord = document.querySelector('.dictModal__word');
-    this.domElements.modalWordEng = document.querySelector('.dictModal__wordEnglish');
-    this.domElements.modalWordTranscipt = document.querySelector('.dictModal__wordTranscription');
-    this.domElements.modalWordTranslate = document.querySelector('.dictModal__wordTranslate');
-    this.domElements.modalTextMeaning = document.querySelector('.dictModal__textMeaning');
-    this.domElements.modalTextMeaningTranslate = document.querySelector('.dictModal__textMeaningTranslate');
-    this.domElements.modalTextExample = document.querySelector('.dictModal__textExample');
-    this.domElements.modalTextExampleTranslate = document.querySelector('.dictModal__textExampleTranslate');
-    this.domElements.modalInfoCloseBtn = document.querySelector('.dictModal__closeBtn');
   }
 
-  renderData(data, state) {
+  renderLines(data, user, state) {
     this.domElements.wordsData.innerHTML = '';
     if (data.length === 0) {
       const noWords = document.createElement('div');
@@ -43,65 +31,9 @@ export default class DictionaryController {
       this.domElements.wordsData.append(noWords);
     }
     data.forEach((el) => {
-      const line = document.createElement('div');
-      line.classList.add('dict__word-line');
-      const soundBox = document.createElement('div');
-      soundBox.classList.add('dict__word-audio');
-      const audio = new Audio();
-      audio.src = getMediaUrl(el.audio);
-      soundBox.append(audio);
-      line.append(soundBox);
-
-      const wordEngTrans = document.createElement('div');
-      wordEngTrans.classList.add('dict__word-eng-trans');
-
-      const wordEng = document.createElement('div');
-      wordEng.classList.add('dict__word-english');
-      wordEng.textContent = el.word;
-      wordEngTrans.append(wordEng);
-
-      if (this.user.transcription) {
-        const wordTranscript = document.createElement('div');
-        wordTranscript.classList.add('dict__word-transcription');
-        wordTranscript.textContent = el.transcription;
-        wordEngTrans.append(wordTranscript);
-      }
-
-      const wordTrans = document.createElement('div');
-      wordTrans.classList.add('dict__word-translate');
-      wordTrans.textContent = `— ${el.wordTranslate}`;
-      wordEngTrans.append(wordTrans);
-
-      line.append(wordEngTrans);
-
-      if (this.user.dictionaryInfo) {
-        const wordInfo = document.createElement('div');
-        wordInfo.classList.add('dict__word-information');
-        wordInfo.dataset.id = el._id;
-        line.append(wordInfo);
-      }
-
-      if (this.user.dictionaryControl) {
-        if (state === CONSTANTS.DICT_STATES.LEARNING) {
-          const wordToDifficult = document.createElement('div');
-          wordToDifficult.classList.add('dict__word-difficult');
-          wordToDifficult.dataset.id = el._id;
-          line.append(wordToDifficult);
-
-          const wordRemove = document.createElement('div');
-          wordRemove.classList.add('dict__word-remove');
-          wordRemove.dataset.id = el._id;
-          line.append(wordRemove);
-        }
-
-        if (state === CONSTANTS.DICT_STATES.REMOVED || state === CONSTANTS.DICT_STATES.DIFFICULT) {
-          const wordRestore = document.createElement('div');
-          wordRestore.classList.add('dict__word-restore');
-          wordRestore.dataset.id = el._id;
-          line.append(wordRestore);
-        }
-      }
-      this.domElements.wordsData.append(line);
+      const audioSrc = getMediaUrl(el.audio);
+      const line = dictionaryLineTemplate(el, audioSrc, user, state);
+      this.domElements.wordsData.insertAdjacentHTML('beforeend', line);
     });
   }
 
@@ -121,7 +53,7 @@ export default class DictionaryController {
 
     this.domElements.wordsData.addEventListener('click', ({ target }) => {
       if (target.classList.contains('dict__word-audio')) {
-        this.playAudio(target.firstChild);
+        this.playAudio(target.childNodes[1]);
       }
 
       if (target.classList.contains('dict__word-information')) {
@@ -148,16 +80,6 @@ export default class DictionaryController {
         }
       }
     });
-
-    this.domElements.modal.addEventListener('click', ({ target }) => {
-      if (target.classList.contains('dict__word-audio')) {
-        this.playAudio(target.firstChild);
-      }
-    });
-
-    this.domElements.modalInfoCloseBtn.addEventListener('click', () => {
-      this.hideModal();
-    });
   }
 
   playAudio(targetAudio) {
@@ -179,66 +101,33 @@ export default class DictionaryController {
     }
   }
 
-  showModal(data) {
-    this.clearModal();
-    const img = document.createElement('img');
-    img.src = getMediaUrl(data.image);
-    this.domElements.modalImg.append(img);
-    if (!this.user.associativePicture) {
-      this.domElements.modalImg.classList.add('hidden');
-    }
+  renderModal(data, user) {
+    const imageSrc = getMediaUrl(data.image);
+    const audioSrc = getMediaUrl(data.audio);
+    const audioExample = getMediaUrl(data.audioExample);
+    const audioMeaning = getMediaUrl(data.audioMeaning);
+    const modal = dictionaryModalTemplate(data, imageSrc,
+      audioSrc, audioExample, audioMeaning, user);
+    this.domElements.dictionary.insertAdjacentHTML('beforeend', modal);
+    this.addModalListeners();
+  }
 
-    this.addAudioElement('modalWord', data.audio);
-    this.domElements.modalWordEng.textContent = data.word;
-    this.domElements.modalWordTranscipt.textContent = data.transcription;
-    if (!this.user.transcription) {
-      this.domElements.modalWordTranscipt.classList.add('hidden');
-    }
-    this.domElements.modalWordTranslate.textContent = data.wordTranslate;
+  addModalListeners() {
+    const modal = document.querySelector('.dictModal');
+    const modalCloseBtn = document.querySelector('.dictModal__closeBtn');
 
-    this.addAudioElement('modalTextMeaning', data.audioMeaning);
-    const paragraph1 = document.createElement('p');
-    paragraph1.insertAdjacentHTML('beforeend', data.textMeaning);
-    this.domElements.modalTextMeaning.append(paragraph1);
-    this.domElements.modalTextMeaningTranslate.textContent = data.textMeaningTranslate;
+    modal.addEventListener('click', ({ target }) => {
+      if (target.classList.contains('dict__word-audio')) {
+        this.playAudio(target.childNodes[1]);
+      }
+    });
 
-    this.addAudioElement('modalTextExample', data.audioExample);
-    const paragraph2 = document.createElement('p');
-    paragraph2.insertAdjacentHTML('beforeend', data.textExample);
-    this.domElements.modalTextExample.append(paragraph2);
-    this.domElements.modalTextExampleTranslate.textContent = data.textExampleTranslate;
-
-    img.addEventListener('load', () => {
-      this.domElements.modal.classList.remove('dictModal_hidden');
+    modalCloseBtn.addEventListener('click', () => {
+      this.removeModal();
     });
   }
 
-  hideModal() {
-    this.domElements.modal.classList.add('dictModal_hidden');
-  }
-
-  addAudioElement(parent, src) {
-    const audio = document.createElement('audio');
-    audio.src = getMediaUrl(src);
-    this.domElements[parent].childNodes[1].append(audio);
-  }
-
-  clearModal() {
-    this.domElements.modalImg.innerHTML = '';
-
-    this.domElements.modalWord.childNodes[1].innerHTML = '';
-
-    this.domElements.modalImg.classList.remove('hidden');
-    this.domElements.modalWordTranscipt.classList.remove('hidden');
-
-    this.domElements.modalTextMeaning.childNodes[1].innerHTML = '';
-    while (this.domElements.modalTextMeaning.childNodes.length > 2) {
-      this.domElements.modalTextMeaning.removeChild(this.domElements.modalTextMeaning.lastChild);
-    }
-
-    this.domElements.modalTextExample.childNodes[1].innerHTML = '';
-    while (this.domElements.modalTextExample.childNodes.length > 2) {
-      this.domElements.modalTextExample.removeChild(this.domElements.modalTextExample.lastChild);
-    }
+  removeModal() {
+    this.domElements.dictionary.removeChild(this.domElements.dictionary.lastChild.previousSibling);
   }
 }
