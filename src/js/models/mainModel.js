@@ -5,17 +5,6 @@ import User from '../components/defaultUser/defaultUser';
 const REQUEST_PARAMETERS = {
   url: 'https://afternoon-falls-25894.herokuapp.com/users/',
 };
-const defaultStatisticObject = {
-  learnedWords: 0,
-  optional: {
-    speak: 0,
-    puzzle: 0,
-    call: 0,
-    savanna: 0,
-    sprint: 0,
-    newGame: 0,
-  },
-};
 
 const getBodyRequest = (method, token, settings) => {
   const bodyRequest = {
