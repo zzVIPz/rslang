@@ -184,20 +184,4 @@ export default class MainModel {
     const content = await rawResponse.json();
     return JSON.parse(content.optional.user);
   };
-
-  getUserStatistic = async () => {
-    const currentStatistic = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
-      getBodyRequest('GET', this.token))
-      .then((respons) => respons.json());
-    console.log('now statistic object is: ', currentStatistic);
-    return currentStatistic;
-  }
-
-  setUserStatistic = async (getStatisticObject) => {
-    const statisticObject = getStatisticObject || defaultStatisticObject;
-    const result = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
-      getBodyRequest('PUT', this.token, statisticObject))
-      .then((respons) => respons.json());
-    console.log('You set statistic object. Response is: ', result);
-  }
 }
