@@ -1,0 +1,147 @@
+
+.about-us {
+  padding: 59px 30px 18px;
+  color: #666d89;
+  &__header{
+    text-align: center;
+  }
+  &__cards-block{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 45px 0;
+  }
+
+}
+
+
+
+
+.person {
+  display: flex;
+  flex-direction: column;
+  width: 27%;
+  margin: 0 3% 24px;
+}
+
+.person__photo {
+  width: 100%;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.person__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.person-description {
+  padding-bottom: 24px;
+}
+
+.social_about {
+  margin-top: auto;
+  padding-left: 1px;
+}
+
+.social__item {
+  display: inline-block;
+  height: 32px;
+  width: 32px;
+  border: solid 1px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: 14px;
+  background-repeat: no-repeat;
+}
+
+.social :not(:last-child) {
+  margin-right: 4px;
+}
+
+.social__item:hover {
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.facebook {
+  background-image: url();
+  background-size: 8px;
+}
+
+.google {
+  background-image: url();
+}
+
+.twitter {
+  background-image: url();
+}
+
+.linkedin {
+  background-image: url();
+}
+
+
+@media (min-width: 768px) and (max-width: 1019px) {
+    .about-us {
+    padding: 52px 30px 20px;
+  }
+
+  .about-us__cards-block {
+    padding-top: 38px;
+  }
+
+  .person__photo {
+    width: 100%;
+    margin-bottom: 13px;
+  }
+
+  .person-description {
+    padding-bottom: 12px;
+  }
+
+  .person-description .description__text {
+    padding-top: 0px;
+  }
+
+}
+
+@media (max-width: 767px) {
+
+
+  .about-us {
+    padding: 33px 20px 11px;
+    border-bottom: 0;
+  }
+
+  .about-us__cards-block {
+    padding: 25px 10px 0px;
+    justify-content: center;
+  }
+
+  .person {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 0 24px 0;
+  }
+
+  .person__photo {
+    width: 100%;
+  }
+
+  .person-description {
+    padding-bottom: 12px;
+  }
+
+  .person-description .description__text {
+    padding-top: 2px;
+  }
+}
+
+@media(max-width:373px) {
+  .filter__button {
+    margin-right: 0;
+    padding: 0 3px
+  }
+}
