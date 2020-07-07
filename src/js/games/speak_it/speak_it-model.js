@@ -55,11 +55,15 @@ export default class Model {
   }
 
   shuffle = (array) => {
+    const array1 = array;
+    const array2 = array;
     for (let i = array.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      const temp = array2[i];
+      array2[i] = array1[j];
+      array1[j] = temp;
     }
-    return array;
+    return array1;
   }
 
   checkResult(checkingWord) {

@@ -12,6 +12,9 @@ import ModalWindow from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
 
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
 export default class Controller {
   constructor(group, round, user, mainView) {
     this.startPage = 0;
@@ -33,19 +36,14 @@ export default class Controller {
     this.user = user;
     this.mainModel = new MainModel();
     this.mainView = mainView;
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    this.recognition = new SpeechRecognition();
-    this.recognition.interimResults = true;
-    this.recognition.lang = 'en-US';
-    this.recognition.maxAlternatives = 1;
-    this.recognition.continuous = true;
-    this.recognition.interimResults = false;
-    this.mainModel.getUserStatistic();
+    // this.mainModel.getUserStatistic(); remove comment after add statistic PR
   }
 
   initGame() {
+    this.createSpeachrecognition();
     this.model = new Model();
     this.view = new View();
+
     this.view.setStarsTop(this.startGroup, this.startRound);
     this.onload();
     this.chooseCard();
@@ -63,6 +61,15 @@ export default class Controller {
       return true;
     };
     this.closeStartPage();
+  }
+
+  createSpeachrecognition() {
+    this.recognition = new SpeechRecognition();
+    this.recognition.interimResults = true;
+    this.recognition.lang = 'en-US';
+    this.recognition.maxAlternatives = 1;
+    this.recognition.continuous = true;
+    this.recognition.interimResults = false;
   }
 
   async onload() {
@@ -107,7 +114,9 @@ export default class Controller {
       const id = this.model.id[this.choosenWordIndex];
       const soundURL = this.model.datasAudios[this.choosenWordIndex];
       const wordTranslate = this.model.datasWordTranslate[this.choosenWordIndex];
-      let object = {word, id, soundURL, wordTranslate};
+      const object = {
+        word, id, soundURL, wordTranslate,
+      };
       if (this.model.checkResult(result)) {
         this.addToCorrectArray(object, word);
         this.view.result.innerHTML += ONE_START;
@@ -119,7 +128,7 @@ export default class Controller {
             delete this.cards[i];
           }
         }
-        this.cards;
+        // this.cards;
       } else {
         this.addToWrongArray(object, word);
         this.playAudio(this.uncorrectAudio);
@@ -141,8 +150,8 @@ export default class Controller {
   }
 
   isThereRepeat = (array, word) => {
-    for (const elem of array) {
-      if (elem.word === word) {
+    for (let i = 0; i < array.length; i += 1) {
+      if (array[i].word === word) {
         return false;
       }
     }
@@ -166,9 +175,9 @@ export default class Controller {
 
   closeStartPage() {
     this.closeBtn.onclick = () => {
-      const modal = new ModalWindow(this.model.correct, 
-        this.model.uncorrect, 
-        this.setDefaultHash, 
+      const modal = new ModalWindow(this.model.correct,
+        this.model.uncorrect,
+        this.setDefaultHash,
         this.user);
       modal.runListeners(this.user, this.mainView);
       modal.toggelModalWindov();

@@ -6,7 +6,7 @@ import {
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
-import checkUserWords from '../../utils/checkUserWords';
+// import checkUserWords from '../../utils/checkUserWords';  remove comment after add statistic PR
 
 export default class ModalWindow {
   constructor(correct, uncorrect, user) {
@@ -33,22 +33,11 @@ export default class ModalWindow {
 
   stopGame() {
     const missArrayId = [];
-    for (const el of this.uncorrectWordsArray) {
-      missArrayId.push(el.id);
+    for (let i = 0; i < this.uncorrectWordsArray.length; i += 1) {
+      missArrayId.push(this.uncorrectWordsArray[i].id);
     }
-    checkUserWords(missArrayId);
-    const statisticObject = {
-      learnedWords: 999,
-      optional: {
-        speak: 999,
-        puzzle: 999,
-        call: 999,
-        savanna: 999,
-        sprint: 999,
-        newGame: 999,
-      },
-    };
-    this.mainModel.setUserStatistic(statisticObject);
+    // checkUserWords(missArrayId); remove comment after add statistic PR
+    // this.mainModel.setUserStatistic(statisticObject); remove comment after add statistic PR
     container.innerHTML = '';
     this.mainView.renderMain(this.user);
     window.history.replaceState(null, null, ' ');
@@ -81,7 +70,7 @@ export default class ModalWindow {
   }
 
   addWords = (array, placeForPutting) => {
-    for (const word of array) {
+    for (let i = 0; i < array.length; i += 1) {
       const oneRow = document.createElement('div');
       oneRow.classList.add('wordBox');
       const soundBox = document.createElement('div');
@@ -89,14 +78,14 @@ export default class ModalWindow {
       const wordAudio = document.createElement('img');
       wordAudio.classList.add('word-audio');
       wordAudio.src = SVG_URL;
-      wordAudio.id = getMediaUrl(word.soundURL);
+      wordAudio.id = getMediaUrl(array[i].soundURL);
       const wordEng = document.createElement('div');
       wordEng.classList.add('word-eng');
-      wordEng.innerText = word.word;
-      wordEng.title = ID_OF_WORD + word.id;
+      wordEng.innerText = array[i].word;
+      wordEng.title = ID_OF_WORD + array[i].id;
       const wordTrans = document.createElement('div');
       wordTrans.classList.add('word-trans');
-      wordTrans.innerText = `- ${word.wordTranslate}`;
+      wordTrans.innerText = `- ${array[i].wordTranslate}`;
       soundBox.appendChild(wordAudio);
       oneRow.appendChild(soundBox);
       oneRow.appendChild(wordEng);

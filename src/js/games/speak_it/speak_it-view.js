@@ -34,7 +34,7 @@ export default class View {
     if (card) {
       numerCardInArray = card.querySelector('.word').id;
     } else {
-      numerCardInArray = model.arrayNumders[0];
+      [numerCardInArray] = model.arrayNumders;
       this.cards[0].classList.add('choosen');
       this.viewWords(model.datasWords, model.datasTranscription, model.datasAudios,
         model.arrayNumders, model.id);
@@ -63,9 +63,7 @@ export default class View {
     }
   }
 
-  createImageURL = (link) => {
-    return `url('${getMediaUrl(link)}')`;
-  }
+  createImageURL = (link) => `url('${getMediaUrl(link)}')`
 
   changeInput() {
     this.input.innerText = '';
@@ -91,7 +89,8 @@ export default class View {
   playSound(sound) {
     if (this.audios.length > 0) {
       this.audios.forEach((el) => {
-        el.muted = true
+        const element = el;
+        element.muted = true;
       });
       this.audios = [];
     }
