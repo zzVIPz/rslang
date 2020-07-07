@@ -12,6 +12,8 @@ import {
   WORD_SEARCH_CONTENT,
   ROWS,
   WORDS_CONTAINER,
+  CLEAR_BTN_TEXT,
+  CHECK_BTN_TEXT,
 } from './constants';
 
 class WordSearchView extends SavannahView {
@@ -121,6 +123,8 @@ class WordSearchView extends SavannahView {
     this.wordSearchContainer = document.createElement('div');
     this.wordSearchContainer.classList.add('word-search__container');
     this.appContainer.appendChild(this.wordSearchContainer);
+    this.controllersContainer = document.createElement('div');
+    this.controllersContainer.classList.add('controllers-container');
     this.removeAppContent();
     this.renderTitle();
     this.renderContent();
@@ -130,6 +134,9 @@ class WordSearchView extends SavannahView {
     this.renderWord();
     this.renderMatrixWord(this.matrixObj.matrix);
     // this.getDynamicHeight();
+    this.renderCheckBtn();
+    this.renderClearBtn();
+    this.renderFinishImg();
   }
 
   removeAppContent() {
@@ -159,10 +166,11 @@ class WordSearchView extends SavannahView {
   }
 
   renderWordsContainer() {
-    const wordsContainer = document.createElement('div');
-    wordsContainer.className = 'word-search__words-container';
-    wordsContainer.innerHTML = WORDS_CONTAINER;
-    this.gameField.appendChild(wordsContainer);
+    this.wordsContainer = document.createElement('div');
+    this.wordsContainer.className = 'word-search__words-container';
+    this.wordsContainer.innerHTML = WORDS_CONTAINER;
+    this.wordsContainer.appendChild(this.controllersContainer);
+    this.gameField.appendChild(this.wordsContainer);
   }
 
   renderWord = () => {
@@ -190,7 +198,7 @@ class WordSearchView extends SavannahView {
           document.querySelector('.countdown').innerHTML = this.countNumber;
           setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
         } else {
-          console.log('game mode');
+          this.gameMode();
         }
       } else {
         setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
@@ -218,6 +226,28 @@ class WordSearchView extends SavannahView {
     const contentWidth = content.offsetWidth;
     content.style.height = `${contentWidth}px`;
   } */
+
+  renderCheckBtn() {
+    this.checkBtn = document.createElement('div');
+    this.checkBtn.className = ('app__button');
+    this.checkBtn.classList.add('word-search__controllers');
+    this.checkBtn.innerHTML = CHECK_BTN_TEXT;
+    this.controllersContainer.appendChild(this.checkBtn);
+  }
+
+  renderClearBtn() {
+    this.clearBtn = document.createElement('div');
+    this.clearBtn.className = ('app__button');
+    this.clearBtn.classList.add('word-search__controllers');
+    this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
+    this.controllersContainer.appendChild(this.clearBtn);
+  }
+
+  renderFinishImg() {
+    this.finishImg = document.createElement('div');
+    this.finishImg.classList.add('finish-icon');
+    document.querySelector('.app__header').appendChild(this.finishImg);
+  }
 }
 
 export default WordSearchView;

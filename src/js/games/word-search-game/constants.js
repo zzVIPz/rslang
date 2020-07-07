@@ -77,6 +77,9 @@ const ROWS = `
 
 const WORDS_CONTAINER = '<ul class="word-search__words"></ul>';
 
+const CHECK_BTN_TEXT = 'Проверить';
+const CLEAR_BTN_TEXT = 'Очистить';
+
 export {
   GAME_LAYOUT,
   GROUP_ROUND,
@@ -85,4 +88,6 @@ export {
   WORD_SEARCH_CONTENT,
   ROWS,
   WORDS_CONTAINER,
+  CHECK_BTN_TEXT,
+  CLEAR_BTN_TEXT,
 };

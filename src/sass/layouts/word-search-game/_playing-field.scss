@@ -2,21 +2,36 @@
   height: 100%;
 
   text-align: center;
+
+@include media-mobile {
+    width: 100%;
+    margin-top: 0;
+    padding: 0 40px;
+  }
 }
 
 .word-search__content {
   position: relative;
+  z-index: 0;
 
   width: 50%;
   max-width: 500px;
   height: 80%;
-
+  max-height: 450px;
   margin-right: 10px;
   overflow: hidden;
 
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 10px 10px 10px rgba(0,0,0,.12);
+
+@include media-tablet {
+    margin: 0;
+  }
+
+@include media-mobile {
+    width: 90%;
+  }
 }
 
 .word-search__board {
@@ -24,11 +39,16 @@
   width: 100%;
   height: 100%;
   padding: 7px;
+
+  background: $dark-main-color;
   &_inner {
     position: relative;
 
     width: 100%;
     height: 100%;
+
+    background: #ffffff;
+    border-radius: 10px;
   }
 }
 
@@ -68,6 +88,11 @@
   opacity: 1.0;
 
   transition: .25s opacity ease;
+
+@include media-mobile {
+    margin-bottom: 10px;
+  }
+
   &_box {
     display: inline-block;
     width: 21px;
@@ -125,32 +150,39 @@
   height: 100%;
 
   vertical-align: top;
+  color: $dark-main-color;
   white-space: nowrap;
 
   cursor: pointer;
 
   user-select: none;
-  &:hover {
-    background: $main-color;
+
+@include media-tablet {
+    font-size: 2rem;
   }
-}
 
-.cellVal {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-
-  font-weight: bold;
-  text-align: center;
+@include media-mobile {
+    font-size: 1.5rem;
+  }
+  &:hover {
+    background: $hover-color;
+  }
 }
 
 .word-search__words-container {
   width: 40%;
 
-  background: $dark-main-color;
+@include media-tablet {
+    width: 45%;
+  }
+
+@include media-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 90%;
+  }
 }
 
 .word-search__words {
@@ -162,6 +194,21 @@
 
   list-style-type: none;
   font-size: 18px;
+
+  background: $dark-main-color;
+  border-radius: 10px;
+
+@include media-tablet {
+    padding: 5px;
+    overflow: scroll;
+  }
+
+@include media-mobile {
+    justify-content: space-between;
+    width: 80%;
+    max-height: 48%;
+    padding: 0 10px;
+  }
 }
 
 .word {
@@ -173,17 +220,31 @@
   height: 50px;
   padding: 0 4px;
 
-  font-weight: bold;
+  font-weight: 300;
   font-size: 2rem;
-  line-height: 1.5em;
+  line-height: 1em;
   color: $text-color;
+  word-break: break-all;
   text-shadow: 0 1px 1px rgba(0,0,0,.2);
 
+  border-radius: 5px;
   cursor: pointer;
 
   user-select: none;
+
+@include media-tablet {
+    height: 40px;
+
+    font-size: 1.5rem;
+  }
+
+@include media-mobile {
+    height: 20px;
+
+    font-size: 1rem;
+  }
   &:hover {
-    background: $main-color;
+    background: $hover-color;
   }
 }
 
@@ -193,4 +254,25 @@
   align-items: center;
   width: 100%;
   height: 100%;
+
+@include media-tablet {
+    height: 90%;
+  }
+
+@include media-mobile {
+    flex-direction: column;
+  }
+}
+
+.finish-icon {
+  width: 48px;
+  height: 100%;
+
+  background-image: url("/src/assets/images/finish.png");
+  background-size: cover;
+  cursor: pointer;
+}
+
+.chosen-letter {
+  background: $chosen-color;
 }
