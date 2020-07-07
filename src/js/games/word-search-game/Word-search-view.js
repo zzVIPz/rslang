@@ -231,6 +231,7 @@ class WordSearchView extends SavannahView {
     this.checkBtn = document.createElement('div');
     this.checkBtn.className = ('app__button');
     this.checkBtn.classList.add('word-search__controllers');
+    this.checkBtn.classList.add('check');
     this.checkBtn.innerHTML = CHECK_BTN_TEXT;
     this.controllersContainer.appendChild(this.checkBtn);
   }
@@ -239,6 +240,7 @@ class WordSearchView extends SavannahView {
     this.clearBtn = document.createElement('div');
     this.clearBtn.className = ('app__button');
     this.clearBtn.classList.add('word-search__controllers');
+    this.checkBtn.classList.add('clear');
     this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
     this.controllersContainer.appendChild(this.clearBtn);
   }
@@ -247,6 +249,39 @@ class WordSearchView extends SavannahView {
     this.finishImg = document.createElement('div');
     this.finishImg.classList.add('finish-icon');
     document.querySelector('.app__header').appendChild(this.finishImg);
+  }
+
+  gameMode() {
+    this.addGameModeListeners();
+  }
+
+  addGameModeListeners() {
+    const wordsBox = document.querySelector('.word-search-grid');
+    this.addEventHandler(wordsBox, this.onLetterClick);
+    this.addEventHandler(this.clearBtn, this.onClearBtnClick);
+  }
+
+  addEventHandler = (element, func) => {
+    element.addEventListener('click', func);
+  }
+
+  onLetterClick = ({ target }) => {
+    if (target.classList.contains('cell')) {
+      target.classList.add('chosen-letter');
+      // TODO get textContent
+    }
+  }
+
+  onClearBtnClick = () => {
+    const allCells = Array.from(document.querySelectorAll('.cell'));
+
+    allCells.map((cell) => {
+      if (cell.classList.contains('chosen-letter')) {
+        cell.classList.remove('chosen-letter');
+      }
+
+      return true;
+    });
   }
 }
 
