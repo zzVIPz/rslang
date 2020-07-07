@@ -1,0 +1,21 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+  overflow: hidden;
+
+  background-color: $modal-background;
+  border-radius: 1rem;
+  box-shadow: 1px 0 2px 0 rgba(0, 0, 0, .16);
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 300px;
+  }
+}

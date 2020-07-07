@@ -146,7 +146,7 @@ const PAGES_LINKS = {
 
 const SHORT_STATISTICS_TEXT = {
   targetTitle: 'Congratulations! Your goal has been achieved!',
-  additionalTitle: 'Congratulations! You have completed all your goals!',
+  additionalTitle: 'Congratulations! You have completed your training!',
   targetPassedCards: 'Total passed cards : ',
   targetPercentage: 'Percentage of correct answers : ',
   targetNewWords: 'Learned new words : ',

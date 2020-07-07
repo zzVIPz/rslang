@@ -4,8 +4,8 @@ export default function toggleVisibility(className, param) {
     if (textContainersNodes.length) {
       textContainersNodes.forEach((node) => {
         if (!node.classList.contains('hidden')) {
-          const nodeText = node.querySelector(className);
-          nodeText.classList.toggle('hidden');
+          const nodesText = node.querySelectorAll(className);
+          nodesText.forEach((el) => el.classList.toggle('hidden'));
         }
       });
     }
