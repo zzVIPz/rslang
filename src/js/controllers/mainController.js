@@ -124,7 +124,10 @@ export default class MainController {
       ) {
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
-      if (!this.aggregatedWords.length) {
+      if (
+        !this.aggregatedWords.length
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
+      ) {
         this.mainView.showNotificationAboutRepeat(this.user);
       }
     };
