@@ -28,12 +28,12 @@ export default class SprintController {
     this.rightAnswersCount = 0;
     this.faultyWords = [];
 
-    this.user = await this.model.getCurrenttUser();
+    this.user = await this.model.getCurrentUser();
     console.log(this.user);
     this.username = this.user.username;
     this.view.renderStartLayout(this.username);
     this.addCloseBtnHandler();
-    this.addRaitingHandler();
+    this.addRatingHandler();
     this.addStartHandler();
     this.addNavigationClickListener();
   }
@@ -50,7 +50,7 @@ export default class SprintController {
     }
   }
 
-  addRaitingHandler() {
+  addRatingHandler() {
     document.querySelector('.sprint-rating').addEventListener('click', ({ target }) => {
       if (target.classList.contains('group')) {
         this.level = target.id;
@@ -161,6 +161,7 @@ export default class SprintController {
       });
       document.querySelector('.app__button_close').addEventListener('click', () => {
         this.closeGameWindow();
+        this.view.hideModal();
       });
     });
   }

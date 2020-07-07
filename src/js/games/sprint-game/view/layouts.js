@@ -28,7 +28,7 @@ const startLayout = `<div class="sprint-main-wrapper">
   <div class="sprint-game-descr"></div>
   <div class="sprint-user-advice">Используй клваиши &#9668; &#9658; для быстрого ответа</div>
 </div>
-<div class="sprint-start-controlls">
+<div class="sprint-start-controls">
   <button class="sprint-button sprint-button--start app__button">Начать</button>
 </div>
 </div>`;
@@ -60,7 +60,7 @@ const gameLayout = `<div class="sprint-main-wrapper">
   <div id="word" class="sprint-word">no words available</div>
   <div id="translation" class="sprint-word sprint-word--translation">нет доступных слов</div>
 </div>
-<div class="sprint-controlls">
+<div class="sprint-controls">
   <button id="wrong" class="sprint-button sprint-button--wrong">неверно</button>
   <button id="right" class="sprint-button sprint-button--right">верно</button>
 </div>
@@ -75,7 +75,7 @@ const finalStatLayout = `<div class="sprint-main-wrapper">
 <div class="sprint-statistics">
     <div class="sprint-user-mistakes"></div>
 </div>
-<div class="sprint-result-controlls">
+<div class="sprint-result-controls">
   <button class="sprint-button sprint-button--repeat app__button">повторить</button>
 </div>
 </div>

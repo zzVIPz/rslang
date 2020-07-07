@@ -163,8 +163,8 @@ $print-header-third: #e91e62a2;
   margin-bottom: 3%;
 }
 
-// controlls
-.sprint-controlls {
+// controls
+.sprint-controls {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -238,12 +238,9 @@ $print-header-third: #e91e62a2;
   color: $sprint-border-color;
 
   box-shadow: inset 0 0 1px 0 $main-color;
-
-  scrollbar-width: hidden;
-  scrollbar-width: thin;
 }
 
-.sprint-result-controlls {
+.sprint-result-controls {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -251,7 +248,7 @@ $print-header-third: #e91e62a2;
   margin: 0 5%;
 }
 
-// sart-page
+// start-page
 .sprint-start-header {
   font-weight: 300;
   font-size: 3.2rem;
@@ -266,7 +263,7 @@ $print-header-third: #e91e62a2;
 
   color: $sprint-words-color;
 }
-.sprint-start-controlls {
+.sprint-start-controls {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -359,7 +356,7 @@ $print-header-third: #e91e62a2;
   transform: rotate(-45deg);
 }
 
-// raiting
+// rating
 .rating__group_sprint {
   position: absolute;
   top: 20px;

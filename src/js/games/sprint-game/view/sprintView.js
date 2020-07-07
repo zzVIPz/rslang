@@ -1,7 +1,7 @@
 import {
   startLayout, gameLayout, finalStatLayout, closeModal,
 } from './layouts';
-import addEventHandlerOnRating from '../utils/eventHandlerOnRaiting';
+import addEventHandlerOnRating from '../utils/eventHandlerOnRating';
 import {
   MIN_GAME_POINTS,
   MAX_GAME_POINTS,
