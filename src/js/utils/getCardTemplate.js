@@ -47,7 +47,7 @@ export default function getCardTemplate(card, settings) {
     <audio class="audio" src="${getMediaUrl(card.audio)}" preload="auto"></audio>`;
 
   const textMeaningContent = `
-    <p class="card__text-translate ${textMeaningMode && settings.translate ? '' : 'hidden'}">
+     <p class="card__text-translate ${textMeaningMode && settings.translate ? '' : 'hidden'}">
       ${card.textMeaningTranslate}
     </p>
     <audio class="audio" src="${getMediaUrl(card.audioMeaning)}" preload="auto"></audio>`;
@@ -58,9 +58,25 @@ export default function getCardTemplate(card, settings) {
     </p>
     <audio class="audio" src="${getMediaUrl(card.audioExample)}" preload="auto"></audio>`;
 
+  const wordTranslate = `
+  <p class="card__text-translate
+    ${(textExampleMode || textMeaningMode) && settings.translate ? '' : 'hidden'}">
+      ${card.wordTranslate.toUpperCase()}
+  </p>`;
+
   const word = getFormattedString(card.word, wordMode, wordContent);
-  const textMeaning = getFormattedString(card.textMeaning, textMeaningMode, textMeaningContent);
-  const textExample = getFormattedString(card.textExample, textExampleMode, textExampleContent);
+  const textMeaning = getFormattedString(
+    card.textMeaning,
+    textMeaningMode,
+    textMeaningContent,
+    wordTranslate,
+  );
+  const textExample = getFormattedString(
+    card.textExample,
+    textExampleMode,
+    textExampleContent,
+    wordTranslate,
+  );
 
   return `
   <div class="swiper-slide card container" data-id=${card.id || card._id}>
@@ -69,7 +85,8 @@ export default function getCardTemplate(card, settings) {
       <img class="card__image" src="${getMediaUrl(card.image)}">
     </div>
     <p class="card__transcription ${settings.transcription ? '' : 'hidden'}">
-      ${card.transcription}</p>
+      ${card.transcription}
+    </p>
     ${word}
     ${textMeaning}
     ${textExample}

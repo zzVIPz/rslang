@@ -1,31 +1,13 @@
 .short-stat {
-  &__container {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 1rem;
-    overflow: hidden;
+  &__logo-medal {
+    width: 100px;
+    height: 100px;
 
-    background-color: $short-stat-background;
-    border-radius: 1rem;
+    background: url(../assets/svg/medal.svg) center/100px no-repeat;
   }
 
   &__logo {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-
     background: url(../assets/svg/target.svg) center/50px no-repeat;
-    cursor: pointer;
-
-    &-medal {
-      width: 100px;
-      height: 100px;
-
-      background: url(../assets/svg/medal.svg) center/100px no-repeat;
-    }
   }
 
   &__title {
@@ -72,27 +54,5 @@
   &__buttons-block {
     display: flex;
     justify-content: center;
-  }
-
-  &__button {
-    align-self: center;
-    width: 140px;
-    margin: 15px 5px 5px;
-    padding: 5px 0;
-
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: #ffffff;
-
-    background-color: $short-stat-button-color;
-    border: 1px solid $short-stat-button-color;
-    border-radius: 8px;
-    outline: none;
-    &:hover {
-      color: $short-stat-button-color;
-
-      background-color: #ffffff;
-      cursor: pointer;
-    }
   }
 }
