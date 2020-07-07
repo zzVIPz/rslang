@@ -20,7 +20,7 @@
     max-width: 500px;
   }
 
-  @include media-mobile {
+@include media-mobile {
     max-width: 300px;
   }
 }
@@ -83,6 +83,7 @@
     color: $text-color;
 
     background-color: $main-color;
+    border: 1px solid white;
     border-radius: 4px;
     cursor: pointer;
 

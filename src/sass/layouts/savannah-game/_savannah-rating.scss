@@ -61,13 +61,14 @@
 
     text-align: center;
   }
+
   &_round {
     top: 95px;
     right: 188px;
 
 @include media-mobile {
       top: 75px;
-      right: 0px;
+      right: 0;
     }
   }
 }
