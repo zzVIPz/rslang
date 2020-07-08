@@ -11,7 +11,7 @@ export default class SprintModel {
     return this.makeWorkingArr(this.wordsArray);
   }
 
-  async getCurrenttUser() {
+  async getCurrentUser() {
     this.userId = this.mainModel.userId;
     this.token = this.mainModel.token;
     this.currentUser = await this.mainModel.getUser(this.userId, this.token);
