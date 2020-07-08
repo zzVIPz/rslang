@@ -273,6 +273,14 @@
   cursor: pointer;
 }
 
-.chosen-letter {
+.word-search__chosen-letter {
   background: $chosen-color;
+}
+
+.word-search__correct-word {
+  background: $correct-word-color;
+}
+
+.word-search__wrong-word {
+  background: $wrong-color;
 }

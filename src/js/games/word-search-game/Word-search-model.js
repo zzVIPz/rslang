@@ -5,14 +5,10 @@ import SavannahModel from '../savannah-game/Model';
 class WordSearchModel extends SavannahModel {
   constructor() {
     super();
-    this.us = '';
     this.matrix = Array(10).fill().map(() => Array(10).fill('#'));
-    this.words = ['new zealand', 'wednesday', 'apocalypse', 'disneyland',
-      'red', 'blue-ray', 'green', 'yellow', 'brown',
-      'black', 'white', 'orange', 'grey', 'silver',
-      'purple', 'gold', 'ice'];
     this.consonants = 'bcdfghjklmnpqrstvwxyz';
     this.vowels = 'aeiou';
+    this.chosenWord = [];
   }
 
   getRandomLetter() {
@@ -23,9 +19,6 @@ class WordSearchModel extends SavannahModel {
     }
     return this.vowels[randomInteger(0, this.vowels.length - 1)];
   }
-
-  /* printMatrix(matrix);
-console.log(getRandomLetter()); */
 
   moveCell = (r, c, maxRow, maxCol) => {
     let row = r;

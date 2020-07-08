@@ -3,6 +3,9 @@ import SavannahView from '../savannah-game/Views/View';
 import setNewStyles from './utils/setNewStyles';
 import getLevel from '../utils/getLevel';
 import getRound from '../utils/getRound';
+import removeStyle from '../utils/removeStyle';
+import addStyle from '../utils/addStyle';
+import addEventHandler from '../utils/addEventHandler';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import {
   GAME_LAYOUT,
@@ -25,7 +28,6 @@ class WordSearchView extends SavannahView {
     this.mainContainer = document.querySelector('.main');
     this.appContainer = document.querySelector('.word-search__app');
     this.groupRoundHtml = GROUP_ROUND;
-    this.chosenWord = [];
   }
 
   getViewUser(user, mainView) {
@@ -259,44 +261,61 @@ class WordSearchView extends SavannahView {
 
   addGameModeListeners() {
     const wordsBox = document.querySelector('.word-search-grid');
-    this.addEventHandler(wordsBox, this.onLetterClick.bind(this));
-    this.addEventHandler(this.clearBtn, this.onClearBtnClick.bind(this));
-    this.addEventHandler(this.checkBtn, this.onCheckBtnClick.bind(this));
-  }
-
-  addEventHandler = (element, func) => {
-    element.addEventListener('click', func);
+    addEventHandler('click', wordsBox, this.onLetterClick.bind(this));
+    addEventHandler('click', this.clearBtn, this.onClearBtnClick.bind(this));
+    addEventHandler('click', this.checkBtn, this.onCheckBtnClick.bind(this));
   }
 
   onLetterClick = ({ target }) => {
+    const chosenLetter = target.classList.contains('word-search__chosen-letter');
+    const correctWord = target.classList.contains('word-search__correct-word');
+
     if (target.classList.contains('cell')) {
-      if (!target.classList.contains('chosen-letter')) {
-        target.classList.add('chosen-letter');
-        this.chosenWord.push(target.textContent.toLowerCase());
+      if (!chosenLetter && !correctWord) {
+        target.classList.add('word-search__chosen-letter');
+        this.model.chosenWord.push(target.textContent.toLowerCase());
+        console.log(this.model.chosenWord);
       }
     }
   }
 
   onCheckBtnClick() {
-    if (this.matrixObj.words.includes(this.chosenWord.join(''))) {
-      console.log('includes');
-      this.chosenWord = [];
-      // TODO add right word styles
-    } else {
-      console.log('wrong');
+    if (this.model.chosenWord.length > 0) {
+      this.allCells = Array.from(document.querySelectorAll('.cell'));
+
+      if (this.matrixObj.words.includes(this.model.chosenWord.join(''))) {
+        this.correctWordActions();
+      } else {
+        this.wrongWordActions();
+      }
     }
   }
 
-  onClearBtnClick = () => {
-    const allCells = Array.from(document.querySelectorAll('.cell'));
+  correctWordActions() {
+    console.log('includes');
+    this.correctSound.play();
+    this.model.chosenWord = [];
+    this.allCells.map((cell) => addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word'));
+  }
 
-    allCells.map((cell) => {
-      if (cell.classList.contains('chosen-letter')) {
-        cell.classList.remove('chosen-letter');
-      }
+  wrongWordActions() {
+    console.log('wrong');
+    this.errorSound.play();
+    this.allCells.map((cell) => {
+      addStyle(cell, 'word-search__chosen-letter', 'word-search__wrong-word');
+      setTimeout(() => {
+        removeStyle(cell, 'word-search__wrong-word');
+      }, 500);
 
       return true;
     });
+    this.onClearBtnClick();
+    this.model.chosenWord = [];
+  }
+
+  onClearBtnClick = () => {
+    this.allCells.map((cell) => removeStyle(cell, 'word-search__chosen-letter'));
+    this.model.chosenWord = [];
   }
 }
 
