@@ -9,6 +9,8 @@ import addEventHandler from '../utils/addEventHandler';
 import setFocus from '../utils/setFocus';
 import WordSearchStatistics from './Views/Word-search-statistic-view';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
+import getMediaUrl from '../../utils/getMediaUrl';
+import playAudio from '../utils/playAudio';
 import {
   GAME_LAYOUT,
   GROUP_ROUND,
@@ -280,9 +282,10 @@ class WordSearchView extends SavannahView {
 
   onCheckBtnClick() {
     if (this.model.chosenWord.length > 0) {
+      this.chosenWordString = this.model.chosenWord.join('');
       this.allCells = Array.from(document.querySelectorAll('.cell'));
 
-      if (this.matrixObj.words.includes(this.model.chosenWord.join(''))) {
+      if (this.matrixObj.words.includes(this.chosenWordString)) {
         this.correctWordActions();
       } else {
         this.wrongWordActions();
@@ -291,8 +294,12 @@ class WordSearchView extends SavannahView {
   }
 
   correctWordActions() {
-    console.log('includes');
+    const { chosenWordAudio } = this.model.getChosenWordData(this.chosenWordString);
+    const engWordSound = getMediaUrl(chosenWordAudio);
+
+    this.addStylesToCorrectTranslation();
     this.correctSound.play();
+    playAudio(engWordSound);
     this.model.chosenWord = [];
     this.allCells.map((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word');
@@ -303,9 +310,7 @@ class WordSearchView extends SavannahView {
   }
 
   wrongWordActions() {
-    console.log('wrong');
     this.model.wrongAnswerCounter += 1;
-    console.log(this.model.wrongAnswerCounter);
     this.removeLives();
     this.errorSound.play();
     this.allCells.map((cell) => {
@@ -318,6 +323,18 @@ class WordSearchView extends SavannahView {
     });
     this.onClearBtnClick();
     this.model.chosenWord = [];
+  }
+
+  addStylesToCorrectTranslation() {
+    const { chosenWordTranslation } = this.model.getChosenWordData(this.chosenWordString);
+    const allTranslations = Array.from(document.querySelectorAll('.word'));
+    allTranslations.map((tran) => {
+      if (tran.textContent === chosenWordTranslation) {
+        tran.classList.add('word-search__correct-translation');
+      }
+
+      return true;
+    });
   }
 
   onClearBtnClick = () => {

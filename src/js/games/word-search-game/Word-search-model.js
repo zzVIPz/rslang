@@ -1,5 +1,4 @@
 import randomInteger from '../utils/randomInteger';
-// import randomArrAndShuffle from '../utils/shuffle';
 import SavannahModel from '../savannah-game/Model';
 
 class WordSearchModel extends SavannahModel {
@@ -202,9 +201,17 @@ class WordSearchModel extends SavannahModel {
   getObjectOfMatrixWord() {
     const matrixAndWords = this.fillMatrix(this.matrix, this.tenEngWordsArr);
     const { words, matrix } = matrixAndWords;
+    console.log(this.tenTranslationsArray);
     console.log(words);
 
     return { matrix, words };
+  }
+
+  getChosenWordData(str) {
+    const chosenWordIdInArr = this.tenEngWordsArr.indexOf(str);
+    const chosenWordTranslation = this.tenTranslationsArray[chosenWordIdInArr];
+    const chosenWordAudio = this.tenAudioArray[chosenWordIdInArr];
+    return { chosenWordTranslation, chosenWordAudio };
   }
 }
 

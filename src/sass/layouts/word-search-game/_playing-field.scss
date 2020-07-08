@@ -285,6 +285,12 @@
   background: $wrong-color;
 }
 
+.word-search__correct-translation {
+  background: $hover-color;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
 .word-search__lives {
   color: $dark-main-color;
 }
