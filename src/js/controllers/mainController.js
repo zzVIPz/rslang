@@ -3,8 +3,9 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import AudiocallController from '../games/audiocall/Controller';
 import getWordsList from '../utils/getWordsList';
-import SavannahController from '../games/savannah-game/Controller';
+import createSavannaGame from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
 import {
   MENU_ITEMS_NAMES,
@@ -21,6 +22,7 @@ import {
 } from '../constants/constMainView';
 import WordSearchController from '../games/word-search-game/Word-search-controller';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
+import DictionaryController from '../components/dictionary/dictionaryController';
 
 export default class MainController {
   constructor() {
@@ -62,6 +64,8 @@ export default class MainController {
       const dataName = e.target.dataset.name;
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
+          this.dictionary = new DictionaryController(this.mainModel);
+          this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
           break;
@@ -76,10 +80,11 @@ export default class MainController {
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
+          this.audiocall = new AudiocallController(this.user, this.mainView);
+          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
           break;
         case MENU_ITEMS_NAMES.savannah:
-          this.savannah = new SavannahController(this.user, this.mainView);
-          this.savannah.init(this.setDefaultHash, this.getCurrentHash);
+          createSavannaGame(this);
           break;
         case MENU_ITEMS_NAMES.sprint:
           this.game = new SprintController();

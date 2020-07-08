@@ -1,13 +1,13 @@
 import {
   startLayout, gameLayout, finalStatLayout, closeModal,
 } from './layouts';
-import addEventHandlerOnRating from '../utils/eventHandlerOnRaiting';
+import addEventHandlerOnRating from '../utils/eventHandlerOnRating';
 import {
   MIN_GAME_POINTS,
   MAX_GAME_POINTS,
   VALUE_TO_SWITCH,
-  CORRECT_SOUND_URL,
-  ERROR_SOUND_URL,
+  CORRECT_SOUND,
+  ERROR_SOUND,
   ANSWER_ANIMATION_DELAY,
 } from '../const/sprintConst';
 import getMediaUrl from '../../../utils/getMediaUrl';
@@ -22,8 +22,8 @@ export default class SprintView {
     this.finalStatLayout = finalStatLayout;
     this.closeModal = closeModal;
     this.soundButton = document.querySelector('.user-tool__button-speaker');
-    this.correctSound = new Audio(CORRECT_SOUND_URL);
-    this.errorSound = new Audio(ERROR_SOUND_URL);
+    this.correctSound = new Audio(getMediaUrl(CORRECT_SOUND));
+    this.errorSound = new Audio(getMediaUrl(ERROR_SOUND));
   }
 
   renderStartLayout(userName) {
@@ -146,8 +146,8 @@ export default class SprintView {
     this.gameContainer = document.querySelector('.sprint-main-wrapper');
     if (this.gameContainer && this.gameContainer.classList.contains('sprint-game-bgr')) {
       this.gameContainer.classList.remove('sprint-game-bgr');
+      this.gameContainer.remove();
     }
-    this.mainContainer.innerHTML = '';
   }
 
   addCloseModal() {

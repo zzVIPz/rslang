@@ -80,6 +80,9 @@ export default class MainModel {
       getBodyRequest('PUT', this.token, settings),
     );
     const content = await rawResponse.json();
+
+    this.onSetUserSettings(this.currentUser);
+
     console.log('setUserSettings', content);
   };
 

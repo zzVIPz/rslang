@@ -52,7 +52,7 @@ class GameStatistics {
     document.querySelector('.statistics__continue').addEventListener('click', () => {
       this.view.renderSavannah();
       this.model.setDefault();
-      this.view.backgroundPositionY = INITIAL_BACKGROUND_POSITION;
+      this.model.backgroundPositionY = INITIAL_BACKGROUND_POSITION;
     });
   }
 
