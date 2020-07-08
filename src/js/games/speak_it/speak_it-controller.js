@@ -11,6 +11,7 @@ import Model from './speak_it-model';
 import ModalWindow from './speak_it-modal-window';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
+import increaseGameStatistic from "../../utils/changeUserStatistic"
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -36,6 +37,9 @@ export default class Controller {
     this.user = user;
     this.mainModel = new MainModel();
     this.mainView = mainView;
+   
+    increaseGameStatistic("speak");
+    
     // this.mainModel.getUserStatistic(); remove comment after add statistic PR
   }
 

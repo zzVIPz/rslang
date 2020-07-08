@@ -186,10 +186,11 @@ export default class MainModel {
     return currentStatistic;
   }
 
-  setUserStatistic = async (getStatisticObject) => {
-    const statisticObject = getStatisticObject || DEFAULT_STATISTIC;
+  setUserStatistic = async (statisticData) => {
+    const statisticObject = statisticData || DEFAULT_STATISTIC;
+    // console.log(statisticObject);
     await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
       getBodyRequest('PUT', this.token, statisticObject));
-    console.log('You set new statistic object');
+    console.log('You set new statistic object', statisticObject);
   }
 }
