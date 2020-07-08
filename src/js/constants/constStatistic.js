@@ -12,6 +12,9 @@ const DEFAULT_STATISTIC = {
   },
 };
 
-export default {
+const CHART_CONTAINER = `<div id="chartContainer" style="height: 500px; width: 100%;"></div>`
+
+export {
   DEFAULT_STATISTIC,
+  CHART_CONTAINER,
 };
