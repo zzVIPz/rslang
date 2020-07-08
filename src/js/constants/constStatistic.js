@@ -12,6 +12,4 @@ const DEFAULT_STATISTIC = {
   },
 };
 
-export default {
-  DEFAULT_STATISTIC,
-};
+export default DEFAULT_STATISTIC;

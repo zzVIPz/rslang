@@ -30,6 +30,7 @@ export default class MainController {
   }
 
   async init() {
+    await this.mainModel.getAggregatedWords('easy');
     this.setDefaultHash();
     this.subscribeToEvents();
     this.firebaseModel.onAuthStateChangedHandler();
