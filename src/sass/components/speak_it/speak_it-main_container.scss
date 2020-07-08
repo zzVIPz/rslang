@@ -1,0 +1,127 @@
+@import "speak_it-constants";
+.speakIt_title {
+  margin-top: 15%;
+}
+
+.image {
+  width: 423px;
+  height: 283px;
+  margin: 0 auto;
+
+  background-position: center;
+  background-size: 423px 283px;
+  border-radius: 15px;
+}
+.container_over {
+  max-width: 450px;
+  height: 300px;
+  margin: auto;
+
+  background: transparent;
+}
+.card_over {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+
+  transition: all .6s ease;
+}
+.card_over .front {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 95%;
+  margin-top: 10px;
+  overflow: hidden;
+
+  backface-visibility: hidden;
+}
+
+.card_over .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  text-align: center;
+
+  border-radius: 8px;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+.rotate {
+  transform: rotateY(180deg);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+}
+.content span {
+  margin-top: 50px;
+
+  text-decoration: underline;
+}
+.examples,
+.tanslations {
+  color: $color_text_hover;
+
+  transition: background-color .5s ease-out;
+
+@extend %text;
+}
+.speakIt_game {
+  min-width: 100vw;
+
+  background: url(/src/assets/images/speak_it-background.jpg) rgb(124, 123, 123);
+  background-position: 0;
+}
+.preloader_cont {
+  padding-top: 70px;
+}
+
+.examples:hover {
+  color: $color_text;
+
+  cursor: pointer;
+}
+.main {
+  padding: 0;
+}
+.speakIt {
+  display: block!important;
+}
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  .image {
+    width: 85vw;
+    height: 59vw;
+
+    background-size: 85vw 59vw;
+  }
+
+  .container_over {
+    width: 85vw;
+    height: 63vw;
+  }
+
+
+  .examples,
+  .tanslations,
+  .button,
+  .inner,
+  .text,
+  .word_look {
+    font-size: 4vw!important;
+    line-height: 4vw!important;
+  }
+}
+

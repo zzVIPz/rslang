@@ -1,0 +1,68 @@
+@import "speak_it-constants";
+.words_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 900px;
+  margin: auto;
+  margin-top: 20px;
+}
+.speak_card {
+  display: flex;
+  justify-content: space-around;
+  width: 150px;
+  height: 70px;
+  margin: 10px 10px;
+
+  border: 1px solid rgb(27, 27, 27);
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition: all .6s ease;
+
+@extend %box_shadow;
+}
+.speak_card_active {
+  background: radial-gradient(circle, rgba(174,250,242,.6) 0%, rgba(56,63,168,.7) 100%);
+}
+.speak_card_active:hover {
+  background: radial-gradient(circle, rgba(200, 255, 250, .6) 0%, rgba(99, 104, 168, .7) 100%);
+}
+
+.speak_card_not_active {
+  background: radial-gradient(circle, rgba(124, 124, 124, .2) 0%, rgba(23, 23, 24, .3) 100%);
+}
+.speak_card_not_active:hover {
+  background: radial-gradient(circle, rgba(124, 124, 124, .2) 0%, rgba(23, 23, 24, .3) 100%);
+}
+.link_word_listen {
+  width: 35px;
+  height: 35px;
+  margin-top: 20px;
+
+  background-image: url(../assets/svg/list1.png);
+  background-size: 35px;
+  background-size: 35px;
+  cursor: pointer;
+}
+.word_listen_active:hover {
+  background-image: url(../assets/svg/list2.png);
+}
+.word_look {
+  margin-top: 10px;
+
+  font-weight: initial!important;
+  font-size: 16px!important;
+
+@extend %text;
+}
+.word_look > p {
+  margin: 5px;
+
+  text-align: center;
+}
+.choosen {
+  background: radial-gradient(circle, rgba(174,250,242,.2) 0%, rgba(56,63,168,.3) 100%);
+  border: 1px solid transparent;
+  box-shadow: 0 1px 1px $color_shadow;
+}

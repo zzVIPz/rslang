@@ -3,6 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import startSpeakItGame from '../games/speak_it/speak_it-main';
 import AudiocallController from '../games/audiocall/Controller';
 import getWordsList from '../utils/getWordsList';
 import createSavannaGame from '../games/savannah-game/Controller';
@@ -69,6 +70,7 @@ export default class MainController {
         case MENU_ITEMS_NAMES.statistics:
           break;
         case MENU_ITEMS_NAMES.speakit:
+          startSpeakItGame(this.user, this.mainView);
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
           this.englishPuzzle = new EnglishPuzzleStart(
