@@ -23,12 +23,14 @@ import {
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
+import DailyStatisticsController from '../components/dailyStatistics/dailyStatisticsController';
 
 export default class MainController {
   constructor() {
     this.firebaseModel = new FirebaseModel();
     this.mainModel = new MainModel();
     this.mainView = new MainView();
+    this.dailyStatistics = new DailyStatisticsController(this.mainModel);
     this.swiper = null;
   }
 
@@ -47,6 +49,7 @@ export default class MainController {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
     }
+    this.dailyStatistics.init();
   }
 
   subscribeToEvents() {
