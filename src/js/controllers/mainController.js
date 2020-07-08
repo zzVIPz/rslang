@@ -3,6 +3,7 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import AudiocallController from '../games/audiocall/Controller';
 import getWordsList from '../utils/getWordsList';
 import createSavannaGame from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
@@ -78,6 +79,8 @@ export default class MainController {
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
+          this.audiocall = new AudiocallController(this.user, this.mainView);
+          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
           break;
         case MENU_ITEMS_NAMES.savannah:
           createSavannaGame(this);
