@@ -110,7 +110,7 @@ const audiocallGame = `
                     </div>
                     <div class="container-game__trainings-audiocall__intro-text">
                         <span>Тренировка Аудиовызов улучшает восприятие английской речи на слух.
-                              Есть 6 уровней сложности и 30 раундов. 
+                              Есть 6 уровней сложности и 30 раундов.
                         </span>
                     </div>
                     <a class="container-game__trainings-audiocall__intro-btn">
@@ -122,7 +122,7 @@ const audiocallGame = `
                 <div class="wrapp-flex">
                     <div class="loader"></div>
                     <div class="container-game__preload__text">
-                        <span>Для выбора варианта ответа можно воспользоваться 
+                        <span>Для выбора варианта ответа можно воспользоваться
                             мышкой или клавишами 1, 2, 3, 4 на клавиатуре
                         </span>
                     </div>
@@ -155,7 +155,7 @@ const audiocallGame = `
                         </div>
                     </div>
                     <a class="container-game__trainings-audiocall__answer-btn">
-                        <span>Не знаю :(</span>
+                        <span>Не знаю</span>
                     </a>
                 </div>
                 <div class="container-game__final">
@@ -209,25 +209,49 @@ const audiocallGame = `
         </div>`;
 
 const DELAY = 1000;
-const DELAY_BEFORE_GAME_START = 5500;
-const DELAY_BEFORE_SHOW_WORDS = 2000;
+const DELAY_BEFORE_GAME_START = 3000;
+const DELAY_BEFORE_SHOW_WORDS = 1000;
 const DELAY_BEFORE_SHOW_IMAGE_WORD = 100;
 const REMOVE_ANIMATION_SPEAKER = 2000;
-const AUDIOCALL_HASH_REGEXP = /#audiocall/;
 const NEXT = 'Далее';
-const I_DO_NOT_KNOW = 'Не знаю :(';
+const I_DO_NOT_KNOW = 'Не знаю';
 const FAIL = 'В этот раз не получилось, но продолжай тренироваться!';
 const WIN = 'Так держать! Испытай себя на следующем раунде или уровне.';
 const EMPTY_ARRAY = ['пробовать', 'смешивать', 'пахать'];
-const COLOR_ARRAY = ['#ff0000', '#ff9d00', '#fffb00', '#b0ff00', '#3bff00',
-  '#00ff53', '#00ff8e', '#00ffd4', '#00d7ff', '#009dff',
-  '#0056ff', '#0033ff', '#7e00ff', '#ff00f3', '#ff0000',
-  '#61ad2c', '#000000', '#4bff9ee3', '#9eff4be3', '#61ad2c8f',
+const COLOR_ARRAY = [
+  '#ff0000',
+  '#ff9d00',
+  '#fffb00',
+  '#b0ff00',
+  '#3bff00',
+  '#00ff53',
+  '#00ff8e',
+  '#00ffd4',
+  '#00d7ff',
+  '#009dff',
+  '#0056ff',
+  '#0033ff',
+  '#7e00ff',
+  '#ff00f3',
+  '#ff0000',
+  '#61ad2c',
+  '#000000',
+  '#4bff9ee3',
+  '#9eff4be3',
+  '#61ad2c8f',
 ];
 
 export {
-  audiocallGame, DELAY_BEFORE_GAME_START,
-  NEXT, I_DO_NOT_KNOW, FAIL, WIN, REMOVE_ANIMATION_SPEAKER,
-  EMPTY_ARRAY, AUDIOCALL_HASH_REGEXP, DELAY_BEFORE_SHOW_WORDS,
-  DELAY_BEFORE_SHOW_IMAGE_WORD, DELAY, COLOR_ARRAY,
+  audiocallGame,
+  DELAY_BEFORE_GAME_START,
+  NEXT,
+  I_DO_NOT_KNOW,
+  FAIL,
+  WIN,
+  REMOVE_ANIMATION_SPEAKER,
+  EMPTY_ARRAY,
+  DELAY_BEFORE_SHOW_WORDS,
+  DELAY_BEFORE_SHOW_IMAGE_WORD,
+  DELAY,
+  COLOR_ARRAY,
 };

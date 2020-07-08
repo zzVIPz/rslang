@@ -28,6 +28,10 @@ $var9: #00c45f;
   background-position-y: 100%;
   background-size: cover;
 
+  #choosen-answer {
+    padding-bottom: 30px;
+  }
+
   &__final {
     display: none;
     flex-direction: column;
@@ -76,7 +80,7 @@ $var9: #00c45f;
       cursor: pointer;
     }
     &__continue:hover {
-      background-color: rgba(37,130,231,.12);
+      background-color: rgba(37, 130, 231, .12);
     }
     &__continue {
       margin-top: 24px;
@@ -88,7 +92,7 @@ $var9: #00c45f;
       text-align: center;
       color: $var7;
 
-      background-color: rgba(37,130,231,.08);
+      background-color: rgba(37, 130, 231, .08);
       border-radius: 4px;
       cursor: pointer;
     }
@@ -119,7 +123,7 @@ $var9: #00c45f;
       cursor: pointer;
     }
     &__sound:hover {
-      background-color: rgba(25,133,251,.08);
+      background-color: rgba(25, 133, 251, .08);
       border-radius: 5px;
     }
     &__slider-answers {
@@ -132,8 +136,7 @@ $var9: #00c45f;
       &__answer-ru {
         flex-grow: 1;
         max-width: calc(50% - 54px);
-
-// overflow: hidden;
+        // overflow: hidden;
 
         font-size: 16px;
         line-height: 1.25;
@@ -184,7 +187,7 @@ $var9: #00c45f;
         height: 1px;
         margin-top: 18px;
 
-        background-color: rgba(55,56,60,.12);
+        background-color: rgba(55, 56, 60, .12);
       }
       &__invalid {
         display: flex;
@@ -304,11 +307,8 @@ $var9: #00c45f;
       }
     }
     &__answers {
-      position: absolute;
-      right: 0;
-      left: 0;
-
       display: none;
+      min-width: 100vw;
 
       text-align: center;
 
@@ -357,18 +357,18 @@ $var9: #00c45f;
 
       display: inline-block;
       width: 100%;
+      min-width: 255px;
       max-width: 255px;
       margin: 15px 20px;
       margin-right: 0;
       margin-bottom: 8px;
       margin-left: 0;
-      padding: 10px 20px 13px 38px;
 
       font-weight: 300;
       font-size: 24px;
       line-height: 30px;
       vertical-align: top;
-      text-align: left;
+      text-align: center;
       color: $var3;
 
       border-radius: 2px;
@@ -385,15 +385,14 @@ $var9: #00c45f;
       }
     }
     &__number {
-      position: absolute;
-      top: 23px;
-      left: 12px;
+      margin: 10px;
 
       font-weight: 300;
       font-size: 16px;
 
       opacity: .79;
     }
+
     &__speaker-container {
       position: relative;
 
@@ -850,6 +849,17 @@ $var9: #00c45f;
             transform: scale(.7);
   }
 }
+
+@media screen and (max-width: 1035px) {
+  #choosen-answer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+}
+
 @media screen and (max-width: 544px) {
   .container-game {
     height: 800px;
@@ -870,7 +880,6 @@ $var9: #00c45f;
     margin-right: 0;
     margin-bottom: 8px;
     margin-left: 0;
-    padding: 10px 20px 13px 38px;
 
     font-size: 24px;
   }
@@ -880,5 +889,5 @@ $var9: #00c45f;
   .container-game__levels-container {
     top: 194px;
     right: 12px;
-}
+  }
 }

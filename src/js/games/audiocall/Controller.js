@@ -20,8 +20,7 @@ class AudiocallController {
 
   subscribeToEvents() {
     this.view.onContinueGame = () => {
-      this.view.audiocall = new AudiocallController(this.user, this.mainView);
-      this.view.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+      this.init(this.setDefaultHash, this.getCurrentHash);
     };
   }
 }
