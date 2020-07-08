@@ -103,7 +103,7 @@ const GAME_PAGE = ` <div class="app speakIt_game">
                           </div>
                         </div>
                       </div>
-                      <p class="translation">Перевод слова</p>
+                      <p class="speak__translation">Перевод слова</p>
                       <div class="inner_container not_display">
                         <div class="mic icon"></div>
                         <div class="inner"></div>

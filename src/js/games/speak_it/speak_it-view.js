@@ -7,7 +7,7 @@ import getMediaUrl from '../../utils/getMediaUrl';
 export default class View {
   constructor() {
     this.image = document.querySelector('.image');
-    this.translation = document.querySelector('.translation');
+    this.translation = document.querySelector('.speak__translation');
     this.input = document.querySelector('.inner');
     this.inputContainer = document.querySelector('.inner_container');
     this.listens = Array.from(document.querySelectorAll('.link_word_listen'));
