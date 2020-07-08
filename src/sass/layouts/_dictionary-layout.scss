@@ -1,0 +1,405 @@
+.dictionary {
+  width: 100%;
+  height: 100%;
+  &__controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+}
+
+.controlsBtn {
+  width: 15rem;
+  height: 5rem;
+  margin-right: 2rem;
+  padding-top: 1.4rem;
+
+  font-weight: 100;
+  font-size: 2rem;
+  font-family: inherit;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: .1rem;
+
+  background-color: #00cdac;
+  border-radius: .5rem;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 0;
+  }
+  &:hover {
+    box-shadow: 0 0 4px 1px #00cdac;
+  }
+  &_active {
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 4px 1px #00cdac;
+  }
+}
+
+.wordsData {
+  max-width: 550px;
+  max-height: calc(100vh - 192px);
+  margin-top: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 5px;
+  overflow: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 1em;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 5px;
+    outline: 1px solid slategrey;
+  }
+}
+
+.dict {
+  &__word-line {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+  &__word-audio {
+    width: 2.6rem;
+    min-width: 1.8rem;
+    height: 2.6rem;
+    margin-right: 1rem;
+
+    background-image: url(../assets/images/audio.png);
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: #00cdac;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
+    }
+  }
+  &__word-eng-trans {
+    display: flex;
+    flex: 1;
+  }
+  &__word-english {
+    margin-right: 1rem;
+
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: #2582e7;
+    text-transform: uppercase;
+  }
+  &__word-transcription {
+    margin-right: 1rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+  }
+  &__word-translate {
+    margin-right: 1rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+  &__word-information {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-right: 1rem;
+
+    background-image: url(../assets/images/info.png);
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: #00cdac;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
+    }
+  }
+  &__word-difficult {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-right: 1rem;
+
+    background-image: url(../assets/images/difficult.png);
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: #00cdac;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
+    }
+  }
+  &__word-remove {
+    width: 2.6rem;
+    height: 2.6rem;
+
+    background-image: url(../assets/images/remove.png);
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: #00cdac;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
+    }
+  }
+  &__word-restore {
+    width: 2.6rem;
+    height: 2.6rem;
+
+    background-image: url(../assets/images/restore.png);
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: #00cdac;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px #00cdac;
+    }
+  }
+  &__no-words {
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #f56714;
+    text-transform: uppercase;
+  }
+}
+
+.dictModal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+
+  background-color: rgba(0, 0, 0, .6);
+
+  &__body {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 600px;
+    padding: 20px 40px;
+
+    background-color: white;
+    border-radius: 5px;;
+  }
+
+  &__image {
+    width: 340px;
+    height: 240px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+
+    border-radius: 5px;
+  }
+
+  &__word {
+    display: flex;
+    margin-bottom: 1rem;
+
+    &English {
+      max-width: 100%;
+      margin-right: 1rem;
+
+      font-weight: 600;
+      font-size: 1.6rem;
+      line-height: 1.6;
+      color: #2582e7;
+      text-transform: uppercase;
+    }
+    &Transcription {
+      margin-right: 1rem;
+
+      font-size: 1.6rem;
+      line-height: 1.6;
+    }
+    &Translate {
+      margin-right: 1rem;
+
+      font-size: 1.6rem;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+  }
+
+  &__meaning,
+  &__example {
+    margin-bottom: 1rem;
+
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: #00cdac;
+    text-transform: uppercase;
+  }
+
+  &__textMeaning,
+  &__textExample {
+    display: flex;
+    margin-bottom: 1rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+    & > p {
+      margin: 0;
+
+      text-align: justify;
+    }
+  }
+
+  &__textMeaningTranslate,
+  &__textExampleTranslate {
+    margin-bottom: 2rem;
+    margin-left: 2.6rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+  }
+
+  &__textExample {
+    display: flex;
+  }
+
+  &__closeBtn {
+    width: 15rem;
+    height: 5rem;
+    margin-right: 2rem;
+    padding-top: 1.4rem;
+
+    font-weight: 100;
+    font-size: 2rem;
+    font-family: inherit;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: .1rem;
+
+    background-color: #00cdac;
+    border-radius: .5rem;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      box-shadow: 0 0 4px 1px #00cdac;
+    }
+  }
+
+  &_hidden {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .dictModal__body {
+    width: 100%;
+    padding: 10px;
+  }
+  .dictModal__closeBtn {
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .controlsBtn {
+    width: 12rem;
+    height: 4rem;
+
+    font-size: 1.5rem;
+    line-height: 1rem;
+  }
+  .dict__word-audio,
+  .dict__word-difficult,
+  .dict__word-information {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  .dict__word-remove,
+  .dict__word-restore {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .dict__word-english,
+  .dict__word-transcription,
+  .dict__word-translate,
+  .dictModal__wordEnglish,
+  .dictModal__wordTranscription,
+  .dictModal__wordTranslate,
+  .dictModal__meaning,
+  .dictModal__example,
+  .dictModal__textMeaning,
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExample,
+  .dictModal__textExampleTranslate {
+    margin-right: .5rem;
+
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExampleTranslate {
+    margin-left: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .controlsBtn {
+    width: 9rem;
+    margin-right: 1rem;
+
+    font-size: 1.3rem;
+  }
+  .dict__word-audio,
+  .dict__word-difficult,
+  .dict__word-information {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: .4rem;
+  }
+  .dict__word-remove,
+  .dict__word-restore {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .dict__word-english,
+  .dict__word-transcription,
+  .dict__word-translate,
+  .dictModal__wordEnglish,
+  .dictModal__wordTranscription,
+  .dictModal__wordTranslate,
+  .dictModal__meaning,
+  .dictModal__example,
+  .dictModal__textMeaning,
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExample,
+  .dictModal__textExampleTranslate {
+    max-width: 100%;
+    margin-right: .3rem;
+
+    font-size: 1rem;
+    line-height: 1.8rem;
+  }
+  .dictModal__image {
+    width: 270px;
+  }
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExampleTranslate {
+    margin-left: 1.8rem;
+  }
+}

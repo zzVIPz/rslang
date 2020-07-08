@@ -4,8 +4,9 @@ import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
 import startSpeakItGame from '../games/speak_it/speak_it-main';
+import AudiocallController from '../games/audiocall/Controller';
 import getWordsList from '../utils/getWordsList';
-import SavannahController from '../games/savannah-game/Controller';
+import createSavannaGame from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
 import {
   MENU_ITEMS_NAMES,
@@ -21,6 +22,7 @@ import {
   SETTING_MODAL_TEXT,
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
+import DictionaryController from '../components/dictionary/dictionaryController';
 
 export default class MainController {
   constructor() {
@@ -62,6 +64,8 @@ export default class MainController {
       const dataName = e.target.dataset.name;
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
+          this.dictionary = new DictionaryController(this.mainModel);
+          this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
           break;
@@ -77,10 +81,11 @@ export default class MainController {
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
+          this.audiocall = new AudiocallController(this.user, this.mainView);
+          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
           break;
         case MENU_ITEMS_NAMES.savannah:
-          this.savannah = new SavannahController(this.user, this.mainView);
-          this.savannah.init(this.setDefaultHash, this.getCurrentHash);
+          createSavannaGame(this);
           break;
         case MENU_ITEMS_NAMES.sprint:
           this.game = new SprintController();
@@ -118,7 +123,20 @@ export default class MainController {
         this.swiper.update();
         this.mainView.disableSwiperNextSlide();
         this.mainView.setFocusToInput();
-        window.location.hash = HASH_VALUES.training;
+        this.setCurrentHash(HASH_VALUES.training);
+      }
+      if (
+        this.aggregatedWords.length
+        && this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
+      ) {
+        this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
+      }
+      if (
+        !this.aggregatedWords.length
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.mixed
+      ) {
+        this.mainView.showNotificationAboutRepeat(this.user);
       }
     };
 
@@ -219,14 +237,19 @@ export default class MainController {
     };
 
     this.mainView.onShortStatisticsBtnFinishClick = () => {
-      this.mainView.removeShortStatisticsListeners();
+      this.mainView.removeModalListeners();
       this.mainView.hideOverlay();
       this.mainView.renderMain(this.user);
       this.setDefaultHash();
     };
 
     this.mainView.onShortStatisticsBtnContinueClick = () => {
-      this.mainView.removeShortStatisticsListeners();
+      this.mainView.removeModalListeners();
+      this.mainView.hideOverlay();
+    };
+
+    this.mainView.onNotificationBtnFinishClick = () => {
+      this.mainView.removeModalListeners();
       this.mainView.hideOverlay();
     };
   }
@@ -244,19 +267,19 @@ export default class MainController {
       repeatWordsAmount = this.user.cardsTotal;
     }
 
-    let aggregatedWords = [];
+    this.aggregatedWords = [];
 
     if (repeatWordsAmount) {
-      aggregatedWords = await this.mainModel.getAggregatedWords(
+      this.aggregatedWords = await this.mainModel.getAggregatedWords(
         {
           [WORDS_STATUS.userWord]: `${WORDS_STATUS.repeat}`,
         },
         repeatWordsAmount,
       );
-      aggregatedWords = aggregatedWords[0].paginatedResults;
+      this.aggregatedWords = this.aggregatedWords[0].paginatedResults;
 
-      if (aggregatedWords.length < repeatWordsAmount && this.newWordsAmount) {
-        this.newWordsAmount += repeatWordsAmount - aggregatedWords.length;
+      if (this.aggregatedWords.length < repeatWordsAmount && this.newWordsAmount) {
+        this.newWordsAmount += repeatWordsAmount - this.aggregatedWords.length;
       }
     }
 
@@ -270,15 +293,10 @@ export default class MainController {
       wordsList = wordsList.splice(this.user.currentWordNumber, this.newWordsAmount);
     }
 
-    if (aggregatedWords.length) {
-      aggregatedWords.forEach((word) => {
+    if (this.aggregatedWords.length) {
+      this.aggregatedWords.forEach((word) => {
         wordsList.push(word);
       });
-      if (aggregatedWords.length < this.user.cardsTotal) {
-        this.mainView.showNotificationAboutRepeat(this.user, aggregatedWords.length);
-      }
-    } else {
-      this.mainView.showNotificationAboutRepeat(this.user);
     }
 
     console.log('current training words', wordsList);
@@ -500,6 +518,10 @@ export default class MainController {
       this.mainView.disableStudyProfileProperties();
     }
   }
+
+  setCurrentHash = (hash) => {
+    window.location.hash = hash;
+  };
 
   getCurrentHash = () => window.location.hash.slice(1);
 
