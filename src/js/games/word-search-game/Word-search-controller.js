@@ -10,8 +10,8 @@ class WordSearchController {
   init(defaultHash) {
     this.model = new WordSearchModel();
     this.view = new WordSearchView(this.model, defaultHash);
-    this.view.init();
     this.view.getViewUser(this.user, this.mainView);
+    this.view.init();
   }
 }
 

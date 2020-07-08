@@ -6,6 +6,7 @@ import getRound from '../utils/getRound';
 import removeStyle from '../utils/removeStyle';
 import addStyle from '../utils/addStyle';
 import addEventHandler from '../utils/addEventHandler';
+import setFocus from '../utils/setFocus';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import {
   GAME_LAYOUT,
@@ -30,11 +31,6 @@ class WordSearchView extends SavannahView {
     this.groupRoundHtml = GROUP_ROUND;
   }
 
-  getViewUser(user, mainView) {
-    this.currentUser = user;
-    this.mainView = mainView;
-  }
-
   init() {
     this.renderStartPage();
     this.getAppElements();
@@ -53,7 +49,9 @@ class WordSearchView extends SavannahView {
     this.mainContainer.innerHTML = this.WordSearchLayout;
     this.appContainer = document.querySelector('.word-search__app');
     this.appContainer.classList.add('word-search__background');
+    this.gameStatistics.init(this, this.mainView, this.model, this.setDefaultHash);
     this.renderRating();
+    setFocus(document.querySelector('.app__button'));
   }
 
   renderRating() {
@@ -69,6 +67,7 @@ class WordSearchView extends SavannahView {
     getLevel(this.starsLevel, this, this.model);
     getRound(this.starsRound, this);
     this.clickStartGameBtn();
+    this.continuePlaying();
   }
 
   backToMainPage() {
@@ -128,6 +127,8 @@ class WordSearchView extends SavannahView {
     this.appContainer.appendChild(this.wordSearchContainer);
     this.controllersContainer = document.createElement('div');
     this.controllersContainer.classList.add('controllers-container');
+    this.renderHeader();
+    this.changeLivesStyle();
     this.removeAppContent();
     this.renderTitle();
     this.renderContent();
@@ -136,10 +137,13 @@ class WordSearchView extends SavannahView {
     this.matrixObj = this.model.getObjectOfMatrixWord();
     this.renderWord();
     this.renderMatrixWord(this.matrixObj.matrix);
-    // this.getDynamicHeight();
     this.renderCheckBtn();
     this.renderClearBtn();
     this.renderFinishImg();
+  }
+
+  changeLivesStyle = () => {
+    document.querySelector('.lives').classList.add('word-search__lives');
   }
 
   removeAppContent() {
@@ -201,7 +205,6 @@ class WordSearchView extends SavannahView {
           document.querySelector('.countdown').innerHTML = this.countNumber;
           setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
         } else {
-          console.log(this.model);
           this.gameMode();
         }
       } else {
@@ -224,12 +227,6 @@ class WordSearchView extends SavannahView {
       return true;
     });
   }
-
-  /*  getDynamicHeight = () => {
-    const content = document.querySelector('.word-search__content');
-    const contentWidth = content.offsetWidth;
-    content.style.height = `${contentWidth}px`;
-  } */
 
   renderCheckBtn() {
     this.checkBtn = document.createElement('div');
@@ -295,11 +292,19 @@ class WordSearchView extends SavannahView {
     console.log('includes');
     this.correctSound.play();
     this.model.chosenWord = [];
-    this.allCells.map((cell) => addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word'));
+    this.allCells.map((cell) => {
+      addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word');
+      removeStyle(cell, 'word-search__chosen-letter');
+
+      return true;
+    });
   }
 
   wrongWordActions() {
     console.log('wrong');
+    this.model.wrongAnswerCounter += 1;
+    console.log(this.model.wrongAnswerCounter);
+    this.removeLives();
     this.errorSound.play();
     this.allCells.map((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__wrong-word');
@@ -316,6 +321,36 @@ class WordSearchView extends SavannahView {
   onClearBtnClick = () => {
     this.allCells.map((cell) => removeStyle(cell, 'word-search__chosen-letter'));
     this.model.chosenWord = [];
+  }
+
+  renderGameOver(isWin) {
+    this.incorrectWordsIdArr = this.model.incorrectWordsId;
+    document.querySelector('.statistics__container').classList.remove('hidden');
+    document.querySelector('.statistics__container').classList.add('flex');
+    document.querySelector('.word-search__app').removeChild(this.wordSearchContainer);
+    this.gameStatistics.renderWrongAnswersTitle();
+    this.gameStatistics.renderCorrectAnswerTitle();
+
+    if (isWin) {
+      this.gameStatistics.winRound();
+    } else {
+      this.gameStatistics.loseRound();
+    }
+  }
+
+  continuePlaying() {
+    if (document.querySelector('.statistics__continue')) {
+      document.querySelector('.statistics__continue').addEventListener('click', () => {
+        this.init();
+        this.model.setDefault();
+      });
+    }
+  }
+
+  finishGame() {
+    this.model.isGameOn = false;
+    this.model.isPreloading = false;
+    this.appContainer.classList.remove('app__background');
   }
 }
 
