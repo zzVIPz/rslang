@@ -7,6 +7,7 @@ import removeStyle from '../utils/removeStyle';
 import addStyle from '../utils/addStyle';
 import addEventHandler from '../utils/addEventHandler';
 import setFocus from '../utils/setFocus';
+import WordSearchStatistics from './Views/Word-search-statistic-view';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import {
   GAME_LAYOUT,
@@ -24,6 +25,7 @@ class WordSearchView extends SavannahView {
   constructor(model, defaultHash) {
     super();
     this.model = model;
+    this.statistics = new WordSearchStatistics();
     this.setDefaultHash = defaultHash;
     this.WordSearchLayout = GAME_LAYOUT;
     this.mainContainer = document.querySelector('.main');
@@ -49,7 +51,7 @@ class WordSearchView extends SavannahView {
     this.mainContainer.innerHTML = this.WordSearchLayout;
     this.appContainer = document.querySelector('.word-search__app');
     this.appContainer.classList.add('word-search__background');
-    this.gameStatistics.init(this, this.mainView, this.model, this.setDefaultHash);
+    this.statistics.init(this, this.mainView, this.model, this.setDefaultHash);
     this.renderRating();
     setFocus(document.querySelector('.app__button'));
   }
@@ -328,13 +330,13 @@ class WordSearchView extends SavannahView {
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
     document.querySelector('.word-search__app').removeChild(this.wordSearchContainer);
-    this.gameStatistics.renderWrongAnswersTitle();
-    this.gameStatistics.renderCorrectAnswerTitle();
+    this.statistics.renderWrongAnswersTitle();
+    this.statistics.renderCorrectAnswerTitle();
 
     if (isWin) {
-      this.gameStatistics.winRound();
+      this.statistics.winRound();
     } else {
-      this.gameStatistics.loseRound();
+      this.statistics.loseRound();
     }
   }
 
