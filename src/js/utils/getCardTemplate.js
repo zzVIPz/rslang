@@ -1,20 +1,24 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 import getMediaUrl from './getMediaUrl';
 import getRandomInteger from './getRandomInteger';
 import getFormattedString from './getFormattedString';
-import { SETTING_MODAL_TEXT, WORD_LEARNING_MODES } from '../constants/constMainView';
+import {
+  SETTING_MODAL_TEXT,
+  WORD_LEARNING_MODES,
+  WORD_COMPLEXITY,
+} from '../constants/constMainView';
 
 const CARD_TEXT = {
   newWord: 'New word',
+  repeat: 'Repeat',
   btnBeFamiliar: 'I KNOW',
-  btnToStudy: 'TO STUDY',
+  btnToStudy: 'DIFFICULT WORD',
   btnShowAnswer: 'SHOW ANSWER',
   btnCheck: 'CHECK',
-  pattern: '[A-Za-z]',
 };
 
 export default function getCardTemplate(card, settings) {
-  console.log(card);
-  console.log(settings);
+  const wordStatus = card.id ? CARD_TEXT.newWord : CARD_TEXT.repeat;
   let wordMode = true;
   let textMeaningMode = true;
   let textExampleMode = true;
@@ -36,42 +40,86 @@ export default function getCardTemplate(card, settings) {
     wordMode = !wordMode;
     textMeaningMode = !textMeaningMode;
   }
-  const word = getFormattedString(card.word, wordMode);
-  const textMeaning = getFormattedString(card.textMeaning, textMeaningMode);
-  const textExample = getFormattedString(card.textExample, textExampleMode);
+  const wordContent = `
+    <p class="card__text-translate ${wordMode && settings.translate ? '' : 'hidden'}">
+      ${card.wordTranslate}
+    </p>
+    <audio class="audio" src="${getMediaUrl(card.audio)}" preload="auto"></audio>`;
+
+  const textMeaningContent = `
+     <p class="card__text-translate ${textMeaningMode && settings.translate ? '' : 'hidden'}">
+      ${card.textMeaningTranslate}
+    </p>
+    <audio class="audio" src="${getMediaUrl(card.audioMeaning)}" preload="auto"></audio>`;
+
+  const textExampleContent = `
+    <p class="card__text-translate ${textExampleMode && settings.translate ? '' : 'hidden'}">
+      ${card.textExampleTranslate}
+    </p>
+    <audio class="audio" src="${getMediaUrl(card.audioExample)}" preload="auto"></audio>`;
+
+  const wordTranslate = `
+  <p class="card__text-translate
+    ${(textExampleMode || textMeaningMode) && settings.translate ? '' : 'hidden'}">
+      ${card.wordTranslate.toUpperCase()}
+  </p>`;
+
+  const word = getFormattedString(card.word, wordMode, wordContent);
+  const textMeaning = getFormattedString(
+    card.textMeaning,
+    textMeaningMode,
+    textMeaningContent,
+    wordTranslate,
+  );
+  const textExample = getFormattedString(
+    card.textExample,
+    textExampleMode,
+    textExampleContent,
+    wordTranslate,
+  );
 
   return `
-  <div class="swiper-slide card container">
-    <p class="card__state">${CARD_TEXT.newWord}</p>
+  <div class="swiper-slide card container" data-id=${card.id || card._id}>
+    <p class="card__state">${wordStatus}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
     </div>
-    ${word}
     <p class="card__transcription ${settings.transcription ? '' : 'hidden'}">
-      ${card.transcription}</p>
-    <p class="card__text-translate ${wordMode && settings.translate ? '' : 'hidden'}
-        ${settings.translate ? '' : 'translate-hidden'}">
-      ${card.wordTranslate}
+      ${card.transcription}
     </p>
+    ${word}
     ${textMeaning}
-    <p class="card__text-translate ${textMeaningMode && settings.translate ? '' : 'hidden'}
-        ${settings.translate ? '' : 'translate-hidden'}">
-      ${card.textMeaningTranslate}
-    </p>
     ${textExample}
-    <p class="card__text-translate ${textExampleMode && settings.translate ? '' : 'hidden'}
-         ${settings.translate ? '' : 'translate-hidden'}">
-      ${card.textExampleTranslate}
-    </p>
     <div class ="card__buttons-container">
-      <button class="card__know ${settings.btnKnow ? '' : 'hidden'}">
+      <button class="card__btn-know-word card__btn-primary ${settings.btnKnow ? '' : 'hidden'}">
         ${CARD_TEXT.btnBeFamiliar}
       </button>
-      <button class="card__study ${settings.btnDifficult ? '' : 'hidden'}">
-        ${CARD_TEXT.btnToStudy}
+      <button class="card__btn-difficult-word card__btn-primary
+        ${settings.btnDifficult ? '' : 'hidden'}">
+          ${CARD_TEXT.btnToStudy}
+      </button>
+      <button class="card__btn-show-answer card__btn-primary
+        ${settings.btnShowAnswer ? '' : 'hidden'}">
+          ${CARD_TEXT.btnShowAnswer}
       </button>
     </div>
-    <div>
-    <button class="card__show-answer">${CARD_TEXT.btnCheck} / ${CARD_TEXT.btnShowAnswer}</button>
-  </div>`;
+    <div class ="card__additional-buttons-container hidden">
+      <button class="card__btn-easy-word card__btn-additional">
+        ${WORD_COMPLEXITY.easy}
+      </button>
+      <button class="card__btn-normal-word card__btn-additional">
+        ${WORD_COMPLEXITY.normal}
+      </button>
+      <button class="card__btn-complex-word card__btn-additional">
+        ${WORD_COMPLEXITY.difficult}
+      </button>
+      <button class="card__btn-repeat-again card__btn-additional">
+        ${WORD_COMPLEXITY.repeat}
+      </button>
+    </div>
+    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
+   </div>
+  `;
 }
+
+// <button class="card__btn-check">${CARD_TEXT.btnCheck}</button>

@@ -1,27 +1,9 @@
-const savannahGame = `
-<div class="app">
+const GAME_LAYOUT = `
+<div class="app savannah__app">
     <div class="app__header">
-      <a href="#" class="close"></a>
+      <div class="close"></div>
     </div>
-    <div class="app__rating">
-      <div class="rating">
-        <input class="rating__input" type="radio" id="star1" name="star"/>
-        <label class="rating__label" for="star1" title="text"></label>
-        <input class="rating__input" type="radio" id="star2" name="star"/>
-        <label class="rating__label" for="star2" title="text"></label>
-        <input class="rating__input" type="radio" id="star3" name="star"/>
-        <label class="rating__label" for="star3" title="text"></label>
-        <input class="rating__input" type="radio" id="star4" name="star"/>
-        <label class="rating__label" for="star4" title="text"></label>
-        <input class="rating__input" type="radio" id="star5" name="star"/>
-        <label class="rating__label" for="star5" title="text"></label>
-        <input class="rating__input" type="radio" id="star6" name="star"/>
-        <label class="rating__label" for="star6" title="text"></label>
-      </div>
-      <div class="rating__text">
-        Уровень сложности
-      </div>
-    </div>
+    <div class="rating__container"></div>
     <div class="app__content">
       <div class="app__content__title">Саванна</div>
       <div class="app__content__text">Тренировка Саванна развивает словарный запас. Попробуй сам.</div>
@@ -37,8 +19,30 @@ const savannahGame = `
     </div>
   </div>`;
 
-const preloader = `
-<div class="preloader__conatiner"> 
+const GROUP_ROUND = `
+  <div class="rating__row rating__group">
+    <label class="group star" id="0"></label>
+    <label class="group star" id="1"></label>
+    <label class="group star" id="2"></label>
+    <label class="group star" id="3"></label>
+    <label class="group star" id="4"></label>
+    <label class="group star" id="5"></label>
+  </div>
+  <div class="text">Уровень сложности</div>
+  <div class="rating__row rating__round">
+    <label class="round star" id="0"></label>
+    <label class="round star" id="1"></label>
+    <label class="round star" id="2"></label>
+    <label class="round star" id="3"></label>
+    <label class="round star" id="4"></label>
+    <label class="round star" id="5"></label>
+  </div>
+  <div class="text text_round">Раунд</div>
+`;
+
+const PRELOADER = `
+<div class="preloader__container"> 
+    <div class="current-level"></div>
     <div class="countdown">3</div>
     <div class="preloader">
       <div class="item-1"></div>
@@ -53,7 +57,7 @@ const preloader = `
     </div>
 </div>`;
 
-const lives = `
+const LIVES = `
 <span id="life-1">❤</span>
 <span id="life-2">❤</span>
 <span id="life-3">❤</span>
@@ -61,24 +65,66 @@ const lives = `
 <span id="life-5">❤</span>
 `;
 
-const translations = `
-<span id="tranlastion-1">1 Любовь</span>
-<span id="tranlastion-2">2 Работа</span>
-<span id="tranlastion-3">3 Жизнь</span>
-<span id="tranlastion-4">4 Еда</span>
-`;
-
-const sparkles = `
+const SPARKLES = `
 <div class="sparkle sparkle-circle-one"></div>
 <div class="sparkle sparkle-circle-two"></div>
 <div class="sparkle sparkle-circle-three"></div>
-<div class="sparkle sparkle-circle-four"></div>
 <div class="sparkle sparkle-dot-one"></div>
 <div class="sparkle sparkle-dot-two"></div>
 <div class="sparkle sparkle-dot-three"></div>
 <div class="sparkle sparkle-dot-four"></div>
   `;
 
+const CORRECT_SOUND = 'correct.mp3';
+const ERROR_SOUND = 'error.mp3';
+const ROUND_STARTS_SOUND = 'round-starts.mp3';
+
+const DELAY_CHECK_HASH = 1000;
+const DELAY_PRELOADER_COUNT_DOWN = 1000;
+const DELAY_NEXT_WORD = 1000;
+const DELAY_HIGHLIGHT = 1000;
+const DELAY_MUSIC_OFF = 1000;
+const INITIAL_BACKGROUND_POSITION = 100;
+const REMOVE_DIGITS_REGEXP = /\d/g;
+const INITIAL_CRYSTAL_WIDTH = 30;
+const DEFAULT_DISPLAYED_LEVEL = 1;
+const START_FLYING_POSITION = 0;
+const START_BANG_POSITION = 400;
+const FINAL_BANG_POSITION = -100;
+const BACKGROUND_MOVE_PX = 5;
+const BANG_MOVE_PX = 5;
+const MARGIN_PERCENTAGE = 0.33;
+const MARGIN_PERCENTAGE_SMALL = 0.33;
+const BASE_MARGIN = 250;
+const NUMBER_OF_LIVES = 5;
+const MOVING_WORD_INTERVAL = 20;
+
 export {
-  savannahGame, preloader, lives, translations, sparkles,
+  GAME_LAYOUT,
+  PRELOADER,
+  LIVES,
+  SPARKLES,
+  GROUP_ROUND,
+  CORRECT_SOUND,
+  ERROR_SOUND,
+  ROUND_STARTS_SOUND,
+  DELAY_CHECK_HASH,
+  DELAY_PRELOADER_COUNT_DOWN,
+  INITIAL_BACKGROUND_POSITION,
+  DELAY_NEXT_WORD,
+  DELAY_MUSIC_OFF,
+  REMOVE_DIGITS_REGEXP,
+  INITIAL_CRYSTAL_WIDTH,
+  DEFAULT_DISPLAYED_LEVEL,
+  START_FLYING_POSITION,
+  START_BANG_POSITION,
+  FINAL_BANG_POSITION,
+  DELAY_HIGHLIGHT,
+  BACKGROUND_MOVE_PX,
+  MARGIN_PERCENTAGE,
+  MARGIN_PERCENTAGE_SMALL,
+  BASE_MARGIN,
+  NUMBER_OF_LIVES,
+  MOVING_WORD_INTERVAL,
+  BANG_MOVE_PX,
 };

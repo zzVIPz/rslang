@@ -1,0 +1,190 @@
+.app {
+  position: relative;
+
+  width: 100%;
+  min-height: calc(100vh - 93px);
+}
+
+.flying-word {
+  position: absolute;
+  left: 50%;
+
+  width: 50px;
+  height: 50px;
+  margin-left: -50px;
+
+  font-size: 4rem;
+  color: $text-color;
+
+@include media-mobile {
+    left: -6px;
+
+    width: 100%;
+    margin-left: 0;
+
+    font-size: 1.5em;
+  }
+
+  &_hide {
+    display: none;
+  }
+}
+
+
+.app__content_translation-box {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  min-height: 45vh;
+
+  font-size: 1.5em;
+  color: $text-color;
+
+@include media-tablet {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 15%;
+  }
+
+@include media-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25%;
+  }
+}
+
+.translation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  min-height: 50px;
+  margin-bottom: 40px;
+
+  cursor: pointer;
+
+  user-select: none;
+
+@include media-tablet {
+    position: relative;
+
+    display: flex;
+    margin-right: 0;
+
+    font-size: 2rem;
+    line-height: 30px;
+    vertical-align: top;
+    text-align: left;
+    word-break: break-all;
+  }
+
+@include media-mobile {
+    width: 80%;
+    min-height: auto;
+    margin-bottom: 10px;
+
+    font-size: 1.5rem;
+    line-height: normal;
+  }
+
+@include media-mobile-small {
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: white;
+
+    background: #3d7c807a;
+  }
+}
+
+span .keyboard-num {
+  max-width: 10px;
+  min-height: 10px;
+  margin: 0;
+  margin: 0 3px;
+  padding-top: 3px;
+
+  font-size: .5em;
+  color: #ffffff;
+}
+
+.crystal {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+
+  width: 30px;
+  margin-left: -20px;
+
+@include media-mobile {
+    bottom: 30px;
+  }
+
+@include media-tablet {
+    bottom: 35px;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+
+    animation: mover 1s infinite alternate;
+
+    @keyframes mover {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+  }
+}
+
+.visible {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.hideBackgroundImg {
+  background-image: none;
+}
+
+.app__background {
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+
+  background-image: url("/src/assets/images/savannah-bg.svg");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 100%;
+
+  transition: all 1s ease;
+}
+
+.bang {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: 2px;
+  height: 18px;
+  margin-left: -6px;
+
+  background: $text-color;
+}
+
+.hover-disabled {
+  pointer-events: none;
+}

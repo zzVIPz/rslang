@@ -1,0 +1,58 @@
+.short-stat {
+  &__logo-medal {
+    width: 100px;
+    height: 100px;
+
+    background: url(../assets/svg/medal.svg) center/100px no-repeat;
+  }
+
+  &__logo {
+    background: url(../assets/svg/target.svg) center/50px no-repeat;
+  }
+
+  &__title {
+    margin-bottom: 2rem;
+
+    font-weight: 700;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    text-align: center;
+    color: #2a487a;
+  }
+
+  &__notification-text {
+    font-size: 1.2rem;
+    text-align: justify;
+    color: #ff5722;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 1.2rem;
+
+    border-bottom: 1px solid $short-stat-border-color;
+    &_finished {
+      color: #4a98a3;
+    }
+    &_correct {
+      color: #64d894;
+    }
+    &_new {
+      color: #fe9b5a;
+    }
+    &_series {
+      color: #1e3e73;
+    }
+  }
+
+  &__data {
+    align-self: center;
+  }
+
+  &__buttons-block {
+    display: flex;
+    justify-content: center;
+  }
+}

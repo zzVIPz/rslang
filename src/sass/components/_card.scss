@@ -2,9 +2,50 @@
   font-size: 1.2em;
   font-family: monospace;
 
-  &__show-answer {
+  &__btn-check {
     width: 250px;
     margin-top: 10px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+
+    display: inline-block;
+  }
+
+  &__hint-container {
+    position: absolute;
+    top: 6px;
+    left: 4px;
+
+    &--invisible {
+      opacity: .3;
+
+      transition: 4s linear;
+      animation: letters-animation 3s;
+
+      @keyframes letters-animation {
+        from {
+          opacity: 1;
+        }
+
+        to {
+          opacity: .3;
+        }
+      }
+    }
+  }
+
+  &__letter {
+    color: $color-letter;
+  }
+
+  &__incorrect-low {
+    color: $color-incorrect-low;
+  }
+
+  &__incorrect-heavy {
+    color: $color-incorrect-heavy;
   }
 
   .translate-hidden {

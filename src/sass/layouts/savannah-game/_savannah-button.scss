@@ -1,0 +1,42 @@
+.app__button {
+  display: inline-block;
+  min-width: 162px;
+  padding: 19px 15px 21px;
+
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 1;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none!important;
+
+  background: $main-color;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+
+  transition: all .15s ease;
+
+  appearance: none;
+  &:hover {
+    color: $main-color;
+
+    background: #ffffff;
+    border: 1px solid $main-color;
+  }
+  &_close {
+    width: 200px;
+    margin-top: 48px;
+    padding: 11px 0;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    border-radius: 4px;
+
+@include media-mobile {
+      margin-top: 20px;
+    }
+  }
+}
