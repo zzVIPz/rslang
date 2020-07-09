@@ -1,4 +1,4 @@
-import DictionaryView from './dictionaryView';
+import DictionaryView from './view/dictionaryView';
 import CONSTANTS from './dictionaryConstants';
 
 export default class DictionaryController {

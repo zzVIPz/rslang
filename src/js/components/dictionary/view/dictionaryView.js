@@ -1,8 +1,8 @@
 import dictionaryTemplate from './dictionaryTemplate';
 import dictionaryModalTemplate from './dictionaryModalTemplate';
 import dictionaryLineTemplate from './dictionaryLineTemplate';
-import getMediaUrl from '../../utils/getMediaUrl';
-import CONSTANTS from './dictionaryConstants';
+import getMediaUrl from '../../../utils/getMediaUrl';
+import CONSTANTS from '../dictionaryConstants';
 
 export default class DictionaryController {
   constructor() {

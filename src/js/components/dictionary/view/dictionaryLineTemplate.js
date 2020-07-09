@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import CONSTANTS from './dictionaryConstants';
+import CONSTANTS from '../dictionaryConstants';
 
 const dictionaryLineTemplate = (data, audioSrc, user, state) => `
 <div class="dict__word-line">
