@@ -1,7 +1,7 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
 import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
-import { DEFAULT_STATISTIC, DEFAULT_STATISTIC2 } from '../constants/constStatistic';
+import { DEFAULT_STATISTIC } from '../constants/constStatistic';
 
 const REQUEST_PARAMETERS = {
   url: 'https://afternoon-falls-25894.herokuapp.com/users/',

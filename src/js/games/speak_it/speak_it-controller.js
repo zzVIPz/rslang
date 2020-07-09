@@ -42,7 +42,6 @@ export default class Controller {
     this.createSpeachrecognition();
     this.model = new Model();
     this.view = new View();
-
     this.view.setStarsTop(this.startGroup, this.startRound);
     this.onload();
     this.chooseCard();
