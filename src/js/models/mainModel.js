@@ -41,6 +41,7 @@ export default class MainModel {
     this.userId = this.accessData.userId;
     this.token = this.accessData.token;
     this.currentUser = null;
+    this.onSetUserSettings = null;
   }
 
   async init() {
@@ -82,7 +83,9 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
 
-    this.onSetUserSettings(this.currentUser);
+    if (this.onSetUserSettings !== null) {
+      this.onSetUserSettings(this.currentUser);
+    }
 
     console.log('setUserSettings', content);
   };
@@ -181,11 +184,17 @@ export default class MainModel {
   getUserStatistic = async () => {
     const rawResponse = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
       getBodyRequest('GET', this.token));
+    if (rawResponse.status === 404) {
+      console.log('Settings not found -- set default settings');
+      await this.setUserStatistic(DEFAULT_STATISTIC);
+      await this.getUserStatistic();
+    }
     const currentStatistic = await rawResponse.json();
     console.log('now statistic object is: ', currentStatistic);
     return currentStatistic;
   }
 
+  // TODO rm statisticObject
   setUserStatistic = async (getStatisticObject) => {
     const statisticObject = getStatisticObject || DEFAULT_STATISTIC;
     await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,

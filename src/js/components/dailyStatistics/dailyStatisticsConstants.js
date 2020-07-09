@@ -1,3 +1,4 @@
+// TODO zero-object
 const STAT_CONST = {
   learnedWords: 50,
   optional: {

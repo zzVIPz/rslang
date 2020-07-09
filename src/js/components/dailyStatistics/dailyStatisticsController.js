@@ -8,9 +8,15 @@ export default class DailyStatisticsController {
 
   async init() {
     // console.log(this.mainModel.userId, this.mainModel.token);
-    this.getDate();
     await this.getData();
-    await this.setDateInProgress();
+
+    this.getDate();
+    if (!this.statData.optional.progress) {
+      this.statData.optional.progress = {};
+    }
+    if (!(this.date in this.statData.optional.progress)) {
+      await this.setDateInProgress();
+    }
   }
 
   getDate() {
@@ -36,6 +42,7 @@ export default class DailyStatisticsController {
   }
 
   async learnedWordsUpdate(count) {
+    this.getDate();
     this.statData.learnedWords += count;
     await this.setDateInProgress();
   }
