@@ -1,11 +1,15 @@
-import { NOTIFICATION_TEXT } from '../constants/constMainView';
+import { NOTIFICATION_TEXT, SETTING_MODAL_TEXT } from '../constants/constMainView';
 
-const getText = ({ username }, cardsAmount) => {
+const getText = ({ username, studyMode }, cardsAmount) => {
+  let text = NOTIFICATION_TEXT.repeat;
+  if (studyMode === SETTING_MODAL_TEXT.studySelect.difficult) {
+    text = NOTIFICATION_TEXT.difficult;
+  }
   if (cardsAmount) {
-    return `Dear <span class="username">${username}</span>, you have only ${cardsAmount} card(s) to repeat`;
+    return `Dear <span class="username">${username}</span>, you have only ${cardsAmount} card(s) ${text}`;
   }
 
-  return `Dear <span class="username">${username}</span>, you have no cards to repeat`;
+  return `Dear <span class="username">${username}</span>, you have no cards ${text}`;
 };
 
 export default function getNotificationTemplate(user, cardsAmount) {

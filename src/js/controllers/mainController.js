@@ -20,6 +20,7 @@ import {
   AMOUNT_PAGES_PER_GROUP,
   WORDS_PER_PAGE,
   SETTING_MODAL_TEXT,
+  CARD_TEXT,
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
@@ -112,31 +113,46 @@ export default class MainController {
       }
     };
 
-    this.mainView.onBtnStartClick = async (user) => {
+    this.mainView.onBtnStartClick = async () => {
       await this.setDefaultState();
       this.mainView.setSwiperDefaultState();
-      const wordsList = await this.getWordsList(user.studyMode);
+      const wordsList = await this.getWordsList(this.user.studyMode);
       if (wordsList.length) {
         this.mainView.renderSwiperTemplate();
         this.initSwiper();
-        this.mainView.renderCards(wordsList, user, this.swiper);
+        this.mainView.renderCards(wordsList, this.user, this.swiper);
         this.swiper.update();
         this.mainView.disableSwiperNextSlide();
         this.mainView.setFocusToInput();
         this.setCurrentHash(HASH_VALUES.training);
       }
+
       if (
         this.aggregatedWords.length
-        && this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
+        && (this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
+          || this.user.cardsTotal === this.user.cardsNew)
       ) {
+        console.log(1);
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
       if (
         !this.aggregatedWords.length
         && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
-        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.mixed
+        && (this.user.cardsTotal !== this.user.cardsNew
+          || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.repeat
+          || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult)
       ) {
+        console.log('2');
         this.mainView.showNotificationAboutRepeat(this.user);
+      }
+      if (
+        this.aggregatedWords.length
+        && this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult
+        && this.aggregatedWords.length < this.user.cardsTotal
+      ) {
+        console.log(3);
+        this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
     };
 
@@ -191,12 +207,17 @@ export default class MainController {
       }
     };
 
-    this.mainView.onBtnCheckClick = async () => {
-      await this.checkUserAnswer();
+    this.mainView.onBtnCheckClick = async (target) => {
+      if (target.value === CARD_TEXT.btnCheck) {
+        await this.checkUserAnswer();
+      } else {
+        this.playAudio();
+      }
     };
 
     this.mainView.onBtnDifficultClick = () => {
       this.mainView.disableToolButtons();
+      this.mainView.toggleBtnCheckValue();
       this.saveWord(WORDS_STATUS.difficult);
     };
 
@@ -204,11 +225,13 @@ export default class MainController {
       this.increaseCounter();
       this.updateCorrectAnswersSeries();
       this.mainView.disableToolButtons();
+      this.mainView.toggleBtnCheckValue();
       await this.saveWord(WORDS_STATUS.easy);
     };
 
     this.mainView.onBtnShowAnswerClick = () => {
       this.mainView.disableToolButtons();
+      this.mainView.toggleBtnCheckValue();
       this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
     };
 
@@ -232,6 +255,7 @@ export default class MainController {
 
     this.mainView.onBtnRepeatAgainClick = async () => {
       this.mainView.disableAdditionalControlButtons();
+      this.saveWord(WORDS_STATUS.repeat, { mistakesCounter: REPEAT_NUMBER });
       await this.addCardToRepeat();
       this.showNextSlide(DELAY_NEXT_SLIDE_AUDIO_OFF);
     };
@@ -256,6 +280,7 @@ export default class MainController {
 
   async getWordsList(studyMode) {
     let repeatWordsAmount = this.user.cardsTotal - this.user.cardsNew;
+    let difficultWordsAmount = 0;
     this.newWordsAmount = this.user.cardsNew;
 
     if (studyMode === SETTING_MODAL_TEXT.studySelect.newWords) {
@@ -265,6 +290,11 @@ export default class MainController {
     if (studyMode === SETTING_MODAL_TEXT.studySelect.repeat) {
       this.newWordsAmount = 0;
       repeatWordsAmount = this.user.cardsTotal;
+    }
+    if (studyMode === SETTING_MODAL_TEXT.studySelect.difficult) {
+      this.newWordsAmount = 0;
+      repeatWordsAmount = 0;
+      difficultWordsAmount = this.user.cardsTotal;
     }
 
     this.aggregatedWords = [];
@@ -283,9 +313,22 @@ export default class MainController {
       }
     }
 
+    if (difficultWordsAmount) {
+      this.aggregatedWords = await this.mainModel.getAggregatedWords(
+        {
+          [WORDS_STATUS.userWord]: `${WORDS_STATUS.difficult}`,
+        },
+        difficultWordsAmount,
+      );
+      this.aggregatedWords = this.aggregatedWords[0].paginatedResults;
+    }
+
     let wordsList = [];
 
-    if (studyMode !== SETTING_MODAL_TEXT.studySelect.repeat) {
+    if (
+      studyMode !== SETTING_MODAL_TEXT.studySelect.repeat
+      && studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
+    ) {
       const totalPagesRequest = Math.ceil(
         (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
       );
@@ -337,24 +380,55 @@ export default class MainController {
 
   async saveWord(category, optional = {}) {
     const wordId = this.mainView.getWordId();
+    const wordById = await this.mainModel.getAggregatedWordById(wordId);
     if (this.slideIndex === this.swiper.realIndex) {
-      const wordById = await this.mainModel.getAggregatedWordById(wordId);
       if (wordById.userWord) {
-        if (wordById.userWord.difficulty !== WORDS_STATUS[category]) {
-          await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], optional);
-        }
+        const wordDescription = this.updateOptionalWordStatistic(
+          wordById.userWord.optional,
+          optional,
+          category,
+        );
+
+        await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], wordDescription);
       } else {
         this.updateUserSettings();
-        await this.mainModel.createUserWord(wordId, WORDS_STATUS[category], optional);
+        const defaultProperties = {
+          repeatCounter: 1,
+          lastTimeRepeat: new Date().getTime(),
+        };
+
+        await this.mainModel.createUserWord(
+          wordId,
+          WORDS_STATUS[category],
+          Object.assign(defaultProperties, optional),
+        );
       }
       this.showCorrectAnswer();
     } else {
       if (this.user.additionalControl) {
-        await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], optional);
+        const wordDescription = this.updateOptionalWordStatistic(
+          wordById.userWord.optional,
+          optional,
+          category,
+        );
+        await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], wordDescription);
       }
       this.playAudio();
     }
   }
+
+  updateOptionalWordStatistic = (wordDescription, optional, category) => {
+    const optionalDescription = wordDescription;
+    if (Object.values(optional).length) {
+      Object.assign(optionalDescription, optional);
+    }
+    optionalDescription.repeatCounter += 1;
+    optionalDescription.lastTimeRepeat = new Date().getTime();
+    if (category !== WORDS_STATUS.repeat) {
+      delete optionalDescription.mistakesCounter;
+    }
+    return optionalDescription;
+  };
 
   async checkUserAnswer() {
     const userAnswer = this.mainView.getUserAnswer().toLowerCase();
@@ -368,17 +442,16 @@ export default class MainController {
           this.increaseCounter();
           const currentMistakesCounter = await this.checkMistakesCounter();
           if (currentMistakesCounter) {
-            const wordId = this.mainView.getWordId();
-            await this.mainModel.updateUserWord(wordId, WORDS_STATUS.repeat, {
+            await this.saveWord(WORDS_STATUS.repeat, {
               mistakesCounter: currentMistakesCounter,
             });
-
             this.allowAccessNextSlide();
           } else {
             await this.saveWord(WORDS_STATUS.easy);
           }
         }
         this.updateCorrectAnswersSeries();
+        this.mainView.toggleBtnCheckValue();
         this.mistakesMode = false;
         if (this.user.additionalControl) {
           this.mainView.showAdditionalControlButtons();

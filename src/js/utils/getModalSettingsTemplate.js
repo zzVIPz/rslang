@@ -21,6 +21,8 @@ export default function getModalSettingsTemplate(user, settings) {
             ${settings.studySelect.newWords}</option>
           <option ${user.studyMode === settings.studySelect.repeat ? 'selected' : ''}>
             ${settings.studySelect.repeat}</option>
+          <option ${user.studyMode === settings.studySelect.difficult ? 'selected' : ''}>
+            ${settings.studySelect.difficult}</option>
           <option ${user.studyMode === settings.studySelect.mixed ? 'selected' : ''}>
             ${settings.studySelect.mixed}</option>
         </select>
