@@ -12,6 +12,7 @@ import WordSearchStatistics from './Views/Word-search-statistic-view';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
+import getIndexOfArr from '../utils/indexOfArrInArr';
 import compareArrayOfArrays from '../utils/compareArrayOfArrays';
 import {
   GAME_LAYOUT,
@@ -140,9 +141,8 @@ class WordSearchView extends SavannahView {
     this.renderContent();
     this.renderRows();
     this.renderWordsContainer();
-    this.matrixObj = this.model.fillMatrix(this.model.matrix, this.model.tenEngWordsArr);
     this.renderWord();
-    this.renderMatrixWord(this.matrixObj.matrix);
+    this.renderMatrixWord(this.model.matrixObj.matrix);
     this.renderCheckBtn();
     this.renderClearBtn();
   }
@@ -257,30 +257,70 @@ class WordSearchView extends SavannahView {
   }
 
   addGameModeListeners() {
-    const wordsBox = document.querySelector('.word-search-grid');
-    addEventHandler('click', wordsBox, this.onLetterClick.bind(this));
+    this.wordsBox = document.querySelector('.word-search-grid');
+    addEventHandler('mousedown', this.wordsBox, this.onMouseDown.bind(this));
+    addEventHandler('mouseup', this.wordsBox, this.onMouseUp.bind(this));
+    addEventHandler('mouseover', this.wordsBox, this.onMouseOver.bind(this));
     addEventHandler('click', this.clearBtn, this.onClearBtnClick.bind(this));
     addEventHandler('click', this.checkBtn, this.onCheckBtnClick.bind(this));
   }
 
-  onLetterClick = ({ target }) => {
-    const chosenLetter = target.classList.contains('word-search__chosen-letter');
-    const correctWord = target.classList.contains('word-search__correct-word');
+  newLetter(target) {
+    this.saveLetterCoords(target);
+    target.classList.add('word-search__chosen-letter');
+    this.model.chosenWord.push(target.textContent.toLowerCase());
+    console.log(this.model.chosenWord);
+  }
+
+  onMouseDown = ({ target }) => {
+    this.clicked = true;
+
+    this.chosenLetter = target.classList.contains('word-search__chosen-letter');
+    this.correctWord = target.classList.contains('word-search__correct-word');
 
     if (target.classList.contains('cell')) {
-      if (!chosenLetter && !correctWord) {
-        this.getCoordinates(target);
-        target.classList.add('word-search__chosen-letter');
-        this.model.chosenWord.push(target.textContent.toLowerCase());
-        console.log(this.model.chosenWord);
+      if (!this.chosenLetter && !this.correctWord) {
+        this.newLetter(target);
+      } else {
+        this.onSecondLetterClick(target);
       }
     }
   }
 
-  getCoordinates(target) {
+  onMouseOver = ({ target }) => {
+    if (this.clicked) {
+      if (target.classList.contains('cell')) {
+        if (!this.chosenLetter && !this.correctWord) {
+          this.newLetter(target);
+        }
+      }
+    }
+  }
+
+  onMouseUp = () => {
+    this.clicked = false;
+  }
+
+  onSecondLetterClick(target) {
+    if (target.classList.contains('word-search__chosen-letter')) {
+      target.classList.remove('word-search__chosen-letter');
+      const id = getIndexOfArr(this.model.wordCoordinates, this.getLetterCoords(target));
+      this.model.chosenWord.splice(id, 1);
+      console.log(this.model.chosenWord);
+      this.model.wordCoordinates.splice(id, 1);
+    }
+  }
+
+  saveLetterCoords(target) {
+    const letterCoords = this.getLetterCoords(target);
+    this.model.wordCoordinates.push(letterCoords);
+  }
+
+  getLetterCoords = (target) => {
     let letterCoords = (target.id).split('-');
     letterCoords = letterCoords.map((coo) => Number(coo));
-    this.model.wordCoordinates.push(letterCoords);
+
+    return letterCoords;
   }
 
   onCheckBtnClick() {
@@ -291,6 +331,7 @@ class WordSearchView extends SavannahView {
       this.chosenWordString = this.model.chosenWord.join('');
       this.allCells = Array.from(document.querySelectorAll('.cell'));
       console.log('coords', this.model.wordCoordinates);
+      console.log('coords', this.model.chosenWord);
 
       const {
         chosenWordTranslation, chosenWordAudio,
@@ -305,7 +346,7 @@ class WordSearchView extends SavannahView {
 
       if (this.currentWordIdInArr !== -1) {
         isRightLetters = true;
-        const currentCoordsArr = this.matrixObj.coords[this.currentWordIdInArr];
+        const currentCoordsArr = this.model.matrixObj.coords[this.currentWordIdInArr];
         isRightAnswer = compareArrayOfArrays(currentCoordsArr, this.model.wordCoordinates);
         console.log(isRightAnswer);
         console.log(currentCoordsArr);
@@ -319,7 +360,7 @@ class WordSearchView extends SavannahView {
         removeElFromArr(this.model.tenTranslationsArray, this.currentWordIdInArr);
         removeElFromArr(this.model.tenAudioArray, this.currentWordIdInArr);
         removeElFromArr(this.model.tenWordsId, this.currentWordIdInArr);
-        removeElFromArr(this.matrixObj.coords, this.currentWordIdInArr);
+        removeElFromArr(this.model.matrixObj.coords, this.currentWordIdInArr);
         console.log(this.model.tenEngWordsArr);
         console.log(this.model.tenTranslationsArray);
         console.log(this.model.tenAudioArray);

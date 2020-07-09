@@ -150,7 +150,6 @@ class WordSearchModel extends SavannahModel {
 
     wordsArr.map((word) => {
       const wordCoords = this.getFreeCells(newMatrix, word.length);
-      console.log('temp', wordCoords);
 
       if (wordCoords) {
         usedWords.push(word);
@@ -200,6 +199,23 @@ class WordSearchModel extends SavannahModel {
 
       return true;
     });
+
+    this.matrixObj = this.fillMatrix(this.matrix, this.tenEngWordsArr);
+
+    if (this.matrixObj.words.length !== this.tenEngWordsArr.length) {
+      const arrCopy = [...this.tenEngWordsArr];
+      arrCopy.map((el) => {
+        if (!this.matrixObj.words.includes(el)) {
+          const id = this.tenEngWordsArr.indexOf(el);
+          this.tenEngWordsArr.splice(id, 1);
+          this.tenTranslationsArray.splice(id, 1);
+          this.tenAudioArray.splice(id, 1);
+          this.tenWordsId.splice(id, 1);
+        }
+
+        return true;
+      });
+    }
   }
 
   getChosenWordData(str) {
