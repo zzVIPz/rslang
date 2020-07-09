@@ -22,6 +22,7 @@ import {
   SETTING_MODAL_TEXT,
   CARD_TEXT,
 } from '../constants/constMainView';
+import createWordSearch from '../games/word-search-game/Word-search-controller';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
 
@@ -92,7 +93,8 @@ export default class MainController {
           this.game = new SprintController();
           this.game.init();
           break;
-        case MENU_ITEMS_NAMES.newGame:
+        case MENU_ITEMS_NAMES.wordSearch:
+          createWordSearch(this);
           break;
         case MENU_ITEMS_NAMES.promoPage:
           e.preventDefault();
