@@ -81,7 +81,7 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
 
-    if (this.onSetUserSettings) {
+    if (this.onSetUserSettings !== null) {
       this.onSetUserSettings(this.currentUser);
     }
 
