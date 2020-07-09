@@ -93,7 +93,7 @@ export default class MainController {
           this.game = new SprintController();
           this.game.init();
           break;
-        case MENU_ITEMS_NAMES.newGame:
+        case MENU_ITEMS_NAMES.wordSearch:
           createWordSearch(this);
           break;
         case MENU_ITEMS_NAMES.promoPage:

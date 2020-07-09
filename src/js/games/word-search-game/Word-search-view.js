@@ -46,7 +46,7 @@ class WordSearchView extends SavannahView {
   checkWordSearchWindow() {
     this.changePositionAccordingToClientHeight();
 
-    if (!(this.currentHash() === HASH_VALUES.newGame)) {
+    if (!(this.currentHash() === HASH_VALUES.wordSearch)) {
       this.finishGame();
       this.wordSearchApp = document.querySelector('.word-search__app');
 
@@ -54,7 +54,9 @@ class WordSearchView extends SavannahView {
         this.mainContainer.removeChild(this.wordSearchApp);
       }
     } else {
-      setTimeout(() => { this.checkWordSearchWindow(); }, DELAY_CHECK_HASH);
+      setTimeout(() => {
+        this.checkWordSearchWindow();
+      }, DELAY_CHECK_HASH);
     }
   }
 
@@ -118,20 +120,21 @@ class WordSearchView extends SavannahView {
 
       this.addPreloader();
       this.changePreloaderInfo();
-      setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
-      this.model.fetchWords(this.currentUser, chosenLevel, chosenRound)
-        .then((data) => {
-          this.model.getWordsAndTranslation(data);
-          this.model.getWordIdsAndAudio(data);
-          this.model.getGameData();
-        });
+      setTimeout(() => {
+        this.preloaderCountDown();
+      }, DELAY_PRELOADER_COUNT_DOWN);
+      this.model.fetchWords(this.currentUser, chosenLevel, chosenRound).then((data) => {
+        this.model.getWordsAndTranslation(data);
+        this.model.getWordIdsAndAudio(data);
+        this.model.getGameData();
+      });
     });
   }
 
   changePreloaderInfo = () => {
     document.querySelector('.keyboard').classList.add('word-search_hide');
     document.querySelector('.preloader__info_text').innerHTML = PRELOADER_INFO;
-  }
+  };
 
   countTillOne() {
     let preloaderNumber = Number(document.querySelector('.countdown').innerHTML);
@@ -168,7 +171,7 @@ class WordSearchView extends SavannahView {
 
   changeLivesStyle = () => {
     document.querySelector('.lives').classList.add('word-search__lives');
-  }
+  };
 
   removeAppContent() {
     const content = document.querySelector('.word-search__start-content');
@@ -194,7 +197,7 @@ class WordSearchView extends SavannahView {
 
   renderRows = () => {
     document.querySelector('.word-search-grid').innerHTML = ROWS;
-  }
+  };
 
   renderWordsContainer() {
     this.wordsContainer = document.createElement('div');
@@ -205,21 +208,24 @@ class WordSearchView extends SavannahView {
   }
 
   renderWord = () => {
-    this.model.tenTranslationsArray
-      .map((translation) => {
-        const word = document.createElement('li');
-        word.classList.add('word');
-        word.innerHTML = translation;
-        document.querySelector('.word-search__words').appendChild(word);
+    this.model.tenTranslationsArray.map((translation) => {
+      const word = document.createElement('li');
+      word.classList.add('word');
+      word.innerHTML = translation;
+      document.querySelector('.word-search__words').appendChild(word);
 
-        return true;
-      });
-  }
+      return true;
+    });
+  };
 
   preloaderCountDown() {
     if (this.model.isPreloading) {
-      const activeMenu = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
-      const visibleModal = document.querySelector('.app__modal').classList.contains('app__modal_visible');
+      const activeMenu = document
+        .querySelector('.burger-menu')
+        .classList.contains('burger-menu--active');
+      const visibleModal = document
+        .querySelector('.app__modal')
+        .classList.contains('app__modal_visible');
       const settingsVisible = document.querySelector('.settings__overlay');
 
       if (!activeMenu && !visibleModal && !settingsVisible) {
@@ -227,12 +233,16 @@ class WordSearchView extends SavannahView {
 
         if (this.countNumber) {
           document.querySelector('.countdown').innerHTML = this.countNumber;
-          setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
+          setTimeout(() => {
+            this.preloaderCountDown();
+          }, DELAY_PRELOADER_COUNT_DOWN);
         } else {
           this.gameMode();
         }
       } else {
-        setTimeout(() => { this.preloaderCountDown(); }, DELAY_PRELOADER_COUNT_DOWN);
+        setTimeout(() => {
+          this.preloaderCountDown();
+        }, DELAY_PRELOADER_COUNT_DOWN);
       }
     }
   }
@@ -241,10 +251,10 @@ class WordSearchView extends SavannahView {
     const cell = document.createElement('div');
 
     cell.className = 'cell';
-    cell.id = (`${rowNum}-${colNum}`);
+    cell.id = `${rowNum}-${colNum}`;
     cell.innerHTML = letter;
     document.querySelector(`.row-${rowNum}`).appendChild(cell);
-  }
+  };
 
   renderMatrixWord(matrix) {
     matrix.map((arr, rowIndex) => {
@@ -256,7 +266,7 @@ class WordSearchView extends SavannahView {
 
   renderCheckBtn() {
     this.checkBtn = document.createElement('div');
-    this.checkBtn.className = ('app__button');
+    this.checkBtn.className = 'app__button';
     this.checkBtn.classList.add('word-search__controllers');
     this.checkBtn.classList.add('word-search__controllers_check');
     this.checkBtn.innerHTML = CHECK_BTN_TEXT;
@@ -265,7 +275,7 @@ class WordSearchView extends SavannahView {
 
   renderClearBtn() {
     this.clearBtn = document.createElement('div');
-    this.clearBtn.className = ('app__button');
+    this.clearBtn.className = 'app__button';
     this.clearBtn.classList.add('word-search__controllers');
     this.clearBtn.classList.add('word-search__controllers_clear');
     this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
@@ -306,7 +316,7 @@ class WordSearchView extends SavannahView {
         this.onSecondLetterClick(target);
       }
     }
-  }
+  };
 
   onMouseOver = ({ target }) => {
     if (this.clicked) {
@@ -316,11 +326,11 @@ class WordSearchView extends SavannahView {
         }
       }
     }
-  }
+  };
 
   onMouseUp = () => {
     this.clicked = false;
-  }
+  };
 
   onSecondLetterClick(target) {
     if (target.classList.contains('word-search__chosen-letter')) {
@@ -337,11 +347,11 @@ class WordSearchView extends SavannahView {
   }
 
   getLetterCoords = (target) => {
-    let letterCoords = (target.id).split('-');
+    let letterCoords = target.id.split('-');
     letterCoords = letterCoords.map((coo) => Number(coo));
 
     return letterCoords;
-  }
+  };
 
   onCheckBtnClick() {
     let isRightAnswer = false;
@@ -351,9 +361,9 @@ class WordSearchView extends SavannahView {
       this.chosenWordString = this.model.chosenWord.join('');
       this.allCells = Array.from(document.querySelectorAll('.cell'));
 
-      const {
-        chosenWordTranslation, chosenWordAudio,
-      } = this.model.getChosenWordData(this.chosenWordString);
+      const { chosenWordTranslation, chosenWordAudio } = this.model.getChosenWordData(
+        this.chosenWordString,
+      );
       this.currentTranslation = chosenWordTranslation;
       this.currentAudio = chosenWordAudio;
 
@@ -395,7 +405,11 @@ class WordSearchView extends SavannahView {
     this.model.setDefaultArray();
     this.allCells.map((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word');
-      addStyle(cell, 'word-search__chosen-letter', `correct-word-${this.model.rightAnswersCounter}`);
+      addStyle(
+        cell,
+        'word-search__chosen-letter',
+        `correct-word-${this.model.rightAnswersCounter}`,
+      );
       removeStyle(cell, 'word-search__chosen-letter');
 
       return true;
@@ -444,7 +458,7 @@ class WordSearchView extends SavannahView {
     this.allCells = Array.from(document.querySelectorAll('.cell'));
     this.allCells.map((cell) => removeStyle(cell, 'word-search__chosen-letter'));
     this.model.setDefaultArray();
-  }
+  };
 
   renderGameOver(isWin) {
     this.addNotGuessedWordToWrongWords();
@@ -467,16 +481,15 @@ class WordSearchView extends SavannahView {
 
   addNotGuessedWordToWrongWords() {
     if (this.model.tenEngWordsArr.length > 0) {
-      this.model.tenEngWordsArr
-        .map((word, index) => {
-          this.statistics.appendWrongAnswer(
-            word,
-            this.model.tenTranslationsArray[index],
-            this.model.tenAudioArray[index],
-          );
+      this.model.tenEngWordsArr.map((word, index) => {
+        this.statistics.appendWrongAnswer(
+          word,
+          this.model.tenTranslationsArray[index],
+          this.model.tenAudioArray[index],
+        );
 
-          return true;
-        });
+        return true;
+      });
     }
   }
 
@@ -508,9 +521,11 @@ class WordSearchView extends SavannahView {
       const firstLetterId = firstLetterCoords.join('-');
       const firstLetterHint = document.getElementById(firstLetterId);
       firstLetterHint.classList.add('word-search__hint');
-      setTimeout(() => { firstLetterHint.classList.remove('word-search__hint'); }, REMOVE_HINT_STYLE_DELAY);
+      setTimeout(() => {
+        firstLetterHint.classList.remove('word-search__hint');
+      }, REMOVE_HINT_STYLE_DELAY);
     }
-  }
+  };
 }
 
 export default WordSearchView;
