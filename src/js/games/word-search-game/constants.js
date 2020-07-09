@@ -79,6 +79,7 @@ const WORDS_CONTAINER = '<ul class="word-search__words"></ul>';
 
 const CHECK_BTN_TEXT = 'Проверить';
 const CLEAR_BTN_TEXT = 'Очистить';
+const DELAY_CHECK_HASH = 500;
 
 export {
   GAME_LAYOUT,
@@ -90,4 +91,5 @@ export {
   WORDS_CONTAINER,
   CHECK_BTN_TEXT,
   CLEAR_BTN_TEXT,
+  DELAY_CHECK_HASH,
 };

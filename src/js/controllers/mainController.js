@@ -21,7 +21,7 @@ import {
   WORDS_PER_PAGE,
   SETTING_MODAL_TEXT,
 } from '../constants/constMainView';
-import WordSearchController from '../games/word-search-game/Word-search-controller';
+import createWordSearch from '../games/word-search-game/Word-search-controller';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
 
@@ -93,8 +93,7 @@ export default class MainController {
           this.game.init();
           break;
         case MENU_ITEMS_NAMES.newGame:
-          this.wordSearch = new WordSearchController(this.user, this.mainView);
-          this.wordSearch.init(this.setDefaultHash);
+          createWordSearch(this);
           break;
         case MENU_ITEMS_NAMES.promoPage:
           e.preventDefault();

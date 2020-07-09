@@ -327,3 +327,7 @@
 .word-search__lives {
   color: $dark-main-color;
 }
+
+.word-search__hint {
+  background: $hint-color;
+}

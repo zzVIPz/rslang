@@ -22,6 +22,7 @@ const HASH_VALUES = {
   englishPuzzle: 'english-puzzle',
   savannah: 'savannah',
   sprint: 'sprint',
+  newGame: 'new-game',
 };
 
 const DEFAULT_USER_SETTINGS = {

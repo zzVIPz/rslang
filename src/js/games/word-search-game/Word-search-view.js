@@ -5,6 +5,7 @@ import getLevel from '../utils/getLevel';
 import getRound from '../utils/getRound';
 import removeStyle from '../utils/removeStyle';
 import addStyle from '../utils/addStyle';
+import { HASH_VALUES } from '../../constants/constMainView';
 import addEventHandler from '../utils/addEventHandler';
 import setFocus from '../utils/setFocus';
 import removeElFromArr from '../utils/removeElFromArr';
@@ -24,11 +25,13 @@ import {
   WORDS_CONTAINER,
   CLEAR_BTN_TEXT,
   CHECK_BTN_TEXT,
+  DELAY_CHECK_HASH,
 } from './constants';
 
 class WordSearchView extends SavannahView {
-  constructor(model, defaultHash) {
+  constructor(model, defaultHash, currentHash) {
     super();
+    this.currentHash = currentHash;
     this.model = model;
     this.statistics = new WordSearchStatistics();
     this.setDefaultHash = defaultHash;
@@ -36,6 +39,21 @@ class WordSearchView extends SavannahView {
     this.mainContainer = document.querySelector('.main');
     this.appContainer = document.querySelector('.word-search__app');
     this.groupRoundHtml = GROUP_ROUND;
+  }
+
+  checkWordSearchWindow() {
+    this.changePositionAccordingToClientHeight();
+
+    if (!(this.currentHash() === HASH_VALUES.newGame)) {
+      this.finishGame();
+      this.wordSearchApp = document.querySelector('.word-search__app');
+
+      if (this.wordSearchApp) {
+        this.mainContainer.removeChild(this.wordSearchApp);
+      }
+    } else {
+      setTimeout(() => { this.checkWordSearchWindow(); }, DELAY_CHECK_HASH);
+    }
   }
 
   init() {
@@ -59,6 +77,7 @@ class WordSearchView extends SavannahView {
     this.statistics.init(this, this.mainView, this.model, this.setDefaultHash);
     this.renderRating();
     setFocus(document.querySelector('.app__button'));
+    this.setMusicOnOff();
   }
 
   renderRating() {
@@ -129,6 +148,7 @@ class WordSearchView extends SavannahView {
   }
 
   renderPlayingField() {
+    console.log(this.model.audioOn);
     this.wordSearchContainer = document.createElement('div');
     this.wordSearchContainer.classList.add('word-search__container');
     this.appContainer.appendChild(this.wordSearchContainer);
@@ -258,11 +278,13 @@ class WordSearchView extends SavannahView {
 
   addGameModeListeners() {
     this.wordsBox = document.querySelector('.word-search-grid');
+    const translationsWords = document.querySelector('.word-search__words');
     addEventHandler('mousedown', this.wordsBox, this.onMouseDown.bind(this));
     addEventHandler('mouseup', this.wordsBox, this.onMouseUp.bind(this));
     addEventHandler('mouseover', this.wordsBox, this.onMouseOver.bind(this));
     addEventHandler('click', this.clearBtn, this.onClearBtnClick.bind(this));
     addEventHandler('click', this.checkBtn, this.onCheckBtnClick.bind(this));
+    addEventHandler('click', translationsWords, this.onTranslationClick.bind(this));
   }
 
   newLetter(target) {
@@ -377,8 +399,10 @@ class WordSearchView extends SavannahView {
     const engWordSound = getMediaUrl(this.currentAudio);
 
     this.addStylesToCorrectTranslation();
-    this.correctSound.play();
-    playAudio(engWordSound);
+    if (this.model.audioOn) {
+      this.correctSound.play();
+      playAudio(engWordSound);
+    }
     // TODO set default par;
     this.model.chosenWord = [];
     this.model.wordCoordinates = [];
@@ -401,7 +425,10 @@ class WordSearchView extends SavannahView {
       this.model.wrongAnswerCounter += 1;
       this.removeLives();
     }
-    this.errorSound.play();
+    if (this.model.audioOn) {
+      this.errorSound.play();
+    }
+
     this.allCells.map((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__wrong-word');
       setTimeout(() => {
@@ -493,6 +520,17 @@ class WordSearchView extends SavannahView {
     this.model.isGameOn = false;
     this.model.isPreloading = false;
     this.appContainer.classList.remove('app__background');
+  }
+
+  onTranslationClick = ({ target }) => {
+    if (target.classList.contains('word')) {
+      const translationId = this.model.tenTranslationsArray.indexOf(target.textContent);
+      const firstLetterCoords = this.model.matrixObj.coords[translationId][0];
+      const firstLetterId = firstLetterCoords.join('-');
+      const firstLetterHint = document.getElementById(firstLetterId);
+      firstLetterHint.classList.add('word-search__hint');
+      setTimeout(() => { firstLetterHint.classList.remove('word-search__hint'); }, 1000);
+    }
   }
 }
 
