@@ -1,0 +1,109 @@
+@import "speak_it-constants";
+.modal_container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 160px 0 0 0;
+
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 0;
+}
+
+.modal_window {
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 398px;
+  margin: auto;
+  padding: 36px 0 22px;
+
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 1px 0 2px 0 rgba(0, 0, 0, .16);
+}
+.modal_statistic {
+  position: fixed;
+  top: 46px;
+  left: calc((100% - 784px) /2);
+  z-index: 4;
+
+  width: 100%;
+  max-width: 784px;
+}
+
+.statistics__words_speak {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 542px;
+  min-height: 400px;
+  max-height: 66vh;
+  margin: 0 auto;
+  margin-top: 20px;
+  overflow: auto;
+}
+
+.wrong_title,
+.correct_title {
+  font-weight: 700;
+  text-align: center;
+}
+.statistics__continue:hover {
+  color: #00c49d;
+
+  background-color: #ffffff;
+}
+.modal_view {
+  margin-top: 20px;
+  padding: 10px 2vw;
+}
+.modal_close {
+  margin-top: 20px;
+  padding: 10px 2vw;
+}
+.modal_cancel {
+  margin-top: 20px;
+  padding: 10px 2vw;
+}
+.app__button_view {
+  width: 250px;
+  margin-top: 48px;
+  padding: 11px 0;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  border-radius: 4px;
+}
+@media only screen and (min-width: 320px) and (max-width: 700px) {
+  .modal_window {
+    width: 90vw;
+    margin: auto;
+    padding: 2vw;
+  }
+  .app__modal__box_title {
+    text-align: center;
+  }
+}
+@media only screen and (min-width: 320px) and (max-width: 800px) {
+  .modal_statistic {
+    left: 3%;
+
+    width: 94%;
+  }
+}
