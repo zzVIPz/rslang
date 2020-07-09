@@ -130,7 +130,7 @@ export default class SprintView {
       errors.forEach((el) => {
         this.audioUrl = getMediaUrl(el.audio);
         this.wordBox = document.createElement('div');
-        this.wordBox.className = 'wordBox';
+        this.wordBox.className = 'wordBox wordBox_sprint';
         this.wordBox.innerHTML = getWordBoxTemplate(this.audioUrl, el.word, el.wordTranslate);
         this.mistakesContainer.append(this.wordBox);
       });

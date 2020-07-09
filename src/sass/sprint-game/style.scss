@@ -15,7 +15,7 @@ $print-header-third: #e91e62a2;
 }
 
 .sprint-game-bgr {
-  background-image: url(/src/assets/images/savannah-bg.svg);
+  background-image: url(/src/assets/images/sprint-bg-2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -26,19 +26,20 @@ $print-header-third: #e91e62a2;
   justify-content: space-between;
   width: 600px;
   max-width: 90vw;
-  height: 70vh;
+  height: 75vh;
   margin: 4rem auto;
 
   text-align: center;
 
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.733);
   border-radius: 8px;
-  box-shadow: 0 3px 5px 0 $sprint-border-color;
+  // box-shadow: 0 3px 5px 0 $sprint-border-color;
 
   transition: .3s ease-out;
 }
 .sprint-game-bgr .sprint-container {
-  background-image: url(/src/assets/images/big-moon-cut.png);
+  // background-image: url(/src/assets/images/big-moon-cut.png);
+
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
@@ -213,7 +214,7 @@ $print-header-third: #e91e62a2;
 
 // statistics
 .sprint-result-header {
-  margin-top: 5%;
+  margin-top: 3%;
 
   font-weight: 300;
   font-size: 3rem;
@@ -245,7 +246,7 @@ $print-header-third: #e91e62a2;
   color: $sprint-wrong-color;
 }
 .sprint-mistaken-words {
-  max-height: 160px;
+  max-height: 200px;
   padding: 1%;
   overflow-y: scroll;
 
@@ -253,6 +254,9 @@ $print-header-third: #e91e62a2;
   color: $sprint-border-color;
 
   box-shadow: inset 0 0 1px 0 $main-color;
+}
+.wordBox_sprint {
+  margin-bottom: 5px;
 }
 
 .sprint-result-controls {
