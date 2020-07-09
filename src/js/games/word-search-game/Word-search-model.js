@@ -1,41 +1,58 @@
 import randomInteger from '../utils/randomInteger';
 import SavannahModel from '../savannah-game/Model';
+import {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  AMOUNT_OF_TRIES,
+  MAX_POSSIBILITY,
+  DEFAULT_EMPTY_CELL,
+  CONSONANTS,
+  VOWELS,
+  SIZE_OF_MATRIX,
+} from './constants';
 
 class WordSearchModel extends SavannahModel {
   constructor() {
     super();
-    this.matrix = Array(10).fill().map(() => Array(10).fill('#'));
-    this.consonants = 'bcdfghjklmnpqrstvwxyz';
-    this.vowels = 'aeiou';
+    this.matrix = Array(SIZE_OF_MATRIX)
+      .fill()
+      .map(() => Array(SIZE_OF_MATRIX).fill(DEFAULT_EMPTY_CELL));
     this.chosenWord = [];
     this.wordCoordinates = [];
   }
 
-  getRandomLetter() {
-    // 0 === false;
-    // vowels === 33%
+  setDefaultArray() {
+    this.chosenWord = [];
+    this.wordCoordinates = [];
+  }
+
+  getRandomLetter = () => {
     if (randomInteger(0, 2)) {
-      return this.consonants[randomInteger(0, this.consonants.length - 1)];
+      return CONSONANTS[randomInteger(0, CONSONANTS.length - 1)];
     }
-    return this.vowels[randomInteger(0, this.vowels.length - 1)];
+
+    return VOWELS[randomInteger(0, VOWELS.length - 1)];
   }
 
   moveCell = (r, c, maxRow, maxCol) => {
     let row = r;
     let col = c;
-    // change row or column
+
     if (randomInteger(0, 1)) {
-      // chose direction up or down
-      row += [-1, 1][randomInteger(0, 1)];
+      row += [UP, DOWN][randomInteger(0, 1)];
+
       if (r === 0) {
         row = r + 1;
       }
+
       if (r === maxRow - 1) {
         row = r - 1;
       }
     } else {
-      // left or right
-      col += [-1, 1][randomInteger(0, 1)];
+      col += [LEFT, RIGHT][randomInteger(0, 1)];
+
       if (c === 0) {
         col = c + 1;
       }
@@ -48,9 +65,8 @@ class WordSearchModel extends SavannahModel {
     return { row, col };
   }
 
-  checkCell = (matrix, row, col, defaultPar = '#') => {
+  checkCell = (matrix, row, col, defaultPar = DEFAULT_EMPTY_CELL) => {
     if (matrix[row][col] !== defaultPar) {
-      // not empty cell
       return false;
     }
 
@@ -81,7 +97,7 @@ class WordSearchModel extends SavannahModel {
     while (count < numberOfLetterInWord) {
       topTry += 1;
 
-      if (topTry > 200) {
+      if (topTry > AMOUNT_OF_TRIES) {
         coords = false;
         break;
       }
@@ -111,6 +127,7 @@ class WordSearchModel extends SavannahModel {
     let tryCount = 0;
     let newRow = r;
     let newCol = c;
+
     while (count < n) {
       tryCount += 1;
       const newCoords = this.moveCell(newRow, newCol, matrix.length, matrix[0].length);
@@ -124,7 +141,7 @@ class WordSearchModel extends SavannahModel {
         }
       }
 
-      if (tryCount > n * 16) {
+      if (tryCount > n * MAX_POSSIBILITY) {
         break;
       }
     }
@@ -143,7 +160,6 @@ class WordSearchModel extends SavannahModel {
   }
 
   fillMatrix = (matrix, wordsArr) => {
-    // TODO to utils
     let newMatrix = matrix.map((arr) => arr.slice());
     const usedWords = [];
     const arrWithCoordinates = [];
@@ -170,7 +186,7 @@ class WordSearchModel extends SavannahModel {
     return { matrix: newMatrix, words: usedWords, coords: arrWithCoordinates };
   }
 
-  fillEmptyCells = (matrix, defaultPar = '#') => {
+  fillEmptyCells = (matrix, defaultPar = DEFAULT_EMPTY_CELL) => {
     const newMatrix = matrix.map((arr) => arr.slice());
 
     for (let i = 0; i < matrix.length; i += 1) {
@@ -222,6 +238,7 @@ class WordSearchModel extends SavannahModel {
     const chosenWordIdInArr = this.tenEngWordsArr.indexOf(str);
     const chosenWordTranslation = this.tenTranslationsArray[chosenWordIdInArr];
     const chosenWordAudio = this.tenAudioArray[chosenWordIdInArr];
+
     return { chosenWordTranslation, chosenWordAudio };
   }
 }

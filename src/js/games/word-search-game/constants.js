@@ -80,6 +80,18 @@ const WORDS_CONTAINER = '<ul class="word-search__words"></ul>';
 const CHECK_BTN_TEXT = 'Проверить';
 const CLEAR_BTN_TEXT = 'Очистить';
 const DELAY_CHECK_HASH = 500;
+const REMOVE_STYLE_DELAY = 500;
+const REMOVE_HINT_STYLE_DELAY = 1000;
+const UP = -1;
+const DOWN = 1;
+const LEFT = -1;
+const RIGHT = 1;
+const AMOUNT_OF_TRIES = 200;
+const MAX_POSSIBILITY = 16;
+const DEFAULT_EMPTY_CELL = '#';
+const CONSONANTS = 'bcdfghjklmnpqrstvwxyz';
+const VOWELS = 'aeiou';
+const SIZE_OF_MATRIX = 10;
 
 export {
   GAME_LAYOUT,
@@ -92,4 +104,16 @@ export {
   CHECK_BTN_TEXT,
   CLEAR_BTN_TEXT,
   DELAY_CHECK_HASH,
+  REMOVE_STYLE_DELAY,
+  REMOVE_HINT_STYLE_DELAY,
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  AMOUNT_OF_TRIES,
+  MAX_POSSIBILITY,
+  DEFAULT_EMPTY_CELL,
+  CONSONANTS,
+  VOWELS,
+  SIZE_OF_MATRIX,
 };
