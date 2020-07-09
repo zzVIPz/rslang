@@ -35,7 +35,7 @@ $about-border-color: #02cead;
   display: flex;
   flex-direction: column;
   width: 27%;
-  margin: 0 3% 24px;
+  margin: 0 3% 60px;
 }
 
 .person__photo {
@@ -44,13 +44,16 @@ $about-border-color: #02cead;
   overflow: hidden;
   box-shadow: 0 1px 5px 0 $about-person-text-color;
   background-color: $about-person-text-color;
-  max-height: 300px;
+  position: relative;
+  padding-top: 100%;
 }
 
 .person__photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0;
   }
 
 .social_about {
@@ -113,7 +116,6 @@ $about-border-color: #02cead;
 
 @media (max-width: 767px) {
 
-
   .about-us {
     padding: 33px 20px 11px;
     border-bottom: 0;
@@ -127,7 +129,7 @@ $about-border-color: #02cead;
   .person {
     width: 100%;
     max-width: 390px;
-    margin: 0 0 24px 0;
+    margin: 0 0 60px 0;
   }
 
   .person__photo {
@@ -140,12 +142,5 @@ $about-border-color: #02cead;
 
   .person-description .description__text {
     padding-top: 2px;
-  }
-}
-
-@media(max-width:373px) {
-  .filter__button {
-    margin-right: 0;
-    padding: 0 3px
   }
 }
