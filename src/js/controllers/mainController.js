@@ -3,8 +3,10 @@ import FirebaseModel from '../models/firebaseModel';
 import MainView from '../views/mainView';
 import MainModel from '../models/mainModel';
 import getCurrentUserState from '../utils/getCurrentUserState';
+import startSpeakItGame from '../games/speak_it/speak_it-main';
+import AudiocallController from '../games/audiocall/Controller';
 import getWordsList from '../utils/getWordsList';
-import SavannahController from '../games/savannah-game/Controller';
+import createSavannaGame from '../games/savannah-game/Controller';
 import SprintController from '../games/sprint-game/controller/sprintController';
 import {
   MENU_ITEMS_NAMES,
@@ -20,6 +22,8 @@ import {
   SETTING_MODAL_TEXT,
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
+import DictionaryController from '../components/dictionary/dictionaryController';
+import Statistic from '../utils/renderStatisitcChar';
 
 export default class MainController {
   constructor() {
@@ -62,10 +66,15 @@ export default class MainController {
       const dataName = e.target.dataset.name;
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
+          this.dictionary = new DictionaryController(this.mainModel);
+          this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
+          this.stat = new Statistic();
+          this.stat.init();
           break;
         case MENU_ITEMS_NAMES.speakit:
+          startSpeakItGame(this.user, this.mainView);
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
           this.englishPuzzle = new EnglishPuzzleStart(
@@ -76,10 +85,11 @@ export default class MainController {
           this.englishPuzzle.start();
           break;
         case MENU_ITEMS_NAMES.audiocall:
+          this.audiocall = new AudiocallController(this.user, this.mainView);
+          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
           break;
         case MENU_ITEMS_NAMES.savannah:
-          this.savannah = new SavannahController(this.user, this.mainView);
-          this.savannah.init(this.setDefaultHash, this.getCurrentHash);
+          createSavannaGame(this);
           break;
         case MENU_ITEMS_NAMES.sprint:
           this.game = new SprintController();

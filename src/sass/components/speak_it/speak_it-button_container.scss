@@ -1,0 +1,61 @@
+@import "speak_it-constants";
+.button_container {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
+}
+.button {
+  width: 23vw;
+  padding: 10px 0;
+
+  text-align: center;
+  color: $color_text_hover;
+
+  background-color: $color_button;
+  border: 1px solid #bbbbbb;
+  border-color: $color_button;
+  border-radius: 7px;
+  cursor: pointer;
+
+  transition: background-color .5s ease-out;
+
+  user-select: none;
+
+@extend %text;
+
+@extend %box_shadow;
+}
+.button:hover {
+  color: $color_text;
+
+  background-color: $color_button_hover;
+  border-color: $color_button;
+}
+.button:active {
+  position: relative;
+  top: 1px;
+
+  color: $color_text;
+  text-shadow: none;
+
+  background: $color_button_hover;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 570px) {
+  .button {
+    width: 160px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 375px) {
+  .button_container {
+    display: block;
+
+    text-align: center;
+  }
+  .button {
+    margin-top: 10px;
+  }
+}
