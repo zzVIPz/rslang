@@ -76,9 +76,11 @@ export default class MainController {
           startSpeakItGame(this.user, this.mainView);
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
+          this.dailyStatistics.gameStartsStat('puzzle');
           this.englishPuzzle = new EnglishPuzzleStart(
             this.user,
             this.mainView,
+            this.dailyStatistics,
             this.setDefaultHash,
           );
           this.englishPuzzle.start();

@@ -7,8 +7,9 @@ import CONSTANTS from '../constants/constants';
 import getPage from '../helpers/getPage';
 
 export default class EnglishPuzzleController {
-  constructor(user, mainView, setDefaultHash) {
+  constructor(user, mainView, statistics, setDefaultHash) {
     this.user = user;
+    this.stat = statistics;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
     this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView, this.setDefaultHash);
@@ -61,6 +62,10 @@ export default class EnglishPuzzleController {
       }
       await this.getData();
       this.getPainting(difficult);
+    };
+
+    this.englishPuzzleView.onStatsUpdate = async (learnedWordsCount) => {
+      await this.stat.learnedWordsUpdate(learnedWordsCount);
     };
   }
 
