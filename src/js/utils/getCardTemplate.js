@@ -6,16 +6,8 @@ import {
   SETTING_MODAL_TEXT,
   WORD_LEARNING_MODES,
   WORD_COMPLEXITY,
+  CARD_TEXT,
 } from '../constants/constMainView';
-
-const CARD_TEXT = {
-  newWord: 'New word',
-  repeat: 'Repeat',
-  btnBeFamiliar: 'I KNOW',
-  btnToStudy: 'DIFFICULT WORD',
-  btnShowAnswer: 'SHOW ANSWER',
-  btnCheck: 'CHECK',
-};
 
 export default function getCardTemplate(card, settings) {
   const wordStatus = card.id ? CARD_TEXT.newWord : CARD_TEXT.repeat;

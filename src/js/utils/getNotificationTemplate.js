@@ -1,7 +1,6 @@
 import { NOTIFICATION_TEXT, SETTING_MODAL_TEXT } from '../constants/constMainView';
 
 const getText = ({ username, studyMode }, cardsAmount) => {
-  console.log('category', studyMode);
   let text = NOTIFICATION_TEXT.repeat;
   if (studyMode === SETTING_MODAL_TEXT.studySelect.difficult) {
     text = NOTIFICATION_TEXT.difficult;

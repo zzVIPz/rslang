@@ -7,7 +7,7 @@ const MENU_ITEMS_NAMES = {
   audiocall: 'audiocall',
   savannah: 'savannah',
   sprint: 'sprint',
-  newGame: 'new-game',
+  wordSearch: 'word-search',
   promoPage: 'promo-page',
   aboutTeam: 'about-team',
   logOut: 'log-out',
@@ -15,13 +15,14 @@ const MENU_ITEMS_NAMES = {
 
 const HASH_VALUES = {
   training: 'training',
-  audiocall: 'audiocall',
-  speakit: 'speakit',
+  audiocall: 'audiocall-game',
+  speakit: 'speakit-game',
   dictionary: 'dictionary',
   statistics: 'statistics',
-  englishPuzzle: 'english-puzzle',
-  savannah: 'savannah',
-  sprint: 'sprint',
+  englishPuzzle: 'english-puzzle-game',
+  savannah: 'savannah-game',
+  sprint: 'sprint-game',
+  wordSearch: 'word-search-game',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -158,6 +159,16 @@ const SHORT_STATISTICS_TEXT = {
   btnFinish: 'FINISH',
 };
 
+const CARD_TEXT = {
+  newWord: 'New word',
+  repeat: 'Repeat',
+  btnBeFamiliar: 'I KNOW',
+  btnToStudy: 'DIFFICULT WORD',
+  btnShowAnswer: 'SHOW ANSWER',
+  btnCheck: 'CHECK',
+  btnListen: 'LISTEN PRONUNCIATION',
+};
+
 const NOTIFICATION_TEXT = {
   btnAccept: 'OK',
   repeat: 'to repeat',
@@ -185,4 +196,5 @@ export {
   WORD_COMPLEXITY,
   SHORT_STATISTICS_TEXT,
   NOTIFICATION_TEXT,
+  CARD_TEXT,
 };
