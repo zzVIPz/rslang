@@ -1,7 +1,6 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
-import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
+import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
-import DEFAULT_STATISTIC from '../constants/constStatistic';
 
 const REQUEST_PARAMETERS = {
   url: 'https://afternoon-falls-25894.herokuapp.com/users/',
@@ -53,6 +52,7 @@ export default class MainModel {
         DEFAULT_USER_SETTINGS,
       );
       await this.setUserSettings(getUserSettingsBodyRequest(this.currentUser));
+      await this.setUserStatistic();
     }
   }
 
@@ -83,7 +83,7 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
 
-    if (this.onSetUserSettings !== null) {
+    if (this.onSetUserSettings) {
       this.onSetUserSettings(this.currentUser);
     }
 
@@ -182,24 +182,27 @@ export default class MainModel {
   };
 
   getUserStatistic = async () => {
-    const rawResponse = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
-      getBodyRequest('GET', this.token));
-    if (rawResponse.status === 404) {
-      console.log('Settings not found -- set default settings');
-      await this.setUserStatistic(DEFAULT_STATISTIC);
-      await this.getUserStatistic();
+    try {
+      const rawResponse = await fetch(
+        `${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+        getBodyRequest('GET', this.token),
+      );
+      const currentStatistic = await rawResponse.json();
+      console.log('getUserStatistic ', currentStatistic);
+      return currentStatistic;
+    } catch (error) {
+      console.log(error);
     }
-    const currentStatistic = await rawResponse.json();
-    console.log('now statistic object is: ', currentStatistic);
-    return currentStatistic;
-  }
+    return null;
+  };
 
-  // TODO rm statisticObject
-  setUserStatistic = async (statisticData) => {
-    const statisticObject = statisticData || DEFAULT_STATISTIC;
-    const rawResponse = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
-      getBodyRequest('PUT', this.token, statisticObject));
-    const currentStatistic = await rawResponse.json();
-    console.log('You set new statistic object', currentStatistic);
-  }
+  setUserStatistic = async (currentStatistic = DEFAULT_USER_STATISTIC) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+      getBodyRequest('PUT', this.token, currentStatistic),
+    );
+    const content = await rawResponse.json();
+
+    console.log('setUserStatistic', content);
+  };
 }

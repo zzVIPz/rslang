@@ -1,0 +1,30 @@
+
+.word-search__main-title {
+  color: $dark-main-color;
+  text-shadow: 0 -2px 0 $text-color;
+}
+
+.word-search__description {
+  color: $dark-main-color;
+  text-shadow: 0 1px 0 black;
+
+@include media-tablet {
+    color: white;
+  }
+
+@include media-mobile {
+    text-shadow: none;
+  }
+}
+
+.word-search_color {
+  text-shadow: 0 1px 0 $dark-main-color;
+}
+
+.word-search__rating_text {
+  color: $dark-main-color;
+}
+
+.word-search__rating-container {
+  height: 30%;
+}

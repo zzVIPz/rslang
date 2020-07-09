@@ -1,0 +1,333 @@
+.word-search__container {
+  height: 100%;
+
+  text-align: center;
+
+@include media-mobile {
+    width: 100%;
+    margin-top: 0;
+    padding: 0 40px;
+  }
+}
+
+.word-search__content {
+  position: relative;
+  z-index: 0;
+
+  width: 50%;
+  max-width: 500px;
+  height: 80%;
+  max-height: 450px;
+  margin-right: 10px;
+  overflow: hidden;
+
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0,0,0,.12);
+
+@include media-tablet {
+    margin: 0;
+  }
+
+@include media-mobile {
+    width: 90%;
+  }
+}
+
+.word-search__board {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 7px;
+
+  background: $dark-main-color;
+  &_inner {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    background: #ffffff;
+    border-radius: 10px;
+  }
+}
+
+.word-search__template {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+
+  height: 100%;
+  overflow: hidden;
+
+  font-size: 35px;
+  line-height: 63px;
+  color: #333333;
+}
+
+.word-search-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.word-search__title {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 0 0 0;
+
+  font-weight: bold;
+  font-size: 21px;
+  line-height: 1em;
+
+  opacity: 1.0;
+
+  transition: .25s opacity ease;
+
+@include media-mobile {
+    margin-bottom: 10px;
+  }
+
+  &_box {
+    display: inline-block;
+    width: 21px;
+    height: 20px;
+    margin: 0 3px 0 0;
+
+    line-height: 20px;
+    text-align: center;
+    color: $dark-main-color;
+
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  }
+}
+
+.W {
+  position: relative;
+  top: -1px;
+}
+
+.R {
+  position: relative;
+  top: -1px;
+}
+
+.word-search__title_search {
+  display: inline-block;
+  margin: 0 0 0 5px;
+
+  font-size: 21px;
+  color: white;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 10%;
+}
+
+.row7 {
+  height: 14.28571%;
+}
+
+.cell {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 9.28571%;
+  height: 100%;
+
+  vertical-align: top;
+  color: $dark-main-color;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  user-select: none;
+
+@include media-tablet {
+    font-size: 2rem;
+  }
+
+@include media-mobile {
+    font-size: 1.5rem;
+  }
+
+  &:hover {
+    background: $hover-color;
+  }
+}
+
+.word-search__words-container {
+  width: 40%;
+
+@include media-tablet {
+    width: 45%;
+  }
+
+@include media-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 90%;
+  }
+}
+
+.word-search__words {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 0 4px 0;
+  padding: 0;
+  padding: 20px;
+
+  list-style-type: none;
+  font-size: 18px;
+
+  background: $dark-main-color;
+  border-radius: 10px;
+
+@include media-tablet {
+    padding: 5px;
+    overflow: scroll;
+  }
+
+@include media-mobile {
+    justify-content: space-between;
+    width: 80%;
+    max-height: 48%;
+    padding: 0 10px;
+  }
+}
+
+.word {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 50px;
+  margin: 3px;
+  padding: 0 4px;
+
+  font-weight: 300;
+  font-size: 1.8rem;
+  line-height: 1em;
+  color: $text-color;
+  word-break: break-all;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+
+  border-radius: 5px;
+  cursor: pointer;
+
+  user-select: none;
+
+@include media-tablet {
+    height: 40px;
+
+    font-size: 1.5rem;
+  }
+
+@include media-mobile {
+    height: 20px;
+
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: $hover-color;
+  }
+}
+
+.game-field {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+@include media-tablet {
+    height: 90%;
+  }
+
+@include media-mobile {
+    flex-direction: column;
+  }
+}
+
+.word-search__chosen-letter {
+  background: $chosen-color;
+}
+
+.correct-word-1 {
+  background: $correct-word-color-1;
+}
+
+.correct-word-2 {
+  background: $correct-word-color-2;
+}
+
+.correct-word-3 {
+  background: $correct-word-color-3;
+}
+
+.correct-word-4 {
+  background: $correct-word-color-4;
+}
+
+.correct-word-5 {
+  background: $correct-word-color-5;
+}
+
+.correct-word-6 {
+  background: $correct-word-color-6;
+}
+
+.correct-word-7 {
+  background: $correct-word-color-7;
+}
+
+.correct-word-8 {
+  background: $correct-word-color-8;
+}
+
+.correct-word-9 {
+  background: $correct-word-color-9;
+}
+
+.correct-word-10 {
+  background: $correct-word-color-10;
+}
+
+.word-search__wrong-word {
+  background: $wrong-color;
+}
+
+.word-search__correct-translation {
+  text-decoration: line-through;
+
+  background: $hover-color;
+
+  pointer-events: none;
+}
+
+.word-search__lives {
+  color: $dark-main-color;
+}
+
+.word-search__hint {
+  background: $hint-color;
+}
