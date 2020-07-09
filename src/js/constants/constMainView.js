@@ -46,6 +46,20 @@ const DEFAULT_USER_SETTINGS = {
   btnShowAnswer: true,
 };
 
+const DEFAULT_USER_STATISTIC = {
+  learnedWords: 0,
+  optional: {
+    games: {
+      speakit: 0,
+      englishPuzzle: 0,
+      audiocall: 0,
+      savannah: 0,
+      sprint: 0,
+      wordSearch: 0,
+    },
+  },
+};
+
 const SETTING_MODAL_TEXT = {
   title: 'Welcome,',
   subtitle: 'Here you can set up your study profile',
@@ -197,4 +211,5 @@ export {
   SHORT_STATISTICS_TEXT,
   NOTIFICATION_TEXT,
   CARD_TEXT,
+  DEFAULT_USER_STATISTIC,
 };
