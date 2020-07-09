@@ -1,6 +1,9 @@
 .speakit-game,
 .english-puzzle-game,
-.savannah-game {
+.savannah-game,
+.audiocall-game,
+.sprint-game,
+.findWord-game {
   position: relative;
   z-index: 1;
 
@@ -43,19 +46,28 @@
 @media only screen and (max-width: 1199px) {
   .speakit-game__content p,
   .english-puzzle-game__content p,
-  .savannah-game__content p {
+  .savannah-game__content p,
+  .audiocall-game__content p,
+  .sprint-game__content p,
+  .findWord-game__content p {
     font-size: 1.3em;
   }
   .speakit-game__content h1,
   .english-puzzle-game__content h1,
-  .savannah-game__content h1 {
+  .savannah-game__content h1,
+  .audiocall-game__content h1,
+  .sprint-game__content h1,
+  .findWord-game__content h1{
     font-size: 3em;
   }
 }
 @media only screen and (max-width: 767px) {
   .speakit-game__content p,
   .english-puzzle-game__content p,
-  .savannah-game__content p {
+  .savannah-game__content p,
+  .audiocall-game__content p,
+  .sprint-game__content p,
+  .findWord-game__content p {
     width: 100%;
     max-width: 35em;
     padding: 0;
@@ -64,7 +76,10 @@
   }
   .speakit-game__content h1,
   .english-puzzle-game__content h1,
-  .savannah-game__content h1 {
+  .savannah-game__content h1,
+  .audiocall-game__content h1,
+  .sprint-game__content h1,
+  .findWord-game__content h1 {
     font-size: 2em;
   }
 }
