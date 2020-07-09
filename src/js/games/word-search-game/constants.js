@@ -79,7 +79,6 @@ const WORDS_CONTAINER = '<ul class="word-search__words"></ul>';
 
 const CHECK_BTN_TEXT = 'Проверить';
 const CLEAR_BTN_TEXT = 'Очистить';
-const NUMBER_OF_LIVES = 5;
 
 export {
   GAME_LAYOUT,
@@ -91,5 +90,4 @@ export {
   WORDS_CONTAINER,
   CHECK_BTN_TEXT,
   CLEAR_BTN_TEXT,
-  NUMBER_OF_LIVES,
 };

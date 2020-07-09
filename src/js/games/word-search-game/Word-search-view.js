@@ -12,6 +12,7 @@ import WordSearchStatistics from './Views/Word-search-statistic-view';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
+import compareArrayOfArrays from '../utils/compareArrayOfArrays';
 import {
   GAME_LAYOUT,
   GROUP_ROUND,
@@ -22,7 +23,6 @@ import {
   WORDS_CONTAINER,
   CLEAR_BTN_TEXT,
   CHECK_BTN_TEXT,
-  NUMBER_OF_LIVES,
 } from './constants';
 
 class WordSearchView extends SavannahView {
@@ -140,7 +140,7 @@ class WordSearchView extends SavannahView {
     this.renderContent();
     this.renderRows();
     this.renderWordsContainer();
-    this.matrixObj = this.model.getObjectOfMatrixWord();
+    this.matrixObj = this.model.fillMatrix(this.model.matrix, this.model.tenEngWordsArr);
     this.renderWord();
     this.renderMatrixWord(this.matrixObj.matrix);
     this.renderCheckBtn();
@@ -218,16 +218,17 @@ class WordSearchView extends SavannahView {
     }
   }
 
-  renderCell = (letter, rowNum) => {
+  renderCell = (letter, rowNum, colNum) => {
     const cell = document.createElement('div');
     cell.className = 'cell';
+    cell.id = (`${rowNum}-${colNum}`);
     cell.innerHTML = letter;
     document.querySelector(`.row-${rowNum}`).appendChild(cell);
   }
 
   renderMatrixWord(matrix) {
-    matrix.map((arr, index) => {
-      arr.map((letter) => this.renderCell(letter, index));
+    matrix.map((arr, rowIndex) => {
+      arr.map((letter, colIndex) => this.renderCell(letter, rowIndex, colIndex));
 
       return true;
     });
@@ -237,7 +238,7 @@ class WordSearchView extends SavannahView {
     this.checkBtn = document.createElement('div');
     this.checkBtn.className = ('app__button');
     this.checkBtn.classList.add('word-search__controllers');
-    this.checkBtn.classList.add('check');
+    this.checkBtn.classList.add('word-search__controllers_check');
     this.checkBtn.innerHTML = CHECK_BTN_TEXT;
     this.controllersContainer.appendChild(this.checkBtn);
   }
@@ -246,7 +247,7 @@ class WordSearchView extends SavannahView {
     this.clearBtn = document.createElement('div');
     this.clearBtn.className = ('app__button');
     this.clearBtn.classList.add('word-search__controllers');
-    this.clearBtn.classList.add('clear');
+    this.clearBtn.classList.add('word-search__controllers_clear');
     this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
     this.controllersContainer.appendChild(this.clearBtn);
   }
@@ -268,6 +269,7 @@ class WordSearchView extends SavannahView {
 
     if (target.classList.contains('cell')) {
       if (!chosenLetter && !correctWord) {
+        this.getCoordinates(target);
         target.classList.add('word-search__chosen-letter');
         this.model.chosenWord.push(target.textContent.toLowerCase());
         console.log(this.model.chosenWord);
@@ -275,45 +277,73 @@ class WordSearchView extends SavannahView {
     }
   }
 
+  getCoordinates(target) {
+    let letterCoords = (target.id).split('-');
+    letterCoords = letterCoords.map((coo) => Number(coo));
+    this.model.wordCoordinates.push(letterCoords);
+  }
+
   onCheckBtnClick() {
+    let isRightAnswer = false;
+    let isRightLetters = false;
+
     if (this.model.chosenWord.length > 0) {
       this.chosenWordString = this.model.chosenWord.join('');
       this.allCells = Array.from(document.querySelectorAll('.cell'));
+      console.log('coords', this.model.wordCoordinates);
 
       const {
         chosenWordTranslation, chosenWordAudio,
       } = this.model.getChosenWordData(this.chosenWordString);
       this.currentTranslation = chosenWordTranslation;
       this.currentAudio = chosenWordAudio;
+      this.model.tenEngWordsArr = this.model.tenEngWordsArr.map((el) => el.toLowerCase());
 
-      if (this.model.tenEngWordsArr.includes(this.chosenWordString)) {
+      console.log(this.model.tenEngWordsArr);
+
+      this.currentWordIdInArr = this.model.tenEngWordsArr.indexOf(this.chosenWordString);
+
+      if (this.currentWordIdInArr !== -1) {
+        isRightLetters = true;
+        const currentCoordsArr = this.matrixObj.coords[this.currentWordIdInArr];
+        isRightAnswer = compareArrayOfArrays(currentCoordsArr, this.model.wordCoordinates);
+        console.log(isRightAnswer);
+        console.log(currentCoordsArr);
+        console.log(this.model.wordCoordinates);
+      }
+
+      if (isRightAnswer) {
         this.correctWordActions();
-        this.currentWordIdInArr = this.model.tenEngWordsArr.indexOf(this.chosenWordString);
 
         removeElFromArr(this.model.tenEngWordsArr, this.currentWordIdInArr);
         removeElFromArr(this.model.tenTranslationsArray, this.currentWordIdInArr);
         removeElFromArr(this.model.tenAudioArray, this.currentWordIdInArr);
         removeElFromArr(this.model.tenWordsId, this.currentWordIdInArr);
+        removeElFromArr(this.matrixObj.coords, this.currentWordIdInArr);
         console.log(this.model.tenEngWordsArr);
         console.log(this.model.tenTranslationsArray);
         console.log(this.model.tenAudioArray);
         console.log(this.model.tenWordsId);
+        this.allWordsFound();
       } else {
-        this.wrongWordActions();
+        this.wrongWordActions(isRightLetters);
       }
     }
   }
 
   correctWordActions() {
-    this.rightAnswersCounter += 1;
+    this.model.rightAnswersCounter += 1;
     const engWordSound = getMediaUrl(this.currentAudio);
 
     this.addStylesToCorrectTranslation();
     this.correctSound.play();
     playAudio(engWordSound);
+    // TODO set default par;
     this.model.chosenWord = [];
+    this.model.wordCoordinates = [];
     this.allCells.map((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word');
+      addStyle(cell, 'word-search__chosen-letter', `correct-word-${this.model.rightAnswersCounter}`);
       removeStyle(cell, 'word-search__chosen-letter');
 
       return true;
@@ -325,9 +355,11 @@ class WordSearchView extends SavannahView {
     );
   }
 
-  wrongWordActions() {
-    this.model.wrongAnswerCounter += 1;
-    this.removeLives();
+  wrongWordActions(isRightLetters) {
+    if (!isRightLetters) {
+      this.model.wrongAnswerCounter += 1;
+      this.removeLives();
+    }
     this.errorSound.play();
     this.allCells.map((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__wrong-word');
@@ -338,7 +370,9 @@ class WordSearchView extends SavannahView {
       return true;
     });
     this.onClearBtnClick();
+    // TODO set Default
     this.model.chosenWord = [];
+    this.model.wordCoordinates = [];
   }
 
   addStylesToCorrectTranslation() {
@@ -352,21 +386,25 @@ class WordSearchView extends SavannahView {
     });
   }
 
-  removeLives() {
+  /* removeLives() {
     super.removeLives();
     if (this.model.wrongAnswerCounter === NUMBER_OF_LIVES) {
       this.addNotGuessedWordToWrongWords();
     }
-  }
+  } */
 
   onClearBtnClick = () => {
     this.allCells = Array.from(document.querySelectorAll('.cell'));
     this.allCells.map((cell) => removeStyle(cell, 'word-search__chosen-letter'));
     this.model.chosenWord = [];
+    this.model.wordCoordinates = [];
   }
 
   renderGameOver(isWin) {
-    this.incorrectWordsIdArr = this.model.incorrectWordsId;
+    this.addNotGuessedWordToWrongWords();
+
+    // TODO array with id of incorrect answers;
+    this.incorrectWordsIdArr = this.model.tenWordsId;
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
     document.querySelector('.word-search__app').removeChild(this.wordSearchContainer);
@@ -392,6 +430,12 @@ class WordSearchView extends SavannahView {
 
           return true;
         });
+    }
+  }
+
+  allWordsFound() {
+    if (this.model.tenEngWordsArr.length === 0) {
+      this.renderGameOver(true);
     }
   }
 

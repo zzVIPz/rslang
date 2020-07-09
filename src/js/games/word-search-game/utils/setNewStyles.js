@@ -8,6 +8,7 @@ const setNewStyle = () => {
 
   if (document.querySelector('.statistics')) {
     document.querySelector('.statistics').classList.add('word-search__statistics');
+    document.querySelector('.wrong_title').classList.add('word-search__wrong-title');
   }
 
   Array.from(document.querySelectorAll('.text'))

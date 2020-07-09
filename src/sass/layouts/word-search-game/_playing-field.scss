@@ -164,6 +164,7 @@
 @include media-mobile {
     font-size: 1.5rem;
   }
+
   &:hover {
     background: $hover-color;
   }
@@ -188,6 +189,7 @@
 .word-search__words {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   margin: 0 0 4px 0;
   padding: 0;
   padding: 20px;
@@ -216,12 +218,13 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  width: 45%;
   height: 50px;
+  margin: 3px;
   padding: 0 4px;
 
   font-weight: 300;
-  font-size: 2rem;
+  font-size: 1.8rem;
   line-height: 1em;
   color: $text-color;
   word-break: break-all;
@@ -243,6 +246,7 @@
 
     font-size: 1rem;
   }
+
   &:hover {
     background: $hover-color;
   }
@@ -264,21 +268,48 @@
   }
 }
 
-.finish-icon {
-  width: 48px;
-  height: 100%;
-
-  background-image: url("/src/assets/images/finish.png");
-  background-size: cover;
-  cursor: pointer;
-}
-
 .word-search__chosen-letter {
   background: $chosen-color;
 }
 
-.word-search__correct-word {
-  background: $correct-word-color;
+.correct-word-1 {
+  background: $correct-word-color-1;
+}
+
+.correct-word-2 {
+  background: $correct-word-color-2;
+}
+
+.correct-word-3 {
+  background: $correct-word-color-3;
+}
+
+.correct-word-4 {
+  background: $correct-word-color-4;
+}
+
+.correct-word-5 {
+  background: $correct-word-color-5;
+}
+
+.correct-word-6 {
+  background: $correct-word-color-6;
+}
+
+.correct-word-7 {
+  background: $correct-word-color-7;
+}
+
+.correct-word-8 {
+  background: $correct-word-color-8;
+}
+
+.correct-word-9 {
+  background: $correct-word-color-9;
+}
+
+.correct-word-10 {
+  background: $correct-word-color-10;
 }
 
 .word-search__wrong-word {
@@ -286,9 +317,11 @@
 }
 
 .word-search__correct-translation {
-  background: $hover-color;
-  pointer-events: none;
   text-decoration: line-through;
+
+  background: $hover-color;
+
+  pointer-events: none;
 }
 
 .word-search__lives {

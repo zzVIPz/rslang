@@ -8,6 +8,7 @@ class WordSearchModel extends SavannahModel {
     this.consonants = 'bcdfghjklmnpqrstvwxyz';
     this.vowels = 'aeiou';
     this.chosenWord = [];
+    this.wordCoordinates = [];
   }
 
   getRandomLetter() {
@@ -77,7 +78,7 @@ class WordSearchModel extends SavannahModel {
     let topTry = 0;
     let count = 0;
 
-    while (count <= numberOfLetterInWord) {
+    while (count < numberOfLetterInWord) {
       topTry += 1;
 
       if (topTry > 200) {
@@ -110,7 +111,7 @@ class WordSearchModel extends SavannahModel {
     let tryCount = 0;
     let newRow = r;
     let newCol = c;
-    while (count <= n) {
+    while (count < n) {
       tryCount += 1;
       const newCoords = this.moveCell(newRow, newCol, matrix.length, matrix[0].length);
 
@@ -145,15 +146,18 @@ class WordSearchModel extends SavannahModel {
     // TODO to utils
     let newMatrix = matrix.map((arr) => arr.slice());
     const usedWords = [];
+    const arrWithCoordinates = [];
 
     wordsArr.map((word) => {
-      const tmp = this.getFreeCells(newMatrix, word.length);
+      const wordCoords = this.getFreeCells(newMatrix, word.length);
+      console.log('temp', wordCoords);
 
-      if (tmp) {
+      if (wordCoords) {
         usedWords.push(word);
+        arrWithCoordinates.push(wordCoords);
 
         (word.split('')).map((el, index) => {
-          newMatrix[tmp[index][0]][tmp[index][1]] = el.toUpperCase();
+          newMatrix[wordCoords[index][0]][wordCoords[index][1]] = el.toUpperCase();
 
           return true;
         });
@@ -164,7 +168,7 @@ class WordSearchModel extends SavannahModel {
 
     newMatrix = this.fillEmptyCells(newMatrix);
 
-    return { words: usedWords, matrix: newMatrix };
+    return { matrix: newMatrix, words: usedWords, coords: arrWithCoordinates };
   }
 
   fillEmptyCells = (matrix, defaultPar = '#') => {
@@ -196,15 +200,6 @@ class WordSearchModel extends SavannahModel {
 
       return true;
     });
-  }
-
-  getObjectOfMatrixWord() {
-    const matrixAndWords = this.fillMatrix(this.matrix, this.tenEngWordsArr);
-    const { words, matrix } = matrixAndWords;
-    console.log(this.tenTranslationsArray);
-    console.log(words);
-
-    return { matrix, words };
   }
 
   getChosenWordData(str) {

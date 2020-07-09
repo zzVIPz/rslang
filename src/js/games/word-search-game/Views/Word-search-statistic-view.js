@@ -5,6 +5,11 @@ class WordSearchStatistics extends GameStatistics {
     super();
     this.us = '';
   }
+
+  renderWrongAnswersTitle() {
+    this.wrongTitle = document.querySelector('.word-search__wrong-title');
+    this.wrongTitle.innerHTML = `Неотгаданно: ${this.model.tenEngWordsArr.length}`;
+  }
 }
 
 export default WordSearchStatistics;
