@@ -37,10 +37,7 @@ export default class Controller {
     this.user = user;
     this.mainModel = new MainModel();
     this.mainView = mainView;
-   
-    increaseGameStatistic("speak");
-    
-    // this.mainModel.getUserStatistic(); remove comment after add statistic PR
+    // increaseGameStatistic('speak'); 
   }
 
   initGame() {

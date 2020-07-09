@@ -1,7 +1,7 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
 import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
-import { DEFAULT_STATISTIC } from '../constants/constStatistic';
+import { DEFAULT_STATISTIC, DEFAULT_STATISTIC2 } from '../constants/constStatistic';
 
 const REQUEST_PARAMETERS = {
   url: 'https://afternoon-falls-25894.herokuapp.com/users/',
@@ -188,9 +188,9 @@ export default class MainModel {
 
   setUserStatistic = async (statisticData) => {
     const statisticObject = statisticData || DEFAULT_STATISTIC;
-    // console.log(statisticObject);
-    await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
-      getBodyRequest('PUT', this.token, statisticObject));
-    console.log('You set new statistic object', statisticObject);
+    const rawResponse = await fetch(`${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+      getBodyRequest('PUT', this.token, statisticObject))
+    const currentStatistic = await rawResponse.json();
+    console.log('You set new statistic object', currentStatistic);
   }
 }

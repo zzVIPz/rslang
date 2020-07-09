@@ -23,6 +23,8 @@ import {
 } from '../constants/constMainView';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
+import Statistic from '../utils/renderStatisitcChar'
+
 
 export default class MainController {
   constructor() {
@@ -68,6 +70,8 @@ export default class MainController {
           this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
+          this.stat = new Statistic();
+          this.stat.init();
           break;
         case MENU_ITEMS_NAMES.speakit:
           startSpeakItGame(this.user, this.mainView);
