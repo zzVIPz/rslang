@@ -1,0 +1,18 @@
+.word-search__start-btn {
+  background: $dark-main-color;
+  border: 1px solid white;
+
+  &:hover {
+    color: $main-color;
+
+    border: 1px solid $dark-main-color;
+  }
+}
+
+.word-search_cancel {
+  color: $dark-main-color;
+}
+
+.word-search_close {
+  background: $dark-main-color;
+}
