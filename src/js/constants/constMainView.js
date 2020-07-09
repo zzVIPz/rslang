@@ -58,6 +58,7 @@ const SETTING_MODAL_TEXT = {
     newWords: 'NEW WORDS',
     repeat: 'REPEAT',
     mixed: 'MIXED',
+    difficult: 'DIFFICULT',
   },
   textMode: 'How do you prefer to learn words?',
   textSelect: {
@@ -159,6 +160,8 @@ const SHORT_STATISTICS_TEXT = {
 
 const NOTIFICATION_TEXT = {
   btnAccept: 'OK',
+  repeat: 'to repeat',
+  difficult: 'from the difficult category',
 };
 
 export {

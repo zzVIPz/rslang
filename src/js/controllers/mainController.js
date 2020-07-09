@@ -112,21 +112,23 @@ export default class MainController {
       }
     };
 
-    this.mainView.onBtnStartClick = async (user) => {
+    this.mainView.onBtnStartClick = async () => {
       await this.setDefaultState();
       this.mainView.setSwiperDefaultState();
-      const wordsList = await this.getWordsList(user.studyMode);
+      const wordsList = await this.getWordsList(this.user.studyMode);
       if (wordsList.length) {
         this.mainView.renderSwiperTemplate();
         this.initSwiper();
-        this.mainView.renderCards(wordsList, user, this.swiper);
+        this.mainView.renderCards(wordsList, this.user, this.swiper);
         this.swiper.update();
         this.mainView.disableSwiperNextSlide();
         this.mainView.setFocusToInput();
         this.setCurrentHash(HASH_VALUES.training);
       }
+
       if (
         this.aggregatedWords.length
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
         && this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
       ) {
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
@@ -134,9 +136,15 @@ export default class MainController {
       if (
         !this.aggregatedWords.length
         && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
-        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.mixed
       ) {
         this.mainView.showNotificationAboutRepeat(this.user);
+      }
+      if (
+        this.aggregatedWords.length
+        && this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult
+        && this.aggregatedWords.length < this.user.cardsTotal
+      ) {
+        this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
     };
 
@@ -256,6 +264,7 @@ export default class MainController {
 
   async getWordsList(studyMode) {
     let repeatWordsAmount = this.user.cardsTotal - this.user.cardsNew;
+    let difficultWordsAmount = 0;
     this.newWordsAmount = this.user.cardsNew;
 
     if (studyMode === SETTING_MODAL_TEXT.studySelect.newWords) {
@@ -265,6 +274,11 @@ export default class MainController {
     if (studyMode === SETTING_MODAL_TEXT.studySelect.repeat) {
       this.newWordsAmount = 0;
       repeatWordsAmount = this.user.cardsTotal;
+    }
+    if (studyMode === SETTING_MODAL_TEXT.studySelect.difficult) {
+      this.newWordsAmount = 0;
+      repeatWordsAmount = 0;
+      difficultWordsAmount = this.user.cardsTotal;
     }
 
     this.aggregatedWords = [];
@@ -283,9 +297,22 @@ export default class MainController {
       }
     }
 
+    if (difficultWordsAmount) {
+      this.aggregatedWords = await this.mainModel.getAggregatedWords(
+        {
+          [WORDS_STATUS.userWord]: `${WORDS_STATUS.difficult}`,
+        },
+        difficultWordsAmount,
+      );
+      this.aggregatedWords = this.aggregatedWords[0].paginatedResults;
+    }
+
     let wordsList = [];
 
-    if (studyMode !== SETTING_MODAL_TEXT.studySelect.repeat) {
+    if (
+      studyMode !== SETTING_MODAL_TEXT.studySelect.repeat
+      && studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
+    ) {
       const totalPagesRequest = Math.ceil(
         (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
       );
