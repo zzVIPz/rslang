@@ -9,3 +9,6 @@ const DEFAULT_STATISTIC = {
 };
 
 export default DEFAULT_STATISTIC;
+export const CHART_CONTAINER = '<div id="chartContainer" style="height: 600px; width: 90%;"></div>';
+export const SECONDS_IN_DAY = 86400000;
+export const GRID_DENSITY = 100;

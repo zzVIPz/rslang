@@ -36,14 +36,12 @@ export default class Controller {
     this.user = user;
     this.mainModel = new MainModel();
     this.mainView = mainView;
-    // this.mainModel.getUserStatistic(); remove comment after add statistic PR
   }
 
   initGame() {
     this.createSpeachrecognition();
     this.model = new Model();
     this.view = new View();
-
     this.view.setStarsTop(this.startGroup, this.startRound);
     this.onload();
     this.chooseCard();
