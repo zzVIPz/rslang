@@ -111,7 +111,7 @@ class AudiocallView {
   clickStartGameBtn() {
     this.startBtn.addEventListener('click', () => {
       this.chosenLevel = this.level || 0;
-      this.chosenRound = this.round || 0;
+      this.chosenRound = this.rounds || 0;
       this.introPage.classList.add('hide');
       this.levelsContainer.classList.add('hide');
       this.roundContainer.classList.add('hide');
@@ -141,8 +141,8 @@ class AudiocallView {
   addWordsEl = async (wordsArray) => {
     if (wordsArray.length && this.isGameOn) {
       const dataWords = await this.model.getWordsForAnswers(wordsArray[0].wordTranslate);
-      if (dataWords.length !== 0) {
-        this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[4].word];
+      if (dataWords.length >= 3) {
+        this.WrongWordsArray = [dataWords[0].word, dataWords[1].word, dataWords[2].word];
       } else {
         this.WrongWordsArray = EMPTY_ARRAY;
       }
@@ -273,8 +273,8 @@ class AudiocallView {
     });
 
     this.choosenAnswer.addEventListener('click', ({ target }) => {
-      this.addPointerEvents();
       if (target.classList.contains('container-game__trainings-audiocall__answer')) {
+        this.addPointerEvents();
         if (target.id === `answer-${this.model.positionAnswerArray[0]}`) {
           playAudio(this.correctSound);
           shuffleArray(COLOR_ARRAY);
@@ -322,8 +322,8 @@ class AudiocallView {
       .querySelectorAll('#choosen-answer .audiocall__answer--incorrect')
       .forEach((el) => el.classList.remove('audiocall__answer--incorrect'));
     document
-      .querySelector(`#answer-${this.model.positionAnswerArray[0]}`)
-      .classList.remove('audiocall__answer--correct');
+      .querySelectorAll('#choosen-answer .audiocall__answer--correct')
+      .forEach((el) => el.classList.remove('audiocall__answer--correct'));
     this.addWordsEl(this.wordsArray);
   }
 
@@ -406,10 +406,7 @@ class AudiocallView {
 
   getLevels() {
     this.levelButtons.addEventListener('click', ({ target }) => {
-      if (
-        this.getCurrentHash() === HASH_VALUES.audiocall
-        && target.classList.contains('audiocall__level__label')
-      ) {
+      if (target.classList.contains('audiocall__level__label')) {
         this.level = target.dataset.level;
       }
     });
@@ -417,8 +414,8 @@ class AudiocallView {
 
   getRounds() {
     this.roundButtons.addEventListener('click', ({ target }) => {
-      if (this.getCurrentHash() === HASH_VALUES.audiocall) {
-        this.round = target.dataset.round;
+      if (target.classList.contains('select__label')) {
+        this.rounds = target.dataset.round;
       }
     });
   }
