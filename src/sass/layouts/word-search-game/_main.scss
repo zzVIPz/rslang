@@ -1,0 +1,40 @@
+.word-search__app {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh - 93px);
+}
+
+.word-search__start-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+@include media-mobile {
+    margin-top: 0;
+  }
+}
+
+.word-search__background {
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+
+  background-image: url("/src/assets/images/word-search-bg.png");
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-size: cover;
+
+  transition: all 1s ease;
+}
+
+.word-search_hide {
+  display: none;
+}
+
+.word-search__statistics {
+  width: 80%;
+}
+
