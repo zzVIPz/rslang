@@ -7,7 +7,7 @@ const MENU_ITEMS_NAMES = {
   audiocall: 'audiocall',
   savannah: 'savannah',
   sprint: 'sprint',
-  newGame: 'new-game',
+  wordSearch: 'word-search',
   promoPage: 'promo-page',
   aboutTeam: 'about-team',
   logOut: 'log-out',
@@ -15,14 +15,14 @@ const MENU_ITEMS_NAMES = {
 
 const HASH_VALUES = {
   training: 'training',
-  audiocall: 'audiocall',
-  speakit: 'speakit',
+  audiocall: 'audiocall-game',
+  speakit: 'speakit-game',
   dictionary: 'dictionary',
   statistics: 'statistics',
-  englishPuzzle: 'english-puzzle',
-  savannah: 'savannah',
-  sprint: 'sprint',
-  newGame: 'new-game',
+  englishPuzzle: 'english-puzzle-game',
+  savannah: 'savannah-game',
+  sprint: 'sprint-game',
+  wordSearch: 'word-search-game',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -46,6 +46,20 @@ const DEFAULT_USER_SETTINGS = {
   btnShowAnswer: true,
 };
 
+const DEFAULT_USER_STATISTIC = {
+  learnedWords: 0,
+  optional: {
+    games: {
+      speakit: 0,
+      englishPuzzle: 0,
+      audiocall: 0,
+      savannah: 0,
+      sprint: 0,
+      wordSearch: 0,
+    },
+  },
+};
+
 const SETTING_MODAL_TEXT = {
   title: 'Welcome,',
   subtitle: 'Here you can set up your study profile',
@@ -59,6 +73,7 @@ const SETTING_MODAL_TEXT = {
     newWords: 'NEW WORDS',
     repeat: 'REPEAT',
     mixed: 'MIXED',
+    difficult: 'DIFFICULT',
   },
   textMode: 'How do you prefer to learn words?',
   textSelect: {
@@ -158,8 +173,20 @@ const SHORT_STATISTICS_TEXT = {
   btnFinish: 'FINISH',
 };
 
+const CARD_TEXT = {
+  newWord: 'New word',
+  repeat: 'Repeat',
+  btnBeFamiliar: 'I KNOW',
+  btnToStudy: 'DIFFICULT WORD',
+  btnShowAnswer: 'SHOW ANSWER',
+  btnCheck: 'CHECK',
+  btnListen: 'LISTEN PRONUNCIATION',
+};
+
 const NOTIFICATION_TEXT = {
   btnAccept: 'OK',
+  repeat: 'to repeat',
+  difficult: 'from the difficult category',
 };
 
 export {
@@ -183,4 +210,6 @@ export {
   WORD_COMPLEXITY,
   SHORT_STATISTICS_TEXT,
   NOTIFICATION_TEXT,
+  CARD_TEXT,
+  DEFAULT_USER_STATISTIC,
 };
