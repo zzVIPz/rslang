@@ -1,9 +1,26 @@
+$about-header-color: #666d89;
+$about-text-color: #666d89;
+$about-person-header-color:#666d89;
+$about-person-text-color:#666d89;
+$about-border-color: #02cead;
 
 .about-us {
   padding: 59px 30px 18px;
-  color: #666d89;
+  color: $about-text-color;
   &__header{
     text-align: center;
+    text-transform: uppercase;
+    color: $about-header-color;
+  }
+  &__text{
+    text-align: justify;
+    color: $about-text-color;
+
+    &_centered{
+      text-align: center;
+      width: 100%;
+      margin-bottom: 24px;
+    }
   }
   &__cards-block{
     display: flex;
@@ -13,9 +30,6 @@
   }
 
 }
-
-
-
 
 .person {
   display: flex;
@@ -28,17 +42,16 @@
   width: 100%;
   margin-bottom: 10px;
   overflow: hidden;
+  box-shadow: 0 1px 5px 0 $about-person-text-color;
+  background-color: $about-person-text-color;
+  max-height: 300px;
 }
 
 .person__photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.person-description {
-  padding-bottom: 24px;
-}
+  }
 
 .social_about {
   margin-top: auto;
@@ -46,42 +59,33 @@
 }
 
 .social__item {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
   height: 32px;
   width: 32px;
-  border: solid 1px;
+  box-shadow: 0 1px 3px 0 $about-person-text-color;
   border-radius: 50%;
   background-position: center;
-  background-size: 14px;
+  background-size: 34px;
   background-repeat: no-repeat;
+  background-image: url(/src/assets/svg/github.svg);
+  background-color: $about-person-text-color;
+  color: $about-person-text-color;
+  &:hover{
+    cursor: pointer;
+    color: $about-border-color;
+    background-color: $about-border-color;
+    box-shadow: 0 1px 3px 0 $about-border-color;
+  }
 }
-
+.github-name{
+  position: relative;
+  left: 40px;
+}
 .social :not(:last-child) {
   margin-right: 4px;
 }
-
-.social__item:hover {
-  cursor: pointer;
-  background-color: #ffffff;
-}
-
-.facebook {
-  background-image: url();
-  background-size: 8px;
-}
-
-.google {
-  background-image: url();
-}
-
-.twitter {
-  background-image: url();
-}
-
-.linkedin {
-  background-image: url();
-}
-
 
 @media (min-width: 768px) and (max-width: 1019px) {
     .about-us {
@@ -98,7 +102,7 @@
   }
 
   .person-description {
-    padding-bottom: 12px;
+    padding-bottom: 10px;
   }
 
   .person-description .description__text {
@@ -131,7 +135,7 @@
   }
 
   .person-description {
-    padding-bottom: 12px;
+    padding-bottom: 10px;
   }
 
   .person-description .description__text {
