@@ -1,168 +1,109 @@
 .promo-container {
   width: 100%;
-  min-width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-.speakit-game,
-.english-puzzle-game,
-.savannah-game,
-.audiocall-game,
-.sprint-game,
-.findWord-game {
-  position: relative;
-  z-index: 1;
+  height: 100%;
+  min-width: 98.4vw;
 
-  box-sizing: border-box;
-  width: 100%;
-  padding-bottom: 18vh;
-  overflow: hidden;
-  &__image-block {
-    height: unset;
-    min-height: unset;
-  }
-  &__image-block img {
-    width: 100%;
-    height: unset;
-  }
-  &__content {
+  background: #108cc1;
+  &__speakit,
+  &__english-puzzle,
+  &__savannah,
+  &__audiocall,
+  &__sprint,
+  &__find-word {
     position: relative;
-    z-index: 1;
 
-    margin: 12vh auto 0 auto;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 65%;
+    min-width: 0;
+    margin: 3em auto;
+    padding-bottom: 2em;
 
-    text-align: center;
-    color: #000000;
-  }
-  &__content h1 {
-    padding-bottom: 10vh;
+    word-wrap: break-word;
 
-    font-weight: 700;
-    font-size: 4vw;
-    font-family: "Balsamiq Sans", cursive;
-    color: #0086cb;
-    text-transform: uppercase;
-  }
-  &__content p {
-    width: 80vw;
-    margin: 3% auto 0 auto;
+    background-color: #ffffff;
 
-    font-weight: 700;
-    font-size: 1.2vw;
-    line-height: 1.25;
-    font-family: "Balsamiq Sans", cursive;
-    text-transform: uppercase;
+    -webkit-clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
+            clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
   }
 }
-.header-line {
-  position: absolute;
-  top: -120px;
-  right: 0;
-  left: 0;
-  z-index: -1;
-
-  text-align: center;
-}
-.header-line img {
-  width: 75vw;
-  max-width: 1010px;
-}
-.line {
-  margin-top: 9vh;
-
-  text-align: center;
-}
-.line img {
+.speakit__image,
+.english-puzzle__image,
+.savannah__image,
+.audiocall__image,
+.sprint__image,
+.find-word__image {
   width: 100%;
-  height: 14vh;
+
+  background-color: #ffff00;
 }
-@media only screen and (max-width: 1199px) {
-  .header-line {
-    top: -102px;
-  }
-  .speakit-game__content p,
-  .english-puzzle-game__content p,
-  .savannah-game__content p,
-  .audiocall-game__content p,
-  .sprint-game__content p,
-  .findWord-game__content p {
-    font-size: 1.3em;
-  }
-  .speakit-game__content h1,
-  .english-puzzle-game__content h1,
-  .savannah-game__content h1,
-  .audiocall-game__content h1,
-  .sprint-game__content h1,
-  .findWord-game__content h1 {
-    font-size: 3em;
-  }
+.speakit__content,
+.english-puzzle__content,
+.savannah__content,
+.audiocall__content,
+.sprint__content,
+.find-word__content {
+  -webkit-flex: 1 1 auto;
+          flex: 1 1 auto;
+  padding: 1.5em 1.25em;
+
+  text-align: center;
+
+      -ms-flex: 1 1 auto;
 }
-@media only screen and (max-width: 1035px) {
-  .header-line {
-    top: -81px;
-  }
+.speakit__title,
+.english-puzzle__title,
+.savannah__title,
+.audiocall__title,
+.sprint__title,
+.find-word__title {
+  margin: 0;
+
+  font-size: 2em;
+  line-height: .7;
+  color: #333333;
+  text-transform: uppercase;
 }
-@media only screen and (max-width: 810px) {
-  .speakit-game__content h1,
-  .english-puzzle-game__content h1,
-  .savannah-game__content h1,
-  .audiocall-game__content h1,
-  .sprint-game__content h1,
-  .findWord-game__content h1 {
-    font-size: 1.9em;
-  }
-  .header-line {
-    top: -65px;
-  }
+.speakit__description,
+.english-puzzle__description,
+.savannah__description,
+.audiocall__description,
+.sprint__description,
+.find-word__description {
+  padding: 0;
 }
-@media only screen and (max-width: 767px) {
-  .speakit-game__content p,
-  .english-puzzle-game__content p,
-  .savannah-game__content p,
-  .audiocall-game__content p,
-  .sprint-game__content p,
-  .findWord-game__content p {
+.speakit__description p,
+.english-puzzle__description p,
+.savannah__description p,
+.audiocall__description p,
+.sprint__description p,
+.find-word__description p {
+  width: 80%;
+  margin: 5vh auto 0 auto;
+
+  font-weight: 700;
+  font-size: .89em;
+  line-height: 1.25em;
+  font-family: OpenSans, sans-serif;
+  color: #333333;
+  text-transform: none;
+}
+img {
+  vertical-align: middle;
+
+  border: 0;
+}
+@media only screen and (max-width: 550px) {
+  .speakit__description p, 
+  .english-puzzle__description p, 
+  .savannah__description p, 
+  .audiocall__description p, 
+  .sprint__description p, 
+  .find-word__description p {
     width: 100%;
-    max-width: 35em;
-    padding: 0;
-
-    font-size: 1em;
-  }
-  .speakit-game__content h1,
-  .english-puzzle-game__content h1,
-  .savannah-game__content h1,
-  .audiocall-game__content h1,
-  .sprint-game__content h1,
-  .findWord-game__content h1 {
-    font-size: 1.4em;
   }
 }
-@media only screen and (max-width: 634px) {
-  .header-line {
-    top: -47px;
-  }
-}
-@media only screen and (min-width: 460px) and (max-width: 482px) {
-  .speakit-game__content h1,
-  .english-puzzle-game__content h1,
-  .savannah-game__content h1,
-  .audiocall-game__content h1,
-  .sprint-game__content h1,
-  .findWord-game__content h1 {
-    font-size: 1.5em;
-  }
-}
-@media only screen and (max-width: 482px) {
-  .header-line {
-    top: -27px;
-  }
-  .speakit-game__content h1,
-  .english-puzzle-game__content h1,
-  .savannah-game__content h1,
-  .audiocall-game__content h1,
-  .sprint-game__content h1,
-  .findWord-game__content h1 {
-    font-size: 1em;
-  }
-}
-
