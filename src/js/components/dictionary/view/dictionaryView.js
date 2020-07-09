@@ -24,6 +24,7 @@ export default class DictionaryController {
   }
 
   renderLines(data, user, state) {
+    console.log(data);
     this.domElements.wordsData.innerHTML = '';
     if (!data.length) {
       const noWords = document.createElement('div');
