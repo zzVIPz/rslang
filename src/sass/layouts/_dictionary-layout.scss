@@ -61,7 +61,7 @@
 .dict {
   &__word-line {
     display: flex;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
   }
   &__word-audio {
     width: 2.6rem;
@@ -165,6 +165,22 @@
     text-align: center;
     color: #f56714;
     text-transform: uppercase;
+  }
+  &__optional {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  &__repeatCounter,
+  &__lastTimeRepeat {
+    margin-left: 3.6rem;
+
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: #2582e7;
+    & > span {
+      color: #000000;
+    }
   }
 }
 
@@ -355,6 +371,10 @@
   .dictModal__textExampleTranslate {
     margin-left: 2.2rem;
   }
+  .dict__repeatCounter,
+  .dict__lastTimeRepeat {
+    margin-left: 3.2rem;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -401,5 +421,11 @@
   .dictModal__textMeaningTranslate,
   .dictModal__textExampleTranslate {
     margin-left: 1.8rem;
+  }
+  .dict__repeatCounter,
+  .dict__lastTimeRepeat {
+    margin-left: 2.2rem;
+
+    font-size: 1rem;
   }
 }
