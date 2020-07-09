@@ -171,11 +171,13 @@
     flex-direction: column;
     margin-bottom: 1rem;
   }
-  &__repeatCounter, &__lastTimeRepeat {
-    color: #2582e7;
+  &__repeatCounter,
+  &__lastTimeRepeat {
+    margin-left: 3.6rem;
+
     font-weight: 300;
     font-size: 1.2rem;
-    margin-left: 3.6rem;
+    color: #2582e7;
     & > span {
       color: #000000;
     }
@@ -422,7 +424,8 @@
   }
   .dict__repeatCounter,
   .dict__lastTimeRepeat {
-    font-size: 1rem;
     margin-left: 2.2rem;
+
+    font-size: 1rem;
   }
 }
