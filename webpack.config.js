@@ -42,7 +42,7 @@ module.exports = (env, options) => {
           ],
         },
         {
-          test: /\.(png|svg|jpe?g|gif)$/,
+          test: /\.(png|svg|ico|jpe?g|gif)$/,
           use: [
             {
               loader: 'file-loader',
@@ -66,6 +66,7 @@ module.exports = (env, options) => {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'index.html',
+        favicon: 'src/assets/favicon/favicon.ico',
         chunks: ['index'],
       }),
       new HtmlWebpackPlugin({
@@ -85,7 +86,7 @@ module.exports = (env, options) => {
       }),
       new CopyPlugin([
         { from: 'src/assets/images', to: 'src/assets/images' },
-        // { from: 'src/assets/media', to: 'src/assets/media' },
+        { from: 'src/assets/favicon', to: 'pages' },
         { from: 'src/assets/svg', to: 'src/assets/svg' },
       ]),
       new MiniCssExtractPlugin({

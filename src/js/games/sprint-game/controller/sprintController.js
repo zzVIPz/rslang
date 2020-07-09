@@ -28,12 +28,12 @@ export default class SprintController {
     this.rightAnswersCount = 0;
     this.faultyWords = [];
 
-    this.user = await this.model.getCurrenttUser();
+    this.user = await this.model.getCurrentUser();
     console.log(this.user);
     this.username = this.user.username;
     this.view.renderStartLayout(this.username);
     this.addCloseBtnHandler();
-    this.addRaitingHandler();
+    this.addRatingHandler();
     this.addStartHandler();
     this.addNavigationClickListener();
   }
@@ -50,8 +50,8 @@ export default class SprintController {
     }
   }
 
-  addRaitingHandler() {
-    document.querySelector('.sprint-rating__container').addEventListener('click', ({ target }) => {
+  addRatingHandler() {
+    document.querySelector('.sprint-rating').addEventListener('click', ({ target }) => {
       if (target.classList.contains('group')) {
         this.level = target.id;
       } else if (target.classList.contains('round')) {
@@ -161,6 +161,7 @@ export default class SprintController {
       });
       document.querySelector('.app__button_close').addEventListener('click', () => {
         this.closeGameWindow();
+        this.view.hideModal();
       });
     });
   }
@@ -169,7 +170,6 @@ export default class SprintController {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
     this.view.clearMainContainer();
-    this.mainView.renderMain(this.user);
     window.history.replaceState(null, null, ' ');
   }
 }

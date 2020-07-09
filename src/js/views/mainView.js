@@ -5,6 +5,7 @@ import {
   SWIPER_TEMPLATE,
   DELAY_HIDE_MENU,
   DELAY_SET_FOCUS_ON_INPUT,
+  CARD_TEXT,
 } from '../constants/constMainView';
 import getMainTemplate from '../utils/getMainTemplate';
 import getNavLinkTemplate from '../utils/getNavLinkTemplate';
@@ -142,6 +143,11 @@ export default class MainView {
     });
   }
 
+  toggleBtnCheckValue = (currentSlide = this.getCurrentSlide()) => {
+    const buttonCheck = currentSlide.querySelector('.card__btn-check');
+    buttonCheck.value = CARD_TEXT.btnListen;
+  };
+
   disableAdditionalControlButtons(currentSlide = this.getCurrentSlide()) {
     const buttons = currentSlide.querySelectorAll('.card__btn-additional');
     buttons.forEach((button) => {
@@ -150,13 +156,14 @@ export default class MainView {
   }
 
   disableCurrentInput(currentSlide = this.getCurrentSlide()) {
-    // todo: show all data, disable buttons
     const currentInput = this.getCurrentInputNode(currentSlide);
     currentInput.setAttribute('disabled', 'disabled');
     const nodes = currentSlide.querySelectorAll('.card__input-container');
     nodes.forEach((node) => {
       if (!node.classList.contains('hidden')) {
-        node.querySelector('.card__text-translate').classList.remove('hidden');
+        node
+          .querySelectorAll('.card__text-translate')
+          .forEach((el) => el.classList.remove('hidden'));
       }
     });
   }
@@ -222,7 +229,6 @@ export default class MainView {
   }
 
   renderCards(words, user, swiper) {
-    console.log('words', words);
     this.swiper = swiper;
     words.forEach((word) => {
       const card = new Card(word, user);
@@ -232,11 +238,9 @@ export default class MainView {
   }
 
   addCardToRepeat(word, user) {
-    console.log('word', word);
     const card = new Card(word, user);
-    // this.swiper.addSlide(this.swiper.slides.length, card.renderTemplate());
+    // todo : this.swiper.addSlide(this.swiper.slides.length, card.renderTemplate());
     this.swiper.appendSlide(card.renderTemplate());
-    console.log(this.swiper);
   }
 
   renderMenu() {
@@ -257,18 +261,23 @@ export default class MainView {
     }
   }
 
-  removeShortStatisticsListeners() {
+  removeModalListeners() {
     if (this.btnFinish) {
       this.btnFinish.removeEventListener('click', this.onShortStatisticsBtnFinishClick);
     }
     if (this.btnContinue) {
       this.btnContinue.removeEventListener('click', this.onShortStatisticsBtnContinueClick);
     }
+    if (this.btnNotificationFinish) {
+      this.btnNotificationFinish.removeEventListener('click', this.onNotificationBtnFinishClick);
+    }
   }
 
   showNotificationAboutRepeat(user, cardsAmount) {
     const notification = getNotificationTemplate(user, cardsAmount);
     this.showOverlay(notification);
+    this.btnNotificationFinish = document.querySelector('.modal-button');
+    this.btnNotificationFinish.addEventListener('click', this.onNotificationBtnFinishClick);
   }
 
   showSettingsModal(user) {
@@ -383,7 +392,7 @@ export default class MainView {
     document.addEventListener('click', (e) => {
       const { target } = e;
       if (target.classList.contains('card__btn-check')) {
-        this.onBtnCheckClick();
+        this.onBtnCheckClick(target);
       }
       if (target.classList.contains('card__btn-show-answer')) {
         this.onBtnShowAnswerClick();
@@ -439,8 +448,7 @@ export default class MainView {
     }
   }
 
-  toggleCardsLayout = (e) => {
-    const { target } = e;
+  toggleCardsLayout = ({ target }) => {
     if (target.id === 'transcription') {
       toggleVisibility('.card__transcription');
     }

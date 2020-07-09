@@ -27,6 +27,8 @@ import {
   MARGIN_PERCENTAGE,
   BASE_MARGIN,
   NUMBER_OF_LIVES,
+  MOVING_WORD_INTERVAL,
+  BANG_MOVE_PX,
 } from '../constSavannah';
 
 class SavannahView {
@@ -354,7 +356,7 @@ class SavannahView {
   moveWord() {
     this.model.isWordClicked = false;
     this.pos = START_FLYING_POSITION;
-    this.id = setInterval(this.frame.bind(this), 20);
+    this.id = setInterval(this.frame.bind(this), MOVING_WORD_INTERVAL);
     this.flyingWord = document.querySelector('.flying-word');
     this.flyingWord.classList.remove('flying-word_hide');
   }
@@ -403,7 +405,7 @@ class SavannahView {
       clearInterval(this.bangId);
       this.bang.classList.add('hidden');
     } else {
-      this.bangPos -= 5;
+      this.bangPos -= BANG_MOVE_PX;
       this.bang.style.top = `${this.bangPos}px`;
     }
   }
@@ -418,7 +420,6 @@ class SavannahView {
     });
     this.translationBox.innerHTML = spanArr.join('');
     this.appContent.appendChild(this.translationBox);
-    // this.translationBox.style.marginTop = `${this.marginTop}px`;
   }
 
   renderCrystal() {

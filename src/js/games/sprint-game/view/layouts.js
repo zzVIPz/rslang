@@ -2,8 +2,8 @@ const startLayout = `<div class="sprint-main-wrapper">
 <div class="closeBtn"></div>
 <div class="sprint-container">
 
-<div class="sprint-rating__container">
-<div class="rating__row rating__group">
+<div class="rating__container sprint-rating">
+<div class="rating__row  rating__group_sprint">
     <label class="group star" id="0"></label>
     <label class="group star" id="1"></label>
     <label class="group star" id="2"></label>
@@ -11,8 +11,8 @@ const startLayout = `<div class="sprint-main-wrapper">
     <label class="group star" id="4"></label>
     <label class="group star" id="5"></label>
   </div>
-  <div class="sprint-text">Уровень сложности</div>
-  <div class="rating__row rating__round">
+  <div class="text text_sprint">Уровень сложности</div>
+  <div class="rating__row  rating__round_sprint">
     <label class="round star" id="0"></label>
     <label class="round star" id="1"></label>
     <label class="round star" id="2"></label>
@@ -20,7 +20,7 @@ const startLayout = `<div class="sprint-main-wrapper">
     <label class="round star" id="4"></label>
     <label class="round star" id="5"></label>
   </div>
-   <div class="sprint-text sprint-text_round">Раунд</div>
+   <div class="text text_sprint text_sprint_round">Раунд</div>
   </div>
 
 <div class="sprint-start-header">Спринт</div>
@@ -28,7 +28,7 @@ const startLayout = `<div class="sprint-main-wrapper">
   <div class="sprint-game-descr"></div>
   <div class="sprint-user-advice">Используй клваиши &#9668; &#9658; для быстрого ответа</div>
 </div>
-<div class="sprint-start-controlls">
+<div class="sprint-start-controls">
   <button class="sprint-button sprint-button--start app__button">Начать</button>
 </div>
 </div>`;
@@ -60,7 +60,7 @@ const gameLayout = `<div class="sprint-main-wrapper">
   <div id="word" class="sprint-word">no words available</div>
   <div id="translation" class="sprint-word sprint-word--translation">нет доступных слов</div>
 </div>
-<div class="sprint-controlls">
+<div class="sprint-controls">
   <button id="wrong" class="sprint-button sprint-button--wrong">неверно</button>
   <button id="right" class="sprint-button sprint-button--right">верно</button>
 </div>
@@ -75,7 +75,7 @@ const finalStatLayout = `<div class="sprint-main-wrapper">
 <div class="sprint-statistics">
     <div class="sprint-user-mistakes"></div>
 </div>
-<div class="sprint-result-controlls">
+<div class="sprint-result-controls">
   <button class="sprint-button sprint-button--repeat app__button">повторить</button>
 </div>
 </div>
