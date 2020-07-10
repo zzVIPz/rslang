@@ -1,4 +1,4 @@
-export default function compareArrayOfArrays(arr1, arr2) {
+/* export default function compareArrayOfArrays(arr1, arr2) {
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -15,4 +15,8 @@ export default function compareArrayOfArrays(arr1, arr2) {
   }
 
   return true;
-}
+} */
+
+const compareArrayOfArrays = (arr1, arr2) => JSON.stringify(arr1) === JSON.stringify(arr2);
+
+export default compareArrayOfArrays;

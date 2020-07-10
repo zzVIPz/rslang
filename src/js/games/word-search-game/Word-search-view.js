@@ -8,7 +8,6 @@ import addStyle from '../utils/addStyle';
 import { HASH_VALUES } from '../../constants/constMainView';
 import addEventHandler from '../utils/addEventHandler';
 import setFocus from '../utils/setFocus';
-import removeElFromArr from '../utils/removeElFromArr';
 import WordSearchStatistics from './Views/Word-search-statistic-view';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import getMediaUrl from '../../utils/getMediaUrl';
@@ -378,17 +377,20 @@ class WordSearchView extends SavannahView {
 
       if (isRightAnswer) {
         this.correctWordActions();
-
-        removeElFromArr(this.model.tenEngWordsArr, this.currentWordIdInArr);
-        removeElFromArr(this.model.tenTranslationsArray, this.currentWordIdInArr);
-        removeElFromArr(this.model.tenAudioArray, this.currentWordIdInArr);
-        removeElFromArr(this.model.tenWordsId, this.currentWordIdInArr);
-        removeElFromArr(this.model.matrixObj.coords, this.currentWordIdInArr);
+        this.removeElementFromArr();
         this.allWordsFound();
       } else {
         this.wrongWordActions(isRightLetters);
       }
     }
+  }
+
+  removeElementFromArr() {
+    this.model.tenEngWordsArr.splice(this.currentWordIdInArr, 1);
+    this.model.tenTranslationsArray.splice(this.currentWordIdInArr, 1);
+    this.model.tenAudioArray.splice(this.currentWordIdInArr, 1);
+    this.model.tenWordsId.splice(this.currentWordIdInArr, 1);
+    this.model.matrixObj.coords.splice(this.currentWordIdInArr, 1);
   }
 
   correctWordActions() {
