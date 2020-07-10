@@ -12,8 +12,6 @@ export default class SprintController {
     this.view = new SprintView();
     this.model = new SprintModel();
     this.mainView = new MainView();
-    this.level = 0;
-    this.round = 0;
   }
 
   init() {
@@ -21,6 +19,8 @@ export default class SprintController {
   }
 
   async prelaunch() {
+    this.level = 0;
+    this.round = 0;
     this.currentWordIndex = 0;
     this.score = 0;
     this.points = MIN_GAME_POINTS;
@@ -162,6 +162,7 @@ export default class SprintController {
       document.querySelector('.app__button_close').addEventListener('click', () => {
         this.closeGameWindow();
         this.view.hideModal();
+        this.mainView.renderMain(this.user);
       });
     });
   }
