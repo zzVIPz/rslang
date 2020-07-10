@@ -22,6 +22,7 @@ import {
   SETTING_MODAL_TEXT,
   CARD_TEXT,
 } from '../constants/constMainView';
+import createWordSearch from '../games/word-search-game/Word-search-controller';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
 
@@ -37,14 +38,15 @@ export default class MainController {
     this.setDefaultHash();
     this.subscribeToEvents();
     this.firebaseModel.onAuthStateChangedHandler();
-    this.mainModel.init();
+    await this.mainModel.init();
     this.mainView.init();
-    this.accessData = this.mainModel.getAccessData();
+    const accessData = this.mainModel.getAccessData();
+    const { username } = accessData;
     this.user = await this.mainModel.getUser();
     console.log(this.user);
-    this.user.token = this.accessData.token;
+    this.user.token = accessData.token;
     this.mainView.renderMain(this.user);
-    if (this.accessData.username) {
+    if (username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
     }
@@ -92,7 +94,8 @@ export default class MainController {
           this.game = new SprintController();
           this.game.init();
           break;
-        case MENU_ITEMS_NAMES.newGame:
+        case MENU_ITEMS_NAMES.wordSearch:
+          createWordSearch(this);
           break;
         case MENU_ITEMS_NAMES.promoPage:
           e.preventDefault();

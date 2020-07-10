@@ -1,5 +1,5 @@
 import getCorrectUrl from '../utils/getCorrectUrl';
-import { DEFAULT_USER_SETTINGS } from '../constants/constMainView';
+import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC } from '../constants/constMainView';
 import User from '../components/defaultUser/defaultUser';
 
 const REQUEST_PARAMETERS = {
@@ -51,6 +51,7 @@ export default class MainModel {
         DEFAULT_USER_SETTINGS,
       );
       await this.setUserSettings(getUserSettingsBodyRequest(this.currentUser));
+      await this.setUserStatistic();
     }
   }
 
@@ -177,5 +178,26 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
     return JSON.parse(content.optional.user);
+  };
+
+  getUserStatistic = async () => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+      getBodyRequest('GET', this.token),
+    );
+    const currentStatistic = await rawResponse.json();
+
+    console.log('getUserStatistic ', currentStatistic);
+    return currentStatistic;
+  };
+
+  setUserStatistic = async (currentStatistic = DEFAULT_USER_STATISTIC) => {
+    const rawResponse = await fetch(
+      `${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
+      getBodyRequest('PUT', this.token, currentStatistic),
+    );
+    const content = await rawResponse.json();
+
+    console.log('setUserStatistic', content);
   };
 }
