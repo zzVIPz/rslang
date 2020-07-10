@@ -37,11 +37,10 @@ export default class MainController {
   }
 
   async init() {
-    await this.mainModel.getAggregatedWords('easy');
     this.setDefaultHash();
     this.subscribeToEvents();
     this.firebaseModel.onAuthStateChangedHandler();
-    this.mainModel.init();
+    await this.mainModel.init();
     this.mainView.init();
     this.accessData = this.mainModel.getAccessData();
     this.user = await this.mainModel.getUser();
@@ -79,7 +78,6 @@ export default class MainController {
           startSpeakItGame(this.user, this.mainView);
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
-          this.dailyStatistics.gameStartsStat('puzzle');
           this.englishPuzzle = new EnglishPuzzleStart(
             this.user,
             this.mainView,

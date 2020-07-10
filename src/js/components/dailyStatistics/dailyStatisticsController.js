@@ -1,9 +1,9 @@
-import STAT_CONST from './dailyStatisticsConstants';
+// import STAT_CONST from './dailyStatisticsConstants';
 
 export default class DailyStatisticsController {
   constructor(mainModel) {
     this.mainModel = mainModel;
-    this.statObj = STAT_CONST;
+    // this.statObj = STAT_CONST;
   }
 
   async init() {
