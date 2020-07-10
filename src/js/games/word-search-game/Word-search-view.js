@@ -40,6 +40,7 @@ class WordSearchView extends SavannahView {
     this.mainContainer = document.querySelector('.main');
     this.appContainer = document.querySelector('.word-search__app');
     this.groupRoundHtml = GROUP_ROUND;
+    this.rightAnswersElements = [];
   }
 
   checkWordSearchWindow() {
@@ -77,7 +78,6 @@ class WordSearchView extends SavannahView {
     this.mainContainer.innerHTML = this.WordSearchLayout;
     this.appContainer = document.querySelector('.word-search__app');
     this.appContainer.classList.add('word-search__background');
-    this.statistics.init(this, this.mainView, this.model, this.setDefaultHash);
     this.renderRating();
     setFocus(document.querySelector('.app__button'));
     this.setMusicOnOff();
@@ -96,7 +96,6 @@ class WordSearchView extends SavannahView {
     getLevel(this.starsLevel, this, this.model);
     getRound(this.starsRound, this);
     this.clickStartGameBtn();
-    this.continuePlaying();
   }
 
   backToMainPage() {
@@ -458,11 +457,12 @@ class WordSearchView extends SavannahView {
 
       return true;
     });
-    this.statistics.appendCorrectAnswer(
-      this.chosenWordString,
-      this.currentTranslation,
-      this.currentAudio,
-    );
+
+    this.rightAnswersElements.push({
+      word: this.chosenWordString,
+      translation: this.currentTranslation,
+      audio: this.currentAudio,
+    });
   }
 
   wrongWordActions(isRightLetters) {
@@ -505,7 +505,14 @@ class WordSearchView extends SavannahView {
   };
 
   renderGameOver(isWin) {
+    this.statistics.init(this, this.mainView, this.model, this.setDefaultHash);
+    this.statistics.changeClassName();
     this.addNotGuessedWordToWrongWords();
+    this.addGuessedWords();
+    this.continuePlaying();
+
+    Array.from(document.querySelectorAll('.wordBox'))
+      .map((el) => el.classList.add('word-search__word-box'));
 
     // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.tenWordsId;
@@ -521,6 +528,12 @@ class WordSearchView extends SavannahView {
     } else {
       this.statistics.loseRound();
     }
+
+    document.querySelector('.wrong_title').classList.add('word-search__wrong_title');
+    document.querySelector('.correct_title').classList.add('word-search__correct_title');
+    Array.from(document.querySelectorAll('.soundBox'))
+      .map((el) => el.classList.add('word-search__sound-box'));
+    this.rightAnswersElements = [];
   }
 
   addNotGuessedWordToWrongWords() {
@@ -535,6 +548,18 @@ class WordSearchView extends SavannahView {
         return true;
       });
     }
+  }
+
+  addGuessedWords() {
+    this.rightAnswersElements.map((obj) => {
+      this.statistics.appendCorrectAnswer(
+        obj.word,
+        obj.translation,
+        obj.audio,
+      );
+
+      return true;
+    });
   }
 
   allWordsFound() {

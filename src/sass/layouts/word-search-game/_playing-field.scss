@@ -30,7 +30,7 @@
   }
 
 @include media-mobile {
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -172,6 +172,7 @@
 
 .word-search__words-container {
   width: 40%;
+  max-width: 700px;
 
 @include media-tablet {
     display: flex;
