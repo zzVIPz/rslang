@@ -42,12 +42,13 @@ export default class MainController {
     this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
     this.mainView.init();
-    this.accessData = this.mainModel.getAccessData();
+    const accessData = this.mainModel.getAccessData();
+    const { username } = accessData;
     this.user = await this.mainModel.getUser();
     console.log(this.user);
-    this.user.token = this.accessData.token;
+    this.user.token = accessData.token;
     this.mainView.renderMain(this.user);
-    if (this.accessData.username) {
+    if (username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
     }

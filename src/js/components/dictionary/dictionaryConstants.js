@@ -1,11 +1,13 @@
 const DICT_STATES = { LEARNING: 'repeat', DIFFICULT: 'difficult', REMOVED: 'easy' };
 const DEFAULT_DICT_STATE = DICT_STATES.LEARNING;
 const DEFAULT_MISTAKES_COUNT = { mistakesCounter: 3 };
+const DEFAULT_NO_WORDS_MESSAGE = 'There is no words to view';
 
 const CONSTANTS = {
   DICT_STATES,
   DEFAULT_DICT_STATE,
   DEFAULT_MISTAKES_COUNT,
+  DEFAULT_NO_WORDS_MESSAGE,
 };
 
 export default CONSTANTS;

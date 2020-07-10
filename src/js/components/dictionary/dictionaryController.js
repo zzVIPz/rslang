@@ -1,4 +1,5 @@
-import DictionaryView from './dictionaryView';
+/* eslint-disable no-underscore-dangle */
+import DictionaryView from './view/dictionaryView';
 import CONSTANTS from './dictionaryConstants';
 
 export default class DictionaryController {
@@ -23,6 +24,17 @@ export default class DictionaryController {
     this.wordsData = data[0].paginatedResults;
   }
 
+  getWordOptional(id) {
+    let optional;
+    this.wordsData.forEach((el) => {
+      if (el._id === id) {
+        optional = el.userWord.optional;
+      }
+    });
+    console.log(optional);
+    return optional;
+  }
+
   subscribeToEvents() {
     this.dictionaryView.onStateChange = async (state) => {
       this.state = state;
@@ -31,20 +43,25 @@ export default class DictionaryController {
     };
 
     this.dictionaryView.onWordToDifficult = async (id) => {
-      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.DIFFICULT);
+      const optional = this.getWordOptional(id);
+      delete optional.mistakesCounter;
+      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.DIFFICULT, optional);
       await this.getData();
       this.dictionaryView.renderLines(this.wordsData, this.user, this.state);
     };
 
     this.dictionaryView.onWordRemove = async (id) => {
-      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.REMOVED);
+      const optional = this.getWordOptional(id);
+      delete optional.mistakesCounter;
+      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.REMOVED, optional);
       await this.getData();
       this.dictionaryView.renderLines(this.wordsData, this.user, this.state);
     };
 
     this.dictionaryView.onWordRestore = async (id) => {
-      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.LEARNING,
-        CONSTANTS.DEFAULT_MISTAKES_COUNT);
+      const optional = this.getWordOptional(id);
+      const newOptional = Object.assign(optional, CONSTANTS.DEFAULT_MISTAKES_COUNT);
+      await this.mainModel.updateUserWord(id, CONSTANTS.DICT_STATES.LEARNING, newOptional);
       await this.getData();
       this.dictionaryView.renderLines(this.wordsData, this.user, this.state);
     };
