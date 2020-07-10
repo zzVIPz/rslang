@@ -29,7 +29,6 @@ export default class SprintController {
     this.faultyWords = [];
 
     this.user = await this.model.getCurrentUser();
-    console.log(this.user);
     this.username = this.user.username;
     this.view.renderStartLayout(this.username);
     this.addCloseBtnHandler();

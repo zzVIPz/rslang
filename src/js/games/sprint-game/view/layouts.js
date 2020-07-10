@@ -26,7 +26,7 @@ const startLayout = `<div class="sprint-main-wrapper">
 <div class="sprint-start-header">Спринт</div>
 <div class="sprint-notice">
   <div class="sprint-game-descr"></div>
-  <div class="sprint-user-advice">Используй клваиши &#9668; &#9658; для быстрого ответа</div>
+  <div class="sprint-user-advice">Используй клавиши &#9668; &#9658; для быстрого ответа</div>
 </div>
 <div class="sprint-start-controls">
   <button class="sprint-button sprint-button--start app__button">Начать</button>

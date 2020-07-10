@@ -40,7 +40,7 @@ export default class SprintView {
     addEventHandlerOnRating(this.round);
 
     this.gameDescription = document.querySelector('.sprint-game-descr');
-    this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или не правильно переведены слова.`;
+    this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или неправильно переведены слова.`;
   }
 
   renderGameLayout() {
