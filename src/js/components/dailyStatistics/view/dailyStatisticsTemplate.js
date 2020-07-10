@@ -18,6 +18,9 @@ const dailyStatisticsTemplate = (data, aggregatedWords) => `
       <div>Difficult Words: ${aggregatedWords.difficult}</div>
       <div>Repeat Words: ${aggregatedWords.repeat}</div>
     </div>
+    <div>
+      <canvas id="statisticsChart"></canvas>
+    </div>
   </div>
 `;
 
