@@ -1,0 +1,86 @@
+.statistics {
+  width: 100vw;
+  height: calc(100vh - 93px);
+  &__wrapper {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  &-title {
+    color: rgb(255, 99, 132);
+    font-weight: 100;
+    font-size: 2rem;
+    letter-spacing: .2rem;
+  }
+
+  &__total, &__words, &__games {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    &-container {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+  }
+
+  &__element {
+    width: 250px;
+    text-align: center;
+    color: #2582e7;
+    font-weight: 600;
+    font-size: 1.6rem;
+    & > span {
+      color: #225475;
+    }
+  }
+
+  &__chart {
+    width: 800px;
+    margin: 30px auto 0;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .statistics {
+    &__wrapper {
+      width: 800px;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .statistics {
+    &__wrapper {
+      width: 100%;
+    }
+    &__chart {
+      width: 100%;
+    }
+    &__element {
+      font-size: 1.4rem;
+    }
+    &-title {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+// @media screen and (max-width: 600px) {
+//   .statistics {
+//     &__element {
+//       font-size: 1.4rem;
+//     }
+//     &-title {
+//       font-size: 1.8rem;
+//     }
+//     &__total, &__words, &__games {
+//       margin-top: 30px;
+//       &-container {
+//         margin-top: 20px;
+//       }
+//     }
+//   }
+// }

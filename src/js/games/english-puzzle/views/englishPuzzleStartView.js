@@ -11,7 +11,6 @@ export default class EnglishPuzzleView {
   }
 
   start() {
-    this.stats.gameStartsStat('englishPuzzle');
     document.querySelector('.main').innerHTML = this.view;
     document.querySelector('.ep-startScreen').classList.add('ep-background');
 
@@ -19,6 +18,7 @@ export default class EnglishPuzzleView {
       const englishPuzzle = new EnglishPuzzleController(this.user,
         this.mainView, this.setDefaultHash);
       englishPuzzle.init();
+      this.stats.gameStartsStat('englishPuzzle');
     });
 
     document.getElementById('closeButton').addEventListener('click', () => {
