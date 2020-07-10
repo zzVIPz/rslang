@@ -264,25 +264,45 @@ class WordSearchView extends SavannahView {
   }
 
   renderCheckBtn() {
-    this.checkBtn = document.createElement('div');
+    this.checkBtn = document.createElement('button');
     this.checkBtn.className = 'app__button';
     this.checkBtn.classList.add('word-search__controllers');
     this.checkBtn.classList.add('word-search__controllers_check');
     this.checkBtn.innerHTML = CHECK_BTN_TEXT;
+    this.disableBtn(this.checkBtn);
     this.controllersContainer.appendChild(this.checkBtn);
   }
 
   renderClearBtn() {
-    this.clearBtn = document.createElement('div');
+    this.clearBtn = document.createElement('button');
     this.clearBtn.className = 'app__button';
     this.clearBtn.classList.add('word-search__controllers');
     this.clearBtn.classList.add('word-search__controllers_clear');
     this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
+    this.disableBtn(this.clearBtn);
     this.controllersContainer.appendChild(this.clearBtn);
+  }
+
+  disableBtn = (el) => {
+    const element = el;
+
+    if (!element.classList.contains('word-search__disabled')) {
+      element.classList.add('word-search__disabled');
+      element.disabled = true;
+    }
+  }
+
+  activateBtn = (el) => {
+    const element = el;
+    if (element.classList.contains('word-search__disabled')) {
+      element.classList.remove('word-search__disabled');
+      element.disabled = false;
+    }
   }
 
   gameMode() {
     this.addGameModeListeners();
+    this.isChosenLetterStyle();
   }
 
   addGameModeListeners() {
@@ -295,6 +315,28 @@ class WordSearchView extends SavannahView {
     addEventHandler('click', this.clearBtn, this.onClearBtnClick.bind(this));
     addEventHandler('click', this.checkBtn, this.onCheckBtnClick.bind(this));
     addEventHandler('click', translationsWords, this.onTranslationClick.bind(this));
+  }
+
+  isChosenLetterStyle() {
+    let notActivated = true;
+    const allCells = Array.from(document.querySelectorAll('.cell'));
+
+    allCells.map((el) => {
+      if (notActivated) {
+        if (el.classList.contains('word-search__chosen-letter')) {
+          this.activateBtn(this.clearBtn);
+          this.activateBtn(this.checkBtn);
+          notActivated = false;
+        } else {
+          this.disableBtn(this.clearBtn);
+          this.disableBtn(this.checkBtn);
+        }
+      }
+
+      return true;
+    });
+
+    setTimeout(() => { this.isChosenLetterStyle(); }, 500);
   }
 
   newLetter(target) {
