@@ -26,7 +26,6 @@ export default class EnglishPuzzleView {
     this.gameLevel = 1;
     this.onDifficultChange = null;
     this.onLevelChange = null;
-    this.onStatsUpdate = null;
 
     this.currentWordId = null;
     this.wordsStat = { rightWords: [], wrongWords: [] };
@@ -200,9 +199,6 @@ export default class EnglishPuzzleView {
   }
 
   resetWordsStat() {
-    if (this.onStatsUpdate !== null) {
-      this.onStatsUpdate(this.wordsStat.rightWords.length);
-    }
     this.wordsStat.rightWords.length = 0;
     this.wordsStat.wrongWords.length = 0;
   }

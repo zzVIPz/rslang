@@ -2,16 +2,16 @@ import templateStart from './templateStart';
 import EnglishPuzzleController from '../controllers/englishPuzzleController';
 
 export default class EnglishPuzzleView {
-  constructor(user, mainView, { gameStartsStat }, setDefaultHash) {
+  constructor(user, mainView, stats, setDefaultHash) {
     this.user = user;
-    this.startStats = gameStartsStat;
+    this.stats = stats;
     this.mainView = mainView;
     this.view = templateStart;
     this.setDefaultHash = setDefaultHash;
   }
 
   start() {
-    this.startStats();
+    this.stats.gameStartsStat('englishPuzzle');
     document.querySelector('.main').innerHTML = this.view;
     document.querySelector('.ep-startScreen').classList.add('ep-background');
 

@@ -74,6 +74,7 @@ export default class MainController {
           this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
+          this.dailyStatistics.renderStat();
           break;
         case MENU_ITEMS_NAMES.speakit:
           startSpeakItGame(this.user, this.mainView);
