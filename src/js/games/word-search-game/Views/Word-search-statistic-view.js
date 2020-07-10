@@ -8,7 +8,7 @@ class WordSearchStatistics extends GameStatistics {
 
   renderWrongAnswersTitle() {
     this.wrongTitle = document.querySelector('.word-search__wrong-title');
-    this.wrongTitle.innerHTML = `Неотгаданно: ${this.model.tenEngWordsArr.length}`;
+    this.wrongTitle.innerHTML = `Неотгадано: ${this.model.tenEngWordsArr.length}`;
   }
 
   changeClassName = () => {
