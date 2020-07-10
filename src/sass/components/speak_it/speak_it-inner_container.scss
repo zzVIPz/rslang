@@ -61,7 +61,9 @@
 .not_display {
   display: none!important;
 }
-
+.simple_Letter{
+  color: white;
+}
 @media only screen and (min-width: 320px) and (max-width: 600px) {
   .inner_container {
     width: 60vw;
