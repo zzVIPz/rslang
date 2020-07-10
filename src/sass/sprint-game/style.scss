@@ -31,15 +31,12 @@ $print-header-third: #e91e62a2;
 
   text-align: center;
 
-  background-color: rgba(255, 255, 255, 0.733);
+  background-color: rgba(255, 255, 255, .733);
   border-radius: 8px;
-  // box-shadow: 0 3px 5px 0 $sprint-border-color;
 
   transition: .3s ease-out;
 }
 .sprint-game-bgr .sprint-container {
-  // background-image: url(/src/assets/images/big-moon-cut.png);
-
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
@@ -71,7 +68,7 @@ $print-header-third: #e91e62a2;
   left: 2%;
 
   font-weight: 300;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .sprint-marks-line {
@@ -89,13 +86,34 @@ $print-header-third: #e91e62a2;
 .activated {
   color: $sprint-star-on;
 }
+.sprint-progress-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 60px;
+  height: 60px;
+}
 .sprint-timer {
   position: absolute;
-  top: 12%;
-  right: 2%;
+  top: 34%;
+  right: 8%;
+
+  width: 60px;
 
   font-weight: 300;
-  font-size: 4rem;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: -7%;
+
+  transform: rotate(-90deg);
+  &__circle {
+    stroke: $sprint-words-color;
+  }
 }
 .sprint-points-line {
   font-weight: 300;
@@ -285,7 +303,7 @@ $print-header-third: #e91e62a2;
 .sprint-user-advice {
   color: $sprint-words-color;
 
-  @include media-tablet {
+@include media-tablet {
     display: none;
   }
 }
