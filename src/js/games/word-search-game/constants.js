@@ -92,6 +92,7 @@ const DEFAULT_EMPTY_CELL = '#';
 const CONSONANTS = 'bcdfghjklmnpqrstvwxyz';
 const VOWELS = 'aeiou';
 const SIZE_OF_MATRIX = 10;
+const CHECK_CHOSEN_LETTER_STYLE_DELAY = 500;
 
 export {
   GAME_LAYOUT,
@@ -116,4 +117,5 @@ export {
   CONSONANTS,
   VOWELS,
   SIZE_OF_MATRIX,
+  CHECK_CHOSEN_LETTER_STYLE_DELAY,
 };
