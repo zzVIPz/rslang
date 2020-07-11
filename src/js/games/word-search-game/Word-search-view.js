@@ -8,7 +8,6 @@ import addStyle from '../utils/addStyle';
 import { HASH_VALUES } from '../../constants/constMainView';
 import addEventHandler from '../utils/addEventHandler';
 import setFocus from '../utils/setFocus';
-import removeElFromArr from '../utils/removeElFromArr';
 import WordSearchStatistics from './Views/Word-search-statistic-view';
 import { DELAY_PRELOADER_COUNT_DOWN } from '../savannah-game/constSavannah';
 import getMediaUrl from '../../utils/getMediaUrl';
@@ -28,6 +27,7 @@ import {
   DELAY_CHECK_HASH,
   REMOVE_STYLE_DELAY,
   REMOVE_HINT_STYLE_DELAY,
+  CHECK_CHOSEN_LETTER_STYLE_DELAY,
 } from './constants';
 
 class WordSearchView extends SavannahView {
@@ -41,6 +41,7 @@ class WordSearchView extends SavannahView {
     this.mainContainer = document.querySelector('.main');
     this.appContainer = document.querySelector('.word-search__app');
     this.groupRoundHtml = GROUP_ROUND;
+    this.rightAnswersElements = [];
   }
 
   checkWordSearchWindow() {
@@ -78,7 +79,6 @@ class WordSearchView extends SavannahView {
     this.mainContainer.innerHTML = this.WordSearchLayout;
     this.appContainer = document.querySelector('.word-search__app');
     this.appContainer.classList.add('word-search__background');
-    this.statistics.init(this, this.mainView, this.model, this.setDefaultHash);
     this.renderRating();
     setFocus(document.querySelector('.app__button'));
     this.setMusicOnOff();
@@ -97,7 +97,6 @@ class WordSearchView extends SavannahView {
     getLevel(this.starsLevel, this, this.model);
     getRound(this.starsRound, this);
     this.clickStartGameBtn();
-    this.continuePlaying();
   }
 
   backToMainPage() {
@@ -265,25 +264,45 @@ class WordSearchView extends SavannahView {
   }
 
   renderCheckBtn() {
-    this.checkBtn = document.createElement('div');
+    this.checkBtn = document.createElement('button');
     this.checkBtn.className = 'app__button';
     this.checkBtn.classList.add('word-search__controllers');
     this.checkBtn.classList.add('word-search__controllers_check');
     this.checkBtn.innerHTML = CHECK_BTN_TEXT;
+    this.disableBtn(this.checkBtn);
     this.controllersContainer.appendChild(this.checkBtn);
   }
 
   renderClearBtn() {
-    this.clearBtn = document.createElement('div');
+    this.clearBtn = document.createElement('button');
     this.clearBtn.className = 'app__button';
     this.clearBtn.classList.add('word-search__controllers');
     this.clearBtn.classList.add('word-search__controllers_clear');
     this.clearBtn.innerHTML = CLEAR_BTN_TEXT;
+    this.disableBtn(this.clearBtn);
     this.controllersContainer.appendChild(this.clearBtn);
+  }
+
+  disableBtn = (el) => {
+    const element = el;
+
+    if (!element.classList.contains('word-search__disabled')) {
+      element.classList.add('word-search__disabled');
+      element.disabled = true;
+    }
+  }
+
+  activateBtn = (el) => {
+    const element = el;
+    if (element.classList.contains('word-search__disabled')) {
+      element.classList.remove('word-search__disabled');
+      element.disabled = false;
+    }
   }
 
   gameMode() {
     this.addGameModeListeners();
+    this.isChosenLetterStyle();
   }
 
   addGameModeListeners() {
@@ -296,6 +315,26 @@ class WordSearchView extends SavannahView {
     addEventHandler('click', this.clearBtn, this.onClearBtnClick.bind(this));
     addEventHandler('click', this.checkBtn, this.onCheckBtnClick.bind(this));
     addEventHandler('click', translationsWords, this.onTranslationClick.bind(this));
+  }
+
+  isChosenLetterStyle() {
+    let notActivated = true;
+    const allCells = document.querySelectorAll('.cell');
+
+    allCells.forEach((el) => {
+      if (notActivated) {
+        if (el.classList.contains('word-search__chosen-letter')) {
+          this.activateBtn(this.clearBtn);
+          this.activateBtn(this.checkBtn);
+          notActivated = false;
+        } else {
+          this.disableBtn(this.clearBtn);
+          this.disableBtn(this.checkBtn);
+        }
+      }
+    });
+
+    setTimeout(() => { this.isChosenLetterStyle(); }, CHECK_CHOSEN_LETTER_STYLE_DELAY);
   }
 
   newLetter(target) {
@@ -359,7 +398,7 @@ class WordSearchView extends SavannahView {
 
     if (this.model.chosenWord.length > 0) {
       this.chosenWordString = this.model.chosenWord.join('');
-      this.allCells = Array.from(document.querySelectorAll('.cell'));
+      this.allCells = document.querySelectorAll('.cell');
 
       const { chosenWordTranslation, chosenWordAudio } = this.model.getChosenWordData(
         this.chosenWordString,
@@ -378,17 +417,20 @@ class WordSearchView extends SavannahView {
 
       if (isRightAnswer) {
         this.correctWordActions();
-
-        removeElFromArr(this.model.tenEngWordsArr, this.currentWordIdInArr);
-        removeElFromArr(this.model.tenTranslationsArray, this.currentWordIdInArr);
-        removeElFromArr(this.model.tenAudioArray, this.currentWordIdInArr);
-        removeElFromArr(this.model.tenWordsId, this.currentWordIdInArr);
-        removeElFromArr(this.model.matrixObj.coords, this.currentWordIdInArr);
+        this.removeElementFromArr();
         this.allWordsFound();
       } else {
         this.wrongWordActions(isRightLetters);
       }
     }
+  }
+
+  removeElementFromArr() {
+    this.model.tenEngWordsArr.splice(this.currentWordIdInArr, 1);
+    this.model.tenTranslationsArray.splice(this.currentWordIdInArr, 1);
+    this.model.tenAudioArray.splice(this.currentWordIdInArr, 1);
+    this.model.tenWordsId.splice(this.currentWordIdInArr, 1);
+    this.model.matrixObj.coords.splice(this.currentWordIdInArr, 1);
   }
 
   correctWordActions() {
@@ -403,7 +445,7 @@ class WordSearchView extends SavannahView {
     }
 
     this.model.setDefaultArray();
-    this.allCells.map((cell) => {
+    this.allCells.forEach((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word');
       addStyle(
         cell,
@@ -411,14 +453,13 @@ class WordSearchView extends SavannahView {
         `correct-word-${this.model.rightAnswersCounter}`,
       );
       removeStyle(cell, 'word-search__chosen-letter');
-
-      return true;
     });
-    this.statistics.appendCorrectAnswer(
-      this.chosenWordString,
-      this.currentTranslation,
-      this.currentAudio,
-    );
+
+    this.rightAnswersElements.push({
+      word: this.chosenWordString,
+      translation: this.currentTranslation,
+      audio: this.currentAudio,
+    });
   }
 
   wrongWordActions(isRightLetters) {
@@ -430,13 +471,11 @@ class WordSearchView extends SavannahView {
       this.errorSound.play();
     }
 
-    this.allCells.map((cell) => {
+    this.allCells.forEach((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__wrong-word');
       setTimeout(() => {
         removeStyle(cell, 'word-search__wrong-word');
       }, REMOVE_STYLE_DELAY);
-
-      return true;
     });
 
     this.onClearBtnClick();
@@ -444,24 +483,29 @@ class WordSearchView extends SavannahView {
   }
 
   addStylesToCorrectTranslation() {
-    this.allTranslations = Array.from(document.querySelectorAll('.word'));
-    this.allTranslations.map((tran) => {
+    this.allTranslations = document.querySelectorAll('.word');
+    this.allTranslations.forEach((tran) => {
       if (tran.textContent === this.currentTranslation) {
         tran.classList.add('word-search__correct-translation');
       }
-
-      return true;
     });
   }
 
   onClearBtnClick = () => {
-    this.allCells = Array.from(document.querySelectorAll('.cell'));
-    this.allCells.map((cell) => removeStyle(cell, 'word-search__chosen-letter'));
+    const allCells = document.querySelectorAll('.cell');
+    allCells.forEach((cell) => removeStyle(cell, 'word-search__chosen-letter'));
     this.model.setDefaultArray();
   };
 
   renderGameOver(isWin) {
+    this.statistics.init(this, this.mainView, this.model, this.setDefaultHash);
+    this.statistics.changeClassName();
     this.addNotGuessedWordToWrongWords();
+    this.addGuessedWords();
+    this.continuePlaying();
+
+    document.querySelectorAll('.wordBox')
+      .forEach((el) => el.classList.add('word-search__word-box'));
 
     // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.tenWordsId;
@@ -477,10 +521,16 @@ class WordSearchView extends SavannahView {
     } else {
       this.statistics.loseRound();
     }
+
+    document.querySelector('.wrong_title').classList.add('word-search__wrong_title');
+    document.querySelector('.correct_title').classList.add('word-search__correct_title');
+    document.querySelectorAll('.soundBox')
+      .forEach((el) => el.classList.add('word-search__sound-box'));
+    this.rightAnswersElements = [];
   }
 
   addNotGuessedWordToWrongWords() {
-    if (this.model.tenEngWordsArr.length > 0) {
+    if (this.model.tenEngWordsArr.length) {
       this.model.tenEngWordsArr.map((word, index) => {
         this.statistics.appendWrongAnswer(
           word,
@@ -493,8 +543,20 @@ class WordSearchView extends SavannahView {
     }
   }
 
+  addGuessedWords() {
+    this.rightAnswersElements.map((obj) => {
+      this.statistics.appendCorrectAnswer(
+        obj.word,
+        obj.translation,
+        obj.audio,
+      );
+
+      return true;
+    });
+  }
+
   allWordsFound() {
-    if (this.model.tenEngWordsArr.length === 0) {
+    if (!this.model.tenEngWordsArr.length) {
       this.renderGameOver(true);
     }
   }

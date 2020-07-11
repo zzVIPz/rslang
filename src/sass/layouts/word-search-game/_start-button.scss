@@ -15,4 +15,10 @@
 
 .word-search_close {
   background: $dark-main-color;
+  border: 1px solid $text-color;
+  &:hover {
+    color: $dark-main-color;
+
+    border: 1px solid $dark-main-color;
+  }
 }

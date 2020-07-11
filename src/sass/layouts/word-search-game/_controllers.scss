@@ -31,3 +31,8 @@
     margin-top: 0;
   }
 }
+
+.word-search__disabled {
+  background-color: $disabled-color;
+  pointer-events: none;
+}
