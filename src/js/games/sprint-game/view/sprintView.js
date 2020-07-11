@@ -9,6 +9,7 @@ import {
   CORRECT_SOUND,
   ERROR_SOUND,
   ANSWER_ANIMATION_DELAY,
+  GAME_TIME,
 } from '../const/sprintConst';
 import getMediaUrl from '../../../utils/getMediaUrl';
 import getWordBoxTemplate from '../../utils/getWordBoxTemplateStat';
@@ -40,7 +41,7 @@ export default class SprintView {
     addEventHandlerOnRating(this.round);
 
     this.gameDescription = document.querySelector('.sprint-game-descr');
-    this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или не правильно переведены слова.`;
+    this.gameDescription.innerHTML = `${userName}, за 1 минуту укажи правильно или неправильно переведены слова.`;
   }
 
   renderGameLayout() {
@@ -110,8 +111,15 @@ export default class SprintView {
 
   showTime(time) {
     this.timer = document.querySelector('.sprint-timer');
-
-    if (this.timer) { this.timer.innerHTML = time; }
+    this.circle = document.querySelector('.progress-ring__circle');
+    this.radius = this.circle.r.baseVal.value;
+    this.circumference = 2 * this.radius * Math.PI;
+    this.circle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+    this.timeStep = this.circumference / GAME_TIME;
+    if (this.timer) {
+      this.timer.innerHTML = time;
+      this.circle.style.strokeDashoffset -= this.timeStep;
+    }
   }
 
   renderFinalStat(score, errors) {
@@ -130,7 +138,7 @@ export default class SprintView {
       errors.forEach((el) => {
         this.audioUrl = getMediaUrl(el.audio);
         this.wordBox = document.createElement('div');
-        this.wordBox.className = 'wordBox';
+        this.wordBox.className = 'wordBox wordBox_sprint';
         this.wordBox.innerHTML = getWordBoxTemplate(this.audioUrl, el.word, el.wordTranslate);
         this.mistakesContainer.append(this.wordBox);
       });

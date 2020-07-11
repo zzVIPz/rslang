@@ -26,7 +26,7 @@ const startLayout = `<div class="sprint-main-wrapper">
 <div class="sprint-start-header">Спринт</div>
 <div class="sprint-notice">
   <div class="sprint-game-descr"></div>
-  <div class="sprint-user-advice">Используй клваиши &#9668; &#9658; для быстрого ответа</div>
+  <div class="sprint-user-advice">Используй клавиши &#9668; &#9658; для быстрого ответа</div>
 </div>
 <div class="sprint-start-controls">
   <button class="sprint-button sprint-button--start app__button">Начать</button>
@@ -47,7 +47,14 @@ const gameLayout = `<div class="sprint-main-wrapper">
   <div class="sprint-points-line">
     +40 очков за слово
   </div>
+  <div class="sprint-progress-wrapper">
   <div class="sprint-timer">60</div>
+  <svg class="progress-ring" width="60" height="60">
+  <circle stroke="#ffffff6e" stroke-width="4" cx="30" cy="30" r="22" fill="transparent"/>
+  <circle class="progress-ring__circle" stroke-width="4" cx="30" cy="30" r="22" fill="transparent"
+   stroke-dashoffset="0"/>
+ </svg>
+ </div>
 </div>
 </div>
 <div class="sprint-picture-block">
