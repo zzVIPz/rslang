@@ -59,7 +59,7 @@ const STATISTICS_MODAL_LAYOUT = `
   </div>`;
 
 const ONE_START = ' <label class="group gold" id="0"></label>';
-const QUANTITY_MISS_RIGHT_ANWS = 1;
+const QUANTITY_MISS_RIGHT_ANWS = 0;
 const QUANTITY_STARS_NEXT_LEVEL = 10;
 const GAME_PAGE = ` <div class="app speakIt_game">
                       <div class="header_close">
@@ -141,7 +141,7 @@ const GAME_PAGE = ` <div class="app speakIt_game">
 const ONE_CARD = `<div class="speak_card speak_card_active">
                   <div class='link_word_listen word_listen_active'></div>
                   <div class="word_look">
-                    <p class="word"></p>
+                    <p class="speak_word"></p>
                     <p class="transcription"></p>
                   </div>
                 </div>`;
@@ -160,9 +160,15 @@ const IDS_TEXT = 'ID of this word: ';
 const BACK = 'Назад';
 const SVG_URL = '../src/assets/svg/speaker-for-final-modal.svg';
 const ID_OF_WORD = 'id of this word is: ';
+const ONE_LETTER_CONTAINER = '<span class="simple_Letter" id="word';
+const COLORS = {
+  right: 'yellow',
+  wrong: 'red',
+};
 export {
   START_PAGE, PRELOADER, ONE_START, QUANTITY_MISS_RIGHT_ANWS, QUANTITY_STARS_NEXT_LEVEL,
   GAME_PAGE, ONE_CARD, container, PRELOADING_TIME, QUANTITY_WORDS_IN_PAGE,
   QUANTITY_ROUNDS_LEVELS, CORRECT_MP3, MISS_MP3, SPEAK_MODE, VIEW_MODE, CORRECT_WORDS,
   UNCORRECT_WORDS, IDS_TEXT, BACK, MICROPHONE_TIME, STATISTICS_MODAL_LAYOUT, SVG_URL, ID_OF_WORD,
+  ONE_LETTER_CONTAINER, COLORS,
 };
