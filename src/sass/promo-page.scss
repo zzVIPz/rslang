@@ -1,0 +1,93 @@
+ @font-face {
+  font-family: "ObelixPro";
+
+  src: url("../assets/fonts/for-promo-page/obelix.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BurbankBigCondensed";
+
+  src: local("burbank.ttf"),
+       url("../assets/fonts/for-promo-page/burbank.ttf") format("truetype");
+}
+.promo-container {
+  width: 100%;
+  min-width: 98.4vw;
+  height: 100%;
+
+  background: #108cc1;
+  &__game {
+    position: relative;
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 65%;
+    min-width: 0;
+    margin: 3em auto;
+    padding-bottom: 2em;
+
+    word-wrap: break-word;
+
+    background-color: #ffffff;
+
+    -webkit-clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
+            clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
+  }
+  &__image {
+    width: 100%;
+
+    background-color: #ffff00;
+  }
+  &__content {
+    -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+    padding: 1.5em 1.25em;
+
+    text-align: center;
+
+        -ms-flex: 1 1 auto;
+  }
+  &__title {
+    margin: 0;
+
+    font-size: 2em;
+    line-height: 1.3;
+    font-family: "ObelixPro", sans-serif;
+    color: #333333;
+    text-transform: uppercase;
+  }
+  &__description {
+    padding: 0;
+  }
+  &__description p {
+    width: 80%;
+    margin: 5vh auto 0 auto;
+
+    font-weight: 700;
+    font-size: 1.89em;
+    line-height: 1.25em;
+    font-family: "BurbankBigCondensed", OpenSans, sans-serif;
+    color: #333333;
+    text-transform: none;
+  }
+}
+img {
+  vertical-align: middle;
+
+  border: 0;
+}
+@media only screen and (max-width: 550px) {
+  .promo-container__game {
+    width: 95%;
+  }
+  .promo-container__description p {
+    width: 100%;
+    font-size: .89em;
+  }
+  .promo-container__title {
+    font-size: 1.3em;
+  }
+}
