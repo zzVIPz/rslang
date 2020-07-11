@@ -24,7 +24,11 @@ export default class DictionaryController {
   }
 
   renderLines(data, user, state) {
-    console.log(data);
+    // console.log(data);
+    console.log('learn mode is:', user.studyMode);
+    console.log('new cards are: ', user.cardsNew);
+    console.log('all cards are:', user.cardsTotal);
+
     this.domElements.wordsData.innerHTML = '';
     if (!data.length) {
       const noWords = document.createElement('div');
