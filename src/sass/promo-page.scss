@@ -1,13 +1,13 @@
  @font-face {
   font-family: "ObelixPro";
 
-  src: url("../assets/font/obelix.ttf") format("truetype");
+  src: url("../assets/fonts/for-promo-page/obelix.ttf") format("truetype");
 }
 @font-face {
   font-family: "BurbankBigCondensed";
 
   src: local("burbank.ttf"),
-       url("../assets/font/burbank.ttf") format("truetype");
+       url("../assets/fonts/for-promo-page/burbank.ttf") format("truetype");
 }
 .promo-container {
   width: 100%;
@@ -67,7 +67,7 @@
     margin: 5vh auto 0 auto;
 
     font-weight: 700;
-    font-size: .89em;
+    font-size: 1.89em;
     line-height: 1.25em;
     font-family: "BurbankBigCondensed", OpenSans, sans-serif;
     color: #333333;
@@ -80,8 +80,12 @@ img {
   border: 0;
 }
 @media only screen and (max-width: 550px) {
+  .promo-container__game {
+    width: 95%;
+  }
   .promo-container__description p {
     width: 100%;
+    font-size: .89em;
   }
   .promo-container__title {
     font-size: 1.3em;
