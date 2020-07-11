@@ -141,7 +141,6 @@ export default class MainController {
         && (this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
           || this.user.cardsTotal === this.user.cardsNew)
       ) {
-        console.log(1);
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
       if (
@@ -151,7 +150,6 @@ export default class MainController {
           || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.repeat
           || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult)
       ) {
-        console.log('2');
         this.mainView.showNotificationAboutRepeat(this.user);
       }
       if (
@@ -159,7 +157,6 @@ export default class MainController {
         && this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult
         && this.aggregatedWords.length < this.user.cardsTotal
       ) {
-        console.log(3);
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
     };
@@ -423,6 +420,30 @@ export default class MainController {
       }
       this.playAudio();
     }
+  }
+
+  async parseLearningsWords(wordsList) {
+    wordsList.forEach(async (word) => {
+      const wordById = await this.mainModel.getAggregatedWordById(word);
+      if (wordById.userWord) {
+        const wordDescription = this.updateOptionalWordStatistic(
+          wordById.userWord.optional,
+          { mistakesCounter: REPEAT_NUMBER },
+          WORDS_STATUS.repeat,
+        );
+        await this.mainModel.updateUserWord(word, WORDS_STATUS.repeat, wordDescription);
+      } else {
+        const defaultProperties = {
+          repeatCounter: 1,
+          lastTimeRepeat: new Date().getTime(),
+        };
+        await this.mainModel.createUserWord(
+          word,
+          WORDS_STATUS.repeat,
+          Object.assign(defaultProperties, { mistakesCounter: REPEAT_NUMBER }),
+        );
+      }
+    });
   }
 
   updateOptionalWordStatistic = (wordDescription, optional, category) => {

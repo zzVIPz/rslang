@@ -3,9 +3,16 @@
   flex-direction: column;
   justify-content: center;
   min-width: 300px;
+  padding: 0 20px;
 
   .user-name {
     display: none;
+  }
+
+  input::placeholder {
+    font-size: 1.1rem;
+
+    opacity: .8;
   }
 
   .user-name--active {
@@ -15,17 +22,30 @@
   .email-error-message,
   .password-error-message,
   .user-name-error-message {
-    padding-bottom: 15px;
+    padding: 0;
+
+    text-align: justify;
 
     visibility: hidden;
 
     @include font($size: 1.1rem, $weight: normal, $color: red);
   }
 
+  .email-error-message,
+  .user-name-error-message {
+    padding-bottom: 10px;
+  }
+
   .email-error-message--active,
   .password-error-message--active,
   .user-name-error-message--active {
     visibility: visible;
+  }
+
+  &__button {
+    margin: 0;
+
+    font-size: 1.8rem;
   }
 
   &__login-message {
@@ -39,10 +59,19 @@
 
     cursor: pointer;
 
-    @include font($size: 1.3rem, $weight: normal);
+    @include font($size: 1.4rem, $weight: normal, $color: #d00d0d);
   }
 
   & * {
     margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 835px) {
+  .form {
+    .email-error-message,
+    .user-name-error-message {
+      padding-bottom: 20px;
+    }
   }
 }

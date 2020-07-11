@@ -6,7 +6,7 @@
 @include media-mobile {
     width: 100%;
     margin-top: 0;
-    padding: 0 40px;
+    // padding: 0 40px;
   }
 }
 
@@ -16,7 +16,7 @@
 
   width: 50%;
   max-width: 500px;
-  height: 80%;
+  height: 90%;
   max-height: 450px;
   margin-right: 10px;
   overflow: hidden;
@@ -30,7 +30,7 @@
   }
 
 @include media-mobile {
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -172,17 +172,23 @@
 
 .word-search__words-container {
   width: 40%;
+  max-width: 700px;
 
 @include media-tablet {
-    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 
 @include media-mobile {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 90%;
+    height: 40%;
   }
 }
 
@@ -192,7 +198,7 @@
   justify-content: space-between;
   margin: 0 0 4px 0;
   padding: 0;
-  padding: 20px;
+  padding: 5px;
 
   list-style-type: none;
   font-size: 18px;
@@ -201,7 +207,11 @@
   border-radius: 10px;
 
 @include media-tablet {
-    padding: 5px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 55%;
+    margin: 0;
     overflow: scroll;
   }
 
@@ -236,12 +246,14 @@
   user-select: none;
 
 @include media-tablet {
+    width: 90%;
     height: 40px;
 
     font-size: 1.5rem;
   }
 
 @include media-mobile {
+    width: 45%;
     height: 20px;
 
     font-size: 1rem;
@@ -257,10 +269,10 @@
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 95%;
 
 @include media-tablet {
-    height: 90%;
+    height: 95%;
   }
 
 @include media-mobile {

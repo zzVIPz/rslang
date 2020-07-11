@@ -1,34 +1,36 @@
-$about-header-color: #666d89;
+$about-header-color: #02cead;;
 $about-text-color: #666d89;
-$about-person-header-color:#666d89;
-$about-person-text-color:#666d89;
+$about-person-header-color: #02cead;
+$about-person-text-color: #666d89;
 $about-border-color: #02cead;
 
 .about-us {
-  padding: 59px 30px 18px;
+  padding-top: 60px;
+
   color: $about-text-color;
-  &__header{
+  &__header {
     text-align: center;
-    text-transform: uppercase;
     color: $about-header-color;
+    text-transform: uppercase;
   }
-  &__text{
+  &__text {
     text-align: justify;
     color: $about-text-color;
+    margin: 0 3%;
 
-    &_centered{
-      text-align: center;
+    &_centered {
       width: 100%;
       margin-bottom: 24px;
+
+      text-align: center;
     }
   }
-  &__cards-block{
+  &__cards-block {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     padding: 45px 0;
   }
-
 }
 
 .person {
@@ -39,24 +41,31 @@ $about-border-color: #02cead;
 }
 
 .person__photo {
+  position: relative;
+
   width: 100%;
   margin-bottom: 10px;
-  overflow: hidden;
-  box-shadow: 0 1px 5px 0 $about-person-text-color;
-  background-color: $about-person-text-color;
-  position: relative;
   padding-top: 100%;
+  overflow: hidden;
+  box-shadow: 0 1px 5px 0 $about-border-color;
 }
 
 .person__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   position: absolute;
   top: 0;
-  }
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.description__header {
+  color: $about-person-header-color;
+}
 
 .social_about {
+  display: flex;
   margin-top: auto;
   padding-left: 1px;
 }
@@ -64,34 +73,48 @@ $about-border-color: #02cead;
 .social__item {
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  height: 32px;
   width: 32px;
-  box-shadow: 0 1px 3px 0 $about-person-text-color;
-  border-radius: 50%;
-  background-position: center;
-  background-size: 34px;
+  height: 32px;
+
+  white-space: nowrap;
+
   background-repeat: no-repeat;
-  background-image: url(/src/assets/svg/github.svg);
-  background-color: $about-person-text-color;
-  color: $about-person-text-color;
-  &:hover{
+  // box-shadow: 0 1px 3px 0 $about-person-text-color;
+  // border-radius: 50%;
+  background-position: center;
+  // background-color: #ffffff;
+  // color: $about-person-text-color;
+  background-size: 32px;
+  &:hover {
     cursor: pointer;
-    color: $about-border-color;
-    background-color: $about-border-color;
-    box-shadow: 0 1px 3px 0 $about-border-color;
+
+    transition: all .3s ease;
+
+    scale: .9;
+    // color: $about-border-color;
+    // background-color: $about-border-color;
+    // box-shadow: 0 1px 3px 0 $about-border-color;
   }
-}
-.github-name{
-  position: relative;
-  left: 40px;
+
+  &_github {
+    background-image: url(/src/assets/svg/github.svg);
+  }
+  &_telegram {
+    background-image: url(/src/assets/svg/telegram.svg);
+  }
+  &_skype {
+    background-image: url(/src/assets/svg/skype.svg);
+  }
+  &_mail {
+    background-image: url(/src/assets/svg/mail.svg);
+  }
 }
 .social :not(:last-child) {
   margin-right: 4px;
 }
 
 @media (min-width: 768px) and (max-width: 1019px) {
-    .about-us {
+  .about-us {
     padding: 52px 30px 20px;
   }
 
@@ -109,21 +132,20 @@ $about-border-color: #02cead;
   }
 
   .person-description .description__text {
-    padding-top: 0px;
+    padding-top: 0;
   }
-
 }
 
 @media (max-width: 767px) {
-
   .about-us {
     padding: 33px 20px 11px;
+
     border-bottom: 0;
   }
 
   .about-us__cards-block {
-    padding: 25px 10px 0px;
     justify-content: center;
+    padding: 25px 10px 0;
   }
 
   .person {

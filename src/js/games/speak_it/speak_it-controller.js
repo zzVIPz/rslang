@@ -5,6 +5,8 @@ import {
   CORRECT_MP3,
   MISS_MP3,
   MICROPHONE_TIME,
+  QUANTITY_MISS_RIGHT_ANWS,
+  COLORS,
 } from './speak_it-constants';
 import View from './speak_it-view';
 import Model from './speak_it-model';
@@ -87,11 +89,11 @@ export default class Controller {
     this.cards.forEach((card) => card.addEventListener('click', () => {
       if (this.cards.includes(card)) {
         this.view.clearTranslation();
-        this.model.chooseWord = card.querySelector('.word').innerText;
+        this.model.chooseWord = card.querySelector('.speak_word').innerText;
         this.cards.forEach((allCards) => allCards.classList.remove('choosen'));
         card.classList.add('choosen');
         this.view.selectCard(card, this.model);
-        this.choosenWordIndex = card.querySelector('.word').id;
+        this.choosenWordIndex = card.querySelector('.speak_word').id;
       }
     }));
   }
@@ -117,8 +119,11 @@ export default class Controller {
         word, id, soundURL, wordTranslate,
       };
       const choosenElement = document.querySelector('.choosen');
-      if (this.model.checkResult(result)) {
+      const mistakesArray = this.model.checkResult(result);
+      const lengthCorrectWord = this.model.chooseWord.length;
+      if (mistakesArray.length <= QUANTITY_MISS_RIGHT_ANWS) {
         if (this.model.isCardAnswered(choosenElement, this.cards)) {
+          this.view.setLettersColor(mistakesArray, lengthCorrectWord, COLORS.right);
           this.addToCorrectArray(objectWithResult, word);
           this.view.result.innerHTML += ONE_START;
           this.playAudio(this.correctAudio);
@@ -128,6 +133,7 @@ export default class Controller {
       } else {
         this.addToWrongArray(objectWithResult, word);
         this.playAudio(this.uncorrectAudio);
+        this.view.setLettersColor(mistakesArray, lengthCorrectWord, COLORS.wrong);
       }
     });
     this.recognition.stop();

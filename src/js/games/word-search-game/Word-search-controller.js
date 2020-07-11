@@ -1,6 +1,6 @@
 import WordSearchView from './Word-search-view';
 import WordSearchModel from './Word-search-model';
-import DELAY_CHECK_HASH from './constants';
+import { DELAY_CHECK_HASH } from './constants';
 
 class WordSearchController {
   constructor(user, mainView) {
