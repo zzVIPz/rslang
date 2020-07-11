@@ -12,18 +12,7 @@ export default class DailyStatisticsController {
 
   async init() {
     this.getDate();
-
-    // await this.getAggregatedWordsCount();
     await this.getData();
-    console.log(this.statData);
-
-    // if (!this.statData.optional.progress) {
-    //   this.statData.optional.progress = {};
-    // }
-    // await this.setDateInProgress();
-    // if (!(this.date in this.statData.optional.progress)) {
-    //   await this.setDateInProgress();
-    // }
   }
 
   getDate() {
@@ -55,25 +44,12 @@ export default class DailyStatisticsController {
     await this.mainModel.setUserStatistic(this.statData);
   }
 
-  // async learnedWordsUpdate(count) {
-  //   this.getDate();
-  //   this.statData.learnedWords += count;
-  //   await this.setDateInProgress();
-  // }
-
   async gameStartsStat(game) {
     this.statData.optional.games[game] += 1;
     await this.setData();
   }
 
-  // async setDateInProgress() {
-  //   this.statData.learnedWords = this.aggregatedWordsCount.easy;
-  //   this.statData.optional.progress[this.date] = this.aggregatedWordsCount.easy;
-  //   await this.setData();
-  // }
-
   async renderStat() {
-    // await this.getAggregatedWordsCount();
     await this.getData();
     this.statView.renderStatistics(this.statData, this.aggregatedWordsCount);
   }
