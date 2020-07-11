@@ -40,6 +40,7 @@ export default class MainModel {
     this.userId = this.accessData.userId;
     this.token = this.accessData.token;
     this.currentUser = null;
+    this.onSetUserSettings = null;
   }
 
   async init() {
@@ -186,7 +187,6 @@ export default class MainModel {
       getBodyRequest('GET', this.token),
     );
     const currentStatistic = await rawResponse.json();
-
     console.log('getUserStatistic ', currentStatistic);
     return currentStatistic;
   };

@@ -25,12 +25,14 @@ import {
 import createWordSearch from '../games/word-search-game/Word-search-controller';
 import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
 import DictionaryController from '../components/dictionary/dictionaryController';
+import DailyStatisticsController from '../components/dailyStatistics/dailyStatisticsController';
 
 export default class MainController {
   constructor() {
     this.firebaseModel = new FirebaseModel();
     this.mainModel = new MainModel();
     this.mainView = new MainView();
+    this.dailyStatistics = new DailyStatisticsController(this.mainModel);
     this.swiper = null;
   }
 
@@ -50,6 +52,7 @@ export default class MainController {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
     }
+    this.dailyStatistics.init();
   }
 
   subscribeToEvents() {
@@ -77,6 +80,7 @@ export default class MainController {
           this.dictionary.init();
           break;
         case MENU_ITEMS_NAMES.statistics:
+          this.dailyStatistics.renderStat();
           break;
         case MENU_ITEMS_NAMES.speakit:
           startSpeakItGame(this.user, this.mainView);
@@ -85,6 +89,7 @@ export default class MainController {
           this.englishPuzzle = new EnglishPuzzleStart(
             this.user,
             this.mainView,
+            this.dailyStatistics,
             this.setDefaultHash,
           );
           this.englishPuzzle.start();
