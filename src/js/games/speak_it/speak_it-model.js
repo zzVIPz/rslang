@@ -1,5 +1,3 @@
-import { QUANTITY_MISS_RIGHT_ANWS } from './speak_it-constants';
-
 export default class Model {
   constructor() {
     this.arrayNumders = Array.from({ length: 20 }, (v, k) => k);
@@ -69,16 +67,13 @@ export default class Model {
   checkResult(checkingWord) {
     const arrExample = this.chooseWord.toUpperCase().split('');
     const arrCheck = checkingWord.toUpperCase().split('');
-    let mis = 0;
+    const wrongLetters = [];
     for (let i = 0; i < arrExample.length; i += 1) {
       if (arrExample[i] !== arrCheck[i]) {
-        mis += 1;
+        wrongLetters.push(i);
       }
     }
-    if (mis <= QUANTITY_MISS_RIGHT_ANWS) {
-      return true;
-    }
-    return false;
+    return wrongLetters;
   }
 
   isCardAnswered = (choosenCard, ArrayWithCards) => (ArrayWithCards.indexOf(choosenCard) !== -1)
