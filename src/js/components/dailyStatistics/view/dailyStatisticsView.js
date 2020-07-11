@@ -19,7 +19,6 @@ export default class DailyStatisticsView {
     const gamesAxisX = Object.values(data.optional.games);
     renderChartBar(canvasGames, gamesAxisX);
     const wordsGroupData = Object.values(aggregatedWords);
-    console.log(aggregatedWords);
     renderChartPolarArea(canvasWords, wordsGroupData);
   }
 }

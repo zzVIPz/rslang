@@ -1,4 +1,3 @@
-// import STAT_CONST from './dailyStatisticsConstants';
 import DailyStatisticsView from './view/dailyStatisticsView';
 
 export default class DailyStatisticsController {
@@ -7,7 +6,6 @@ export default class DailyStatisticsController {
     this.statView = new DailyStatisticsView();
     this.statData = null;
     this.aggregatedWordsCount = null;
-    // this.statObj = STAT_CONST;
   }
 
   async init() {
