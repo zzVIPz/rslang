@@ -9,6 +9,9 @@ const dailyStatisticsTemplate = (data, aggregatedWords) => `
           <div class="statistics__element">Current progress: <span>${((aggregatedWords.easy / 3600) * 100).toFixed(2)}%</span></div>
         </div>
       </div>
+      <div class="statistics__chart">
+        <canvas id="statisticsChartGeneral"></canvas>
+      </div>
       <div class="statistics__games">
         <div class="statistics-title">GAMES STARTS</div>
         <div class="statistics__games-container">
@@ -22,6 +25,9 @@ const dailyStatisticsTemplate = (data, aggregatedWords) => `
           <div class="statistics__element">Word Search: <span>${data.optional.games.wordSearch}</span></div>
         </div>
       </div>
+      <div class="statistics__chart">
+        <canvas id="statisticsChartGames"></canvas>
+      </div>
       <div class="statistics__words">
         <div class="statistics-title">WORDS STATISTICS</div>
         <div class="statistics__words-container">
@@ -31,7 +37,7 @@ const dailyStatisticsTemplate = (data, aggregatedWords) => `
         </div>
       </div>
       <div class="statistics__chart">
-        <canvas id="statisticsChart"></canvas>
+        <canvas id="statisticsChartWords"></canvas>
       </div>
     </div>
   </div>

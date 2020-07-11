@@ -16,7 +16,7 @@ export default class DailyStatisticsController {
   }
 
   getDate() {
-    const currentDate = new Date('07/13/2020');
+    const currentDate = new Date();
     let day = currentDate.getDate();
     if (day < 10) day = `0${day}`;
 

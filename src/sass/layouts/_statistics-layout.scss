@@ -4,6 +4,9 @@
   &__wrapper {
     width: 1200px;
     margin: 0 auto;
+    // TODO
+    max-height: 100%;
+    overflow: scroll;
   }
 
   &-title {
@@ -68,19 +71,27 @@
   }
 }
 
-// @media screen and (max-width: 600px) {
-//   .statistics {
-//     &__element {
-//       font-size: 1.4rem;
-//     }
-//     &-title {
-//       font-size: 1.8rem;
-//     }
-//     &__total, &__words, &__games {
-//       margin-top: 30px;
-//       &-container {
-//         margin-top: 20px;
-//       }
-//     }
-//   }
-// }
+@media screen and (max-width: 550px) {
+  .statistics {
+    &__total, &__words, &__games {
+      margin-top: 20px;
+      &-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15px;
+        &:nth-child(3) {
+          margin-top: 0;
+        }
+      }
+    }
+    &__element {
+      margin-bottom: 10px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    &__chart {
+      margin-top: 0;
+    }
+  }
+}

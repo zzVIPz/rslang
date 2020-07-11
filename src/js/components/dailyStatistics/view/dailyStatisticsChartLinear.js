@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 
-const renderChart = (canvas, AxisXData, AxisYData) => new Chart(canvas, {
+const renderChartLinear = (canvas, AxisXData, AxisYData) => new Chart(canvas, {
   type: 'line',
   data: {
     labels: AxisXData,
@@ -34,4 +34,4 @@ const renderChart = (canvas, AxisXData, AxisYData) => new Chart(canvas, {
   },
 });
 
-export default renderChart;
+export default renderChartLinear;
