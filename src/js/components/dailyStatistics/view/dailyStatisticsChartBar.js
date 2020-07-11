@@ -1,17 +1,21 @@
 import Chart from 'chart.js';
 
-const renderChartBar = (canvas, AxisXData, AxisYData) => new Chart(canvas, {
+const renderChartBar = (canvas, AxisXData) => new Chart(canvas, {
   type: 'horizontalBar',
   data: {
     datasets: [{
       label: 'Game starts',
-      // barPercentage: 0.5,
-      // barThickness: 6,
-      // maxBarThickness: 8,
-      // minBarLength: 2,
+      backgroundColor: [
+        'rgba(255, 15, 15, 0.5)',
+        'rgba(255, 15, 255, 0.5)',
+        'rgba(255, 255, 15, 0.5)',
+        'rgba(15, 255, 15, 0.5)',
+        'rgba(15, 135, 255, 0.5)',
+        'rgba(135, 15, 255, 0.5)',
+      ],
       data: AxisXData,
     }],
-    labels: AxisYData,
+    labels: ['SpeakIt', 'English Puzzle', 'AudioCall', 'Savannah', 'Sprint', 'Word Search'],
   },
   options: {
     legend: {
@@ -20,16 +24,16 @@ const renderChartBar = (canvas, AxisXData, AxisYData) => new Chart(canvas, {
     title: {
       display: false,
     },
-    // scales: {
-    //   yAxes: [{
-    //     ticks: {
-    //       beginAtZero: true,
-    //       precision: 0,
-    //       autoSkipPadding: 10,
-    //       suggestedMax: 30,
-    //     },
-    //   }],
-    // },
+    scales: {
+      xAxes: [{
+        ticks: {
+          beginAtZero: true,
+          precision: 0,
+          autoSkipPadding: 10,
+          suggestedMax: 30,
+        },
+      }],
+    },
   },
 });
 

@@ -1,5 +1,6 @@
 import renderChartLinear from './dailyStatisticsChartLinear';
 import renderChartBar from './dailyStatisticsChartBar';
+import renderChartPolarArea from './dailyStatistcsChartPolarArea';
 import dailyStatisticsTemplate from './dailyStatisticsTemplate';
 
 export default class DailyStatisticsView {
@@ -12,12 +13,13 @@ export default class DailyStatisticsView {
     const canvasGeneral = document.getElementById('statisticsChartGeneral');
     const canvasGames = document.getElementById('statisticsChartGames');
     const canvasWords = document.getElementById('statisticsChartWords');
-    const GeneralAxisX = Object.keys(data.optional.progress);
-    const GeneralAxisY = Object.values(data.optional.progress);
-    renderChartLinear(canvasGeneral, GeneralAxisX, GeneralAxisY);
-    console.log(data.optional.games);
-    const GamesAxisX = Object.values(data.optional.games);
-    const GamesAxisY = Object.keys(data.optional.games);
-    renderChartBar(canvasGames, GamesAxisX, GamesAxisY);
+    const generalAxisX = Object.keys(data.optional.progress);
+    const generalAxisY = Object.values(data.optional.progress);
+    renderChartLinear(canvasGeneral, generalAxisX, generalAxisY);
+    const gamesAxisX = Object.values(data.optional.games);
+    renderChartBar(canvasGames, gamesAxisX);
+    const wordsGroupData = Object.values(aggregatedWords);
+    console.log(aggregatedWords);
+    renderChartPolarArea(canvasWords, wordsGroupData);
   }
 }

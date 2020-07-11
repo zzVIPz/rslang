@@ -1,55 +1,60 @@
 .statistics {
-  width: 100vw;
-  height: calc(100vh - 93px);
+  width: 100%;
   &__wrapper {
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
-    // TODO
-    max-height: 100%;
-    overflow: scroll;
   }
 
   &-title {
-    color: rgb(255, 99, 132);
     font-weight: 100;
     font-size: 2rem;
+    color: rgb(255, 99, 132);
     letter-spacing: .2rem;
   }
 
-  &__total, &__words, &__games {
+  &__total,
+  &__words,
+  &__games {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
     &-container {
       display: flex;
-      width: 100%;
       justify-content: space-around;
+      width: 100%;
       margin-top: 20px;
     }
   }
 
   &__element {
     width: 250px;
-    text-align: center;
-    color: #2582e7;
+
     font-weight: 600;
     font-size: 1.6rem;
+    text-align: center;
+    color: #2582e7;
     & > span {
       color: #225475;
     }
   }
 
   &__chart {
-    width: 800px;
+    max-width: 800px;
     margin: 30px auto 0;
+    &:last-child {
+      margin-bottom: 20px;
+    }
   }
 }
 
 @media screen and (max-width: 1200px) {
   .statistics {
     &__wrapper {
-      width: 800px;
+      max-width: 800px;
+    }
+    &__chart {
+      width: 100%;
     }
   }
 }
@@ -57,9 +62,6 @@
 @media screen and (max-width: 800px) {
   .statistics {
     &__wrapper {
-      width: 100%;
-    }
-    &__chart {
       width: 100%;
     }
     &__element {
@@ -73,15 +75,13 @@
 
 @media screen and (max-width: 550px) {
   .statistics {
-    &__total, &__words, &__games {
-      margin-top: 20px;
+    &__total,
+    &__words,
+    &__games {
       &-container {
         flex-direction: column;
         align-items: center;
         margin-top: 15px;
-        &:nth-child(3) {
-          margin-top: 0;
-        }
       }
     }
     &__element {
