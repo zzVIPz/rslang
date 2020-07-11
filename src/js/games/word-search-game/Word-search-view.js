@@ -27,6 +27,7 @@ import {
   DELAY_CHECK_HASH,
   REMOVE_STYLE_DELAY,
   REMOVE_HINT_STYLE_DELAY,
+  CHECK_CHOSEN_LETTER_STYLE_DELAY,
 } from './constants';
 
 class WordSearchView extends SavannahView {
@@ -318,9 +319,9 @@ class WordSearchView extends SavannahView {
 
   isChosenLetterStyle() {
     let notActivated = true;
-    const allCells = Array.from(document.querySelectorAll('.cell'));
+    const allCells = document.querySelectorAll('.cell');
 
-    allCells.map((el) => {
+    allCells.forEach((el) => {
       if (notActivated) {
         if (el.classList.contains('word-search__chosen-letter')) {
           this.activateBtn(this.clearBtn);
@@ -331,11 +332,9 @@ class WordSearchView extends SavannahView {
           this.disableBtn(this.checkBtn);
         }
       }
-
-      return true;
     });
 
-    setTimeout(() => { this.isChosenLetterStyle(); }, 500);
+    setTimeout(() => { this.isChosenLetterStyle(); }, CHECK_CHOSEN_LETTER_STYLE_DELAY);
   }
 
   newLetter(target) {
@@ -399,7 +398,7 @@ class WordSearchView extends SavannahView {
 
     if (this.model.chosenWord.length > 0) {
       this.chosenWordString = this.model.chosenWord.join('');
-      this.allCells = Array.from(document.querySelectorAll('.cell'));
+      this.allCells = document.querySelectorAll('.cell');
 
       const { chosenWordTranslation, chosenWordAudio } = this.model.getChosenWordData(
         this.chosenWordString,
@@ -446,7 +445,7 @@ class WordSearchView extends SavannahView {
     }
 
     this.model.setDefaultArray();
-    this.allCells.map((cell) => {
+    this.allCells.forEach((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__correct-word');
       addStyle(
         cell,
@@ -454,8 +453,6 @@ class WordSearchView extends SavannahView {
         `correct-word-${this.model.rightAnswersCounter}`,
       );
       removeStyle(cell, 'word-search__chosen-letter');
-
-      return true;
     });
 
     this.rightAnswersElements.push({
@@ -474,13 +471,11 @@ class WordSearchView extends SavannahView {
       this.errorSound.play();
     }
 
-    this.allCells.map((cell) => {
+    this.allCells.forEach((cell) => {
       addStyle(cell, 'word-search__chosen-letter', 'word-search__wrong-word');
       setTimeout(() => {
         removeStyle(cell, 'word-search__wrong-word');
       }, REMOVE_STYLE_DELAY);
-
-      return true;
     });
 
     this.onClearBtnClick();
@@ -488,19 +483,17 @@ class WordSearchView extends SavannahView {
   }
 
   addStylesToCorrectTranslation() {
-    this.allTranslations = Array.from(document.querySelectorAll('.word'));
-    this.allTranslations.map((tran) => {
+    this.allTranslations = document.querySelectorAll('.word');
+    this.allTranslations.forEach((tran) => {
       if (tran.textContent === this.currentTranslation) {
         tran.classList.add('word-search__correct-translation');
       }
-
-      return true;
     });
   }
 
   onClearBtnClick = () => {
-    this.allCells = Array.from(document.querySelectorAll('.cell'));
-    this.allCells.map((cell) => removeStyle(cell, 'word-search__chosen-letter'));
+    const allCells = document.querySelectorAll('.cell');
+    allCells.forEach((cell) => removeStyle(cell, 'word-search__chosen-letter'));
     this.model.setDefaultArray();
   };
 
@@ -511,8 +504,8 @@ class WordSearchView extends SavannahView {
     this.addGuessedWords();
     this.continuePlaying();
 
-    Array.from(document.querySelectorAll('.wordBox'))
-      .map((el) => el.classList.add('word-search__word-box'));
+    document.querySelectorAll('.wordBox')
+      .forEach((el) => el.classList.add('word-search__word-box'));
 
     // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.tenWordsId;
@@ -531,13 +524,13 @@ class WordSearchView extends SavannahView {
 
     document.querySelector('.wrong_title').classList.add('word-search__wrong_title');
     document.querySelector('.correct_title').classList.add('word-search__correct_title');
-    Array.from(document.querySelectorAll('.soundBox'))
-      .map((el) => el.classList.add('word-search__sound-box'));
+    document.querySelectorAll('.soundBox')
+      .forEach((el) => el.classList.add('word-search__sound-box'));
     this.rightAnswersElements = [];
   }
 
   addNotGuessedWordToWrongWords() {
-    if (this.model.tenEngWordsArr.length > 0) {
+    if (this.model.tenEngWordsArr.length) {
       this.model.tenEngWordsArr.map((word, index) => {
         this.statistics.appendWrongAnswer(
           word,
@@ -563,7 +556,7 @@ class WordSearchView extends SavannahView {
   }
 
   allWordsFound() {
-    if (this.model.tenEngWordsArr.length === 0) {
+    if (!this.model.tenEngWordsArr.length) {
       this.renderGameOver(true);
     }
   }

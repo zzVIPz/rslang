@@ -6,8 +6,8 @@ const setNewStyle = () => {
   document.querySelector('.app__modal__box_cancel').classList.add('word-search_cancel');
   document.querySelector('.app__content').classList.add('word-search__start-content');
 
-  Array.from(document.querySelectorAll('.text'))
-    .map((text) => text.classList.add('word-search__rating_text'));
+  document.querySelectorAll('.text')
+    .forEach((text) => text.classList.add('word-search__rating_text'));
   document.querySelector('.rating__container').classList.add('word-search__rating-container');
 };
 
