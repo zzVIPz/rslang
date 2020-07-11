@@ -1,6 +1,7 @@
 import {
   SPEAK_MODE,
   VIEW_MODE,
+  ONE_LETTER_CONTAINER,
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
 
@@ -11,7 +12,7 @@ export default class View {
     this.input = document.querySelector('.inner');
     this.inputContainer = document.querySelector('.inner_container');
     this.listens = Array.from(document.querySelectorAll('.link_word_listen'));
-    this.words = Array.from(document.querySelectorAll('.word'));
+    this.words = Array.from(document.querySelectorAll('.speak_word'));
     this.transcriptions = Array.from(document.querySelectorAll('.transcription'));
     this.cards = Array.from(document.querySelectorAll('.speak_card'));
     this.textMean = document.querySelector('.text_mean');
@@ -31,7 +32,7 @@ export default class View {
   selectCard(card, model) {
     let numerCardInArray;
     if (card) {
-      numerCardInArray = card.querySelector('.word').id;
+      numerCardInArray = card.querySelector('.speak_word').id;
     } else {
       [numerCardInArray] = model.arrayNumders;
       this.cards[0].classList.add('choosen');
@@ -101,7 +102,11 @@ export default class View {
   }
 
   recognition(record) {
-    this.input.innerText = record;
+    this.input.innerText = '';
+    const recordArray = record.toUpperCase().split('');
+    for (let i = 0; i < recordArray.length; i += 1) {
+      this.input.innerHTML += `${ONE_LETTER_CONTAINER}${i}">${recordArray[i]}</span>`;
+    }
   }
 
   clearTranslation() {
@@ -135,5 +140,17 @@ export default class View {
     document.querySelectorAll('.link_word_listen').forEach((link) => {
       link.classList.add('word_listen_active');
     });
+  }
+
+  setLettersColor(indexes, lengthCorrectWord, colorWord) {
+    const wordLength = this.input.innerText.length;
+    for (let i = lengthCorrectWord; i < wordLength; i += 1) {
+      document.querySelector(`#word${i}`).style.color = colorWord;
+    }
+    for (let i = 0; i < indexes.length; i += 1) {
+      if (indexes[i] < wordLength) {
+        document.querySelector(`#word${indexes[i]}`).style.color = colorWord;
+      }
+    }
   }
 }

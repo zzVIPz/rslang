@@ -15,7 +15,7 @@ $print-header-third: #e91e62a2;
 }
 
 .sprint-game-bgr {
-  background-image: url(/src/assets/images/savannah-bg.svg);
+  background-image: url(/src/assets/images/sprint-bg-2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -26,19 +26,17 @@ $print-header-third: #e91e62a2;
   justify-content: space-between;
   width: 600px;
   max-width: 90vw;
-  height: 70vh;
+  height: 75vh;
   margin: 4rem auto;
 
   text-align: center;
 
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, .733);
   border-radius: 8px;
-  box-shadow: 0 3px 5px 0 $sprint-border-color;
 
   transition: .3s ease-out;
 }
 .sprint-game-bgr .sprint-container {
-  background-image: url(/src/assets/images/big-moon-cut.png);
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
@@ -70,7 +68,7 @@ $print-header-third: #e91e62a2;
   left: 2%;
 
   font-weight: 300;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .sprint-marks-line {
@@ -88,13 +86,34 @@ $print-header-third: #e91e62a2;
 .activated {
   color: $sprint-star-on;
 }
+.sprint-progress-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 60px;
+  height: 60px;
+}
 .sprint-timer {
   position: absolute;
-  top: 12%;
-  right: 2%;
+  top: 34%;
+  right: 8%;
+
+  width: 60px;
 
   font-weight: 300;
-  font-size: 4rem;
+  font-size: 2.5rem;
+  text-align: center;
+}
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: -7%;
+
+  transform: rotate(-90deg);
+  &__circle {
+    stroke: $sprint-words-color;
+  }
 }
 .sprint-points-line {
   font-weight: 300;
@@ -213,7 +232,7 @@ $print-header-third: #e91e62a2;
 
 // statistics
 .sprint-result-header {
-  margin-top: 5%;
+  margin-top: 3%;
 
   font-weight: 300;
   font-size: 3rem;
@@ -245,7 +264,7 @@ $print-header-third: #e91e62a2;
   color: $sprint-wrong-color;
 }
 .sprint-mistaken-words {
-  max-height: 160px;
+  max-height: 200px;
   padding: 1%;
   overflow-y: scroll;
 
@@ -253,6 +272,9 @@ $print-header-third: #e91e62a2;
   color: $sprint-border-color;
 
   box-shadow: inset 0 0 1px 0 $main-color;
+}
+.wordBox_sprint {
+  margin-bottom: 5px;
 }
 
 .sprint-result-controls {
@@ -281,7 +303,7 @@ $print-header-third: #e91e62a2;
 .sprint-user-advice {
   color: $sprint-words-color;
 
-  @include media-tablet {
+@include media-tablet {
     display: none;
   }
 }

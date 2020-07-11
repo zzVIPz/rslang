@@ -1,0 +1,168 @@
+$about-header-color: #02cead;;
+$about-text-color: #666d89;
+$about-person-header-color: #02cead;
+$about-person-text-color: #666d89;
+$about-border-color: #02cead;
+
+.about-us {
+  padding-top: 60px;
+
+  color: $about-text-color;
+  &__header {
+    text-align: center;
+    color: $about-header-color;
+    text-transform: uppercase;
+  }
+  &__text {
+    text-align: justify;
+    color: $about-text-color;
+    margin: 0 3%;
+
+    &_centered {
+      width: 100%;
+      margin-bottom: 24px;
+
+      text-align: center;
+    }
+  }
+  &__cards-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 45px 0;
+  }
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  width: 27%;
+  margin: 0 3% 60px;
+}
+
+.person__photo {
+  position: relative;
+
+  width: 100%;
+  margin-bottom: 10px;
+  padding-top: 100%;
+  overflow: hidden;
+  box-shadow: 0 1px 5px 0 $about-border-color;
+}
+
+.person__photo img {
+  position: absolute;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.description__header {
+  color: $about-person-header-color;
+}
+
+.social_about {
+  display: flex;
+  margin-top: auto;
+  padding-left: 1px;
+}
+
+.social__item {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+
+  white-space: nowrap;
+
+  background-repeat: no-repeat;
+  // box-shadow: 0 1px 3px 0 $about-person-text-color;
+  // border-radius: 50%;
+  background-position: center;
+  // background-color: #ffffff;
+  // color: $about-person-text-color;
+  background-size: 32px;
+  &:hover {
+    cursor: pointer;
+
+    transition: all .3s ease;
+
+    scale: .9;
+    // color: $about-border-color;
+    // background-color: $about-border-color;
+    // box-shadow: 0 1px 3px 0 $about-border-color;
+  }
+
+  &_github {
+    background-image: url(/src/assets/svg/github.svg);
+  }
+  &_telegram {
+    background-image: url(/src/assets/svg/telegram.svg);
+  }
+  &_skype {
+    background-image: url(/src/assets/svg/skype.svg);
+  }
+  &_mail {
+    background-image: url(/src/assets/svg/mail.svg);
+  }
+}
+.social :not(:last-child) {
+  margin-right: 4px;
+}
+
+@media (min-width: 768px) and (max-width: 1019px) {
+  .about-us {
+    padding: 52px 30px 20px;
+  }
+
+  .about-us__cards-block {
+    padding-top: 38px;
+  }
+
+  .person__photo {
+    width: 100%;
+    margin-bottom: 13px;
+  }
+
+  .person-description {
+    padding-bottom: 10px;
+  }
+
+  .person-description .description__text {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-us {
+    padding: 33px 20px 11px;
+
+    border-bottom: 0;
+  }
+
+  .about-us__cards-block {
+    justify-content: center;
+    padding: 25px 10px 0;
+  }
+
+  .person {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 0 60px 0;
+  }
+
+  .person__photo {
+    width: 100%;
+  }
+
+  .person-description {
+    padding-bottom: 10px;
+  }
+
+  .person-description .description__text {
+    padding-top: 2px;
+  }
+}

@@ -1,15 +1,16 @@
 .contacts {
+  width: 100%;
   .link {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    height: 100%;
     padding: 0 20px;
 
     color: $color-menu-elements;
     text-decoration: none;
 
     img {
-      height: 20px;
+      height: 30px;
       margin-right: 10px;
     }
     &:hover {
