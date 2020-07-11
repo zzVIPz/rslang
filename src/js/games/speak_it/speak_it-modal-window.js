@@ -1,5 +1,4 @@
 import {
-  container,
   STATISTICS_MODAL_LAYOUT,
   SVG_URL,
   ID_OF_WORD,
