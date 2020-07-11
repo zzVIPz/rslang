@@ -1,15 +1,21 @@
+ @font-face {
+  font-family: "ObelixPro";
+
+  src: url("../assets/font/obelix.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BurbankBigCondensed";
+
+  src: local("burbank.ttf"),
+       url("../assets/font/burbank.ttf") format("truetype");
+}
 .promo-container {
   width: 100%;
-  height: 100%;
   min-width: 98.4vw;
+  height: 100%;
 
   background: #108cc1;
-  &__speakit,
-  &__english-puzzle,
-  &__savannah,
-  &__audiocall,
-  &__sprint,
-  &__find-word {
+  &__game {
     position: relative;
 
     display: -webkit-flex;
@@ -30,67 +36,43 @@
     -webkit-clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
             clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
   }
-}
-.speakit__image,
-.english-puzzle__image,
-.savannah__image,
-.audiocall__image,
-.sprint__image,
-.find-word__image {
-  width: 100%;
+  &__image {
+    width: 100%;
 
-  background-color: #ffff00;
-}
-.speakit__content,
-.english-puzzle__content,
-.savannah__content,
-.audiocall__content,
-.sprint__content,
-.find-word__content {
-  -webkit-flex: 1 1 auto;
-          flex: 1 1 auto;
-  padding: 1.5em 1.25em;
+    background-color: #ffff00;
+  }
+  &__content {
+    -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+    padding: 1.5em 1.25em;
 
-  text-align: center;
+    text-align: center;
 
-      -ms-flex: 1 1 auto;
-}
-.speakit__title,
-.english-puzzle__title,
-.savannah__title,
-.audiocall__title,
-.sprint__title,
-.find-word__title {
-  margin: 0;
+        -ms-flex: 1 1 auto;
+  }
+  &__title {
+    margin: 0;
 
-  font-size: 2em;
-  line-height: .7;
-  color: #333333;
-  text-transform: uppercase;
-}
-.speakit__description,
-.english-puzzle__description,
-.savannah__description,
-.audiocall__description,
-.sprint__description,
-.find-word__description {
-  padding: 0;
-}
-.speakit__description p,
-.english-puzzle__description p,
-.savannah__description p,
-.audiocall__description p,
-.sprint__description p,
-.find-word__description p {
-  width: 80%;
-  margin: 5vh auto 0 auto;
+    font-size: 2em;
+    line-height: 1.3;
+    font-family: "ObelixPro", sans-serif;
+    color: #333333;
+    text-transform: uppercase;
+  }
+  &__description {
+    padding: 0;
+  }
+  &__description p {
+    width: 80%;
+    margin: 5vh auto 0 auto;
 
-  font-weight: 700;
-  font-size: .89em;
-  line-height: 1.25em;
-  font-family: OpenSans, sans-serif;
-  color: #333333;
-  text-transform: none;
+    font-weight: 700;
+    font-size: .89em;
+    line-height: 1.25em;
+    font-family: "BurbankBigCondensed", OpenSans, sans-serif;
+    color: #333333;
+    text-transform: none;
+  }
 }
 img {
   vertical-align: middle;
@@ -98,12 +80,10 @@ img {
   border: 0;
 }
 @media only screen and (max-width: 550px) {
-  .speakit__description p, 
-  .english-puzzle__description p, 
-  .savannah__description p, 
-  .audiocall__description p, 
-  .sprint__description p, 
-  .find-word__description p {
+  .promo-container__description p {
     width: 100%;
+  }
+  .promo-container__title {
+    font-size: 1.3em;
   }
 }
