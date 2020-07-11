@@ -8,6 +8,7 @@
 
 //  Base
 @import "base/base";
+@import "base/fonts";
 
 //  Components
 @import "components/auth-tool";
@@ -40,6 +41,9 @@
 // audiocall
 @import "audiocall";
 
+//word-search
+@import "word-search";
+
 // english-puzzle
 @import "english-puzzle";
 
@@ -51,4 +55,3 @@
 
 // dictionary
 @import "dictionary";
-

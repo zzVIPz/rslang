@@ -1,7 +1,8 @@
 import dictionaryTemplate from './dictionaryTemplate';
 import dictionaryModalTemplate from './dictionaryModalTemplate';
 import dictionaryLineTemplate from './dictionaryLineTemplate';
-import getMediaUrl from '../../utils/getMediaUrl';
+import getMediaUrl from '../../../utils/getMediaUrl';
+import CONSTANTS from '../dictionaryConstants';
 
 export default class DictionaryController {
   constructor() {
@@ -23,11 +24,12 @@ export default class DictionaryController {
   }
 
   renderLines(data, user, state) {
+    console.log(data);
     this.domElements.wordsData.innerHTML = '';
-    if (data.length === 0) {
+    if (!data.length) {
       const noWords = document.createElement('div');
       noWords.classList.add('dict__no-words');
-      noWords.textContent = 'There is no words to view';
+      noWords.textContent = CONSTANTS.DEFAULT_NO_WORDS_MESSAGE;
       this.domElements.wordsData.append(noWords);
     }
     data.forEach((el) => {
@@ -41,11 +43,11 @@ export default class DictionaryController {
     this.domElements.dictControls.addEventListener('click', ({ target }) => {
       if (target.classList.contains('controlsBtn')) {
         const btns = document.querySelectorAll('.controlsBtn');
-        [].forEach.call(btns, (el) => {
+        btns.forEach((el) => {
           el.classList.remove('controlsBtn_active');
         });
         target.classList.add('controlsBtn_active');
-        if (this.onStateChange != null) {
+        if (this.onStateChange !== null) {
           this.onStateChange(target.dataset.state);
         }
       }
@@ -57,25 +59,25 @@ export default class DictionaryController {
       }
 
       if (target.classList.contains('dict__word-information')) {
-        if (this.onInfoRequest != null) {
+        if (this.onInfoRequest !== null) {
           this.onInfoRequest(target.dataset.id);
         }
       }
 
       if (target.classList.contains('dict__word-remove')) {
-        if (this.onWordRemove != null) {
+        if (this.onWordRemove !== null) {
           this.onWordRemove(target.dataset.id);
         }
       }
 
       if (target.classList.contains('dict__word-difficult')) {
-        if (this.onWordToDifficult != null) {
+        if (this.onWordToDifficult !== null) {
           this.onWordToDifficult(target.dataset.id);
         }
       }
 
       if (target.classList.contains('dict__word-restore')) {
-        if (this.onWordRestore != null) {
+        if (this.onWordRestore !== null) {
           this.onWordRestore(target.dataset.id);
         }
       }

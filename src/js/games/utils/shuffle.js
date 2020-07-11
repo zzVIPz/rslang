@@ -7,4 +7,10 @@ const shuffleArray = (arr) => {
   return array;
 };
 
-export default shuffleArray;
+const randomArrAndShuffle = (n) => {
+  const arr = [...Array(n).keys()];
+
+  return shuffleArray(arr);
+};
+
+export { shuffleArray, randomArrAndShuffle };

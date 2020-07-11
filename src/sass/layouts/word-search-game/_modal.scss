@@ -1,0 +1,50 @@
+.app__modal__box_cancel_word-search {
+  color: $main-color;
+}
+
+.word-search__word-box {
+  margin-bottom: 5px;
+}
+
+.word-search__continue {
+  width: 50%;
+
+  background: $dark-main-color;
+
+@include media-mobile {
+    width: 100%;
+    padding: 9px;
+  }
+
+  &:hover {
+    color: $dark-main-color;
+
+    border: 1px solid $dark-main-color;
+  }
+}
+
+.word-search__back {
+  margin-top: 10px;
+
+  font-size: 1.5rem;
+  color: $dark-main-color;
+
+@include media-mobile {
+    font-size: 1.2rem;
+  }
+}
+
+.word-search__statistics-title {
+  color: $dark-main-color;
+}
+
+.word-search__wrong_title,
+.word-search__correct_title {
+  margin-bottom: 10px;
+}
+
+.word-search__sound-box {
+  @include media-mobile {
+    width: 15px;
+  }
+}
