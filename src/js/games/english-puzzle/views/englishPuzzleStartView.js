@@ -1,9 +1,11 @@
 import templateStart from './templateStart';
 import EnglishPuzzleController from '../controllers/englishPuzzleController';
+import GLOBAL from '../../../constants/global';
 
 export default class EnglishPuzzleView {
-  constructor(user, mainView, setDefaultHash) {
+  constructor(user, mainView, stats, setDefaultHash) {
     this.user = user;
+    this.stats = stats;
     this.mainView = mainView;
     this.view = templateStart;
     this.setDefaultHash = setDefaultHash;
@@ -17,6 +19,7 @@ export default class EnglishPuzzleView {
       const englishPuzzle = new EnglishPuzzleController(this.user,
         this.mainView, this.setDefaultHash);
       englishPuzzle.init();
+      this.stats.gameStartsStat(GLOBAL.STAT_GAME_NAMES.englishPuzzle);
     });
 
     document.getElementById('closeButton').addEventListener('click', () => {

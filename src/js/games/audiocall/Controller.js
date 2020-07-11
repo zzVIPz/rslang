@@ -15,12 +15,12 @@ class AudiocallController {
     this.view.getViewUser(this.user, this.mainView);
     this.view.render();
     this.view.addListeners();
-    this.subscribeToEvents();
+    this.subscribeToEvents(this.defaultHash, this.currentHash);
   }
 
-  subscribeToEvents() {
+  subscribeToEvents(defaultHash, currentHash) {
     this.view.onContinueGame = () => {
-      this.init(this.setDefaultHash, this.getCurrentHash);
+      this.init(defaultHash, currentHash);
     };
   }
 }
