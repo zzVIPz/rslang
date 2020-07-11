@@ -17,7 +17,7 @@ import { CORRECT_SOUND, ERROR_SOUND, ROUND_STARTS_SOUND } from '../savannah-game
 import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
-import shuffleArray from '../utils/shuffle';
+import { shuffleArray } from '../utils/shuffle';
 
 class AudiocallView {
   constructor(model, defaultHash, currentHash) {
