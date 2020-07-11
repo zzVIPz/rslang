@@ -106,15 +106,16 @@ const WORD_LEARNING_MODES = [
 
 const MAIN_TEXT = {
   title: 'Dear,',
-  subtitle: 'Your goals for today:',
-  totalCards: 'Total cards:',
-  newWords: 'Total new words cards:',
-  studyMode: 'Study mode:',
-  achievements: 'Your achievements:',
-  learnedWords: 'Learned words:',
-  repeatWord: 'Words to repeat:',
-  btnStart: 'CONTINUE',
-  btnShowGraph: 'SHOW GRAPH',
+  subtitle: 'Your goals for today :',
+  totalCards: 'Total cards :',
+  newWords: 'Total new words cards :',
+  studyMode: 'Study mode :',
+  achievements: 'Your achievements :',
+  learnedWords: 'Learned words :',
+  passedWords: 'Total words passed :',
+  btnStart: 'START TRAINING',
+  progress: 'Your progress :',
+  amountCards: '3600',
 };
 
 const AMOUNT_WORDS_PER_PAGE = 19;
