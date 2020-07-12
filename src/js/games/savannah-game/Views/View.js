@@ -32,8 +32,9 @@ import {
 } from '../constSavannah';
 
 class SavannahView {
-  constructor(model, defaultHash, currentHash) {
+  constructor(model, defaultHash, currentHash, parseLearningWords) {
     this.model = model;
+    this.parseLearningWords = parseLearningWords;
     this.currentHash = currentHash;
     this.setDefaultHash = defaultHash;
     this.savannahGame = GAME_LAYOUT;
@@ -521,6 +522,7 @@ class SavannahView {
   renderGameOver(isWin) {
     // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.incorrectWordsId;
+    this.parseLearningWords(this.incorrectWordsIdArr);
     this.translationBox.removeEventListener('click', this.listener1);
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
