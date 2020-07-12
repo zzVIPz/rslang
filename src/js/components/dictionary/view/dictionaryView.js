@@ -17,8 +17,6 @@ export default class DictionaryController {
   }
 
   render() {
-    // this.showPreloader(document.querySelector('.main'));
-    // this.hidePreloader();
     this.domElements.main.innerHTML = this.template;
     this.domElements.dictControls = document.querySelector('.dictionary__controls');
     this.domElements.wordsData = document.querySelector('.wordsData');
