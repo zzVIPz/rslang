@@ -6,6 +6,7 @@ import setFocus from '../../utils/setFocus';
 import getMediaURL from '../../../utils/getMediaUrl';
 import { STATISTICS_MODAL_LAYOUT } from '../../utils/statisticsModalConst';
 import { HASH_VALUES } from '../../../constants/constMainView';
+import GLOBAL from '../../../constants/global';
 import {
   GAME_LAYOUT,
   PRELOADER,
@@ -32,8 +33,10 @@ import {
 } from '../constSavannah';
 
 class SavannahView {
-  constructor(model, defaultHash, currentHash) {
+  constructor(model, defaultHash, currentHash, parseLearningWords, stat) {
     this.model = model;
+    this.parseLearningWords = parseLearningWords;
+    this.stats = stat;
     this.currentHash = currentHash;
     this.setDefaultHash = defaultHash;
     this.savannahGame = GAME_LAYOUT;
@@ -143,6 +146,7 @@ class SavannahView {
           this.model.getWordsAndTranslation(data);
           this.model.getWordIdsAndAudio(data);
         });
+      this.stats.gameStartsStat(GLOBAL.STAT_GAME_NAMES.savannah);
     });
   }
 
@@ -521,6 +525,7 @@ class SavannahView {
   renderGameOver(isWin) {
     // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.incorrectWordsId;
+    this.parseLearningWords(this.incorrectWordsIdArr);
     this.translationBox.removeEventListener('click', this.listener1);
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
