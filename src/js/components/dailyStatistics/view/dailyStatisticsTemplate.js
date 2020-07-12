@@ -6,7 +6,7 @@ const dailyStatisticsTemplate = (data, aggregatedWords) => `
         <div class="statistics__total-container">
           <div class="statistics__element">Total words: <span>3600</span></div>
           <div class="statistics__element">Learned words: <span>${aggregatedWords.easy}</span></div>
-          <div class="statistics__element">Current progress: <span>${((aggregatedWords.easy / 3600) * 100).toFixed(2)}%</span></div>
+          <div class="statistics__element">Current progress: <span>${+((aggregatedWords.easy / 3600) * 100).toFixed(2)}%</span></div>
         </div>
       </div>
       <div class="statistics__chart">
