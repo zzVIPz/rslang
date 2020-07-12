@@ -116,6 +116,11 @@ const MAIN_TEXT = {
   btnStart: 'START TRAINING',
   progress: 'Your progress :',
   amountCards: '3600',
+  finished: 'You finished training for today!',
+  notFinished: 'Training is not finished!',
+  firstVisit: 'This is your first time, good luck!',
+  nextDay: 'Good luck learning today!',
+
 };
 
 const AMOUNT_WORDS_PER_PAGE = 19;

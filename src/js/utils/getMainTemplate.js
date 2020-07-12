@@ -1,4 +1,4 @@
-export default function getMainTemplate(user, data, achievements) {
+export default function getMainTemplate(user, data, achievements, status) {
   return `
     <div class="user-info container">
       <h3 class="user-info__title">${data.title}
@@ -32,6 +32,7 @@ export default function getMainTemplate(user, data, achievements) {
           ${+((achievements.learnedWords * 100) / data.amountCards).toFixed(2)}%
         </p>
       </div>
+      <p class="user-info__subtitle">${status}</p>
       <div class="user-info__buttons wrapper">
         <button class="user-info__button btn-start">${data.btnStart}</button>
       </div>
