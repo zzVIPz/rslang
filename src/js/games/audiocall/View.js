@@ -14,18 +14,19 @@ import {
 } from './constAudiocall';
 import { HASH_VALUES } from '../../constants/constMainView';
 import { CORRECT_SOUND, ERROR_SOUND, ROUND_STARTS_SOUND } from '../savannah-game/constSavannah';
-import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
 import { shuffleArray } from '../utils/shuffle';
+import GLOBAL from '../../constants/global';
 
 class AudiocallView {
-  constructor(model, defaultHash, currentHash) {
+  constructor(model, defaultHash, currentHash, stats, parseLearningsWords) {
     this.setDefaultHash = defaultHash;
     this.getCurrentHash = currentHash;
+    this.stats = stats;
+    this.parseLearningsWords = parseLearningsWords;
     this.template = audiocallGame;
     this.model = model;
-    this.mainView = new MainView();
     this.correctSound = getMediaUrl(CORRECT_SOUND);
     this.errorSound = getMediaUrl(ERROR_SOUND);
     this.roundStartsSound = getMediaUrl(ROUND_STARTS_SOUND);
@@ -48,8 +49,9 @@ class AudiocallView {
     }
   }
 
-  getViewUser(user) {
+  getViewUser(user, mainView) {
     this.currentUser = user;
+    this.mainView = mainView;
   }
 
   render() {
@@ -113,6 +115,7 @@ class AudiocallView {
     this.startBtn.addEventListener('click', () => {
       this.chosenLevel = this.level || 0;
       this.chosenRound = this.rounds || 0;
+      this.stats.gameStartsStat(GLOBAL.STAT_GAME_NAMES.audiocall);
       this.introPage.classList.add('hide');
       this.levelsContainer.classList.add('hide');
       this.roundContainer.classList.add('hide');
@@ -171,7 +174,8 @@ class AudiocallView {
       } else {
         this.loseRound();
       }
-
+      const wrongAnswerIdArr = this.model.wrongAnswer.map((word) => word.id);
+      this.parseLearningsWords(wrongAnswerIdArr);
       this.createEl(this.model.rightAnswer, this.answersValid);
       this.createEl(this.model.wrongAnswer, this.answersInvalid);
       this.invalidTitle.insertAdjacentHTML('beforeend', this.model.wrongAnswer.length);
