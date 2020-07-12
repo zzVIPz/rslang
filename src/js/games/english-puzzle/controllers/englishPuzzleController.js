@@ -20,6 +20,8 @@ export default class EnglishPuzzleController {
     this.gameLevel = 1;
     this.page = 0;
     this.group = 0;
+    // TODO: remove mockData
+    this.levelsEnded = [59, 3, 0, 0, 0, 0];
   }
 
   async init() {
@@ -73,7 +75,7 @@ export default class EnglishPuzzleController {
     this.sliceData();
     this.audioModel.data = this.slicedWordsData;
     this.englishPuzzleModel.data = this.slicedWordsData;
-    this.englishPuzzleView.render();
+    this.englishPuzzleView.render(this.levelsEnded);
   }
 
   getPainting(difficult) {

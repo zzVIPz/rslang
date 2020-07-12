@@ -32,7 +32,7 @@ export default class EnglishPuzzleView {
     this.onAudioPlayEnded = this.AudioPlayEnded.bind(this);
   }
 
-  render() {
+  render(levelsEnded) {
     document.querySelector('.main').innerHTML = this.template;
     this.domElements.skipButton = document.getElementById('skipBtn');
     this.domElements.checkButton = document.getElementById('checkBtn');
@@ -53,6 +53,24 @@ export default class EnglishPuzzleView {
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
     this.switchTips();
+
+    // const DifficultDrop = document.querySelectorAll('#difficultSelect > option');
+    // const levelsDrop = document.querySelectorAll('#levelSelect > option');
+    // DifficultDrop.forEach((el1, id1) => {
+    //   if (levelsEnded[id1]) {
+    //     el1.classList.add('ep-levelEnds');
+    //     this.domElements.difficultSelect.options[id1].selected = true;
+    //     levelsDrop.forEach((el2, id2) => {
+    //       if (id2 < levelsEnded[id1]) {
+    //         el2.classList.add('ep-levelEnds');
+    //         this.domElements.levelSelect.options[id2].selected = true;
+    //       } else {
+    //         el2.classList.remove('ep-levelEnds');
+    //       }
+    //     });
+    //   }
+    // });
+
     if (this.currentSentence < CONSTANTS.MAX_SENTENCES_COUNT) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
