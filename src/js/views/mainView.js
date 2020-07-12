@@ -53,8 +53,9 @@ export default class MainView {
     this.addCardBtnsClickHandler();
   }
 
-  renderMain(user) {
-    const formattedTemplate = getMainTemplate(user, MAIN_TEXT);
+  async renderMain(user) {
+    const achievements = await this.getUserAchievements();
+    const formattedTemplate = getMainTemplate(user, MAIN_TEXT, achievements);
     this.main.innerHTML = formattedTemplate;
     this.btnStartLearning = document.querySelector('.btn-start');
     if (!user.wordPronunciation && !user.meaningPronunciation && !user.examplePronunciation) {

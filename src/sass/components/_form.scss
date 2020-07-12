@@ -9,10 +9,15 @@
     display: none;
   }
 
-  input::placeholder {
-    font-size: 1.1rem;
+  input {
+    padding: 3px 10px;
 
-    opacity: .8;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+  }
+
+  input::placeholder {
+    opacity: .6;
   }
 
   .user-name--active {
