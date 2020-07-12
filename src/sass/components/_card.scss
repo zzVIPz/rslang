@@ -2,9 +2,11 @@
   font-size: 1.2em;
   font-family: monospace;
 
-  &__btn-check {
-    width: 250px;
-    margin-top: 10px;
+  &__state {
+    margin: 10px;
+
+    font-size: 1.6rem;
+    color: #a44a3f;
   }
 
   &__input-wrapper {
@@ -37,7 +39,10 @@
   }
 
   &__wrapper {
-    padding: 0 65px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 25px;
   }
 
   &__letter {
@@ -52,8 +57,67 @@
     color: $color-incorrect-heavy;
   }
 
+  &__text-translate {
+    text-align: justify;
+  }
+
+  &__word-translate {
+    margin-top: 0;
+
+    text-align: center;
+    color: #fd9404;
+  }
+
+  &__transcription {
+    color: #588b8b;
+  }
+
+  &__btn-primary {
+    margin-bottom: 10px;
+    padding: 7px 35px;
+
+    color: #ffffff;
+
+    background: #011627;
+    border: none;
+    border-radius: 9px;
+    outline: none;
+  }
+
+  &__btn-know-word {
+    background: #2ec4b6;
+  }
+
+  &__btn-difficult-word {
+    background: #e71d36;
+  }
+
+  &__btn-show-answer {
+    background: #ff9f1c;
+  }
+
+  &__btn-check {
+    width: 200px;
+    margin-top: 10px;
+
+    background: #011627;
+  }
+
   .translate-hidden {
     display: none;
+  }
+}
+
+@media (max-width: 610px) {
+  .card {
+    &__btn-primary {
+      width: 200px;
+    }
+
+    &__buttons-container {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 
