@@ -158,17 +158,26 @@ export default class SprintController {
   }
 
   addCloseBtnHandler() {
-    document.querySelector('.closeBtn').addEventListener('click', () => {
-      this.view.displayModal();
-      document.querySelector('.app__modal__box_cancel').addEventListener('click', () => {
-        this.view.hideModal();
+    const closeBtn = document.querySelector('.closeBtn');
+    const closeModal = document.querySelector('.app__modal');
+    if (closeModal) {
+      closeBtn.addEventListener('click', () => {
+        this.view.displayModal();
+        document.querySelector('.app__modal__box_cancel').addEventListener('click', () => {
+          this.view.hideModal();
+        });
+        document.querySelector('.app__button_close').addEventListener('click', () => {
+          this.closeGameWindow();
+          this.view.hideModal();
+          this.mainView.renderMain(this.user);
+        });
       });
-      document.querySelector('.app__button_close').addEventListener('click', () => {
+    } else {
+      closeBtn.addEventListener('click', () => {
         this.closeGameWindow();
-        this.view.hideModal();
         this.mainView.renderMain(this.user);
       });
-    });
+    }
   }
 
   closeGameWindow() {

@@ -125,7 +125,6 @@ export default class SprintView {
   renderFinalStat(score, errors) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
-    this.addCloseModal();
     document.querySelector('.sprint-main-wrapper').classList.add('sprint-game-bgr');
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
