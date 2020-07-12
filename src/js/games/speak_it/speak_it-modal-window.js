@@ -6,10 +6,9 @@ import {
 } from './speak_it-constants';
 import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
-// import checkUserWords from '../../utils/checkUserWords';  remove comment after add statistic PR
 
 export default class ModalWindow {
-  constructor(correct, uncorrect, user) {
+  constructor(correct, uncorrect, user, parseLearningsWords) {
     this.cancelBtn = document.querySelector('.modal_cancel');
     this.backToMianBtn = document.querySelector('.modal_close');
     this.viewStatistic = document.querySelector('.modal_view');
@@ -19,6 +18,7 @@ export default class ModalWindow {
     this.uncorrectWordsArray = uncorrect;
     this.user = user;
     this.mainModel = new MainModel();
+    this.parseLearningsWords = parseLearningsWords;
   }
 
   runListeners(user, mainView) {
@@ -36,8 +36,7 @@ export default class ModalWindow {
     for (let i = 0; i < this.uncorrectWordsArray.length; i += 1) {
       missArrayId.push(this.uncorrectWordsArray[i].id);
     }
-    // checkUserWords(missArrayId); remove comment after add statistic PR
-    // this.mainModel.setUserStatistic(statisticObject); remove comment after add statistic PR
+    this.parseLearningsWords(missArrayId);
     container.innerHTML = '';
     this.mainView.renderMain(this.user);
     window.history.replaceState(null, null, ' ');
