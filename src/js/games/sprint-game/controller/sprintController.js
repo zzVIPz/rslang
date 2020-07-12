@@ -1,17 +1,19 @@
 import SprintView from '../view/sprintView';
 import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
-import MainView from '../../../views/mainView';
+import GLOBAL from '../../../constants/global';
 import {
   MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
 } from '../const/sprintConst';
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor() {
+  constructor(mainView, parseLearningsWords, dailyStatistics) {
     this.view = new SprintView();
     this.model = new SprintModel();
-    this.mainView = new MainView();
+    this.mainView = mainView;
+    this.parseLearningsWords = parseLearningsWords;
+    this.dailyStatistics = dailyStatistics;
   }
 
   init() {
@@ -71,6 +73,7 @@ export default class SprintController {
   }
 
   startGame() {
+    this.dailyStatistics.gameStartsStat(GLOBAL.STAT_GAME_NAMES.sprint);
     this.view.renderGameLayout();
     this.addCloseBtnHandler();
     this.wrongBtn = document.querySelector('.sprint-button--wrong');
@@ -135,6 +138,8 @@ export default class SprintController {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
     this.view.renderFinalStat(this.score, this.faultyWords);
+    const learningArray = this.faultyWords.map((word) => word.id);
+    this.parseLearningsWords(learningArray);
     this.addCloseBtnHandler();
     document.querySelector('.sprint-button--repeat')
       .addEventListener('click', () => { this.prelaunch(); });
