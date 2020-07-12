@@ -73,6 +73,7 @@ class AudiocallView {
     this.closeModalWindow = document.querySelector('.container-game__modal__close-body');
     this.cancelModalWindow = document.querySelector('.container-game__crossword-modal__cancel');
     this.closeBtnModalGame = document.querySelector('.container-game__crossword-modal__btn-close');
+    this.speaker = document.querySelector('button.user-tool__button-speaker.icon');
     this.playAudioBtn = document.querySelector(
       '.container-game__trainings-audiocall__speaker-container',
     );
@@ -115,14 +116,18 @@ class AudiocallView {
       this.introPage.classList.add('hide');
       this.levelsContainer.classList.add('hide');
       this.roundContainer.classList.add('hide');
-      playAudio(this.roundStartsSound);
+      if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+        playAudio(this.roundStartsSound);
+      }
       this.loader.classList.add('show');
       this.initWords();
       setTimeout(() => {
         if (this.isGameOn) {
           this.loader.classList.remove('show');
           this.gamePage.classList.add('show');
-          playAudio(getMediaUrl(this.wordsArray[0].audio));
+          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+            playAudio(getMediaUrl(this.wordsArray[0].audio));
+          }
           this.animationSpeaker();
           this.removePointerEvents();
         }
@@ -189,7 +194,9 @@ class AudiocallView {
   }
 
   onCorrectAnswer(id) {
-    playAudio(this.correctSound);
+    if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      playAudio(this.correctSound);
+    }
     shuffleArray(COLOR_ARRAY);
     [this.audiocallContainer.style.backgroundColor] = COLOR_ARRAY;
     COLOR_ARRAY.shift();
@@ -199,7 +206,9 @@ class AudiocallView {
   }
 
   onIncorrectAnswer(id) {
-    playAudio(this.errorSound);
+    if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      playAudio(this.errorSound);
+    }
     document.querySelector(`#answer-${id}`).classList.add('audiocall__answer--incorrect');
     this.wrong();
   }
@@ -276,7 +285,9 @@ class AudiocallView {
       if (target.classList.contains('container-game__trainings-audiocall__answer')) {
         this.addPointerEvents();
         if (target.id === `answer-${this.model.positionAnswerArray[0]}`) {
-          playAudio(this.correctSound);
+          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+            playAudio(this.correctSound);
+          }
           shuffleArray(COLOR_ARRAY);
           [this.audiocallContainer.style.backgroundColor] = COLOR_ARRAY;
           COLOR_ARRAY.shift();
@@ -284,7 +295,9 @@ class AudiocallView {
           this.model.rightAnswer.push(this.wordsArray[0]);
           this.setAnswer();
         } else {
-          playAudio(this.errorSound);
+          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+            playAudio(this.errorSound);
+          }
           target.classList.add('audiocall__answer--incorrect');
           this.wrong();
         }
@@ -296,7 +309,9 @@ class AudiocallView {
         this.nextWord();
       } else {
         this.addPointerEvents();
-        playAudio(this.errorSound);
+        if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+          playAudio(this.errorSound);
+        }
         this.wrong();
       }
     });
@@ -312,7 +327,9 @@ class AudiocallView {
         this.headerWord.innerText = '';
         this.removePointerEvents();
         if (this.wordsArray.length !== 0) {
-          playAudio(getMediaUrl(this.wordsArray[0].audio));
+          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+            playAudio(getMediaUrl(this.wordsArray[0].audio));
+          }
           this.animationSpeaker();
         }
       }
@@ -373,7 +390,9 @@ class AudiocallView {
 
     document.querySelectorAll('.container-game__final__sound').forEach((item) => {
       item.addEventListener('click', ({ target }) => {
-        target.querySelector('audio').play();
+        if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+          target.querySelector('audio').play();
+        }
       });
     });
   };
@@ -436,7 +455,9 @@ class AudiocallView {
   playAudioWord() {
     this.playAudioBtn.addEventListener('click', () => {
       this.animationSpeaker();
-      playAudio(getMediaUrl(this.wordsArray[0].audio));
+      if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+        playAudio(getMediaUrl(this.wordsArray[0].audio));
+      }
     });
   }
 
