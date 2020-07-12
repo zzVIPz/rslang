@@ -119,7 +119,7 @@ class AudiocallView {
       this.introPage.classList.add('hide');
       this.levelsContainer.classList.add('hide');
       this.roundContainer.classList.add('hide');
-      if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
         playAudio(this.roundStartsSound);
       }
       this.loader.classList.add('show');
@@ -128,7 +128,7 @@ class AudiocallView {
         if (this.isGameOn) {
           this.loader.classList.remove('show');
           this.gamePage.classList.add('show');
-          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+          if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
             playAudio(getMediaUrl(this.wordsArray[0].audio));
           }
           this.animationSpeaker();
@@ -198,7 +198,7 @@ class AudiocallView {
   }
 
   onCorrectAnswer(id) {
-    if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+    if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
       playAudio(this.correctSound);
     }
     shuffleArray(COLOR_ARRAY);
@@ -210,7 +210,7 @@ class AudiocallView {
   }
 
   onIncorrectAnswer(id) {
-    if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+    if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
       playAudio(this.errorSound);
     }
     document.querySelector(`#answer-${id}`).classList.add('audiocall__answer--incorrect');
@@ -289,7 +289,7 @@ class AudiocallView {
       if (target.classList.contains('container-game__trainings-audiocall__answer')) {
         this.addPointerEvents();
         if (target.id === `answer-${this.model.positionAnswerArray[0]}`) {
-          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+          if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
             playAudio(this.correctSound);
           }
           shuffleArray(COLOR_ARRAY);
@@ -299,7 +299,7 @@ class AudiocallView {
           this.model.rightAnswer.push(this.wordsArray[0]);
           this.setAnswer();
         } else {
-          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+          if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
             playAudio(this.errorSound);
           }
           target.classList.add('audiocall__answer--incorrect');
@@ -313,7 +313,7 @@ class AudiocallView {
         this.nextWord();
       } else {
         this.addPointerEvents();
-        if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+        if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
           playAudio(this.errorSound);
         }
         this.wrong();
@@ -331,7 +331,7 @@ class AudiocallView {
         this.headerWord.innerText = '';
         this.removePointerEvents();
         if (this.wordsArray.length !== 0) {
-          if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+          if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
             playAudio(getMediaUrl(this.wordsArray[0].audio));
           }
           this.animationSpeaker();
@@ -394,7 +394,7 @@ class AudiocallView {
 
     document.querySelectorAll('.container-game__final__sound').forEach((item) => {
       item.addEventListener('click', ({ target }) => {
-        if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+        if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
           target.querySelector('audio').play();
         }
       });
@@ -459,7 +459,7 @@ class AudiocallView {
   playAudioWord() {
     this.playAudioBtn.addEventListener('click', () => {
       this.animationSpeaker();
-      if(this.speaker.classList.contains('user-tool__button-speaker--active')) {
+      if (this.speaker.classList.contains('user-tool__button-speaker--active')) {
         playAudio(getMediaUrl(this.wordsArray[0].audio));
       }
     });
