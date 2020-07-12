@@ -36,6 +36,10 @@
     }
   }
 
+  &__wrapper {
+    padding: 0 65px;
+  }
+
   &__letter {
     color: $color-letter;
   }
@@ -50,5 +54,23 @@
 
   .translate-hidden {
     display: none;
+  }
+}
+
+@media (max-width: 550px) {
+  .card {
+    &__image {
+      width: 275px;
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-container-rtl .swiper-button-next {
+    left: 0;
+  }
+
+  .swiper-button-next,
+  .swiper-container-rtl .swiper-button-prev {
+    right: 0;
   }
 }

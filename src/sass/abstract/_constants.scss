@@ -4,7 +4,7 @@ $color-menu-elements: #ffffffc7;
 $color-menu-elements-hover: #ffffff;
 $color-navigation-background: #65c3ba;
 $color-navigation-link-active: #63410f;
-$color-modal-settings: linear-gradient(-225deg, #fffeff 0%, #d7fffe 100%);
+$color-modal-settings: linear-gradient(-225deg, #fffeff 0%, #fdfffc 100%);
 $color-incorrect-low: orange;
 $color-incorrect-heavy: red;
 $color-letter: green;
@@ -15,6 +15,10 @@ $modal-background: #ffffff;
 $modal-button-color: #ffffff;
 $modal-button-background-color: #19396e;
 $modal-button-hover-background-color: #ffffff;
+
+//modal-settings
+$modal-button-background-color: #011627;
+$modal-button-accept-background: #2ec4b6;
 
 //short-stat
 $short-stat-border-color: #80808080;

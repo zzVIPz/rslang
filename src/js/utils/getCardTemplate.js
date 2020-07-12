@@ -72,6 +72,7 @@ export default function getCardTemplate(card, settings) {
 
   return `
   <div class="swiper-slide card container" data-id=${card.id || card._id}>
+    <div class="card__wrapper">
     <p class="card__state">${wordStatus}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
@@ -110,6 +111,7 @@ export default function getCardTemplate(card, settings) {
       </button>
     </div>
     <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
+    </div>
    </div>
   `;
 }
