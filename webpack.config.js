@@ -88,6 +88,7 @@ module.exports = (env, options) => {
         { from: 'src/assets/images', to: 'src/assets/images' },
         { from: 'src/assets/favicon', to: 'pages' },
         { from: 'src/assets/svg', to: 'src/assets/svg' },
+        { from: 'src/assets/fonts', to: 'src/assets/fonts' },
       ]),
       new MiniCssExtractPlugin({
         filename: './src/css/[name].css',

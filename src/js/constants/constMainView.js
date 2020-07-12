@@ -15,14 +15,14 @@ const MENU_ITEMS_NAMES = {
 
 const HASH_VALUES = {
   training: 'training',
-  audiocall: 'audiocall-game',
-  speakit: 'speakit-game',
+  audiocall: 'audiocall',
+  speakit: 'speakit',
   dictionary: 'dictionary',
   statistics: 'statistics',
-  englishPuzzle: 'english-puzzle-game',
-  savannah: 'savannah-game',
-  sprint: 'sprint-game',
-  wordSearch: 'word-search-game',
+  englishPuzzle: 'english-puzzle',
+  savannah: 'savannah',
+  sprint: 'sprint',
+  wordSearch: 'word-search',
 };
 
 const DEFAULT_USER_SETTINGS = {
@@ -44,6 +44,20 @@ const DEFAULT_USER_SETTINGS = {
   btnKnow: true,
   btnDifficult: true,
   btnShowAnswer: true,
+};
+
+const DEFAULT_USER_STATISTIC = {
+  learnedWords: 0,
+  optional: {
+    games: {
+      speakit: 0,
+      englishPuzzle: 0,
+      audiocall: 0,
+      savannah: 0,
+      sprint: 0,
+      wordSearch: 0,
+    },
+  },
 };
 
 const SETTING_MODAL_TEXT = {
@@ -197,4 +211,5 @@ export {
   SHORT_STATISTICS_TEXT,
   NOTIFICATION_TEXT,
   CARD_TEXT,
+  DEFAULT_USER_STATISTIC,
 };

@@ -22,4 +22,9 @@ const dictionaryLineTemplate = (data, audioSrc, user, state) => `
 </div>
 `;
 
-export default dictionaryLineTemplate;
+const dictionaryLastRepeatWord = (repeatCoef) => {
+  const phrase = repeatCoef <= 1 ? 'at the next training' : `no later than at ${Math.ceil(repeatCoef)} training`;
+  return `<div class="dict__lastTimeRepeat"> this word is repeat: <span>${phrase}</span> </div>`;
+};
+
+export { dictionaryLineTemplate, dictionaryLastRepeatWord };

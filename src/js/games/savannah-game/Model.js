@@ -1,4 +1,4 @@
-import shuffleArray from '../utils/shuffle';
+import { shuffleArray, randomArrAndShuffle } from '../utils/shuffle';
 import MainModel from '../../models/mainModel';
 import {
   INITIAL_BACKGROUND_POSITION,
@@ -33,19 +33,13 @@ class SavannahModel {
   getWordsAndTranslation(data) {
     this.wordsArr = data.map((el) => el.word);
     this.translation = data.map((el) => el.wordTranslate);
-    this.randomArrOfIndexes = this.randomArrAndShuffle(this.wordsArr.length);
+    this.randomArrOfIndexes = randomArrAndShuffle(this.wordsArr.length);
     this.isGameOn = true;
   }
 
   getWordIdsAndAudio(data) {
     this.wordsIdArr = data.map((el) => el.id);
     this.audioArr = data.map((el) => el.audio);
-  }
-
-  randomArrAndShuffle(n) {
-    this.arr = [...Array(n).keys()];
-
-    return shuffleArray(this.arr);
   }
 
   generateTranslation() {
@@ -55,7 +49,7 @@ class SavannahModel {
 
     newArr.splice(this.randomArrOfIndexes[this.count], 1);
 
-    const shortArr = this.randomArrAndShuffle(newArr.length).slice(0, 3);
+    const shortArr = randomArrAndShuffle(newArr.length).slice(0, 3);
     shortArr.forEach((element) => {
       this.answersArr.push(newArr[element]);
     });
