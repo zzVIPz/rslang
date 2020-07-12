@@ -5,7 +5,7 @@ const dictionaryModalTemplate = (data, imageSrc, audioSrc, audioExample, audioMe
         <img src="${imageSrc}">
       </div>
       <div class="dictModal__word">
-        <div class="dict__word-audio">
+        <div class="dict__word-button-info dict__word-audio">
           <audio src="${audioSrc}"></audio>
         </div>
         <div class="dictModal__wordEnglish">${data.word}</div>
@@ -14,7 +14,7 @@ const dictionaryModalTemplate = (data, imageSrc, audioSrc, audioExample, audioMe
       </div>
       <div class="dictModal__meaning">WORD MEANING</div>
       <div class="dictModal__textMeaning">
-        <div class="dict__word-audio">
+        <div class="dict__word-button-info dict__word-audio">
           <audio src="${audioMeaning}"></audio>
         </div>
         <p>${data.textMeaning}</p>
@@ -22,7 +22,7 @@ const dictionaryModalTemplate = (data, imageSrc, audioSrc, audioExample, audioMe
       <div class="dictModal__textMeaningTranslate">${data.textMeaningTranslate}</div>
       <div class="dictModal__example">USAGE EXAMPLE</div>
       <div class="dictModal__textExample">
-        <div class="dict__word-audio">
+        <div class="dict__word-button-info dict__word-audio">
           <audio src="${audioExample}"></audio>
         </div>
         <p>${data.textExample}</p>

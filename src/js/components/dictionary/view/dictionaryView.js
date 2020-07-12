@@ -7,7 +7,7 @@ import CONSTANTS from '../dictionaryConstants';
 export default class DictionaryController {
   constructor() {
     this.template = dictionaryTemplate;
-    this.domElements = {};
+    this.domElements = { main: document.querySelector('.main') };
     this.onStateChange = null;
     this.onWordRemove = null;
     this.onWordToDifficult = null;
@@ -17,14 +17,16 @@ export default class DictionaryController {
   }
 
   render() {
-    document.querySelector('.main').innerHTML = this.template;
+    // this.showPreloader(document.querySelector('.main'));
+    // this.hidePreloader();
+    this.domElements.main.innerHTML = this.template;
     this.domElements.dictControls = document.querySelector('.dictionary__controls');
     this.domElements.wordsData = document.querySelector('.wordsData');
     this.domElements.dictionary = document.querySelector('.dictionary');
   }
 
   renderLines(data, user, state) {
-    console.log(data);
+    this.hidePreloader(this.domElements.wordsData);
     let cardsNumderPerDay;
     if (user.studyMode === CONSTANTS.MIXED_MODE && state === CONSTANTS.STATE_MODE) {
       cardsNumderPerDay = user.cardsTotal - user.cardsNew;
@@ -143,5 +145,19 @@ export default class DictionaryController {
 
   removeModal() {
     this.domElements.dictionary.removeChild(this.domElements.dictionary.lastChild.previousSibling);
+  }
+
+  showPreloader(parent) {
+    this.domElements.preloader = document.createElement('div');
+    this.domElements.preloader.classList.add('data-preloader');
+    const parentElement = parent;
+    parentElement.innerHTML = '';
+    parent.append(this.domElements.preloader);
+  }
+
+  hidePreloader(parent) {
+    if (document.querySelectorAll('.data-preloader').length) {
+      parent.removeChild(this.domElements.preloader);
+    }
   }
 }
