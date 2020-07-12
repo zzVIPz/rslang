@@ -66,8 +66,8 @@ const SETTING_MODAL_TEXT = {
   textBasicSettings: 'Basic settings (available before training mode)',
   textAdditionalSettings: 'Advanced settings (available during training mode)',
   textDictionarySettings: 'Dictionary settings',
-  totalCards: 'Choose the total number of cards per day (5 - 100):',
-  cardsPerDay: 'Choose the number of new words per day (5 - the total number of cards per day):',
+  totalCards: 'Total cards per day (5 - 100):',
+  cardsPerDay: 'New words per day (5 - total cards per day):',
   studyMode: 'Which study mode do you prefer?',
   studySelect: {
     newWords: 'NEW WORDS',
@@ -106,15 +106,16 @@ const WORD_LEARNING_MODES = [
 
 const MAIN_TEXT = {
   title: 'Dear,',
-  subtitle: 'Your goals for today:',
-  totalCards: 'Total cards:',
-  newWords: 'Total new words cards:',
-  studyMode: 'Study mode:',
-  achievements: 'Your achievements:',
-  learnedWords: 'Learned words:',
-  repeatWord: 'Words to repeat:',
-  btnStart: 'CONTINUE',
-  btnShowGraph: 'SHOW GRAPH',
+  subtitle: 'Your goals for today :',
+  totalCards: 'Total cards :',
+  newWords: 'Total new words cards :',
+  studyMode: 'Study mode :',
+  achievements: 'Your achievements :',
+  learnedWords: 'Learned words :',
+  passedWords: 'Total words passed :',
+  btnStart: 'START TRAINING',
+  progress: 'Your progress :',
+  amountCards: '3600',
 };
 
 const AMOUNT_WORDS_PER_PAGE = 19;

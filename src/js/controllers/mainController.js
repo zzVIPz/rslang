@@ -66,6 +66,12 @@ export default class MainController {
       this.mainView.setActiveLink();
     };
 
+    this.mainView.getUserAchievements = async () => {
+      const allUserWords = await this.mainModel.getAllUsersWords();
+      const learnedWords = allUserWords.filter((word) => word.difficulty === WORDS_STATUS.easy);
+      return { allUserWords: allUserWords.length, learnedWords: learnedWords.length };
+    };
+
     this.mainView.onNavigationLinkClick = (e) => {
       const dataName = e.target.dataset.name;
       switch (dataName) {
@@ -93,7 +99,12 @@ export default class MainController {
           break;
         case MENU_ITEMS_NAMES.audiocall:
           this.audiocall = new AudiocallController(this.user, this.mainView);
-          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+          this.audiocall.init(
+            this.setDefaultHash, 
+            this.getCurrentHash, 
+            this.dailyStatistics, 
+            this.parseLearningsWords.bind(this)
+          );
           break;
         case MENU_ITEMS_NAMES.savannah:
           createSavannaGame(this);

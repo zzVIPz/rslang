@@ -1,13 +1,13 @@
 import dictionaryTemplate from './dictionaryTemplate';
 import dictionaryModalTemplate from './dictionaryModalTemplate';
-import dictionaryLineTemplate from './dictionaryLineTemplate';
+import { dictionaryLineTemplate, dictionaryLastRepeatWord } from './dictionaryLineTemplate';
 import getMediaUrl from '../../../utils/getMediaUrl';
 import CONSTANTS from '../dictionaryConstants';
 
 export default class DictionaryController {
   constructor() {
     this.template = dictionaryTemplate;
-    this.domElements = {};
+    this.domElements = { main: document.querySelector('.main') };
     this.onStateChange = null;
     this.onWordRemove = null;
     this.onWordToDifficult = null;
@@ -17,14 +17,20 @@ export default class DictionaryController {
   }
 
   render() {
-    document.querySelector('.main').innerHTML = this.template;
+    this.domElements.main.innerHTML = this.template;
     this.domElements.dictControls = document.querySelector('.dictionary__controls');
     this.domElements.wordsData = document.querySelector('.wordsData');
     this.domElements.dictionary = document.querySelector('.dictionary');
   }
 
   renderLines(data, user, state) {
-    console.log(data);
+    this.hidePreloader(this.domElements.wordsData);
+    let cardsNumderPerDay;
+    if (user.studyMode === CONSTANTS.MIXED_MODE && state === CONSTANTS.STATE_MODE) {
+      cardsNumderPerDay = user.cardsTotal - user.cardsNew;
+    } else if (user.studyMode === CONSTANTS.REPEAT_MODE && state === CONSTANTS.STATE_MODE) {
+      cardsNumderPerDay = user.cardsTotal;
+    }
     this.domElements.wordsData.innerHTML = '';
     if (!data.length) {
       const noWords = document.createElement('div');
@@ -36,6 +42,12 @@ export default class DictionaryController {
       const audioSrc = getMediaUrl(el.audio);
       const line = dictionaryLineTemplate(el, audioSrc, user, state);
       this.domElements.wordsData.insertAdjacentHTML('beforeend', line);
+      if (cardsNumderPerDay) {
+        const repeatLine = dictionaryLastRepeatWord(data.length / cardsNumderPerDay);
+        const list = this.domElements.wordsData.querySelectorAll('.dict__optional');
+        const lastInList = list[list.length - 1];
+        lastInList.insertAdjacentHTML('beforeend', repeatLine);
+      }
     });
   }
 
@@ -131,5 +143,19 @@ export default class DictionaryController {
 
   removeModal() {
     this.domElements.dictionary.removeChild(this.domElements.dictionary.lastChild.previousSibling);
+  }
+
+  showPreloader(parent) {
+    this.domElements.preloader = document.createElement('div');
+    this.domElements.preloader.classList.add('data-preloader');
+    const parentElement = parent;
+    parentElement.innerHTML = '';
+    parent.append(this.domElements.preloader);
+  }
+
+  hidePreloader(parent) {
+    if (document.querySelectorAll('.data-preloader').length) {
+      parent.removeChild(this.domElements.preloader);
+    }
   }
 }
