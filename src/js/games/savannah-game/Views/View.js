@@ -7,6 +7,7 @@ import getMediaURL from '../../../utils/getMediaUrl';
 import { STATISTICS_MODAL_LAYOUT } from '../../utils/statisticsModalConst';
 import { HASH_VALUES } from '../../../constants/constMainView';
 import GLOBAL from '../../../constants/global';
+import SpeechRecognitionClass from '../../utils/speechRecognition';
 import {
   GAME_LAYOUT,
   PRELOADER,
@@ -30,6 +31,7 @@ import {
   NUMBER_OF_LIVES,
   MOVING_WORD_INTERVAL,
   BANG_MOVE_PX,
+  MICROPHONE,
 } from '../constSavannah';
 
 class SavannahView {
@@ -46,9 +48,9 @@ class SavannahView {
     this.errorSound = new Audio(getMediaURL(ERROR_SOUND));
     this.roundStartsSound = new Audio(getMediaURL(ROUND_STARTS_SOUND));
     this.gameStatistics = new GameStatistics();
+    this.recognitionObj = new SpeechRecognitionClass();
     this.statisticsLayout = STATISTICS_MODAL_LAYOUT;
     this.mainContainer = document.querySelector('.main');
-    this.livesBox = document.createElement('div');
     this.flyingWordBox = document.createElement('div');
     this.translationBox = document.createElement('div');
     this.crystalBox = document.createElement('div');
@@ -221,6 +223,10 @@ class SavannahView {
     }
   }
 
+  checkCorrectTranslationFromRecognition() {
+    return this.recognitionObj.transcriptAnswer.toLowerCase() === this.model.correctAnswer;
+  }
+
   rightTranslationActions(translationEl, rightAnswer) {
     this.moveBackground();
     this.resizeCrystal();
@@ -342,12 +348,32 @@ class SavannahView {
   }
 
   renderHeader() {
+    const microphone = this.renderMicrophone();
+    const livesBox = this.renderLives();
+
     this.appHeader = document.querySelector('.app__header');
-    this.livesBox.classList.add('lives');
-    this.livesBox.innerHTML = LIVES;
-    this.appHeader.appendChild(this.livesBox);
+    this.appHeader.setAttribute('id', 'savannah-header');
+    this.appHeader.appendChild(livesBox);
+    this.appHeader.appendChild(microphone);
+    this.recognitionObj.addListeners();
 
     return this.appHeader;
+  }
+
+  renderLives = () => {
+    const livesBox = document.createElement('div');
+    livesBox.classList.add('lives');
+    livesBox.innerHTML = LIVES;
+
+    return livesBox;
+  }
+
+  renderMicrophone = () => {
+    const microphone = document.createElement('div');
+    microphone.classList.add('microphone');
+    microphone.innerHTML = MICROPHONE;
+
+    return microphone;
   }
 
   renderFlyingWord() {
@@ -371,7 +397,9 @@ class SavannahView {
     const menuActive = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
 
     if (!menuActive && !settingsVisible) {
-      if (this.pos >= (this.marginTop) && this.model.isGameOn) {
+      /* const isRecognitionCorrect = this.checkCorrectTranslationFromRecognition();
+      console.log(isRecognitionCorrect); */
+      if (this.pos >= (this.marginTop) && this.model.isGameOn /* && !isRecognitionCorrect */) {
         clearInterval(this.id);
         if (this.model.audioOn) {
           this.errorSound.play();
@@ -391,9 +419,11 @@ class SavannahView {
           this.removeHighlight(this.correctHTMLEl, rightAnswer);
         }, DELAY_HIGHLIGHT);
         setTimeout(() => { this.nextWord(); }, DELAY_NEXT_WORD);
+        this.recognitionObj.transcriptAnswer = '';
       } else {
         this.pos += this.marginTop / BASE_MARGIN;
         this.flyingWord.style.top = `${this.pos}px`;
+        this.recognitionObj.transcriptAnswer = '';
       }
     }
   }
