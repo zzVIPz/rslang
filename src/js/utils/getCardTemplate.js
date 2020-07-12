@@ -51,7 +51,7 @@ export default function getCardTemplate(card, settings) {
     <audio class="audio" src="${getMediaUrl(card.audioExample)}" preload="auto"></audio>`;
 
   const wordTranslate = `
-  <p class="card__text-translate
+  <p class="card__text-translate card__word-translate
     ${(textExampleMode || textMeaningMode) && settings.translate ? '' : 'hidden'}">
       ${card.wordTranslate.toUpperCase()}
   </p>`;
@@ -72,6 +72,7 @@ export default function getCardTemplate(card, settings) {
 
   return `
   <div class="swiper-slide card container" data-id=${card.id || card._id}>
+    <div class="card__wrapper">
     <p class="card__state">${wordStatus}</p>
     <div class="card__image-container ${settings.associativePicture ? '' : 'hidden'}" >
       <img class="card__image" src="${getMediaUrl(card.image)}">
@@ -109,7 +110,8 @@ export default function getCardTemplate(card, settings) {
         ${WORD_COMPLEXITY.repeat}
       </button>
     </div>
-    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
+    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check card__btn-primary">
+    </div>
    </div>
   `;
 }
