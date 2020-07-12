@@ -24,11 +24,11 @@ export default class DictionaryController {
   }
 
   renderLines(data, user, state) {
-    // console.log(data);
+    console.log(data);
     let cardsNumderPerDay;
-    if (user.studyMode === 'MIXED' && state === 'repeat') {
+    if (user.studyMode === CONSTANTS.MIXED_MODE && state === CONSTANTS.STATE_MODE) {
       cardsNumderPerDay = user.cardsTotal - user.cardsNew;
-    } else if (user.studyMode === 'REPEAT' && state === 'repeat') {
+    } else if (user.studyMode === CONSTANTS.REPEAT_MODE && state === CONSTANTS.STATE_MODE) {
       cardsNumderPerDay = user.cardsTotal;
     }
     this.domElements.wordsData.innerHTML = '';
