@@ -21,10 +21,11 @@ import { shuffleArray } from '../utils/shuffle';
 import GLOBAL from '../../constants/global';
 
 class AudiocallView {
-  constructor(model, defaultHash, currentHash, stats) {
+  constructor(model, defaultHash, currentHash, stats, parseLearningsWords) {
     this.setDefaultHash = defaultHash;
     this.getCurrentHash = currentHash;
     this.stats = stats;
+    this.parseLearningsWords = parseLearningsWords;
     this.template = audiocallGame;
     this.model = model;
     this.mainView = new MainView();
@@ -174,7 +175,8 @@ class AudiocallView {
       } else {
         this.loseRound();
       }
-
+      const wrongAnswerIdArr = this.model.wrongAnswer.map((word) => word.id);
+      this.parseLearningsWords(wrongAnswerIdArr);
       this.createEl(this.model.rightAnswer, this.answersValid);
       this.createEl(this.model.wrongAnswer, this.answersInvalid);
       this.invalidTitle.insertAdjacentHTML('beforeend', this.model.wrongAnswer.length);
