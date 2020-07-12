@@ -96,7 +96,7 @@ export default class MainController {
           break;
         case MENU_ITEMS_NAMES.audiocall:
           this.audiocall = new AudiocallController(this.user, this.mainView);
-          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+          this.audiocall.init(this.setDefaultHash, this.getCurrentHash, this.dailyStatistics);
           break;
         case MENU_ITEMS_NAMES.savannah:
           createSavannaGame(this);

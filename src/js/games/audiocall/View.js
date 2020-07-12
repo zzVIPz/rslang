@@ -18,11 +18,13 @@ import MainView from '../../views/mainView';
 import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
 import { shuffleArray } from '../utils/shuffle';
+import GLOBAL from '../../constants/global';
 
 class AudiocallView {
-  constructor(model, defaultHash, currentHash) {
+  constructor(model, defaultHash, currentHash, stats) {
     this.setDefaultHash = defaultHash;
     this.getCurrentHash = currentHash;
+    this.stats = stats;
     this.template = audiocallGame;
     this.model = model;
     this.mainView = new MainView();
@@ -113,6 +115,7 @@ class AudiocallView {
     this.startBtn.addEventListener('click', () => {
       this.chosenLevel = this.level || 0;
       this.chosenRound = this.rounds || 0;
+      this.stats.gameStartsStat(GLOBAL.STAT_GAME_NAMES.audiocall);
       this.introPage.classList.add('hide');
       this.levelsContainer.classList.add('hide');
       this.roundContainer.classList.add('hide');
