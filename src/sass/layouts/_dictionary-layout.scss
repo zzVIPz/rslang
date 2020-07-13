@@ -38,13 +38,15 @@
 
 .wordsData {
   max-width: 1000px;
-  max-height: calc(100vh - 192px);
+  height: calc(100vh - 192px);
   margin-top: 2rem;
   margin-right: auto;
   margin-left: auto;
   padding: 5px;
   overflow: auto;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
   &::-webkit-scrollbar {
     width: 1em;
   }
@@ -418,7 +420,7 @@
 .data-preloader {
   width: 100px;
   height: 100px;
-  margin: 50px auto 0;
+  margin: auto;
 
   background-image: url(../assets/svg/data-preloader.svg);
   background-size: cover;
