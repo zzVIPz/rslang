@@ -38,7 +38,6 @@ export default class MainController {
   }
 
   async init() {
-    this.setDefaultHash();
     this.subscribeToEvents();
     this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
@@ -46,9 +45,13 @@ export default class MainController {
     const accessData = this.mainModel.getAccessData();
     const { username } = accessData;
     this.user = await this.mainModel.getUser();
-    console.log(this.user);
     this.user.token = accessData.token;
-    this.mainView.renderMain(this.user);
+    const currentHash = this.getCurrentHash();
+    if (currentHash) {
+      this.mainView.onNavigationLinkClick(null, currentHash);
+    } else {
+      this.mainView.renderMain(this.user);
+    }
     if (username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
@@ -99,8 +102,8 @@ export default class MainController {
       return checkCards(this.user, cards);
     };
 
-    this.mainView.onNavigationLinkClick = (e) => {
-      const dataName = e.target.dataset.name;
+    this.mainView.onNavigationLinkClick = (e, optional) => {
+      const dataName = e ? e.target.dataset.name : optional;
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
           this.dictionary = new DictionaryController(this.mainModel);
@@ -110,7 +113,12 @@ export default class MainController {
           this.dailyStatistics.renderStat();
           break;
         case MENU_ITEMS_NAMES.speakit:
-          startSpeakItGame(this.user, this.mainView);
+          startSpeakItGame(
+            this.user,
+            this.mainView,
+            this.parseLearningsWords,
+            this.dailyStatistics,
+          );
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
           this.englishPuzzle = new EnglishPuzzleStart(
@@ -123,7 +131,12 @@ export default class MainController {
           break;
         case MENU_ITEMS_NAMES.audiocall:
           this.audiocall = new AudiocallController(this.user, this.mainView);
-          this.audiocall.init(this.setDefaultHash, this.getCurrentHash);
+          this.audiocall.init(
+            this.setDefaultHash,
+            this.getCurrentHash,
+            this.dailyStatistics,
+            this.parseLearningsWords.bind(this),
+          );
           break;
         case MENU_ITEMS_NAMES.savannah:
           createSavannaGame(this);
@@ -148,7 +161,9 @@ export default class MainController {
           this.mainView.showIndexPage();
           break;
         default:
-          e.preventDefault();
+          if (e) {
+            e.preventDefault();
+          }
           this.setDefaultHash();
           this.mainView.renderMain(this.user);
       }

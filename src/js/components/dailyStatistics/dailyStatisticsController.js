@@ -48,6 +48,7 @@ export default class DailyStatisticsController {
   }
 
   async renderStat() {
+    this.statView.showPreloader(this.statView.domElements.main);
     await this.getData();
     this.statView.renderStatistics(this.statData, this.aggregatedWordsCount);
   }

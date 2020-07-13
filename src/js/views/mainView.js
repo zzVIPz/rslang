@@ -59,8 +59,10 @@ export default class MainView {
     const formattedTemplate = getMainTemplate(user, MAIN_TEXT, achievements, userStatus);
     this.main.innerHTML = formattedTemplate;
     this.btnStartLearning = document.querySelector('.btn-start');
-    if (!user.wordPronunciation && !user.meaningPronunciation && !user.examplePronunciation) {
+    if (!user.wordPronunciation && !user.textPronunciation) {
       this.speaker.classList.remove('user-tool__button-speaker--active');
+    } else {
+      this.speaker.classList.add('user-tool__button-speaker--active');
     }
     this.btnStartLearning.addEventListener('click', () => {
       this.onBtnStartClick(user);
