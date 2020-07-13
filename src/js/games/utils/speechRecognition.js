@@ -8,21 +8,23 @@ export default class SpeechRecognitionClass {
     this.transcriptAnswer = '';
     this.model = model;
     this.view = view;
-    this.recognitionNotStarted = true;
   }
 
   addListeners() {
-    const microphoneImg = document.querySelector('.savannah-microphone');
-    addEventHandler('click', microphoneImg, this.onMicrophoneClick.bind(this));
-    addEventHandler('result', this.recognition, this.onRecognitionResult.bind(this));
-    addEventHandler('end', this.recognition, this.onRecognitionEnd.bind(this));
+    this.microphoneImg = document.querySelector('.savannah-microphone');
+    this.microphoneClick = this.onMicrophoneClick.bind(this);
+    this.resultFunc = this.onRecognitionResult.bind(this);
+    this.endFunc = this.onRecognitionEnd.bind(this);
+
+    addEventHandler('click', this.microphoneImg, this.microphoneClick);
+    addEventHandler('result', this.recognition, this.resultFunc);
+    addEventHandler('end', this.recognition, this.endFunc);
   }
 
   removeListeners() {
-    const microphoneImg = document.querySelector('.savannah-microphone');
-    microphoneImg.removeEventListener('click', this.onMicrophoneClick.bind(this));
-    this.recognition.removeEventListener('result', this.onRecognitionResult.bind(this));
-    this.recognition.removeEventListener('end', this.onRecognitionEnd.bind(this));
+    this.microphoneImg.removeEventListener('click', this.microphoneClick);
+    this.recognition.removeEventListener('result', this.resultFunc);
+    this.recognition.removeEventListener('end', this.endFunc);
   }
 
   onMicrophoneClick() {
@@ -43,21 +45,15 @@ export default class SpeechRecognitionClass {
   }
 
   onRecognitionResult = (event) => {
-    if (this.recognitionNotStarted) {
-      this.recognitionNotStarted = false;
-      const { transcript } = event.results[0][0];
+    const { transcript } = event.results[0][0];
 
-      this.transcriptAnswer = transcript;
-      this.isCorrectAnswer = this.checkCorrectTranslationFromRecognition();
-      this.correctRecognitionAnswer();
-    }
+    this.transcriptAnswer = transcript;
+    this.isCorrectAnswer = this.checkCorrectTranslationFromRecognition();
+    this.correctRecognitionAnswer();
   }
 
   onRecognitionEnd = () => {
-    if (this.recognitionNotStarted) {
-      this.recognitionNotStarted = false;
-      this.stopRecognition();
-    }
+    this.stopRecognition();
   }
 
   checkCorrectTranslationFromRecognition() {

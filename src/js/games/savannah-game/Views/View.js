@@ -553,7 +553,6 @@ class SavannahView {
         this.model.getCurrentWordId();
 
         if (document.querySelector('.microphone').classList.contains('microphone_active')) {
-          this.recognitionObj.recognitionNotStarted = true;
           this.recognitionObj.turnOnMicrophone();
         }
       }
