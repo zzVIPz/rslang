@@ -110,14 +110,14 @@ export default class SprintView {
   }
 
   showTime(time) {
-    this.timer = document.querySelector('.sprint-timer');
+    this.timerElement = document.querySelector('.sprint-timer');
     this.circle = document.querySelector('.progress-ring__circle');
-    this.radius = this.circle.r.baseVal.value;
-    this.circumference = 2 * this.radius * Math.PI;
-    this.circle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
-    this.timeStep = this.circumference / GAME_TIME;
-    if (this.timer) {
-      this.timer.innerHTML = time;
+    if (this.timerElement) {
+      this.radius = this.circle.r.baseVal.value;
+      this.circumference = 2 * this.radius * Math.PI;
+      this.circle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+      this.timeStep = this.circumference / GAME_TIME;
+      this.timerElement.innerHTML = time;
       this.circle.style.strokeDashoffset -= this.timeStep;
     }
   }

@@ -8,9 +8,10 @@ import {
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor(mainView, parseLearningsWords, dailyStatistics) {
+  constructor(user, mainView, parseLearningsWords, dailyStatistics) {
     this.view = new SprintView();
     this.model = new SprintModel();
+    this.user = user;
     this.mainView = mainView;
     this.parseLearningsWords = parseLearningsWords;
     this.dailyStatistics = dailyStatistics;
@@ -29,8 +30,6 @@ export default class SprintController {
     this.accuracyCounter = 0;
     this.rightAnswersCount = 0;
     this.faultyWords = [];
-
-    this.user = await this.model.getCurrentUser();
     this.username = this.user.username;
     this.view.renderStartLayout(this.username);
     this.addCloseBtnHandler();
@@ -40,13 +39,16 @@ export default class SprintController {
   }
 
   addNavigationClickListener() {
-    this.navClick = this.navigationClickHandler.bind(this);
-    document.addEventListener('click', this.navClick);
+    setTimeout(() => {
+      this.navClick = this.navigationClickHandler.bind(this);
+      document.addEventListener('click', this.navClick);
+    }, 1000);
   }
 
   navigationClickHandler({ target }) {
     if (target.classList.contains('navigation__link')) {
-      this.closeGameWindow();
+      clearTimeout(this.timer);
+      document.removeEventListener('keydown', this);
       document.removeEventListener('click', this.navClick);
     }
   }
@@ -148,7 +150,6 @@ export default class SprintController {
   startCountdown(gameTime) {
     this.gameTime = gameTime;
     this.gameTime -= 1;
-
     if (this.gameTime > 0) {
       this.view.showTime(this.gameTime);
       this.timer = setTimeout(this.startCountdown.bind(this), COUNTDOWN_DELAY, this.gameTime);

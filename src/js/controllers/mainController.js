@@ -116,11 +116,11 @@ export default class MainController {
           break;
         case MENU_ITEMS_NAMES.sprint:
           this.game = new SprintController(
+            this.user,
             this.mainView,
             this.parseLearningsWords.bind(this),
             this.dailyStatistics,
           );
-          console.log(this);
           this.game.init();
           break;
         case MENU_ITEMS_NAMES.wordSearch:
