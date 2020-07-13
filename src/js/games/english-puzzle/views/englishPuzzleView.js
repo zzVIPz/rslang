@@ -6,16 +6,17 @@ import createPuzzle from './createPuzzleCanvas';
 import CONSTANTS from '../constants/constants';
 
 export default class EnglishPuzzleView {
-  constructor(user, mainView, setDefaultHash) {
+  constructor(user, mainView, setDefaultHash, gameSettings) {
     this.user = user;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
+    this.gameSettings = gameSettings;
     this.template = template;
     this.englishPuzzleModel = null;
     this.audioModel = null;
     this.currentSentence = 0;
-    this.tipTranslate = true;
-    this.tipBackground = false;
+    this.tipTranslate = gameSettings.tipTranslate;
+    this.tipBackground = gameSettings.tipBackground;
     this.tipAutospeech = false;
     this.domElements = {};
 
@@ -368,19 +369,25 @@ export default class EnglishPuzzleView {
     this.domElements.tipTranslate.addEventListener('click', () => {
       if (this.tipTranslate === true) {
         this.tipTranslate = false;
+        this.gameSettings.tipTranslate = false;
       } else {
         this.tipTranslate = true;
+        this.gameSettings.tipTranslate = true;
       }
       this.switchTips();
+      localStorage.setItem('english-puzzle', JSON.stringify(this.gameSettings));
     });
 
     this.domElements.tipBackground.addEventListener('click', () => {
       if (this.tipBackground === true) {
         this.tipBackground = false;
+        this.gameSettings.tipBackground = false;
       } else {
         this.tipBackground = true;
+        this.gameSettings.tipBackground = true;
       }
       this.render();
+      localStorage.setItem('english-puzzle', JSON.stringify(this.gameSettings));
     });
 
     this.domElements.playField.addEventListener('click', (event) => {

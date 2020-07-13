@@ -11,7 +11,13 @@ export default class EnglishPuzzleController {
     this.user = user;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
-    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView, this.setDefaultHash);
+    this.gameSettings = JSON.parse(localStorage.getItem('english-puzzle')) || {
+      tipTranslate: 'true',
+      tipBackground: 'false',
+      levelsEnded: [],
+    };
+    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView,
+      this.setDefaultHash, this.gameSettings);
     this.mainModel = new MainModel();
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.audioModel = new AudioModel();
@@ -20,17 +26,9 @@ export default class EnglishPuzzleController {
     this.gameLevel = 1;
     this.page = 0;
     this.group = 0;
-
-    this.gameSettings = localStorage.getItem('english-puzzle') || {
-      tipTranslate: 'true',
-      tipBackground: 'false',
-      levelsEnded: [],
-    };
   }
 
   async init() {
-    console.log(this.gameSettings);
-    this.mainModel.init();
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
     this.englishPuzzleView.audioModel = this.audioModel;
     await this.getData();
@@ -80,7 +78,7 @@ export default class EnglishPuzzleController {
     this.sliceData();
     this.audioModel.data = this.slicedWordsData;
     this.englishPuzzleModel.data = this.slicedWordsData;
-    this.englishPuzzleView.render(this.levelsEnded);
+    this.englishPuzzleView.render();
   }
 
   getPainting(difficult) {
@@ -88,6 +86,8 @@ export default class EnglishPuzzleController {
     const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
     this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/NordOst88/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
-    this.englishPuzzleView.img.addEventListener('load', this.renderView());
+    this.englishPuzzleView.img.onload = () => {
+      this.renderView();
+    };
   }
 }
