@@ -72,9 +72,11 @@
     color: #588b8b;
   }
 
-  &__btn-primary {
+  &__btn-primary,
+  &__btn-additional {
+    width: 220px;
     margin-bottom: 10px;
-    padding: 7px 35px;
+    padding: 7px 0;
 
     color: #ffffff;
 
@@ -84,23 +86,40 @@
     outline: none;
   }
 
-  &__btn-know-word {
+  &__btn-additional {
+    margin: 0 5px 10px;
+  }
+
+  &__btn-know-word,
+  &__btn-easy-word {
     background: #2ec4b6;
   }
 
-  &__btn-difficult-word {
+  &__btn-difficult-word,
+  &__btn-complex-word {
     background: #e71d36;
   }
 
-  &__btn-show-answer {
+  &__btn-normal-word {
+    background: #7bdff2;
+  }
+
+  &__btn-show-answer,
+  &__btn-repeat-again {
     background: #ff9f1c;
   }
 
   &__btn-check {
-    width: 200px;
-    margin-top: 10px;
+    width: 270px;
 
     background: #011627;
+  }
+
+  &__additional-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 460px;
   }
 
   .translate-hidden {
@@ -108,15 +127,25 @@
   }
 }
 
-@media (max-width: 610px) {
+@media (max-width: 965px) {
   .card {
-    &__btn-primary {
-      width: 200px;
+    &__additional-buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
     }
+  }
+}
 
+@media (max-width: 735px) {
+  .card {
     &__buttons-container {
       display: flex;
       flex-direction: column;
+    }
+
+    &__btn-primary {
+      width: 275px;
     }
   }
 }
@@ -124,6 +153,10 @@
 @media (max-width: 550px) {
   .card {
     &__image {
+      width: 275px;
+    }
+
+    &__btn-additional {
       width: 275px;
     }
   }

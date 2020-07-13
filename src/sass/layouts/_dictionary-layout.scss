@@ -37,7 +37,7 @@
 }
 
 .wordsData {
-  max-width: 550px;
+  max-width: 1000px;
   max-height: calc(100vh - 192px);
   margin-top: 2rem;
   margin-right: auto;
@@ -59,28 +59,58 @@
 }
 
 .dict {
+  &__word-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    border-radius: 5px;
+    cursor: default;
+    &:hover {
+      background-color: rgba(0, 205, 172, .2);
+      box-shadow: 0 0 4px 3px rgba(0, 205, 172, .2);
+    }
+  }
+  &__word-data-container {
+    flex: 1;
+  }
   &__word-line {
     display: flex;
-    // margin-bottom: 1rem;
   }
-  &__word-audio {
-    width: 2.6rem;
-    min-width: 1.8rem;
-    height: 2.6rem;
+  &__word-buttons-block {
+    display: flex;
+  }
+  &__word-button {
+    width: 4.5rem;
+    height: 4.5rem;
     margin-right: 1rem;
 
-    background-image: url(../assets/images/audio.png);
     background-size: cover;
     cursor: pointer;
     &:hover {
-      background-color: #00cdac;
+      background-color: rgba(37, 130, 321, .5);
       border-radius: 50%;
-      box-shadow: 0 0 4px 3px #00cdac;
+      box-shadow: 0 0 4px 3px rgba(37, 130, 321, .5);
     }
+  }
+  &__word-button-info {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-right: 1rem;
+
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(37, 130, 321, .5);
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px rgba(37, 130, 321, .5);
+    }
+  }
+  &__word-audio {
+    background-image: url(../assets/svg/speaker-active.svg);
   }
   &__word-eng-trans {
     display: flex;
-    flex: 1;
   }
   &__word-english {
     margin-right: 1rem;
@@ -98,65 +128,26 @@
     line-height: 1.6;
   }
   &__word-translate {
-    margin-right: 1rem;
 
     font-size: 1.6rem;
     line-height: 1.6;
     text-transform: uppercase;
   }
   &__word-information {
-    width: 2.6rem;
-    height: 2.6rem;
-    margin-right: 1rem;
-
     background-image: url(../assets/images/info.png);
-    background-size: cover;
-    cursor: pointer;
-    &:hover {
-      background-color: #00cdac;
-      border-radius: 50%;
-      box-shadow: 0 0 4px 3px #00cdac;
-    }
   }
   &__word-difficult {
-    width: 2.6rem;
-    height: 2.6rem;
-    margin-right: 1rem;
-
     background-image: url(../assets/images/difficult.png);
-    background-size: cover;
-    cursor: pointer;
-    &:hover {
-      background-color: #00cdac;
-      border-radius: 50%;
-      box-shadow: 0 0 4px 3px #00cdac;
-    }
   }
   &__word-remove {
-    width: 2.6rem;
-    height: 2.6rem;
+    margin-right: 0;
 
     background-image: url(../assets/images/remove.png);
-    background-size: cover;
-    cursor: pointer;
-    &:hover {
-      background-color: #00cdac;
-      border-radius: 50%;
-      box-shadow: 0 0 4px 3px #00cdac;
-    }
   }
   &__word-restore {
-    width: 2.6rem;
-    height: 2.6rem;
+    margin-right: 0;
 
     background-image: url(../assets/images/restore.png);
-    background-size: cover;
-    cursor: pointer;
-    &:hover {
-      background-color: #00cdac;
-      border-radius: 50%;
-      box-shadow: 0 0 4px 3px #00cdac;
-    }
   }
   &__no-words {
     font-weight: 600;
@@ -169,12 +160,9 @@
   &__optional {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
   }
   &__repeatCounter,
   &__lastTimeRepeat {
-    margin-left: 3.6rem;
-
     font-weight: 300;
     font-size: 1.2rem;
     color: #2582e7;
@@ -338,16 +326,16 @@
     font-size: 1.5rem;
     line-height: 1rem;
   }
-  .dict__word-audio,
-  .dict__word-difficult,
-  .dict__word-information {
+  .dict__word-button {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+  .dict__word-button-info {
     width: 2.2rem;
     height: 2.2rem;
   }
-  .dict__word-remove,
-  .dict__word-restore {
-    width: 2.2rem;
-    height: 2.2rem;
+  .dict__word-card {
+    align-items: flex-start;
   }
 
   .dict__word-english,
@@ -371,10 +359,6 @@
   .dictModal__textExampleTranslate {
     margin-left: 2.2rem;
   }
-  .dict__repeatCounter,
-  .dict__lastTimeRepeat {
-    margin-left: 3.2rem;
-  }
 }
 
 @media screen and (max-width: 450px) {
@@ -384,17 +368,20 @@
 
     font-size: 1.3rem;
   }
-  .dict__word-audio,
-  .dict__word-difficult,
-  .dict__word-information {
+
+  .dict__word-button {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: .4rem;
+    margin-bottom: .6rem;
+  }
+  .dict__word-button-info {
     width: 1.8rem;
     height: 1.8rem;
     margin-right: .4rem;
   }
-  .dict__word-remove,
-  .dict__word-restore {
-    width: 1.8rem;
-    height: 1.8rem;
+  .dict__word-buttons-block {
+    flex-direction: column;
   }
 
   .dict__word-english,
@@ -424,8 +411,15 @@
   }
   .dict__repeatCounter,
   .dict__lastTimeRepeat {
-    margin-left: 2.2rem;
-
     font-size: 1rem;
   }
+}
+
+.data-preloader {
+  width: 100px;
+  height: 100px;
+  margin: 50px auto 0;
+
+  background-image: url(../assets/svg/data-preloader.svg);
+  background-size: cover;
 }
