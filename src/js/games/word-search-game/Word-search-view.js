@@ -495,6 +495,11 @@ class WordSearchView extends SavannahView {
     this.model.setDefaultArray();
   }
 
+  /* removeLives() {
+    super.removeLives();
+    this.renderGameOver(false);
+  } */
+
   addStylesToCorrectTranslation() {
     this.allTranslations = document.querySelectorAll('.word');
     this.allTranslations.forEach((tran) => {
@@ -520,7 +525,6 @@ class WordSearchView extends SavannahView {
     document.querySelectorAll('.wordBox')
       .forEach((el) => el.classList.add('word-search__word-box'));
 
-    // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.tenWordsId;
     this.parseLearningWords(this.incorrectWordsIdArr);
 
