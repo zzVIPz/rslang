@@ -21,7 +21,7 @@ export default class DictionaryController {
 
   async getData() {
     this.dictionaryView.showPreloader(this.dictionaryView.domElements.wordsData);
-    const data = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': this.state });
+    const data = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': this.state }, 3600);
     this.wordsData = data[0].paginatedResults;
   }
 
