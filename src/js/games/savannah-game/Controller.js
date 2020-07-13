@@ -8,7 +8,7 @@ class SavannahController {
     this.mainView = mainView;
   }
 
-  init(defaultHash, currentHash, parseLearningWords) {
+  init(defaultHash, currentHash, parseLearningWords, dailyStatistics) {
     this.defaultHash = defaultHash;
     this.currentHash = currentHash;
     this.model = new SavannahModel();
@@ -17,6 +17,7 @@ class SavannahController {
       this.defaultHash,
       this.currentHash,
       parseLearningWords,
+      dailyStatistics,
     );
     this.view.getViewUser(this.user, this.mainView);
     this.view.renderSavannah();
@@ -30,7 +31,8 @@ function createSavannaGame(mainCtrl) {
     savannah.init(
       mainCtrl.setDefaultHash,
       mainCtrl.getCurrentHash,
-      mainCtrl.parseLearningWords.bind(mainCtrl),
+      mainCtrl.parseLearningsWords.bind(mainCtrl),
+      mainCtrl.dailyStatistics,
     );
   }
 }

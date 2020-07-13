@@ -3,12 +3,10 @@
   top: 0;
   z-index: 1;
 
-  display: flex;
-  justify-content: center;
   height: 46px;
   padding: 0 20px;
 
-  transition: background-color 0.2s cubic-bezier(0, -1.85, 0.27, 1.75);
+  transition: background-color .2s cubic-bezier(0, -1.85, .27, 1.75);
 }
 
 .lives {
@@ -33,15 +31,41 @@
     cursor: pointer;
   }
   &__line {
-    display: none;
     position: absolute;
     top: 3px;
     left: 14px;
 
+    display: none;
     width: 3px;
     height: 30px;
 
     background-color: black;
     transform: rotate(-38deg);
   }
+}
+
+.microphone {
+  width: 30px;
+  height: 60%;
+  padding: 5px;
+
+  background: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  &_active {
+    background: $main-color;
+  }
+}
+
+.savannah-microphone {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+}
+
+#savannah-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
