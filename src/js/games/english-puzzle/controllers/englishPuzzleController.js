@@ -20,8 +20,12 @@ export default class EnglishPuzzleController {
     this.gameLevel = 1;
     this.page = 0;
     this.group = 0;
-    // TODO: remove mockData
-    this.levelsEnded = [59, 3, 0, 0, 0, 0];
+
+    // this.gameSettings = localStorage.getItem('english-puzzle') || {
+    //   tipTrans: 'true',
+    //   tipBackground: 'false',
+    //   levelsEnded: 
+    // };
   }
 
   async init() {

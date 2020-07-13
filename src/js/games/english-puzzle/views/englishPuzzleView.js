@@ -32,7 +32,7 @@ export default class EnglishPuzzleView {
     this.onAudioPlayEnded = this.AudioPlayEnded.bind(this);
   }
 
-  render(levelsEnded) {
+  render() {
     document.querySelector('.main').innerHTML = this.template;
     this.domElements.skipButton = document.getElementById('skipBtn');
     this.domElements.checkButton = document.getElementById('checkBtn');
