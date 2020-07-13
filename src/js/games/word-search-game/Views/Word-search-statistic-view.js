@@ -12,8 +12,8 @@ class WordSearchStatistics extends GameStatistics {
   }
 
   changeClassName = () => {
-    if (document.querySelector('.statistics')) {
-      document.querySelector('.statistics').classList.add('word-search__statistics');
+    if (document.querySelector('.statistics__container')) {
+      document.querySelector('.statistics__container').classList.add('word-search__statistics');
       document.querySelector('.wrong_title').classList.add('word-search__wrong-title');
       document.querySelector('.statistics__continue').classList.add('word-search__continue');
       document.querySelector('.statistics__back').classList.add('word-search__back');
