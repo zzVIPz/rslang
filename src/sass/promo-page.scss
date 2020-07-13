@@ -132,6 +132,29 @@ img {
 
   border-radius: 1.5em;
 }
+.promo-container__video {
+  width: 64%;
+  margin: 0 auto;
+}
+.thumb-wrap {
+  position: relative;
+
+  height: 0;
+  margin-top: 3em;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+.thumb-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-width: 0;
+  outline-width: 0;
+}
 @media only screen and (max-width: 550px) {
   .promo-container__game {
     width: 95%;
