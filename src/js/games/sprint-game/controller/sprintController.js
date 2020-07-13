@@ -8,13 +8,16 @@ import {
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor(user, mainView, parseLearningsWords, dailyStatistics) {
+  constructor(user, mainView, parseLearningsWords, dailyStatistics, setUserStatistic, getUserStatistic,) {
     this.view = new SprintView();
     this.model = new SprintModel();
     this.user = user;
+    console.log(this.user);
     this.mainView = mainView;
     this.parseLearningsWords = parseLearningsWords;
     this.dailyStatistics = dailyStatistics;
+    this.setUserStatistic = setUserStatistic;
+    this.getUserStatistic = getUserStatistic;
   }
 
   init() {
@@ -22,6 +25,12 @@ export default class SprintController {
   }
 
   async prelaunch() {
+    this.stat = await this.getUserStatistic();
+    this.stat.optional.score = { sprint: 100 };
+    console.log('my stat', this.stat);
+    delete this.stat.id;
+    console.log('my stat', this.stat);
+    this.setUserStatistic(this.stat);
     this.level = 0;
     this.round = 0;
     this.currentWordIndex = 0;
@@ -136,9 +145,12 @@ export default class SprintController {
     }
   }
 
-  endGame() {
+  async endGame() {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
+    this.gameStat = await this.getUserStatistic();
+    this.recordScore = this.gameStat.optional.score;
+    console.log('record', this.recordScore);
     this.view.renderFinalStat(this.score, this.faultyWords);
     const learningArray = this.faultyWords.map((word) => word.id);
     this.parseLearningsWords(learningArray);

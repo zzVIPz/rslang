@@ -120,6 +120,8 @@ export default class MainController {
             this.mainView,
             this.parseLearningsWords.bind(this),
             this.dailyStatistics,
+            this.mainModel.setUserStatistic,
+            this.mainModel.getUserStatistic,
           );
           this.game.init();
           break;
