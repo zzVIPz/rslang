@@ -1,4 +1,7 @@
 import addEventHandler from './addEventHandler';
+import {
+  DELAY_NEXT_WORD,
+} from '../savannah-game/constSavannah';
 
 export default class SpeechRecognitionClass {
   constructor(model, view) {
@@ -61,6 +64,8 @@ export default class SpeechRecognitionClass {
   }
 
   correctRecognitionAnswer() {
+    const correctAnswer = true;
+
     if (!this.model.isWordClicked) {
       if (this.isCorrectAnswer && this.view.pos < (this.view.marginTop)) {
         this.model.findCorrectAnswerId();
@@ -71,8 +76,8 @@ export default class SpeechRecognitionClass {
         }
 
         this.model.rightAnswersCounter += 1;
-        this.view.rightTranslationActions(correctHTMLel, true);
-        setTimeout(() => { this.view.nextWord(); }, 1000);
+        this.view.rightTranslationActions(correctHTMLel, correctAnswer);
+        setTimeout(() => { this.view.nextWord(); }, DELAY_NEXT_WORD);
       }
     }
   }
