@@ -21,14 +21,15 @@ export default class EnglishPuzzleController {
     this.page = 0;
     this.group = 0;
 
-    // this.gameSettings = localStorage.getItem('english-puzzle') || {
-    //   tipTrans: 'true',
-    //   tipBackground: 'false',
-    //   levelsEnded: 
-    // };
+    this.gameSettings = localStorage.getItem('english-puzzle') || {
+      tipTranslate: 'true',
+      tipBackground: 'false',
+      levelsEnded: [],
+    };
   }
 
   async init() {
+    console.log(this.gameSettings);
     this.mainModel.init();
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
     this.englishPuzzleView.audioModel = this.audioModel;
