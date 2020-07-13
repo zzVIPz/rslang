@@ -1,4 +1,5 @@
 import {
+  container,
   STATISTICS_MODAL_LAYOUT,
   SVG_URL,
   ID_OF_WORD,
@@ -7,7 +8,7 @@ import getMediaUrl from '../../utils/getMediaUrl';
 import MainModel from '../../models/mainModel';
 
 export default class ModalWindow {
-  constructor(correct, uncorrect, user) {
+  constructor(correct, uncorrect, user, parseLearningsWords) {
     this.cancelBtn = document.querySelector('.modal_cancel');
     this.backToMianBtn = document.querySelector('.modal_close');
     this.viewStatistic = document.querySelector('.modal_view');
@@ -17,6 +18,7 @@ export default class ModalWindow {
     this.uncorrectWordsArray = uncorrect;
     this.user = user;
     this.mainModel = new MainModel();
+    this.parseLearningsWords = parseLearningsWords;
   }
 
   runListeners(user, mainView) {
@@ -34,6 +36,8 @@ export default class ModalWindow {
     for (let i = 0; i < this.uncorrectWordsArray.length; i += 1) {
       missArrayId.push(this.uncorrectWordsArray[i].id);
     }
+    this.parseLearningsWords(missArrayId);
+    container.innerHTML = '';
     this.mainView.renderMain(this.user);
     window.history.replaceState(null, null, ' ');
   }
