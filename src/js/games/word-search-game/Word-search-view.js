@@ -172,6 +172,15 @@ class WordSearchView extends SavannahView {
     this.renderClearBtn();
   }
 
+  renderHeader() {
+    const livesBox = this.renderLives();
+
+    this.appHeader = document.querySelector('.app__header');
+    this.appHeader.appendChild(livesBox);
+
+    return this.appHeader;
+  }
+
   changeLivesStyle = () => {
     document.querySelector('.lives').classList.add('word-search__lives');
   };
