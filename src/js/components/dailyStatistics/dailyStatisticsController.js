@@ -43,6 +43,7 @@ export default class DailyStatisticsController {
   }
 
   async gameStartsStat(game) {
+    await this.getData();
     this.statData.optional.games[game] += 1;
     await this.setData();
   }
