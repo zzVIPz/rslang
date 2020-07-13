@@ -48,7 +48,7 @@ class SavannahView {
     this.errorSound = new Audio(getMediaURL(ERROR_SOUND));
     this.roundStartsSound = new Audio(getMediaURL(ROUND_STARTS_SOUND));
     this.gameStatistics = new GameStatistics();
-    this.recognitionObj = new SpeechRecognitionClass();
+    this.recognitionObj = new SpeechRecognitionClass(this.model, this);
     this.statisticsLayout = STATISTICS_MODAL_LAYOUT;
     this.mainContainer = document.querySelector('.main');
     this.flyingWordBox = document.createElement('div');
@@ -64,6 +64,7 @@ class SavannahView {
     this.changePositionAccordingToClientHeight();
 
     if (!(this.currentHash() === HASH_VALUES.savannah)) {
+      // this.recognitionObj.turnOffMicrophone();
       this.finishGame();
       this.savannahContainer = document.querySelector('.savannah__app');
 
@@ -223,10 +224,6 @@ class SavannahView {
     }
   }
 
-  checkCorrectTranslationFromRecognition() {
-    return this.recognitionObj.transcriptAnswer.toLowerCase() === this.model.correctAnswer;
-  }
-
   rightTranslationActions(translationEl, rightAnswer) {
     this.moveBackground();
     this.resizeCrystal();
@@ -269,6 +266,10 @@ class SavannahView {
       if (this.pos < this.marginTop) {
         target.classList.add('hover-disabled');
         this.checkRightTranslation(target);
+
+        if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+          this.recognitionObj.stopRecognition();
+        }
       }
     }
   }
@@ -282,6 +283,10 @@ class SavannahView {
     if (!this.model.isWordClicked && key >= 1 && key <= 4) {
       const translationEl = this.getClickedWord(key);
       this.checkRightTranslation(translationEl);
+
+      if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+        this.recognitionObj.stopRecognition();
+      }
     }
   }
 
@@ -337,6 +342,7 @@ class SavannahView {
   finishGame() {
     this.model.isGameOn = false;
     this.model.isPreloading = false;
+    this.recognitionObj.stopRecognition();
     window.removeEventListener('keyup', this.onKeyUp);
     this.appContainer.classList.remove('app__background');
     this.appContainer.style.backgroundPositionY = '0%';
@@ -354,7 +360,7 @@ class SavannahView {
     this.appHeader = document.querySelector('.app__header');
     this.appHeader.setAttribute('id', 'savannah-header');
     this.appHeader.appendChild(livesBox);
-    this.appHeader.appendChild(microphone);
+    document.getElementById('savannah-header').appendChild(microphone);
     this.recognitionObj.addListeners();
 
     return this.appHeader;
@@ -392,38 +398,37 @@ class SavannahView {
   }
 
   frame() {
-    const rightAnswer = true;
-    const settingsVisible = document.querySelector('.settings__overlay');
-    const menuActive = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
+    if (this.model.isGameOn) {
+      const rightAnswer = true;
+      const settingsVisible = document.querySelector('.settings__overlay');
+      const menuActive = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
 
-    if (!menuActive && !settingsVisible) {
-      /* const isRecognitionCorrect = this.checkCorrectTranslationFromRecognition();
-      console.log(isRecognitionCorrect); */
-      if (this.pos >= (this.marginTop) && this.model.isGameOn /* && !isRecognitionCorrect */) {
-        clearInterval(this.id);
-        if (this.model.audioOn) {
-          this.errorSound.play();
+      if (!menuActive && !settingsVisible) {
+        if (this.pos >= (this.marginTop)) {
+          clearInterval(this.id);
+          if (this.model.audioOn) {
+            this.errorSound.play();
+          }
+
+          this.recognitionObj.stopRecognition();
+          this.model.incorrectWordsId.push(this.model.currentWordId);
+          this.correctHTMLEl = this.findCorrectAnswerHTMLel();
+          this.model.wrongAnswerCounter += 1;
+
+          this.removeLives();
+          this.highlightAnswer(this.correctHTMLEl, rightAnswer);
+          this.gameStatistics.appendWrongAnswer(this.randomEngWord,
+            this.model.correctAnswer, this.model.currentWordAudio);
+          this.flyingWord.classList.add('flying-word_hide');
+          this.flyingWord.style.top = '0';
+          setTimeout(() => {
+            this.removeHighlight(this.correctHTMLEl, rightAnswer);
+          }, DELAY_HIGHLIGHT);
+          setTimeout(() => { this.nextWord(); }, DELAY_NEXT_WORD);
+        } else {
+          this.pos += this.marginTop / BASE_MARGIN;
+          this.flyingWord.style.top = `${this.pos}px`;
         }
-
-        this.model.incorrectWordsId.push(this.model.currentWordId);
-        this.correctHTMLEl = this.findCorrectAnswerHTMLel();
-        this.model.wrongAnswerCounter += 1;
-
-        this.removeLives();
-        this.highlightAnswer(this.correctHTMLEl, rightAnswer);
-        this.gameStatistics.appendWrongAnswer(this.randomEngWord,
-          this.model.correctAnswer, this.model.currentWordAudio);
-        this.flyingWord.classList.add('flying-word_hide');
-        this.flyingWord.style.top = '0';
-        setTimeout(() => {
-          this.removeHighlight(this.correctHTMLEl, rightAnswer);
-        }, DELAY_HIGHLIGHT);
-        setTimeout(() => { this.nextWord(); }, DELAY_NEXT_WORD);
-        this.recognitionObj.transcriptAnswer = '';
-      } else {
-        this.pos += this.marginTop / BASE_MARGIN;
-        this.flyingWord.style.top = `${this.pos}px`;
-        this.recognitionObj.transcriptAnswer = '';
       }
     }
   }
@@ -546,6 +551,10 @@ class SavannahView {
         this.randomEngWord = this.model.wordsArr[this.model.randomArrOfIndexes[this.model.count]];
         this.renderPlayingPage();
         this.model.getCurrentWordId();
+
+        if (this.recognitionObj.microphoneActive) {
+          this.recognitionObj.turnOnMicrophone();
+        }
       }
     } else {
       this.renderGameOver(true);
@@ -553,9 +562,14 @@ class SavannahView {
   }
 
   renderGameOver(isWin) {
-    // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.incorrectWordsId;
     this.parseLearningWords(this.incorrectWordsIdArr);
+    const activeMicrophone = document.querySelector('.microphone').classList.contains('microphone_active');
+
+    if (activeMicrophone) {
+      document.querySelector('.microphone').classList.remove('microphone_active');
+    }
+
     this.translationBox.removeEventListener('click', this.listener1);
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
