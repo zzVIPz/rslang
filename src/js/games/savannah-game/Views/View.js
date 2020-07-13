@@ -64,7 +64,6 @@ class SavannahView {
     this.changePositionAccordingToClientHeight();
 
     if (!(this.currentHash() === HASH_VALUES.savannah)) {
-      // this.recognitionObj.turnOffMicrophone();
       this.finishGame();
       this.savannahContainer = document.querySelector('.savannah__app');
 
