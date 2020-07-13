@@ -38,11 +38,10 @@ $var9: #00c45f;
     align-items: center;
     box-sizing: border-box;
     width: 100%;
-    max-width: 784px;
-    height: 80vh;
-    min-height: 555px;
+    max-width: 400px;
+    height: 440px;
     margin: 0 5px;
-    padding: 42px 16px;
+    padding: 42px 16px 0 16px;
 
     text-align: center;
 
@@ -103,8 +102,8 @@ $var9: #00c45f;
       flex-direction: column;
       align-items: center;
       width: 100%;
-      max-width: 542px;
-      height: 337px;
+      max-width: 372px;
+      height: 203px;
       margin-top: 20px;
       margin-top: 0;
       overflow: auto;
@@ -136,7 +135,6 @@ $var9: #00c45f;
       &__answer-ru {
         flex-grow: 1;
         max-width: calc(50% - 54px);
-        // overflow: hidden;
 
         font-size: 16px;
         line-height: 1.25;
@@ -204,10 +202,10 @@ $var9: #00c45f;
       }
     }
     &__title {
-      padding-bottom: 10px;
+      padding-bottom: 17px;
 
       font-weight: 300;
-      font-size: 34px;
+      font-size: 23px;
       line-height: .85;
       color: #37383c;
     }
@@ -215,21 +213,6 @@ $var9: #00c45f;
   &__trainings-audiocall {
     // position: relative;
 
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    // width: 100vw;
-    // height: calc(100vh - 93px);
-    // overflow: hidden;
-
-    // background-color: $var1;
-    // background-image: url(../assets/svg/bg-audiocall-game.svg);
-    // background-repeat: no-repeat;
-    // background-position-x: center;
-    // background-position-y: 100%;
-    // background-size: cover;
-
-    // transition: all 1s ease;
     &__close {
       position: absolute;
       top: 27px;
@@ -861,6 +844,9 @@ $var9: #00c45f;
 }
 
 @media screen and (max-width: 544px) {
+  .container-game__trainings-audiocall__answers {
+    margin-top: -9em;
+  }
   .container-game {
     height: 800px;
   }

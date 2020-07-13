@@ -12,15 +12,16 @@ export default class DictionaryController {
   }
 
   async init() {
-    await this.getData();
     this.dictionaryView.render();
+    await this.getData();
     this.dictionaryView.renderLines(this.wordsData, this.user, this.state);
     this.subscribeToEvents();
     this.dictionaryView.addListeners();
   }
 
   async getData() {
-    const data = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': this.state });
+    this.dictionaryView.showPreloader(this.dictionaryView.domElements.wordsData);
+    const data = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': this.state }, 3600);
     this.wordsData = data[0].paginatedResults;
   }
 
@@ -31,7 +32,6 @@ export default class DictionaryController {
         optional = el.userWord.optional;
       }
     });
-    console.log(optional);
     return optional;
   }
 

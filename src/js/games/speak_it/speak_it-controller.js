@@ -18,7 +18,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 export default class Controller {
-  constructor(group, round, user, mainView) {
+  constructor(group, round, user, mainView, parseLearningsWords) {
     this.startPage = 0;
     this.startGroup = group;
     this.startRound = round;
@@ -38,14 +38,13 @@ export default class Controller {
     this.user = user;
     this.mainModel = new MainModel();
     this.mainView = mainView;
-    // this.mainModel.getUserStatistic(); remove comment after add statistic PR
+    this.parseLearningsWords = parseLearningsWords;
   }
 
   initGame() {
     this.createSpeachrecognition();
     this.model = new Model();
     this.view = new View();
-
     this.view.setStarsTop(this.startGroup, this.startRound);
     this.onload();
     this.chooseCard();
@@ -181,8 +180,8 @@ export default class Controller {
     this.closeBtn.onclick = () => {
       const modal = new ModalWindow(this.model.correct,
         this.model.uncorrect,
-        this.setDefaultHash,
-        this.user);
+        this.user,
+        this.parseLearningsWords);
       modal.runListeners(this.user, this.mainView);
       modal.toggelModalWindov();
     };
