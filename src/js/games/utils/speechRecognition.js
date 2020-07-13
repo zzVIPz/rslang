@@ -8,6 +8,7 @@ export default class SpeechRecognitionClass {
     this.transcriptAnswer = '';
     this.model = model;
     this.view = view;
+    this.recognitionNotStarted = true;
   }
 
   addListeners() {
@@ -17,14 +18,20 @@ export default class SpeechRecognitionClass {
     addEventHandler('end', this.recognition, this.onRecognitionEnd.bind(this));
   }
 
+  removeListeners() {
+    const microphoneImg = document.querySelector('.savannah-microphone');
+    microphoneImg.removeEventListener('click', this.onMicrophoneClick.bind(this));
+    this.recognition.removeEventListener('result', this.onRecognitionResult.bind(this));
+    this.recognition.removeEventListener('end', this.onRecognitionEnd.bind(this));
+  }
+
   onMicrophoneClick() {
     const microphone = document.querySelector('.microphone');
     if (microphone) {
       if (microphone.classList.contains('microphone_active')) {
-        this.microphoneActive = false;
-        this.turnOffMicrophone();
+        this.stopRecognition();
+        document.querySelector('.microphone').classList.remove('microphone_active');
       } else {
-        this.microphoneActive = true;
         document.querySelector('.microphone').classList.add('microphone_active');
         this.turnOnMicrophone();
       }
@@ -36,15 +43,21 @@ export default class SpeechRecognitionClass {
   }
 
   onRecognitionResult = (event) => {
-    const { transcript } = event.results[0][0];
+    if (this.recognitionNotStarted) {
+      this.recognitionNotStarted = false;
+      const { transcript } = event.results[0][0];
 
-    this.transcriptAnswer = transcript;
-    this.isCorrectAnswer = this.checkCorrectTranslationFromRecognition();
-    this.correctRecognitionAnswer();
+      this.transcriptAnswer = transcript;
+      this.isCorrectAnswer = this.checkCorrectTranslationFromRecognition();
+      this.correctRecognitionAnswer();
+    }
   }
 
   onRecognitionEnd = () => {
-    this.stopRecognition();
+    if (this.recognitionNotStarted) {
+      this.recognitionNotStarted = false;
+      this.stopRecognition();
+    }
   }
 
   checkCorrectTranslationFromRecognition() {
@@ -61,6 +74,7 @@ export default class SpeechRecognitionClass {
           this.view.correctSound.play();
         }
 
+        this.model.rightAnswersCounter += 1;
         this.view.rightTranslationActions(correctHTMLel, true);
         setTimeout(() => { this.view.nextWord(); }, 1000);
       }

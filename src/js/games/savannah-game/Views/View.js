@@ -552,7 +552,8 @@ class SavannahView {
         this.renderPlayingPage();
         this.model.getCurrentWordId();
 
-        if (this.recognitionObj.microphoneActive) {
+        if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+          this.recognitionObj.recognitionNotStarted = true;
           this.recognitionObj.turnOnMicrophone();
         }
       }
@@ -564,6 +565,7 @@ class SavannahView {
   renderGameOver(isWin) {
     this.incorrectWordsIdArr = this.model.incorrectWordsId;
     this.parseLearningWords(this.incorrectWordsIdArr);
+    this.recognitionObj.removeListeners();
     const activeMicrophone = document.querySelector('.microphone').classList.contains('microphone_active');
 
     if (activeMicrophone) {
