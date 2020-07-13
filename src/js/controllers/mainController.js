@@ -37,7 +37,6 @@ export default class MainController {
   }
 
   async init() {
-    this.setDefaultHash();
     this.subscribeToEvents();
     this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
@@ -45,9 +44,13 @@ export default class MainController {
     const accessData = this.mainModel.getAccessData();
     const { username } = accessData;
     this.user = await this.mainModel.getUser();
-    console.log(this.user);
     this.user.token = accessData.token;
-    this.mainView.renderMain(this.user);
+    const currentHash = this.getCurrentHash();
+    if (currentHash) {
+      this.mainView.onNavigationLinkClick(null, currentHash);
+    } else {
+      this.mainView.renderMain(this.user);
+    }
     if (username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
@@ -72,8 +75,8 @@ export default class MainController {
       return { allUserWords: allUserWords.length, learnedWords: learnedWords.length };
     };
 
-    this.mainView.onNavigationLinkClick = (e) => {
-      const dataName = e.target.dataset.name;
+    this.mainView.onNavigationLinkClick = (e, optional) => {
+      const dataName = e ? e.target.dataset.name : optional;
       switch (dataName) {
         case MENU_ITEMS_NAMES.dictionary:
           this.dictionary = new DictionaryController(this.mainModel);
@@ -83,10 +86,12 @@ export default class MainController {
           this.dailyStatistics.renderStat();
           break;
         case MENU_ITEMS_NAMES.speakit:
-          startSpeakItGame(this.user,
+          startSpeakItGame(
+            this.user,
             this.mainView,
             this.parseLearningsWords,
-            this.dailyStatistics);
+            this.dailyStatistics,
+          );
           break;
         case MENU_ITEMS_NAMES.englishPuzzle:
           this.englishPuzzle = new EnglishPuzzleStart(
@@ -100,10 +105,10 @@ export default class MainController {
         case MENU_ITEMS_NAMES.audiocall:
           this.audiocall = new AudiocallController(this.user, this.mainView);
           this.audiocall.init(
-            this.setDefaultHash, 
-            this.getCurrentHash, 
-            this.dailyStatistics, 
-            this.parseLearningsWords.bind(this)
+            this.setDefaultHash,
+            this.getCurrentHash,
+            this.dailyStatistics,
+            this.parseLearningsWords.bind(this),
           );
           break;
         case MENU_ITEMS_NAMES.savannah:
@@ -129,7 +134,9 @@ export default class MainController {
           this.mainView.showIndexPage();
           break;
         default:
-          e.preventDefault();
+          if (e) {
+            e.preventDefault();
+          }
           this.setDefaultHash();
           this.mainView.renderMain(this.user);
       }
@@ -150,26 +157,26 @@ export default class MainController {
       }
 
       if (
-        this.aggregatedWords.length
-        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
-        && (this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
-          || this.user.cardsTotal === this.user.cardsNew)
+        this.aggregatedWords.length &&
+        this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.difficult &&
+        (this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew ||
+          this.user.cardsTotal === this.user.cardsNew)
       ) {
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
       if (
-        !this.aggregatedWords.length
-        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
-        && (this.user.cardsTotal !== this.user.cardsNew
-          || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.repeat
-          || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult)
+        !this.aggregatedWords.length &&
+        this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords &&
+        (this.user.cardsTotal !== this.user.cardsNew ||
+          this.user.studyMode === SETTING_MODAL_TEXT.studySelect.repeat ||
+          this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult)
       ) {
         this.mainView.showNotificationAboutRepeat(this.user);
       }
       if (
-        this.aggregatedWords.length
-        && this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult
-        && this.aggregatedWords.length < this.user.cardsTotal
+        this.aggregatedWords.length &&
+        this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult &&
+        this.aggregatedWords.length < this.user.cardsTotal
       ) {
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
@@ -345,8 +352,8 @@ export default class MainController {
     let wordsList = [];
 
     if (
-      studyMode !== SETTING_MODAL_TEXT.studySelect.repeat
-      && studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
+      studyMode !== SETTING_MODAL_TEXT.studySelect.repeat &&
+      studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
     ) {
       const totalPagesRequest = Math.ceil(
         (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
@@ -516,9 +523,9 @@ export default class MainController {
     if (this.allUserWordsId.includes(wordId)) {
       const wordInfo = await this.mainModel.getUsersWordById(wordId);
       if (
-        wordInfo.difficulty === WORDS_STATUS.repeat
-        && wordInfo.optional
-        && wordInfo.optional.mistakesCounter
+        wordInfo.difficulty === WORDS_STATUS.repeat &&
+        wordInfo.optional &&
+        wordInfo.optional.mistakesCounter
       ) {
         const { mistakesCounter } = wordInfo.optional;
         return mistakesCounter - 1;
@@ -543,9 +550,9 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation
-        && !this.user.wordPronunciation
-        && this.mainView.checkActiveButtonsBlock()
+        !this.user.textPronunciation &&
+        !this.user.wordPronunciation &&
+        this.mainView.checkActiveButtonsBlock()
       ) {
         this.showNextSlide();
       }
