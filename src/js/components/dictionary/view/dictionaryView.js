@@ -38,12 +38,12 @@ export default class DictionaryController {
       noWords.textContent = CONSTANTS.DEFAULT_NO_WORDS_MESSAGE;
       this.domElements.wordsData.append(noWords);
     }
-    data.forEach((el, id) => {
+    data.forEach((el, idx) => {
       const audioSrc = getMediaUrl(el.audio);
       const line = dictionaryLineTemplate(el, audioSrc, user, state);
       this.domElements.wordsData.insertAdjacentHTML('beforeend', line);
       if (cardsNumberPerDay) {
-        const repeatCoef = (id + 1) / cardsNumberPerDay;
+        const repeatCoef = (idx + 1) / cardsNumberPerDay;
         const repeatLine = dictionaryLastRepeatWord(repeatCoef);
         const list = this.domElements.wordsData.querySelectorAll('.dict__optional');
         const lastInList = list[list.length - 1];
