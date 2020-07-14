@@ -36,6 +36,7 @@ export default class MainView {
     this.speaker = document.querySelector('.user-tool__button-speaker');
     this.settings = document.querySelector('.user-tool__button-settings');
     this.main = document.querySelector('.main');
+    this.hidingMenu = false;
   }
 
   init() {
@@ -438,17 +439,19 @@ export default class MainView {
   }
 
   toggleMenuProperty() {
-    document.body.classList.toggle('overflow-hidden');
-    this.burgerMenu.classList.toggle('burger-menu--active');
-    this.navigation.classList.toggle('navigation--active');
-    if (this.headerNavigation.classList.contains('header__navigation--active')) {
-      setTimeout(() => {
-        this.headerNavigation.classList.remove('header__navigation--active');
-      }, DELAY_HIDE_MENU);
-    } else {
-      // todo: think about overflow hidden
-      // document.body.style.width = `${document.body.offsetWidth}px`;
-      this.headerNavigation.classList.add('header__navigation--active');
+    if (!this.hidingMenu) {
+      document.body.classList.toggle('overflow-hidden');
+      this.burgerMenu.classList.toggle('burger-menu--active');
+      this.navigation.classList.toggle('navigation--active');
+      if (this.headerNavigation.classList.contains('header__navigation--active')) {
+        this.hidingMenu = true;
+        setTimeout(() => {
+          this.headerNavigation.classList.remove('header__navigation--active');
+          this.hidingMenu = false;
+        }, DELAY_HIDE_MENU);
+      } else {
+        this.headerNavigation.classList.add('header__navigation--active');
+      }
     }
   }
 

@@ -78,6 +78,7 @@ const SPARKLES = `
 const CORRECT_SOUND = 'correct.mp3';
 const ERROR_SOUND = 'error.mp3';
 const ROUND_STARTS_SOUND = 'round-starts.mp3';
+const MICROPHONE = '<img class="savannah-microphone" src="../src/assets/images/microphone.png">';
 
 const DELAY_CHECK_HASH = 1000;
 const DELAY_PRELOADER_COUNT_DOWN = 1000;
@@ -127,4 +128,5 @@ export {
   NUMBER_OF_LIVES,
   MOVING_WORD_INTERVAL,
   BANG_MOVE_PX,
+  MICROPHONE,
 };

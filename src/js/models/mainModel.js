@@ -188,6 +188,7 @@ export default class MainModel {
     );
     const currentStatistic = await rawResponse.json();
     console.log('getUserStatistic ', currentStatistic);
+    console.log('getUserStatisticID ', this.userId);
     return currentStatistic;
   };
 
@@ -199,5 +200,6 @@ export default class MainModel {
     const content = await rawResponse.json();
 
     console.log('setUserStatistic', content);
+    console.log('setUserStatistic User ID', this.userId);
   };
 }

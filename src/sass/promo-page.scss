@@ -1,20 +1,19 @@
- @font-face {
-  font-family: "ObelixPro";
-
-  src: url("../assets/fonts/for-promo-page/obelix.ttf") format("truetype");
-}
-@font-face {
-  font-family: "BurbankBigCondensed";
-
-  src: local("burbank.ttf"),
-       url("../assets/fonts/for-promo-page/burbank.ttf") format("truetype");
-}
-.promo-container {
-  width: 100%;
-  min-width: 98.4vw;
+ .promo-container {
+  min-width: 100vw;
   height: 100%;
 
   background: #108cc1;
+  &__section {
+    width: 100%;
+
+    background: #37178d;
+    background: -webkit-linear-gradient(315deg,#37178d,#9a41ff);
+    background:      -o-linear-gradient(315deg,#37178d 0,#9a41ff 100%);
+    background:         linear-gradient(135deg,#37178d,#9a41ff);
+
+    -webkit-clip-path: polygon(0 0%, 100% 0, 100% 98%, 0% 100%);
+            clip-path: polygon(0 0%, 100% 0, 100% 98%, 0% 100%);
+  }
   &__game {
     position: relative;
 
@@ -33,8 +32,8 @@
 
     background-color: #ffffff;
 
-    -webkit-clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
-            clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
+    -webkit-clip-path: polygon(0 2%, 100% 0, 97% 100%, 4% 97%);
+            clip-path: polygon(0 2%, 100% 0, 97% 100%, 4% 97%);
   }
   &__image {
     width: 100%;
@@ -55,7 +54,6 @@
 
     font-size: 2em;
     line-height: 1.3;
-    font-family: "ObelixPro", sans-serif;
     color: #333333;
     text-transform: uppercase;
   }
@@ -64,12 +62,10 @@
   }
   &__description p {
     width: 80%;
-    margin: 5vh auto 0 auto;
+    margin: 3vh auto 4vh auto;
 
-    font-weight: 700;
-    font-size: 1.89em;
+    font-size: 1.3em;
     line-height: 1.25em;
-    font-family: "BurbankBigCondensed", OpenSans, sans-serif;
     color: #333333;
     text-transform: none;
   }
@@ -79,13 +75,82 @@ img {
 
   border: 0;
 }
+.white-color {
+  color: #f3f3f3;
+}
+.promo-container__section .promo-container__description p {
+  color: #f3f3f3;
+}
+.features {
+  min-height: 363px;
+  padding-bottom: 219px;
+
+  background: #ea5455;
+  background: -webkit-linear-gradient(315deg,#ea5455,#feb692);
+  background:      -o-linear-gradient(315deg,#ea5455 0,#feb692 100%);
+  background:         linear-gradient(135deg,#ea5455,#feb692);
+
+  -webkit-clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+          clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+}
+.features .promo-container__title {
+  margin-top: 3em;
+}
+.structure .promo-container__title {
+  margin-top: 5.5em;
+}
+.structure {
+  margin-top: -224px;
+  padding-bottom: 219px;
+
+  background: #28c76f;
+  background: -webkit-linear-gradient(315deg,#28c76f,#53d38c);
+  background:      -o-linear-gradient(315deg,#28c76f 0,#53d38c 100%);
+  background:         linear-gradient(135deg,#28c76f,#53d38c);
+
+  -webkit-clip-path: polygon(0 10em, 100% 0, 100% 100%, 0% 100%);
+          clip-path: polygon(0 10em, 100% 0, 100% 100%, 0% 100%);
+}
+.screen {
+  width: 90%;
+  margin-top: .7em;
+
+  border-radius: 1.5em;
+}
+.promo-container__video {
+  width: 64%;
+  margin: 0 auto;
+}
+.thumb-wrap {
+  position: relative;
+
+  height: 0;
+  margin-top: 3em;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+.thumb-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-width: 0;
+  outline-width: 0;
+}
 @media only screen and (max-width: 550px) {
+  .promo-container__video {
+    width: 98%;
+   }
   .promo-container__game {
     width: 95%;
   }
   .promo-container__description p {
     width: 100%;
-    font-size: .89em;
+
+    font-size: 1.2em;
   }
   .promo-container__title {
     font-size: 1.3em;

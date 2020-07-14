@@ -1,24 +1,29 @@
 import SprintView from '../view/sprintView';
 import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
-import MainView from '../../../views/mainView';
+import GLOBAL from '../../../constants/global';
 import {
   MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
 } from '../const/sprintConst';
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor() {
+  constructor(user, mainView, parseLearningsWords, dailyStatistics, setUserStatistic, getUserStatistic) {
     this.view = new SprintView();
     this.model = new SprintModel();
-    this.mainView = new MainView();
+    this.user = user;
+    this.mainView = mainView;
+    this.parseLearningsWords = parseLearningsWords;
+    this.dailyStatistics = dailyStatistics;
+    this.setUserStatistic = setUserStatistic;
+    this.getUserStatistic = getUserStatistic;
   }
 
   init() {
     this.prelaunch();
   }
 
-  async prelaunch() {
+  prelaunch() {
     this.level = 0;
     this.round = 0;
     this.currentWordIndex = 0;
@@ -27,8 +32,6 @@ export default class SprintController {
     this.accuracyCounter = 0;
     this.rightAnswersCount = 0;
     this.faultyWords = [];
-
-    this.user = await this.model.getCurrentUser();
     this.username = this.user.username;
     this.view.renderStartLayout(this.username);
     this.addCloseBtnHandler();
@@ -38,13 +41,16 @@ export default class SprintController {
   }
 
   addNavigationClickListener() {
-    this.navClick = this.navigationClickHandler.bind(this);
-    document.addEventListener('click', this.navClick);
+    setTimeout(() => {
+      this.navClick = this.navigationClickHandler.bind(this);
+      document.addEventListener('click', this.navClick);
+    }, 1000);
   }
 
   navigationClickHandler({ target }) {
     if (target.classList.contains('navigation__link')) {
-      this.closeGameWindow();
+      clearTimeout(this.timer);
+      document.removeEventListener('keydown', this);
       document.removeEventListener('click', this.navClick);
     }
   }
@@ -71,6 +77,7 @@ export default class SprintController {
   }
 
   startGame() {
+    this.dailyStatistics.gameStartsStat(GLOBAL.STAT_GAME_NAMES.sprint);
     this.view.renderGameLayout();
     this.addCloseBtnHandler();
     this.wrongBtn = document.querySelector('.sprint-button--wrong');
@@ -131,19 +138,39 @@ export default class SprintController {
     }
   }
 
-  endGame() {
+  async endGame() {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
-    this.view.renderFinalStat(this.score, this.faultyWords);
+    this.recordScore = await this.getRecordScore();
+    this.view.renderFinalStat(this.recordScore, this.score, this.faultyWords);
+    this.setRecordScore();
+    const learningArray = this.faultyWords.map((word) => word.id);
+    this.parseLearningsWords(learningArray);
     this.addCloseBtnHandler();
     document.querySelector('.sprint-button--repeat')
       .addEventListener('click', () => { this.prelaunch(); });
   }
 
+  async getRecordScore() {
+    this.gameStat = await this.getUserStatistic();
+    if (!this.gameStat.optional.score) {
+      this.gameStat.optional.score = { sprint: 0 };
+    }
+
+    return this.gameStat.optional.score.sprint;
+  }
+
+  setRecordScore() {
+    if (this.score > this.gameStat.optional.score.sprint) {
+      this.gameStat.optional.score.sprint = this.score;
+      delete this.gameStat.id;
+      this.setUserStatistic(this.gameStat);
+    }
+  }
+
   startCountdown(gameTime) {
     this.gameTime = gameTime;
     this.gameTime -= 1;
-
     if (this.gameTime > 0) {
       this.view.showTime(this.gameTime);
       this.timer = setTimeout(this.startCountdown.bind(this), COUNTDOWN_DELAY, this.gameTime);
@@ -153,17 +180,26 @@ export default class SprintController {
   }
 
   addCloseBtnHandler() {
-    document.querySelector('.closeBtn').addEventListener('click', () => {
-      this.view.displayModal();
-      document.querySelector('.app__modal__box_cancel').addEventListener('click', () => {
-        this.view.hideModal();
+    const closeBtn = document.querySelector('.closeBtn');
+    const closeModal = document.querySelector('.app__modal');
+    if (closeModal) {
+      closeBtn.addEventListener('click', () => {
+        this.view.displayModal();
+        document.querySelector('.app__modal__box_cancel').addEventListener('click', () => {
+          this.view.hideModal();
+        });
+        document.querySelector('.app__button_close').addEventListener('click', () => {
+          this.closeGameWindow();
+          this.view.hideModal();
+          this.mainView.renderMain(this.user);
+        });
       });
-      document.querySelector('.app__button_close').addEventListener('click', () => {
+    } else {
+      closeBtn.addEventListener('click', () => {
         this.closeGameWindow();
-        this.view.hideModal();
         this.mainView.renderMain(this.user);
       });
-    });
+    }
   }
 
   closeGameWindow() {
