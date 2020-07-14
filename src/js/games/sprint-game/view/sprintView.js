@@ -122,12 +122,17 @@ export default class SprintView {
     }
   }
 
-  renderFinalStat(score, errors) {
+  renderFinalStat(record, score, errors) {
     this.mainContainer.innerHTML = '';
     this.mainContainer.insertAdjacentHTML('beforeend', this.finalStatLayout);
     document.querySelector('.sprint-main-wrapper').classList.add('sprint-game-bgr');
     document.querySelector('.sprint-result-header').innerHTML = 'Результат игры';
     document.querySelector('.sprint-final-score').innerHTML = `${score} очков`;
+    if (record && (record > score)) {
+      document.querySelector('.sprint-final-record').innerHTML = ` Ваш рекорд - ${record} очков, есть к чему стремиться`;
+    } else if (record) {
+      document.querySelector('.sprint-final-record').innerHTML = 'Это ваш новый рекорд, так держать!!!';
+    }
 
     if (errors.length) {
       document.querySelector('.sprint-user-mistakes').innerHTML = `Ошибок ${errors.length}`;

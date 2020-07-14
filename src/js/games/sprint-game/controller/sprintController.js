@@ -8,20 +8,22 @@ import {
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor(user, mainView, parseLearningsWords, dailyStatistics) {
+  constructor(user, mainView, parseLearningsWords, dailyStatistics, setUserStatistic, getUserStatistic) {
     this.view = new SprintView();
     this.model = new SprintModel();
     this.user = user;
     this.mainView = mainView;
     this.parseLearningsWords = parseLearningsWords;
     this.dailyStatistics = dailyStatistics;
+    this.setUserStatistic = setUserStatistic;
+    this.getUserStatistic = getUserStatistic;
   }
 
   init() {
     this.prelaunch();
   }
 
-  async prelaunch() {
+  prelaunch() {
     this.level = 0;
     this.round = 0;
     this.currentWordIndex = 0;
@@ -136,15 +138,34 @@ export default class SprintController {
     }
   }
 
-  endGame() {
+  async endGame() {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
-    this.view.renderFinalStat(this.score, this.faultyWords);
+    this.recordScore = await this.getRecordScore();
+    this.view.renderFinalStat(this.recordScore, this.score, this.faultyWords);
+    this.setRecordScore();
     const learningArray = this.faultyWords.map((word) => word.id);
     this.parseLearningsWords(learningArray);
     this.addCloseBtnHandler();
     document.querySelector('.sprint-button--repeat')
       .addEventListener('click', () => { this.prelaunch(); });
+  }
+
+  async getRecordScore() {
+    this.gameStat = await this.getUserStatistic();
+    if (!this.gameStat.optional.score) {
+      this.gameStat.optional.score = { sprint: 0 };
+    }
+
+    return this.gameStat.optional.score.sprint;
+  }
+
+  setRecordScore() {
+    if (this.score > this.gameStat.optional.score.sprint) {
+      this.gameStat.optional.score.sprint = this.score;
+      delete this.gameStat.id;
+      this.setUserStatistic(this.gameStat);
+    }
   }
 
   startCountdown(gameTime) {

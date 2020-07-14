@@ -78,7 +78,8 @@ const finalStatLayout = `<div class="sprint-main-wrapper">
 <div class="closeBtn"></div>
 <div class="sprint-container">
 <div class="sprint-result-header ">Ваш результат</div>
-<div class="sprint-final-score">Упс...</div>
+<div class="sprint-final-score"></div>
+<div class="sprint-final-record"></div>
 <div class="sprint-statistics">
     <div class="sprint-user-mistakes"></div>
 </div>
