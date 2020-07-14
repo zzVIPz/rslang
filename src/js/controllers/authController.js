@@ -14,7 +14,7 @@ export default class IndexController {
   }
 
   init() {
-    this.firebaseModel.onAuthStateChangedHandler();
+    // this.firebaseModel.onAuthStateChangedHandler();
     this.authView.addListeners();
     this.subscribeToEvents();
   }
