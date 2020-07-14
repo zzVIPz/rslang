@@ -1,15 +1,4 @@
- @font-face {
-  // font-family: "ObelixPro";
-
-  src: url("../assets/fonts/for-promo-page/obelix.ttf") format("truetype");
-}
-@font-face {
-  // font-family: "BurbankBigCondensed";
-
-  src: local("burbank.ttf"),
-  url("../assets/fonts/for-promo-page/burbank.ttf") format("truetype");
-}
-.promo-container {
+ .promo-container {
   width: 100%;
   min-width: 98.4vw;
   height: 100%;
@@ -44,8 +33,8 @@
 
     background-color: #ffffff;
 
-    -webkit-clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
-            clip-path: polygon(0 4%, 100% 0, 97% 100%, 4% 95%);
+    -webkit-clip-path: polygon(0 2%, 100% 0, 97% 100%, 4% 97%);
+            clip-path: polygon(0 2%, 100% 0, 97% 100%, 4% 97%);
   }
   &__image {
     width: 100%;
@@ -66,7 +55,6 @@
 
     font-size: 2em;
     line-height: 1.3;
-    font-family: "ObelixPro", sans-serif;
     color: #333333;
     text-transform: uppercase;
   }
@@ -75,12 +63,10 @@
   }
   &__description p {
     width: 80%;
-    margin: 5vh auto 0 auto;
+    margin: 3vh auto 4vh auto;
 
-    font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.3em;
     line-height: 1.25em;
-    font-family: "BurbankBigCondensed", OpenSans, sans-serif;
     color: #333333;
     text-transform: none;
   }
@@ -156,13 +142,16 @@ img {
   outline-width: 0;
 }
 @media only screen and (max-width: 550px) {
+  .promo-container__video {
+    width: 98%;
+   }
   .promo-container__game {
     width: 95%;
   }
   .promo-container__description p {
     width: 100%;
 
-    font-size: 1.4em;
+    font-size: 1.2em;
   }
   .promo-container__title {
     font-size: 1.3em;
