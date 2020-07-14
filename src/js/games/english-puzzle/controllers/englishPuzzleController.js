@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import MainModel from '../../../models/mainModel';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import BackgroundModel from '../models/backgroundModel';
@@ -12,29 +11,22 @@ export default class EnglishPuzzleController {
     this.user = user;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
-    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView,
-      this.setDefaultHash, this.gameSettings);
     this.mainModel = new MainModel();
+    if (!this.user.puzzle) {
+      Object.assign(this.user, CONSTANTS.DEFAULT_PUZZLE_SETTINGS);
+      this.mainModel.updateUserSettings(this.user);
+    }
+    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView, this.setDefaultHash);
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.audioModel = new AudioModel();
     this.wordsData = null;
     this.slicedWordsData = null;
-    this.gameLevel = 1;
-    this.page = 0;
-    this.group = 0;
+    this.gameLevel = this.user.puzzle.lvl + 1;
+    this.page = getPage(this.gameLevel);
+    this.group = this.user.puzzle.dif;
   }
 
   async init() {
-    if (!this.user.puzzle) {
-      Object.assign(this.user, CONSTANTS.DEFAULT_PUZZLE_SETTINGS);
-      this.englishPuzzleView.user = this.user;
-      this.mainModel.updateUserSettings(this.user);
-    } else {
-      this.gameLevel = this.user.puzzle.lvl + 1;
-      this.page = getPage(this.gameLevel);
-      this.group = this.user.puzzle.dif;
-    }
-
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
     this.englishPuzzleView.audioModel = this.audioModel;
     await this.getData();
