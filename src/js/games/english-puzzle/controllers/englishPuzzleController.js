@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import MainModel from '../../../models/mainModel';
 import EnglishPuzzleModel from '../models/englishPuzzleModel';
 import BackgroundModel from '../models/backgroundModel';
@@ -11,11 +12,6 @@ export default class EnglishPuzzleController {
     this.user = user;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
-    this.gameSettings = JSON.parse(localStorage.getItem('english-puzzle')) || {
-      tipTranslate: 'true',
-      tipBackground: 'false',
-      levelsEnded: [],
-    };
     this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView,
       this.setDefaultHash, this.gameSettings);
     this.mainModel = new MainModel();
@@ -29,6 +25,16 @@ export default class EnglishPuzzleController {
   }
 
   async init() {
+    if (!this.user.puzzle) {
+      Object.assign(this.user, CONSTANTS.DEFAULT_PUZZLE_SETTINGS);
+      this.englishPuzzleView.user = this.user;
+      this.mainModel.updateUserSettings(this.user);
+    } else {
+      this.gameLevel = this.user.puzzle.lvl + 1;
+      this.page = getPage(this.gameLevel);
+      this.group = this.user.puzzle.dif;
+    }
+
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
     this.englishPuzzleView.audioModel = this.audioModel;
     await this.getData();
@@ -50,6 +56,8 @@ export default class EnglishPuzzleController {
   subscribeToEvents() {
     this.englishPuzzleView.onLevelChange = async (level) => {
       this.gameLevel = level;
+      this.user.puzzle.lvl = this.gameLevel - 1;
+      await this.mainModel.updateUserSettings(this.user);
       const newPage = getPage(this.gameLevel);
       if (this.page !== newPage) {
         this.page = newPage;
@@ -60,12 +68,19 @@ export default class EnglishPuzzleController {
 
     this.englishPuzzleView.onDifficultChange = async (difficult, level) => {
       this.group = difficult - CONSTANTS.INDEX_OFFSET;
+      this.user.puzzle.dif = this.group;
       if (level) {
         this.gameLevel = level;
+        this.user.puzzle.lvl = this.gameLevel - 1;
         this.page = getPage(this.gameLevel);
       }
+      await this.mainModel.updateUserSettings(this.user);
       await this.getData();
       this.getPainting(difficult);
+    };
+
+    this.englishPuzzleView.onSettingsChange = async (user) => {
+      await this.mainModel.updateUserSettings(user);
     };
   }
 

@@ -6,27 +6,29 @@ import createPuzzle from './createPuzzleCanvas';
 import CONSTANTS from '../constants/constants';
 
 export default class EnglishPuzzleView {
-  constructor(user, mainView, setDefaultHash, gameSettings) {
+  constructor(user, mainView, setDefaultHash) {
     this.user = user;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
-    this.gameSettings = gameSettings;
     this.template = template;
     this.englishPuzzleModel = null;
     this.audioModel = null;
     this.currentSentence = 0;
-    this.tipTranslate = gameSettings.tipTranslate;
-    this.tipBackground = gameSettings.tipBackground;
+    this.tipTranslate = this.user.puzzle.tipTranslate;
+    this.tipBackground = this.user.puzzle.tipBackground;
     this.tipAutospeech = false;
     this.domElements = {};
 
     this.img = new Image();
     this.paintingName = null;
 
-    this.gameDifficult = 1;
-    this.gameLevel = 1;
+    // this.gameDifficult = 1;
+    // this.gameLevel = 1;
+    this.gameDifficult = this.user.puzzle.dif + 1;
+    this.gameLevel = this.user.puzzle.lvl + 1;
     this.onDifficultChange = null;
     this.onLevelChange = null;
+    this.onSettingsChange = null;
 
     this.currentWordId = null;
     this.wordsStat = { rightWords: [], wrongWords: [] };
@@ -58,18 +60,18 @@ export default class EnglishPuzzleView {
     // const DifficultDrop = document.querySelectorAll('#difficultSelect > option');
     // const levelsDrop = document.querySelectorAll('#levelSelect > option');
     // DifficultDrop.forEach((el1, id1) => {
-    //   if (levelsEnded[id1]) {
+    //   if (id1 < this.gameSettings.levelsEnded[this.gameSettings.levelsEnded.length - 1][0]) {
     //     el1.classList.add('ep-levelEnds');
-    //     this.domElements.difficultSelect.options[id1].selected = true;
-    //     levelsDrop.forEach((el2, id2) => {
-    //       if (id2 < levelsEnded[id1]) {
-    //         el2.classList.add('ep-levelEnds');
-    //         this.domElements.levelSelect.options[id2].selected = true;
-    //       } else {
-    //         el2.classList.remove('ep-levelEnds');
-    //       }
-    //     });
+    //   } else {
+    //     el1.classList.remove('ep-levelEnds');
     //   }
+    //   levelsDrop.forEach((el2, id2) => {
+    //     if (id2 <= this.gameSettings.levelsEnded[this.gameSettings.levelsEnded.length - 1][1]) {
+    //       el2.classList.add('ep-levelEnds');
+    //     } else {
+    //       el2.classList.remove('ep-levelEnds');
+    //     }
+    //   });
     // });
 
     if (this.currentSentence < CONSTANTS.MAX_SENTENCES_COUNT) {
@@ -129,6 +131,14 @@ export default class EnglishPuzzleView {
         this.playAudio();
       }
     } else {
+      // const levelEndedArray = [this.gameDifficult - CONSTANTS.INDEX_OFFSET,
+      //   this.gameLevel - CONSTANTS.INDEX_OFFSET];
+      // if (this.gameSettings.levelsEnded.findIndex((item) => (item[0] === levelEndedArray[0])
+      //  && (item[1] === levelEndedArray[1])) === -1) {
+      //   this.gameSettings.levelsEnded.push(levelEndedArray);
+      //   localStorage.setItem('english-puzzle', JSON.stringify(this.gameSettings));
+      // }
+
       this.domElements.board.innerHTML = '';
       this.domElements.board.append(this.img);
       this.domElements.sentenceTranslate.textContent = this.paintingName;
@@ -369,25 +379,29 @@ export default class EnglishPuzzleView {
     this.domElements.tipTranslate.addEventListener('click', () => {
       if (this.tipTranslate === true) {
         this.tipTranslate = false;
-        this.gameSettings.tipTranslate = false;
+        this.user.puzzle.tipTranslate = false;
       } else {
         this.tipTranslate = true;
-        this.gameSettings.tipTranslate = true;
+        this.user.puzzle.tipTranslate = true;
       }
       this.switchTips();
-      localStorage.setItem('english-puzzle', JSON.stringify(this.gameSettings));
+      if (this.onSettingsChange !== null) {
+        this.onSettingsChange(this.user);
+      }
     });
 
     this.domElements.tipBackground.addEventListener('click', () => {
       if (this.tipBackground === true) {
         this.tipBackground = false;
-        this.gameSettings.tipBackground = false;
+        this.user.puzzle.tipBackground = false;
       } else {
         this.tipBackground = true;
-        this.gameSettings.tipBackground = true;
+        this.user.puzzle.tipBackground = true;
       }
       this.render();
-      localStorage.setItem('english-puzzle', JSON.stringify(this.gameSettings));
+      if (this.onSettingsChange !== null) {
+        this.onSettingsChange(this.user);
+      }
     });
 
     this.domElements.playField.addEventListener('click', (event) => {
@@ -428,6 +442,10 @@ export default class EnglishPuzzleView {
 
     this.domElements.closeButton.addEventListener('click', () => {
       this.setDefaultHash();
+      if (!this.audio.paused) {
+        this.audio.pause();
+        this.audio.currentTime = 0.0;
+      }
       this.mainView.renderMain(this.user);
     });
   }
