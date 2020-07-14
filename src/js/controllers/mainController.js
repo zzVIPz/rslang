@@ -38,7 +38,6 @@ export default class MainController {
 
   async init() {
     this.subscribeToEvents();
-    this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
     this.mainView.init();
     const accessData = this.mainModel.getAccessData();
@@ -372,8 +371,6 @@ export default class MainController {
         wordsList.push(word);
       });
     }
-
-    console.log('current training words', wordsList);
 
     return wordsList;
   }
