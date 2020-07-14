@@ -38,7 +38,6 @@ export default class MainController {
 
   async init() {
     this.subscribeToEvents();
-    this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
     this.mainView.init();
     const accessData = this.mainModel.getAccessData();
