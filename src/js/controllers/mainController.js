@@ -372,8 +372,6 @@ export default class MainController {
       });
     }
 
-    console.log('current training words', wordsList);
-
     return wordsList;
   }
 
