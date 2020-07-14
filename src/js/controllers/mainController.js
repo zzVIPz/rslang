@@ -48,12 +48,11 @@ export default class MainController {
     const currentHash = this.getCurrentHash();
     if (currentHash) {
       this.mainView.onNavigationLinkClick(null, currentHash);
-    } else {
-      this.mainView.renderMain(this.user);
-    }
-    if (username) {
+    } else if (username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
+    } else {
+      this.mainView.renderMain(this.user);
     }
     this.dailyStatistics.init();
   }
@@ -441,6 +440,7 @@ export default class MainController {
           wordById.userWord.optional,
           optional,
           category,
+          true,
         );
         await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], wordDescription);
       }
@@ -472,13 +472,15 @@ export default class MainController {
     });
   }
 
-  updateOptionalWordStatistic = (wordDescription, optional, category) => {
+  updateOptionalWordStatistic = (wordDescription, optional, category, mode) => {
     const optionalDescription = wordDescription;
     if (Object.values(optional).length) {
       Object.assign(optionalDescription, optional);
     }
-    optionalDescription.repeatCounter += 1;
-    optionalDescription.lastTimeRepeat = new Date().getTime();
+    if (!mode) {
+      optionalDescription.repeatCounter += 1;
+      optionalDescription.lastTimeRepeat = new Date().getTime();
+    }
     if (category !== WORDS_STATUS.repeat) {
       delete optionalDescription.mistakesCounter;
     }

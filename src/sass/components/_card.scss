@@ -84,6 +84,10 @@
     border: none;
     border-radius: 9px;
     outline: none;
+
+    &:disabled {
+      filter: saturate(.5);
+    }
   }
 
   &__btn-additional {
