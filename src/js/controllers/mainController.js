@@ -23,7 +23,7 @@ import {
   CARD_TEXT,
 } from '../constants/constMainView';
 import createWordSearch from '../games/word-search-game/Word-search-controller';
-import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
+import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStart';
 import DictionaryController from '../components/dictionary/dictionaryController';
 import DailyStatisticsController from '../components/dailyStatistics/dailyStatisticsController';
 
