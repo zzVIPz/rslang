@@ -48,11 +48,12 @@ export default class MainController {
     const currentHash = this.getCurrentHash();
     if (currentHash) {
       this.mainView.onNavigationLinkClick(null, currentHash);
-    } else if (username) {
+    } else {
+      await this.mainView.renderMain(this.user);
+    }
+    if (username) {
       this.mainView.showSettingsModal(this.user);
       this.mainView.addSettingsModalListeners();
-    } else {
-      this.mainView.renderMain(this.user);
     }
     this.dailyStatistics.init();
   }
