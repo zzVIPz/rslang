@@ -13,7 +13,7 @@ const dailyStatisticsTemplate = (data, aggregatedWords) => `
         <canvas id="statisticsChartGeneral"></canvas>
       </div>
       <div class="statistics__games">
-        <div class="statistics-title">GAMES STARTS</div>
+        <div class="statistics-title">GAMES STATISTICS</div>
         <div class="statistics__games-container">
           <div class="statistics__element">AudioCall: <span>${data.optional.games.audiocall}</span></div>
           <div class="statistics__element">English Puzzle: <span>${data.optional.games.englishPuzzle}</span></div>
