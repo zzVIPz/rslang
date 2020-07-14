@@ -445,8 +445,6 @@ export default class MainView {
         this.headerNavigation.classList.remove('header__navigation--active');
       }, DELAY_HIDE_MENU);
     } else {
-      // todo: think about overflow hidden
-      // document.body.style.width = `${document.body.offsetWidth}px`;
       this.headerNavigation.classList.add('header__navigation--active');
     }
   }
