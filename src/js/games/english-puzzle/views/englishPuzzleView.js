@@ -22,8 +22,6 @@ export default class EnglishPuzzleView {
     this.img = new Image();
     this.paintingName = null;
 
-    // this.gameDifficult = 1;
-    // this.gameLevel = 1;
     this.gameDifficult = this.user.puzzle.dif + 1;
     this.gameLevel = this.user.puzzle.lvl + 1;
     this.onDifficultChange = null;
@@ -57,22 +55,18 @@ export default class EnglishPuzzleView {
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
     this.switchTips();
 
-    // const DifficultDrop = document.querySelectorAll('#difficultSelect > option');
-    // const levelsDrop = document.querySelectorAll('#levelSelect > option');
-    // DifficultDrop.forEach((el1, id1) => {
-    //   if (id1 < this.gameSettings.levelsEnded[this.gameSettings.levelsEnded.length - 1][0]) {
-    //     el1.classList.add('ep-levelEnds');
-    //   } else {
-    //     el1.classList.remove('ep-levelEnds');
-    //   }
-    //   levelsDrop.forEach((el2, id2) => {
-    //     if (id2 <= this.gameSettings.levelsEnded[this.gameSettings.levelsEnded.length - 1][1]) {
-    //       el2.classList.add('ep-levelEnds');
-    //     } else {
-    //       el2.classList.remove('ep-levelEnds');
-    //     }
-    //   });
-    // });
+    const DifficultDrop = document.querySelectorAll('#difficultSelect > option');
+    const levelsDrop = document.querySelectorAll('#levelSelect > option');
+    DifficultDrop.forEach((el, id) => {
+      if (id < this.user.puzzle.dif) {
+        el.classList.add('ep-levelEnds');
+      }
+    });
+    levelsDrop.forEach((el, id) => {
+      if (id < this.user.puzzle.lvl) {
+        el.classList.add('ep-levelEnds');
+      }
+    });
 
     if (this.currentSentence < CONSTANTS.MAX_SENTENCES_COUNT) {
       this.domElements.sentenceTranslate
@@ -131,14 +125,6 @@ export default class EnglishPuzzleView {
         this.playAudio();
       }
     } else {
-      // const levelEndedArray = [this.gameDifficult - CONSTANTS.INDEX_OFFSET,
-      //   this.gameLevel - CONSTANTS.INDEX_OFFSET];
-      // if (this.gameSettings.levelsEnded.findIndex((item) => (item[0] === levelEndedArray[0])
-      //  && (item[1] === levelEndedArray[1])) === -1) {
-      //   this.gameSettings.levelsEnded.push(levelEndedArray);
-      //   localStorage.setItem('english-puzzle', JSON.stringify(this.gameSettings));
-      // }
-
       this.domElements.board.innerHTML = '';
       this.domElements.board.append(this.img);
       this.domElements.sentenceTranslate.textContent = this.paintingName;
