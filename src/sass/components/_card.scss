@@ -73,7 +73,8 @@
   }
 
   &__btn-primary,
-  &__btn-additional {
+  &__btn-additional,
+  &__btn-check {
     width: 220px;
     margin-bottom: 10px;
     padding: 7px 0;
@@ -84,6 +85,10 @@
     border: none;
     border-radius: 9px;
     outline: none;
+
+    &:disabled {
+      filter: saturate(.3);
+    }
   }
 
   &__btn-additional {
@@ -112,7 +117,7 @@
   &__btn-check {
     width: 270px;
 
-    background: #011627;
+    background: #008dff;
   }
 
   &__additional-buttons-container {

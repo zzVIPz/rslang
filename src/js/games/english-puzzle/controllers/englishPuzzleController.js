@@ -39,8 +39,10 @@ export default class EnglishPuzzleController {
     if (this.gameLevel % 2) {
       partOfArray = this.wordsData.slice(0, CONSTANTS.FIRST_TEN_SENTENCES_QUERY);
     } else {
-      partOfArray = this.wordsData.slice(CONSTANTS.FIRST_TEN_SENTENCES_QUERY,
-        CONSTANTS.SECOND_TEN_SENTENCES_QUERY);
+      partOfArray = this.wordsData.slice(
+        CONSTANTS.FIRST_TEN_SENTENCES_QUERY,
+        CONSTANTS.SECOND_TEN_SENTENCES_QUERY,
+      );
     }
     this.slicedWordsData = partOfArray;
   }
@@ -77,8 +79,11 @@ export default class EnglishPuzzleController {
   }
 
   async getData() {
-    this.wordsData = await this.mainModel
-      .getWords(this.page, this.group, CONSTANTS.DEFAULT_REQUEST_WORDS_NUMBER);
+    this.wordsData = await this.mainModel.getWords(
+      this.page,
+      this.group,
+      CONSTANTS.DEFAULT_REQUEST_WORDS_NUMBER,
+    );
   }
 
   renderView() {

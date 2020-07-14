@@ -1,6 +1,4 @@
-import LOGIN_FORM_TEXT from '../constants/constAuthView';
-import checkEmail from '../utils/checkEmail';
-import checkPassword from '../utils/checkPassword';
+import { LOGIN_FORM_TEXT, DELAY_MODAL_CLOSE } from '../constants/constAuthView';
 import getModalErrorTemplate from '../utils/getModalErrorTemplate';
 import getLoginFormText from '../utils/getLoginFormText';
 
@@ -14,15 +12,11 @@ export default class IndexView {
     this.password = document.getElementById('password');
     this.loginSelection = document.querySelector('.form__login-message');
     this.formButton = document.querySelector('.form__button');
-    this.mode = true;
-    this.modal = true;
-    this.onSignIn = null;
-    this.onRegistration = null;
   }
 
-  setText() {
+  setText(mode) {
     this.name.classList.toggle('user-name--active');
-    if (this.mode) {
+    if (mode) {
       this.formButton.setAttribute('value', LOGIN_FORM_TEXT.btnLogInText);
       const formattedTemplate = getLoginFormText(
         LOGIN_FORM_TEXT.newUserText,
@@ -48,13 +42,12 @@ export default class IndexView {
   addListeners() {
     this.addBtnFormClickHandler();
     this.addLoginSelectionClickHandler();
+    this.addEnterPress();
   }
 
   addLoginSelectionClickHandler() {
     this.loginSelection.addEventListener('click', () => {
-      this.setDefaultState();
-      this.mode = !this.mode;
-      this.setText();
+      this.onLoginSelectionClick();
     });
   }
 
@@ -73,45 +66,25 @@ export default class IndexView {
     }
   }
 
+  addEnterPress() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        this.onEnterPress();
+      }
+    });
+  }
+
   addBtnFormClickHandler() {
     this.formButton.addEventListener('click', () => {
-      if (!this.checkUserData()) {
-        if (this.mode) {
-          this.onSignIn(this.email.value, this.password.value);
-        } else {
-          this.onRegistration(this.name.value, this.email.value, this.password.value);
-        }
-      }
+      this.onBtnFormClickHandler();
     });
   }
 
   showMainPage = () => document.location.replace('./pages/main.html');
 
   closeModalWindow() {
-    if (this.modal) {
-      this.modal = false;
-      this.addButtonCloseModalClickHandler();
-      this.setTimeoutModalClose();
-    }
-  }
-
-  checkUserData() {
-    let errorCounter = 0;
-    if (!checkPassword(this.password.value)) {
-      errorCounter += 1;
-      this.showPasswordErrorMessage();
-    }
-    if (!checkEmail(this.email.value)) {
-      errorCounter += 1;
-      this.showEmailErrorMessage();
-    }
-    if (!this.mode) {
-      if (!this.name.value) {
-        errorCounter += 1;
-        this.showNameErrorMessage();
-      }
-    }
-    return errorCounter;
+    this.addButtonCloseModalClickHandler();
+    this.setTimeoutModalClose();
   }
 
   showNameErrorMessage() {
@@ -129,36 +102,46 @@ export default class IndexView {
     this.messageEmail = document.querySelector('.email-error-message');
     this.messageEmail.classList.add('email-error-message--active');
     this.email.focus();
-    this.email.addEventListener('input', () => {
-      if (checkEmail(this.email.value)) {
-        this.messageEmail.classList.remove('email-error-message--active');
-      }
-    });
+    this.email.addEventListener('input', this.onEmailError);
+  }
+
+  getEmailValue = () => this.email.value;
+
+  getUsernameValue = () => this.name.value;
+
+  removeEmailErrorMessage() {
+    this.messageEmail.classList.remove('email-error-message--active');
+    this.email.removeEventListener('input', this.onEmailError);
   }
 
   showPasswordErrorMessage() {
     this.messagePassword = document.querySelector('.password-error-message');
     this.messagePassword.classList.add('password-error-message--active');
     this.password.focus();
-    this.password.addEventListener('input', () => {
-      if (checkPassword(this.password.value)) {
-        this.messagePassword.classList.remove('password-error-message--active');
-      }
-    });
+    this.password.addEventListener('input', this.onPasswordInput);
+  }
+
+  getPasswordValue = () => this.password.value;
+
+  removePasswordErrorMessage() {
+    this.messagePassword.classList.remove('password-error-message--active');
+    this.password.removeEventListener('input', this.onPasswordInput);
   }
 
   addButtonCloseModalClickHandler() {
     const closeBtn = document.querySelector('.modal__button-close');
-    closeBtn.addEventListener('click', () => {
+    const onCloseBtnPress = () => {
       clearTimeout(this.modalTimer);
       this.removeModalWindow();
-    });
+      closeBtn.removeEventListener('click', onCloseBtnPress);
+    };
+    closeBtn.addEventListener('click', onCloseBtnPress);
   }
 
   setTimeoutModalClose() {
     this.modalTimer = setTimeout(() => {
       this.removeModalWindow();
-    }, 3500);
+    }, DELAY_MODAL_CLOSE);
   }
 
   removeModalWindow = () => {

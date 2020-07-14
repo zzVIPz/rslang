@@ -18,7 +18,7 @@ class GameStatistics {
     this.mainView = mainView;
     this.view = view;
     this.model = model;
-    this.finalModal.className = 'statistics statistics__container';
+    this.finalModal.className = 'statistics__container';
     this.finalModal.classList.add('hidden');
     this.finalModal.innerHTML = STATISTICS_MODAL_LAYOUT;
     this.view.appContainer.appendChild(this.finalModal);

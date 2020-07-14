@@ -38,7 +38,6 @@ export default class MainController {
 
   async init() {
     this.subscribeToEvents();
-    this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
     this.mainView.init();
     const accessData = this.mainModel.getAccessData();
@@ -49,7 +48,7 @@ export default class MainController {
     if (currentHash) {
       this.mainView.onNavigationLinkClick(null, currentHash);
     } else {
-      this.mainView.renderMain(this.user);
+      await this.mainView.renderMain(this.user);
     }
     if (username) {
       this.mainView.showSettingsModal(this.user);
@@ -115,7 +114,12 @@ export default class MainController {
           createSavannaGame(this);
           break;
         case MENU_ITEMS_NAMES.sprint:
-          this.game = new SprintController();
+          this.game = new SprintController(
+            this.user,
+            this.mainView,
+            this.parseLearningsWords.bind(this),
+            this.dailyStatistics,
+          );
           this.game.init();
           break;
         case MENU_ITEMS_NAMES.wordSearch:
@@ -157,26 +161,26 @@ export default class MainController {
       }
 
       if (
-        this.aggregatedWords.length &&
-        this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.difficult &&
-        (this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew ||
-          this.user.cardsTotal === this.user.cardsNew)
+        this.aggregatedWords.length
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
+        && (this.aggregatedWords.length < this.user.cardsTotal - this.user.cardsNew
+          || this.user.cardsTotal === this.user.cardsNew)
       ) {
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
       if (
-        !this.aggregatedWords.length &&
-        this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords &&
-        (this.user.cardsTotal !== this.user.cardsNew ||
-          this.user.studyMode === SETTING_MODAL_TEXT.studySelect.repeat ||
-          this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult)
+        !this.aggregatedWords.length
+        && this.user.studyMode !== SETTING_MODAL_TEXT.studySelect.newWords
+        && (this.user.cardsTotal !== this.user.cardsNew
+          || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.repeat
+          || this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult)
       ) {
         this.mainView.showNotificationAboutRepeat(this.user);
       }
       if (
-        this.aggregatedWords.length &&
-        this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult &&
-        this.aggregatedWords.length < this.user.cardsTotal
+        this.aggregatedWords.length
+        && this.user.studyMode === SETTING_MODAL_TEXT.studySelect.difficult
+        && this.aggregatedWords.length < this.user.cardsTotal
       ) {
         this.mainView.showNotificationAboutRepeat(this.user, this.aggregatedWords.length);
       }
@@ -352,8 +356,8 @@ export default class MainController {
     let wordsList = [];
 
     if (
-      studyMode !== SETTING_MODAL_TEXT.studySelect.repeat &&
-      studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
+      studyMode !== SETTING_MODAL_TEXT.studySelect.repeat
+      && studyMode !== SETTING_MODAL_TEXT.studySelect.difficult
     ) {
       const totalPagesRequest = Math.ceil(
         (this.newWordsAmount + this.user.currentWordNumber) / WORDS_PER_PAGE,
@@ -367,8 +371,6 @@ export default class MainController {
         wordsList.push(word);
       });
     }
-
-    console.log('current training words', wordsList);
 
     return wordsList;
   }
@@ -436,6 +438,7 @@ export default class MainController {
           wordById.userWord.optional,
           optional,
           category,
+          true,
         );
         await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], wordDescription);
       }
@@ -467,13 +470,15 @@ export default class MainController {
     });
   }
 
-  updateOptionalWordStatistic = (wordDescription, optional, category) => {
+  updateOptionalWordStatistic = (wordDescription, optional, category, mode) => {
     const optionalDescription = wordDescription;
     if (Object.values(optional).length) {
       Object.assign(optionalDescription, optional);
     }
-    optionalDescription.repeatCounter += 1;
-    optionalDescription.lastTimeRepeat = new Date().getTime();
+    if (!mode) {
+      optionalDescription.repeatCounter += 1;
+      optionalDescription.lastTimeRepeat = new Date().getTime();
+    }
     if (category !== WORDS_STATUS.repeat) {
       delete optionalDescription.mistakesCounter;
     }
@@ -523,9 +528,9 @@ export default class MainController {
     if (this.allUserWordsId.includes(wordId)) {
       const wordInfo = await this.mainModel.getUsersWordById(wordId);
       if (
-        wordInfo.difficulty === WORDS_STATUS.repeat &&
-        wordInfo.optional &&
-        wordInfo.optional.mistakesCounter
+        wordInfo.difficulty === WORDS_STATUS.repeat
+        && wordInfo.optional
+        && wordInfo.optional.mistakesCounter
       ) {
         const { mistakesCounter } = wordInfo.optional;
         return mistakesCounter - 1;
@@ -550,9 +555,9 @@ export default class MainController {
       this.slideIndex += 1;
       this.mainView.enableSwiperNextSlide();
       if (
-        !this.user.textPronunciation &&
-        !this.user.wordPronunciation &&
-        this.mainView.checkActiveButtonsBlock()
+        !this.user.textPronunciation
+        && !this.user.wordPronunciation
+        && this.mainView.checkActiveButtonsBlock()
       ) {
         this.showNextSlide();
       }

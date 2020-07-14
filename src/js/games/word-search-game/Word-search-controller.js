@@ -8,9 +8,15 @@ class WordSearchController {
     this.mainView = mainView;
   }
 
-  init(defaultHash, currentHash) {
+  init(defaultHash, currentHash, parseLearningWords, dailyStatistics) {
     this.model = new WordSearchModel();
-    this.view = new WordSearchView(this.model, defaultHash, currentHash);
+    this.view = new WordSearchView(
+      this.model,
+      defaultHash,
+      currentHash,
+      parseLearningWords,
+      dailyStatistics,
+    );
     this.view.getViewUser(this.user, this.mainView);
     this.view.init();
     setTimeout(() => { this.view.checkWordSearchWindow(); }, DELAY_CHECK_HASH * 2);
@@ -20,7 +26,12 @@ class WordSearchController {
 function createWordSearch(mainCtrl) {
   if (!document.querySelector('.word-search__app')) {
     const wordSearch = new WordSearchController(mainCtrl.user, mainCtrl.mainView);
-    wordSearch.init(mainCtrl.setDefaultHash, mainCtrl.getCurrentHash);
+    wordSearch.init(
+      mainCtrl.setDefaultHash,
+      mainCtrl.getCurrentHash,
+      mainCtrl.parseLearningsWords.bind(mainCtrl),
+      mainCtrl.dailyStatistics,
+    );
   }
 }
 

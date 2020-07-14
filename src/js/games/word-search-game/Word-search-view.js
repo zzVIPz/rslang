@@ -14,6 +14,7 @@ import getMediaUrl from '../../utils/getMediaUrl';
 import playAudio from '../utils/playAudio';
 import getIndexOfArr from '../utils/indexOfArrInArr';
 import compareArrayOfArrays from '../utils/compareArrayOfArrays';
+import GLOBAL from '../../constants/global';
 import {
   GAME_LAYOUT,
   GROUP_ROUND,
@@ -31,9 +32,11 @@ import {
 } from './constants';
 
 class WordSearchView extends SavannahView {
-  constructor(model, defaultHash, currentHash) {
+  constructor(model, defaultHash, currentHash, parseLearningWords, stat) {
     super();
     this.currentHash = currentHash;
+    this.parseLearningWords = parseLearningWords;
+    this.stats = stat;
     this.model = model;
     this.statistics = new WordSearchStatistics();
     this.setDefaultHash = defaultHash;
@@ -127,6 +130,7 @@ class WordSearchView extends SavannahView {
         this.model.getWordIdsAndAudio(data);
         this.model.getGameData();
       });
+      this.stats.gameStartsStat(GLOBAL.STAT_GAME_NAMES.wordSearch);
     });
   }
 
@@ -166,6 +170,15 @@ class WordSearchView extends SavannahView {
     this.renderMatrixWord(this.model.matrixObj.matrix);
     this.renderCheckBtn();
     this.renderClearBtn();
+  }
+
+  renderHeader() {
+    const livesBox = this.renderLives();
+
+    this.appHeader = document.querySelector('.app__header');
+    this.appHeader.appendChild(livesBox);
+
+    return this.appHeader;
   }
 
   changeLivesStyle = () => {
@@ -482,6 +495,11 @@ class WordSearchView extends SavannahView {
     this.model.setDefaultArray();
   }
 
+  /* removeLives() {
+    super.removeLives();
+    this.renderGameOver(false);
+  } */
+
   addStylesToCorrectTranslation() {
     this.allTranslations = document.querySelectorAll('.word');
     this.allTranslations.forEach((tran) => {
@@ -507,8 +525,8 @@ class WordSearchView extends SavannahView {
     document.querySelectorAll('.wordBox')
       .forEach((el) => el.classList.add('word-search__word-box'));
 
-    // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.tenWordsId;
+    this.parseLearningWords(this.incorrectWordsIdArr);
 
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
