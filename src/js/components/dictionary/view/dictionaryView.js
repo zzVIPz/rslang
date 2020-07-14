@@ -25,11 +25,11 @@ export default class DictionaryController {
 
   renderLines(data, user, state) {
     this.hidePreloader(this.domElements.wordsData);
-    let cardsNumderPerDay;
+    let cardsNumberPerDay;
     if (user.studyMode === CONSTANTS.MIXED_MODE && state === CONSTANTS.STATE_MODE) {
-      cardsNumderPerDay = user.cardsTotal - user.cardsNew;
+      cardsNumberPerDay = user.cardsTotal - user.cardsNew;
     } else if (user.studyMode === CONSTANTS.REPEAT_MODE && state === CONSTANTS.STATE_MODE) {
-      cardsNumderPerDay = user.cardsTotal;
+      cardsNumberPerDay = user.cardsTotal;
     }
     this.domElements.wordsData.innerHTML = '';
     if (!data.length) {
@@ -38,12 +38,13 @@ export default class DictionaryController {
       noWords.textContent = CONSTANTS.DEFAULT_NO_WORDS_MESSAGE;
       this.domElements.wordsData.append(noWords);
     }
-    data.forEach((el) => {
+    data.forEach((el, id) => {
       const audioSrc = getMediaUrl(el.audio);
       const line = dictionaryLineTemplate(el, audioSrc, user, state);
       this.domElements.wordsData.insertAdjacentHTML('beforeend', line);
-      if (cardsNumderPerDay) {
-        const repeatLine = dictionaryLastRepeatWord(data.length / cardsNumderPerDay);
+      if (cardsNumberPerDay) {
+        const repeatCoef = (id + 1) / cardsNumberPerDay;
+        const repeatLine = dictionaryLastRepeatWord(repeatCoef);
         const list = this.domElements.wordsData.querySelectorAll('.dict__optional');
         const lastInList = list[list.length - 1];
         lastInList.insertAdjacentHTML('beforeend', repeatLine);
