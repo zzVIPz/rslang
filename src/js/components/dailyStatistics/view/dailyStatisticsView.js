@@ -17,7 +17,7 @@ export default class DailyStatisticsView {
     const generalAxisX = Object.keys(data.optional.progress);
     const dataValues = Object.values(data.optional.progress);
     const generalAxisY = [];
-    for (let i = 0 ; i < dataValues.length ; i ++) {
+    for (let i = 0; i < dataValues.length; i += 1) {
       generalAxisY.push(dataValues[i][0]);
     }
 

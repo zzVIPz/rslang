@@ -78,8 +78,6 @@ export default class MainController {
 
     this.mainView.getUserStatus = async () => {
       function checkCards(user, cards) {
-        console.log('user have learned cards:', cards);
-        console.log('in settings set to learn per day:', user.cardsTotal, 'cards');
         return (cards >= user.cardsTotal) ? MAIN_TEXT.finished : MAIN_TEXT.notFinished;
       }
       const userStatistic = await this.mainModel.getUserStatistic();
@@ -87,20 +85,21 @@ export default class MainController {
         return MAIN_TEXT.firstVisit;
       }
       const progressKeys = Object.keys(userStatistic.optional.progress);
+
       const statDate = new Date(progressKeys[progressKeys.length - 1]);
-      const nowDate = new Date();
+      const nowDate = new Date('7/17/2020');
       if (statDate.toDateString() !== nowDate.toDateString()) {
         return MAIN_TEXT.nextDay;
       }
+      const allWordsDatas = await this.mainModel.getAllUsersWords();
       const progressValues = Object.values(userStatistic.optional.progress);
-      const agregatedWords = await this.mainModel.getAggregatedWords({ [WORDS_STATUS.userWord]: `${WORDS_STATUS.easy}` });
-      const valueLast = agregatedWords[0].totalCount[0].count;
       if (progressKeys.length === 1) {
-        return checkCards(this.user, valueLast);
+        return checkCards(this.user, allWordsDatas.length);
       }
-      const valuePrevious = progressValues[progressValues.length - 2];
-      const cards = valueLast - valuePrevious;
-      return checkCards(this.user, cards);
+      return checkCards(
+        this.user,
+        allWordsDatas.length - progressValues[progressValues.length - 2][1],
+      );
     };
 
     this.mainView.onNavigationLinkClick = (e, optional) => {
