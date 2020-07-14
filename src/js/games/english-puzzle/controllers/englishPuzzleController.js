@@ -97,7 +97,7 @@ export default class EnglishPuzzleController {
     const backgroundModel = new BackgroundModel(difficult);
     const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
-    this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/NordOst88/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
+    this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/zzVIPz/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
     this.englishPuzzleView.img.onload = () => {
       this.renderView();
     };
