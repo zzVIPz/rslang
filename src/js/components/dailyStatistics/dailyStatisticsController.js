@@ -49,7 +49,6 @@ export default class DailyStatisticsController {
   }
 
   async renderStat() {
-    console.log(this.aggregatedWordsCount);
     this.statView.showPreloader(this.statView.domElements.main);
     await this.getData();
     this.statView.renderStatistics(this.statData, this.aggregatedWordsCount);
@@ -59,7 +58,6 @@ export default class DailyStatisticsController {
     const easy = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'easy' });
     const difficult = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'difficult' });
     const repeat = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'repeat' });
-    console.log(repeat);
     const easyValue = easy[0].totalCount[0] ? easy[0].totalCount[0].count : 0;
     const difficultValue = difficult[0].totalCount[0] ? difficult[0].totalCount[0].count : 0;
     const repeatValue = repeat[0].totalCount[0] ? repeat[0].totalCount[0].count : 0;
