@@ -14,7 +14,7 @@ export default class DailyStatisticsController {
   }
 
   getDate() {
-    const currentDate = new Date();
+    const currentDate = new Date('1/1/2020');
     let day = currentDate.getDate();
     if (day < 10) day = `0${day}`;
 
@@ -33,7 +33,8 @@ export default class DailyStatisticsController {
       data.optional.progress = {};
     }
     data.learnedWords = this.aggregatedWordsCount.easy;
-    data.optional.progress[this.date] = this.aggregatedWordsCount.easy;
+    const totalWordsLearned = this.aggregatedWordsCount.easy + this.aggregatedWordsCount.difficult + this.aggregatedWordsCount.repeat;
+    data.optional.progress[this.date] = [this.aggregatedWordsCount.easy, totalWordsLearned];
     this.statData = data;
     await this.setData();
   }

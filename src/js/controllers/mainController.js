@@ -78,6 +78,8 @@ export default class MainController {
 
     this.mainView.getUserStatus = async () => {
       function checkCards(user, cards) {
+        console.log('user have learned cards:', cards);
+        console.log('in settings set to learn per day:', user.cardsTotal, 'cards');
         return (cards >= user.cardsTotal) ? MAIN_TEXT.finished : MAIN_TEXT.notFinished;
       }
       const userStatistic = await this.mainModel.getUserStatistic();
@@ -92,11 +94,10 @@ export default class MainController {
       }
       const progressValues = Object.values(userStatistic.optional.progress);
       const agregatedWords = await this.mainModel.getAggregatedWords({ [WORDS_STATUS.userWord]: `${WORDS_STATUS.easy}` });
-      const valueLast = agregatedWords[0].paginatedResults.length;
+      const valueLast = agregatedWords[0].totalCount[0].count;
       if (progressKeys.length === 1) {
         return checkCards(this.user, valueLast);
       }
-
       const valuePrevious = progressValues[progressValues.length - 2];
       const cards = valueLast - valuePrevious;
       return checkCards(this.user, cards);
