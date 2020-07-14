@@ -98,8 +98,6 @@ export default class EnglishPuzzleController {
     const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
     this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/zzVIPz/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
-    this.englishPuzzleView.img.onload = () => {
-      this.renderView();
-    };
+    this.englishPuzzleView.img.addEventListener('load', this.renderView.bind(this));
   }
 }
