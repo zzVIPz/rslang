@@ -36,8 +36,10 @@ export default class EnglishPuzzleController {
     if (this.gameLevel % 2) {
       partOfArray = this.wordsData.slice(0, CONSTANTS.FIRST_TEN_SENTENCES_QUERY);
     } else {
-      partOfArray = this.wordsData.slice(CONSTANTS.FIRST_TEN_SENTENCES_QUERY,
-        CONSTANTS.SECOND_TEN_SENTENCES_QUERY);
+      partOfArray = this.wordsData.slice(
+        CONSTANTS.FIRST_TEN_SENTENCES_QUERY,
+        CONSTANTS.SECOND_TEN_SENTENCES_QUERY,
+      );
     }
     this.slicedWordsData = partOfArray;
   }
@@ -65,8 +67,11 @@ export default class EnglishPuzzleController {
   }
 
   async getData() {
-    this.wordsData = await this.mainModel
-      .getWords(this.page, this.group, CONSTANTS.DEFAULT_REQUEST_WORDS_NUMBER);
+    this.wordsData = await this.mainModel.getWords(
+      this.page,
+      this.group,
+      CONSTANTS.DEFAULT_REQUEST_WORDS_NUMBER,
+    );
   }
 
   renderView() {
@@ -80,7 +85,7 @@ export default class EnglishPuzzleController {
     const backgroundModel = new BackgroundModel(difficult);
     const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
-    this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/NordOst88/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
+    this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/zzVIPz/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
     this.englishPuzzleView.img.addEventListener('load', this.renderView());
   }
 }

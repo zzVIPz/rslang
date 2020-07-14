@@ -6,6 +6,8 @@ import setFocus from '../../utils/setFocus';
 import getMediaURL from '../../../utils/getMediaUrl';
 import { STATISTICS_MODAL_LAYOUT } from '../../utils/statisticsModalConst';
 import { HASH_VALUES } from '../../../constants/constMainView';
+import GLOBAL from '../../../constants/global';
+import SpeechRecognitionClass from '../../utils/speechRecognition';
 import {
   GAME_LAYOUT,
   PRELOADER,
@@ -29,11 +31,14 @@ import {
   NUMBER_OF_LIVES,
   MOVING_WORD_INTERVAL,
   BANG_MOVE_PX,
+  MICROPHONE,
 } from '../constSavannah';
 
 class SavannahView {
-  constructor(model, defaultHash, currentHash) {
+  constructor(model, defaultHash, currentHash, parseLearningWords, stat) {
     this.model = model;
+    this.parseLearningWords = parseLearningWords;
+    this.stats = stat;
     this.currentHash = currentHash;
     this.setDefaultHash = defaultHash;
     this.savannahGame = GAME_LAYOUT;
@@ -43,9 +48,9 @@ class SavannahView {
     this.errorSound = new Audio(getMediaURL(ERROR_SOUND));
     this.roundStartsSound = new Audio(getMediaURL(ROUND_STARTS_SOUND));
     this.gameStatistics = new GameStatistics();
+    this.recognitionObj = new SpeechRecognitionClass(this.model, this);
     this.statisticsLayout = STATISTICS_MODAL_LAYOUT;
     this.mainContainer = document.querySelector('.main');
-    this.livesBox = document.createElement('div');
     this.flyingWordBox = document.createElement('div');
     this.translationBox = document.createElement('div');
     this.crystalBox = document.createElement('div');
@@ -143,6 +148,7 @@ class SavannahView {
           this.model.getWordsAndTranslation(data);
           this.model.getWordIdsAndAudio(data);
         });
+      this.stats.gameStartsStat(GLOBAL.STAT_GAME_NAMES.savannah);
     });
   }
 
@@ -259,6 +265,10 @@ class SavannahView {
       if (this.pos < this.marginTop) {
         target.classList.add('hover-disabled');
         this.checkRightTranslation(target);
+
+        if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+          this.recognitionObj.stopRecognition();
+        }
       }
     }
   }
@@ -272,6 +282,10 @@ class SavannahView {
     if (!this.model.isWordClicked && key >= 1 && key <= 4) {
       const translationEl = this.getClickedWord(key);
       this.checkRightTranslation(translationEl);
+
+      if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+        this.recognitionObj.stopRecognition();
+      }
     }
   }
 
@@ -327,6 +341,7 @@ class SavannahView {
   finishGame() {
     this.model.isGameOn = false;
     this.model.isPreloading = false;
+    this.recognitionObj.stopRecognition();
     window.removeEventListener('keyup', this.onKeyUp);
     this.appContainer.classList.remove('app__background');
     this.appContainer.style.backgroundPositionY = '0%';
@@ -338,12 +353,32 @@ class SavannahView {
   }
 
   renderHeader() {
+    const microphone = this.renderMicrophone();
+    const livesBox = this.renderLives();
+
     this.appHeader = document.querySelector('.app__header');
-    this.livesBox.classList.add('lives');
-    this.livesBox.innerHTML = LIVES;
-    this.appHeader.appendChild(this.livesBox);
+    this.appHeader.setAttribute('id', 'savannah-header');
+    this.appHeader.appendChild(livesBox);
+    document.getElementById('savannah-header').appendChild(microphone);
+    this.recognitionObj.addListeners();
 
     return this.appHeader;
+  }
+
+  renderLives = () => {
+    const livesBox = document.createElement('div');
+    livesBox.classList.add('lives');
+    livesBox.innerHTML = LIVES;
+
+    return livesBox;
+  }
+
+  renderMicrophone = () => {
+    const microphone = document.createElement('div');
+    microphone.classList.add('microphone');
+    microphone.innerHTML = MICROPHONE;
+
+    return microphone;
   }
 
   renderFlyingWord() {
@@ -362,34 +397,37 @@ class SavannahView {
   }
 
   frame() {
-    const rightAnswer = true;
-    const settingsVisible = document.querySelector('.settings__overlay');
-    const menuActive = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
+    if (this.model.isGameOn) {
+      const rightAnswer = true;
+      const settingsVisible = document.querySelector('.settings__overlay');
+      const menuActive = document.querySelector('.burger-menu').classList.contains('burger-menu--active');
 
-    if (!menuActive && !settingsVisible) {
-      if (this.pos >= (this.marginTop) && this.model.isGameOn) {
-        clearInterval(this.id);
-        if (this.model.audioOn) {
-          this.errorSound.play();
+      if (!menuActive && !settingsVisible) {
+        if (this.pos >= (this.marginTop)) {
+          clearInterval(this.id);
+          if (this.model.audioOn) {
+            this.errorSound.play();
+          }
+
+          this.recognitionObj.stopRecognition();
+          this.model.incorrectWordsId.push(this.model.currentWordId);
+          this.correctHTMLEl = this.findCorrectAnswerHTMLel();
+          this.model.wrongAnswerCounter += 1;
+
+          this.removeLives();
+          this.highlightAnswer(this.correctHTMLEl, rightAnswer);
+          this.gameStatistics.appendWrongAnswer(this.randomEngWord,
+            this.model.correctAnswer, this.model.currentWordAudio);
+          this.flyingWord.classList.add('flying-word_hide');
+          this.flyingWord.style.top = '0';
+          setTimeout(() => {
+            this.removeHighlight(this.correctHTMLEl, rightAnswer);
+          }, DELAY_HIGHLIGHT);
+          setTimeout(() => { this.nextWord(); }, DELAY_NEXT_WORD);
+        } else {
+          this.pos += this.marginTop / BASE_MARGIN;
+          this.flyingWord.style.top = `${this.pos}px`;
         }
-
-        this.model.incorrectWordsId.push(this.model.currentWordId);
-        this.correctHTMLEl = this.findCorrectAnswerHTMLel();
-        this.model.wrongAnswerCounter += 1;
-
-        this.removeLives();
-        this.highlightAnswer(this.correctHTMLEl, rightAnswer);
-        this.gameStatistics.appendWrongAnswer(this.randomEngWord,
-          this.model.correctAnswer, this.model.currentWordAudio);
-        this.flyingWord.classList.add('flying-word_hide');
-        this.flyingWord.style.top = '0';
-        setTimeout(() => {
-          this.removeHighlight(this.correctHTMLEl, rightAnswer);
-        }, DELAY_HIGHLIGHT);
-        setTimeout(() => { this.nextWord(); }, DELAY_NEXT_WORD);
-      } else {
-        this.pos += this.marginTop / BASE_MARGIN;
-        this.flyingWord.style.top = `${this.pos}px`;
       }
     }
   }
@@ -512,6 +550,10 @@ class SavannahView {
         this.randomEngWord = this.model.wordsArr[this.model.randomArrOfIndexes[this.model.count]];
         this.renderPlayingPage();
         this.model.getCurrentWordId();
+
+        if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+          this.recognitionObj.turnOnMicrophone();
+        }
       }
     } else {
       this.renderGameOver(true);
@@ -519,8 +561,15 @@ class SavannahView {
   }
 
   renderGameOver(isWin) {
-    // TODO array with id of incorrect answers;
     this.incorrectWordsIdArr = this.model.incorrectWordsId;
+    this.parseLearningWords(this.incorrectWordsIdArr);
+    this.recognitionObj.removeListeners();
+    const activeMicrophone = document.querySelector('.microphone').classList.contains('microphone_active');
+
+    if (activeMicrophone) {
+      document.querySelector('.microphone').classList.remove('microphone_active');
+    }
+
     this.translationBox.removeEventListener('click', this.listener1);
     document.querySelector('.statistics__container').classList.remove('hidden');
     document.querySelector('.statistics__container').classList.add('flex');
