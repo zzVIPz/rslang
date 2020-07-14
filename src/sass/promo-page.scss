@@ -1,10 +1,10 @@
  @font-face {
-  font-family: "ObelixPro";
+  // font-family: "ObelixPro";
 
   src: url("../assets/fonts/for-promo-page/obelix.ttf") format("truetype");
 }
 @font-face {
-  font-family: "BurbankBigCondensed";
+  // font-family: "BurbankBigCondensed";
 
   src: local("burbank.ttf"),
   url("../assets/fonts/for-promo-page/burbank.ttf") format("truetype");
@@ -23,8 +23,8 @@
     background:      -o-linear-gradient(315deg,#37178d 0,#9a41ff 100%);
     background:         linear-gradient(135deg,#37178d,#9a41ff);
 
-    -webkit-clip-path: polygon(0 0%, 100% 0, 100% 95%, 0% 100%);
-            clip-path: polygon(0 0%, 100% 0, 100% 95%, 0% 100%);
+    -webkit-clip-path: polygon(0 0%, 100% 0, 100% 98%, 0% 100%);
+            clip-path: polygon(0 0%, 100% 0, 100% 98%, 0% 100%);
   }
   &__game {
     position: relative;
@@ -78,7 +78,7 @@
     margin: 5vh auto 0 auto;
 
     font-weight: 700;
-    font-size: 1.89em;
+    font-size: 1.5em;
     line-height: 1.25em;
     font-family: "BurbankBigCondensed", OpenSans, sans-serif;
     color: #333333;
@@ -119,9 +119,9 @@ img {
   padding-bottom: 219px;
 
   background: #28c76f;
-  background: -webkit-linear-gradient(315deg,#28c76f,#81fbb8);
-  background:      -o-linear-gradient(315deg,#28c76f 0,#81fbb8 100%);
-  background:         linear-gradient(135deg,#28c76f,#81fbb8);
+  background: -webkit-linear-gradient(315deg,#28c76f,#53d38c);
+  background:      -o-linear-gradient(315deg,#28c76f 0,#53d38c 100%);
+  background:         linear-gradient(135deg,#28c76f,#53d38c);
 
   -webkit-clip-path: polygon(0 10em, 100% 0, 100% 100%, 0% 100%);
           clip-path: polygon(0 10em, 100% 0, 100% 100%, 0% 100%);
