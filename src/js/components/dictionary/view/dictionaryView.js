@@ -38,16 +38,18 @@ export default class DictionaryController {
       noWords.textContent = CONSTANTS.DEFAULT_NO_WORDS_MESSAGE;
       this.domElements.wordsData.append(noWords);
     }
+    let currentCard = 0;
     data.forEach((el) => {
       const audioSrc = getMediaUrl(el.audio);
       const line = dictionaryLineTemplate(el, audioSrc, user, state);
       this.domElements.wordsData.insertAdjacentHTML('beforeend', line);
       if (cardsNumderPerDay) {
-        const repeatLine = dictionaryLastRepeatWord(data.length / cardsNumderPerDay);
+        const repeatLine = dictionaryLastRepeatWord(cardsNumderPerDay, currentCard);
         const list = this.domElements.wordsData.querySelectorAll('.dict__optional');
         const lastInList = list[list.length - 1];
         lastInList.insertAdjacentHTML('beforeend', repeatLine);
       }
+      currentCard += 1;
     });
   }
 

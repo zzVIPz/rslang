@@ -28,8 +28,9 @@ const dictionaryLineTemplate = (data, audioSrc, user, state) => `
 </div>
 `;
 
-const dictionaryLastRepeatWord = (repeatCoef) => {
-  const phrase = repeatCoef <= 1 ? 'at the next training' : `no later than at ${Math.ceil(repeatCoef)} training`;
+const dictionaryLastRepeatWord = (repeatPerDay, cardNumber) => {
+  const phraseNum = (cardNumber + 1) / repeatPerDay;
+  const phrase = phraseNum <= 1 ? 'at the next training' : `after ${Math.ceil(phraseNum) - 1} training`;
   return `<div class="dict__lastTimeRepeat"> This word is repeat: <span>${phrase}</span> </div>`;
 };
 
