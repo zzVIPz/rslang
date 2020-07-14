@@ -5,4 +5,6 @@ const LOGIN_FORM_TEXT = {
   btnLogInText: 'Log In',
 };
 
-export default LOGIN_FORM_TEXT;
+const DELAY_MODAL_CLOSE = 3500;
+
+export { LOGIN_FORM_TEXT, DELAY_MODAL_CLOSE };

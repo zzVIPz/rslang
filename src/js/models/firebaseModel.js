@@ -19,17 +19,6 @@ export default class FirebaseModel {
     this.database = firebase.database();
   }
 
-  onAuthStateChangedHandler() {
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        // todo: show modal on refresh
-        console.log('user log in');
-      } else {
-        console.log('user log out');
-      }
-    });
-  }
-
   writeUserData(email, username, password) {
     this.database.ref(`users/${this.auth.currentUser.uid}`).set({
       username,

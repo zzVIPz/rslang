@@ -38,7 +38,6 @@ export default class MainController {
 
   async init() {
     this.subscribeToEvents();
-    this.firebaseModel.onAuthStateChangedHandler();
     await this.mainModel.init();
     this.mainView.init();
     const accessData = this.mainModel.getAccessData();
@@ -49,7 +48,7 @@ export default class MainController {
     if (currentHash) {
       this.mainView.onNavigationLinkClick(null, currentHash);
     } else {
-      this.mainView.renderMain(this.user);
+      await this.mainView.renderMain(this.user);
     }
     if (username) {
       this.mainView.showSettingsModal(this.user);
@@ -375,8 +374,6 @@ export default class MainController {
       });
     }
 
-    console.log('current training words', wordsList);
-
     return wordsList;
   }
 
@@ -443,6 +440,7 @@ export default class MainController {
           wordById.userWord.optional,
           optional,
           category,
+          true,
         );
         await this.mainModel.updateUserWord(wordId, WORDS_STATUS[category], wordDescription);
       }
@@ -474,13 +472,15 @@ export default class MainController {
     });
   }
 
-  updateOptionalWordStatistic = (wordDescription, optional, category) => {
+  updateOptionalWordStatistic = (wordDescription, optional, category, mode) => {
     const optionalDescription = wordDescription;
     if (Object.values(optional).length) {
       Object.assign(optionalDescription, optional);
     }
-    optionalDescription.repeatCounter += 1;
-    optionalDescription.lastTimeRepeat = new Date().getTime();
+    if (!mode) {
+      optionalDescription.repeatCounter += 1;
+      optionalDescription.lastTimeRepeat = new Date().getTime();
+    }
     if (category !== WORDS_STATUS.repeat) {
       delete optionalDescription.mistakesCounter;
     }

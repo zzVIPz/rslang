@@ -110,7 +110,7 @@ export default function getCardTemplate(card, settings) {
         ${WORD_COMPLEXITY.repeat}
       </button>
     </div>
-    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check card__btn-primary">
+    <input type="submit" value="${CARD_TEXT.btnCheck}" class="card__btn-check">
     </div>
    </div>
   `;
