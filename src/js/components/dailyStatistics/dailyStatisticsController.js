@@ -35,7 +35,6 @@ export default class DailyStatisticsController {
     data.learnedWords = this.aggregatedWordsCount.easy;
     data.optional.progress[this.date] = this.aggregatedWordsCount.easy;
     this.statData = data;
-    console.log('ststDats', this.statData);
     await this.setData();
   }
 
