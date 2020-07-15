@@ -261,13 +261,15 @@ class SavannahView {
   listenerOnTranslationBox({ target }) {
     const translation = target.classList.contains('translation');
     const keyboardNum = target.classList.contains('keyboard-num');
-    if (translation && !keyboardNum && !this.model.isWordClicked) {
-      if (this.pos < this.marginTop) {
-        target.classList.add('hover-disabled');
-        this.checkRightTranslation(target);
+    if (this.recognitionObj.notRecognizedCorrect) {
+      if (translation && !keyboardNum && !this.model.isWordClicked) {
+        if (this.pos < this.marginTop) {
+          target.classList.add('hover-disabled');
+          this.checkRightTranslation(target);
 
-        if (document.querySelector('.microphone').classList.contains('microphone_active')) {
-          this.recognitionObj.stopRecognition();
+          if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+            this.recognitionObj.stopRecognition();
+          }
         }
       }
     }
@@ -279,12 +281,14 @@ class SavannahView {
   }
 
   checkTranslationOnKeyUp({ key }) {
-    if (!this.model.isWordClicked && key >= 1 && key <= 4) {
-      const translationEl = this.getClickedWord(key);
-      this.checkRightTranslation(translationEl);
+    if (this.recognitionObj.notRecognizedCorrect) {
+      if (!this.model.isWordClicked && key >= 1 && key <= 4) {
+        const translationEl = this.getClickedWord(key);
+        this.checkRightTranslation(translationEl);
 
-      if (document.querySelector('.microphone').classList.contains('microphone_active')) {
-        this.recognitionObj.stopRecognition();
+        if (document.querySelector('.microphone').classList.contains('microphone_active')) {
+          this.recognitionObj.stopRecognition();
+        }
       }
     }
   }
@@ -554,6 +558,8 @@ class SavannahView {
         if (document.querySelector('.microphone').classList.contains('microphone_active')) {
           this.recognitionObj.turnOnMicrophone();
         }
+
+        this.recognitionObj.notRecognizedCorrect = true;
       }
     } else {
       this.renderGameOver(true);

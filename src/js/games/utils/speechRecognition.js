@@ -11,6 +11,7 @@ export default class SpeechRecognitionClass {
     this.transcriptAnswer = '';
     this.model = model;
     this.view = view;
+    this.notRecognizedCorrect = true;
   }
 
   addListeners() {
@@ -52,6 +53,7 @@ export default class SpeechRecognitionClass {
 
     this.transcriptAnswer = transcript;
     this.isCorrectAnswer = this.checkCorrectTranslationFromRecognition();
+
     this.correctRecognitionAnswer();
   }
 
@@ -68,6 +70,7 @@ export default class SpeechRecognitionClass {
 
     if (!this.model.isWordClicked) {
       if (this.isCorrectAnswer && this.view.pos < (this.view.marginTop)) {
+        this.notRecognizedCorrect = false;
         this.model.findCorrectAnswerId();
         const correctHTMLel = this.view.findCorrectAnswerHTMLel();
 
