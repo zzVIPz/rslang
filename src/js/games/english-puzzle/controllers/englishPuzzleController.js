@@ -11,19 +11,22 @@ export default class EnglishPuzzleController {
     this.user = user;
     this.setDefaultHash = setDefaultHash;
     this.mainView = mainView;
-    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView, this.setDefaultHash);
     this.mainModel = new MainModel();
+    if (!this.user.puzzle) {
+      Object.assign(this.user, CONSTANTS.DEFAULT_PUZZLE_SETTINGS);
+      this.mainModel.updateUserSettings(this.user);
+    }
+    this.englishPuzzleView = new EnglishPuzzleView(this.user, this.mainView, this.setDefaultHash);
     this.englishPuzzleModel = new EnglishPuzzleModel();
     this.audioModel = new AudioModel();
     this.wordsData = null;
     this.slicedWordsData = null;
-    this.gameLevel = 1;
-    this.page = 0;
-    this.group = 0;
+    this.gameLevel = this.user.puzzle.lvl + 1;
+    this.page = getPage(this.gameLevel);
+    this.group = this.user.puzzle.dif;
   }
 
   async init() {
-    this.mainModel.init();
     this.englishPuzzleView.englishPuzzleModel = this.englishPuzzleModel;
     this.englishPuzzleView.audioModel = this.audioModel;
     await this.getData();
@@ -47,6 +50,8 @@ export default class EnglishPuzzleController {
   subscribeToEvents() {
     this.englishPuzzleView.onLevelChange = async (level) => {
       this.gameLevel = level;
+      this.user.puzzle.lvl = this.gameLevel - 1;
+      await this.mainModel.updateUserSettings(this.user);
       const newPage = getPage(this.gameLevel);
       if (this.page !== newPage) {
         this.page = newPage;
@@ -57,12 +62,19 @@ export default class EnglishPuzzleController {
 
     this.englishPuzzleView.onDifficultChange = async (difficult, level) => {
       this.group = difficult - CONSTANTS.INDEX_OFFSET;
+      this.user.puzzle.dif = this.group;
       if (level) {
         this.gameLevel = level;
+        this.user.puzzle.lvl = this.gameLevel - 1;
         this.page = getPage(this.gameLevel);
       }
+      await this.mainModel.updateUserSettings(this.user);
       await this.getData();
       this.getPainting(difficult);
+    };
+
+    this.englishPuzzleView.onSettingsChange = async (user) => {
+      await this.mainModel.updateUserSettings(user);
     };
   }
 
@@ -86,6 +98,6 @@ export default class EnglishPuzzleController {
     const backgroundModelData = backgroundModel.getData(this.gameLevel);
     this.englishPuzzleView.paintingName = `${backgroundModelData.author} - ${backgroundModelData.name} (${backgroundModelData.year})`;
     this.englishPuzzleView.img.src = `https://raw.githubusercontent.com/zzVIPz/rslang_data_paintings/master/${backgroundModelData.cutSrc}`;
-    this.englishPuzzleView.img.addEventListener('load', this.renderView());
+    this.englishPuzzleView.img.addEventListener('load', this.renderView.bind(this));
   }
 }

@@ -14,18 +14,19 @@ export default class EnglishPuzzleView {
     this.englishPuzzleModel = null;
     this.audioModel = null;
     this.currentSentence = 0;
-    this.tipTranslate = true;
-    this.tipBackground = false;
+    this.tipTranslate = this.user.puzzle.tipTranslate;
+    this.tipBackground = this.user.puzzle.tipBackground;
     this.tipAutospeech = false;
     this.domElements = {};
 
     this.img = new Image();
     this.paintingName = null;
 
-    this.gameDifficult = 1;
-    this.gameLevel = 1;
+    this.gameDifficult = this.user.puzzle.dif + 1;
+    this.gameLevel = this.user.puzzle.lvl + 1;
     this.onDifficultChange = null;
     this.onLevelChange = null;
+    this.onSettingsChange = null;
 
     this.currentWordId = null;
     this.wordsStat = { rightWords: [], wrongWords: [] };
@@ -53,6 +54,20 @@ export default class EnglishPuzzleView {
     const splitSentencesData = this.englishPuzzleModel.getSplitSentencesData();
     const lineNumbersWrapper = document.querySelector('.ep-numbers');
     this.switchTips();
+
+    const DifficultDrop = document.querySelectorAll('#difficultSelect > option');
+    const levelsDrop = document.querySelectorAll('#levelSelect > option');
+    DifficultDrop.forEach((el, id) => {
+      if (id < this.user.puzzle.dif) {
+        el.classList.add('ep-levelEnds');
+      }
+    });
+    levelsDrop.forEach((el, id) => {
+      if (id < this.user.puzzle.lvl) {
+        el.classList.add('ep-levelEnds');
+      }
+    });
+
     if (this.currentSentence < CONSTANTS.MAX_SENTENCES_COUNT) {
       this.domElements.sentenceTranslate
         .textContent = splitSentencesData[this.currentSentence].translate;
@@ -350,19 +365,29 @@ export default class EnglishPuzzleView {
     this.domElements.tipTranslate.addEventListener('click', () => {
       if (this.tipTranslate === true) {
         this.tipTranslate = false;
+        this.user.puzzle.tipTranslate = false;
       } else {
         this.tipTranslate = true;
+        this.user.puzzle.tipTranslate = true;
       }
       this.switchTips();
+      if (this.onSettingsChange !== null) {
+        this.onSettingsChange(this.user);
+      }
     });
 
     this.domElements.tipBackground.addEventListener('click', () => {
       if (this.tipBackground === true) {
         this.tipBackground = false;
+        this.user.puzzle.tipBackground = false;
       } else {
         this.tipBackground = true;
+        this.user.puzzle.tipBackground = true;
       }
       this.render();
+      if (this.onSettingsChange !== null) {
+        this.onSettingsChange(this.user);
+      }
     });
 
     this.domElements.playField.addEventListener('click', (event) => {
@@ -403,6 +428,10 @@ export default class EnglishPuzzleView {
 
     this.domElements.closeButton.addEventListener('click', () => {
       this.setDefaultHash();
+      if (!this.audio.paused) {
+        this.audio.pause();
+        this.audio.currentTime = 0.0;
+      }
       this.mainView.renderMain(this.user);
     });
   }

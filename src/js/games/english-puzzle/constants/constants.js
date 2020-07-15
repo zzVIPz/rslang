@@ -12,6 +12,14 @@ const MAX_GAME_LEVEL = 60;
 const MAX_GAME_DIFFICULT = 6;
 const FIRST_TEN_SENTENCES_QUERY = 10;
 const SECOND_TEN_SENTENCES_QUERY = 20;
+const DEFAULT_PUZZLE_SETTINGS = {
+  puzzle: {
+    tipTranslate: true,
+    tipBackground: false,
+    dif: 0,
+    lvl: 0,
+  },
+};
 
 const CONSTANTS = {
   CANVAS_COLORS,
@@ -28,6 +36,7 @@ const CONSTANTS = {
   MAX_GAME_DIFFICULT,
   FIRST_TEN_SENTENCES_QUERY,
   SECOND_TEN_SENTENCES_QUERY,
+  DEFAULT_PUZZLE_SETTINGS,
 };
 
 export default CONSTANTS;

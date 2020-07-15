@@ -21,9 +21,10 @@ import {
   WORDS_PER_PAGE,
   SETTING_MODAL_TEXT,
   CARD_TEXT,
+  MAIN_TEXT,
 } from '../constants/constMainView';
 import createWordSearch from '../games/word-search-game/Word-search-controller';
-import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStartView';
+import EnglishPuzzleStart from '../games/english-puzzle/views/englishPuzzleStart';
 import DictionaryController from '../components/dictionary/dictionaryController';
 import DailyStatisticsController from '../components/dailyStatistics/dailyStatisticsController';
 
@@ -69,9 +70,36 @@ export default class MainController {
     };
 
     this.mainView.getUserAchievements = async () => {
-      const allUserWords = await this.mainModel.getAllUsersWords();
-      const learnedWords = allUserWords.filter((word) => word.difficulty === WORDS_STATUS.easy);
-      return { allUserWords: allUserWords.length, learnedWords: learnedWords.length };
+      this.allUserWords = await this.mainModel.getAllUsersWords();
+      const learnedWords = this.allUserWords.filter(
+        (word) => word.difficulty === WORDS_STATUS.easy,
+      );
+      return { allUserWords: this.allUserWords.length, learnedWords: learnedWords.length };
+    };
+
+    this.mainView.getUserStatus = async () => {
+      const checkCards = (cardsAmount) => cardsAmount < this.user.cardsTotal;
+
+      const userStatistic = await this.mainModel.getUserStatistic();
+
+      const progressRecords = userStatistic.optional.progress || 0;
+      if (!progressRecords) {
+        return MAIN_TEXT.notFinished;
+      }
+      const progressRecordsKeys = Object.keys(userStatistic.optional.progress);
+
+      const lastRecordDate = new Date(progressRecordsKeys[progressRecordsKeys.length - 1]);
+      const currentDate = new Date();
+      if (lastRecordDate.toDateString() !== currentDate.toDateString()) {
+        return MAIN_TEXT.notFinished;
+      }
+      if (progressRecordsKeys.length === 1) {
+        return checkCards(this.allUserWords.length);
+      }
+      return checkCards(
+        this.allUserWords.length
+          - progressRecords[progressRecordsKeys[progressRecordsKeys.length - 2]][1],
+      );
     };
 
     this.mainView.onNavigationLinkClick = (e, optional) => {
@@ -119,6 +147,8 @@ export default class MainController {
             this.mainView,
             this.parseLearningsWords.bind(this),
             this.dailyStatistics,
+            this.mainModel.setUserStatistic,
+            this.mainModel.getUserStatistic,
           );
           this.game.init();
           break;

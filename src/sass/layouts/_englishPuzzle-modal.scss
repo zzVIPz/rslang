@@ -12,7 +12,6 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
-  padding: 36px 16px 16px;
   overflow: auto;
 
   background-color: rgba(0, 0, 0, .6);
@@ -26,6 +25,7 @@
     align-items: center;
     width: 700px;
     height: 800px;
+    margin: auto;
     padding: 20px 40px;
 
     background-color: white;

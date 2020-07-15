@@ -173,9 +173,13 @@ $print-header-third: #e91e62a2;
   border-bottom: dotted 5px $sprint-border-color;
 }
 .sprint-display--green {
+  color: $sprint-right-color;
+
   border-color: $sprint-right-color;
 }
 .sprint-display--red {
+  color: $sprint-wrong-color;
+
   border-color: $sprint-wrong-color;
 }
 .sprint-word {
@@ -248,6 +252,15 @@ $print-header-third: #e91e62a2;
   font-size: 2.5rem;
   color: $print-score-color;
 }
+
+.sprint-final-record {
+  margin-bottom: 1rem;
+
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: $print-score-color;
+}
+
 .sprint-statistics {
   align-self: stretch;
   margin: 0 5%;
@@ -303,7 +316,7 @@ $print-header-third: #e91e62a2;
 .sprint-user-advice {
   color: $sprint-words-color;
 
-@include media-tablet {
+  @include media-tablet {
     display: none;
   }
 }

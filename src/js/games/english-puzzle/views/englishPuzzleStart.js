@@ -3,9 +3,9 @@ import EnglishPuzzleController from '../controllers/englishPuzzleController';
 import GLOBAL from '../../../constants/global';
 
 export default class EnglishPuzzleView {
-  constructor(user, mainView, stats, setDefaultHash) {
+  constructor(user, mainView, statistics, setDefaultHash) {
     this.user = user;
-    this.stats = stats;
+    this.stats = statistics;
     this.mainView = mainView;
     this.view = templateStart;
     this.setDefaultHash = setDefaultHash;

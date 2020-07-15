@@ -15,7 +15,11 @@ export default class DailyStatisticsView {
     const canvasGames = document.getElementById('statisticsChartGames');
     const canvasWords = document.getElementById('statisticsChartWords');
     const generalAxisX = Object.keys(data.optional.progress);
-    const generalAxisY = Object.values(data.optional.progress);
+    const dataValues = Object.values(data.optional.progress);
+    const generalAxisY = [];
+    for (let i = 0; i < dataValues.length; i += 1) {
+      generalAxisY.push(dataValues[i][0]);
+    }
     renderChartLinear(canvasGeneral, generalAxisX, generalAxisY);
     const gamesAxisX = Object.values(data.optional.games);
     renderChartBar(canvasGames, gamesAxisX);
