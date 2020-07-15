@@ -1,7 +1,4 @@
 .promo-container {
-  min-width: 100vw;
-  height: 100%;
-
   background: #148799;
   background: -webkit-linear-gradient(315deg, #148799, #151f21);
   background:      -o-linear-gradient(315deg, #148799 0, #151f21 100%);
@@ -73,6 +70,11 @@
     color: #333333;
     text-transform: none;
   }
+}
+.promo-star{
+  font-size: 1.5em;
+  color: #ffff00;
+
 }
 img {
   vertical-align: middle;
@@ -158,6 +160,17 @@ img {
 
 .rules .promo-container__finish-text {
   margin-bottom: 0;
+}
+
+.promo-container__game-header{
+  text-align: justify;
+  width: 80%;
+  margin: 3vh auto 4vh auto;
+  font-size: 1.3em;
+  line-height: 1.25em;
+  color: #f3f3f3;
+  text-transform: none;
+  padding: 0 1.25em;
 }
 
 @media only screen and (max-width: 550px) {
