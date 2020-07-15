@@ -14,7 +14,7 @@ export default class DailyStatisticsController {
   }
 
   getDate() {
-    const currentDate = new Date('7/17/2020');
+    const currentDate = new Date();
     let day = currentDate.getDate();
     if (day < 10) day = `0${day}`;
 
@@ -59,7 +59,9 @@ export default class DailyStatisticsController {
 
   async getAggregatedWordsCount() {
     const easy = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'easy' });
-    const difficult = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'difficult' });
+    const difficult = await this.mainModel.getAggregatedWords({
+      'userWord.difficulty': 'difficult',
+    });
     const repeat = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'repeat' });
     const easyValue = easy[0].totalCount[0] ? easy[0].totalCount[0].count : 0;
     const difficultValue = difficult[0].totalCount[0] ? difficult[0].totalCount[0].count : 0;

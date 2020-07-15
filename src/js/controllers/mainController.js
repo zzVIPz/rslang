@@ -70,34 +70,35 @@ export default class MainController {
     };
 
     this.mainView.getUserAchievements = async () => {
-      const allUserWords = await this.mainModel.getAllUsersWords();
-      const learnedWords = allUserWords.filter((word) => word.difficulty === WORDS_STATUS.easy);
-      return { allUserWords: allUserWords.length, learnedWords: learnedWords.length };
+      this.allUserWords = await this.mainModel.getAllUsersWords();
+      const learnedWords = this.allUserWords.filter(
+        (word) => word.difficulty === WORDS_STATUS.easy,
+      );
+      return { allUserWords: this.allUserWords.length, learnedWords: learnedWords.length };
     };
 
     this.mainView.getUserStatus = async () => {
-      function checkCards(user, cards) {
-        return (cards >= user.cardsTotal) ? MAIN_TEXT.finished : MAIN_TEXT.notFinished;
-      }
-      const userStatistic = await this.mainModel.getUserStatistic();
-      if (!userStatistic.optional.progress) {
-        return MAIN_TEXT.firstVisit;
-      }
-      const progressKeys = Object.keys(userStatistic.optional.progress);
+      const checkCards = (cardsAmount) => cardsAmount < this.user.cardsTotal;
 
-      const statDate = new Date(progressKeys[progressKeys.length - 1]);
-      const nowDate = new Date('7/17/2020');
-      if (statDate.toDateString() !== nowDate.toDateString()) {
-        return MAIN_TEXT.nextDay;
+      const userStatistic = await this.mainModel.getUserStatistic();
+
+      const progressRecords = userStatistic.optional.progress || 0;
+      if (!progressRecords) {
+        return MAIN_TEXT.notFinished;
       }
-      const allWordsDatas = await this.mainModel.getAllUsersWords();
-      const progressValues = Object.values(userStatistic.optional.progress);
-      if (progressKeys.length === 1) {
-        return checkCards(this.user, allWordsDatas.length);
+      const progressRecordsKeys = Object.keys(userStatistic.optional.progress);
+
+      const lastRecordDate = new Date(progressRecordsKeys[progressRecordsKeys.length - 1]);
+      const currentDate = new Date();
+      if (lastRecordDate.toDateString() !== currentDate.toDateString()) {
+        return MAIN_TEXT.notFinished;
+      }
+      if (progressRecordsKeys.length === 1) {
+        return checkCards(this.allUserWords.length);
       }
       return checkCards(
-        this.user,
-        allWordsDatas.length - progressValues[progressValues.length - 2][1],
+        this.allUserWords.length
+          - progressRecords[progressRecordsKeys[progressRecordsKeys.length - 2]][1],
       );
     };
 

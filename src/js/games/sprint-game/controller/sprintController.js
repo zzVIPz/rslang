@@ -3,12 +3,23 @@ import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
 import GLOBAL from '../../../constants/global';
 import {
-  MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
+  MIN_GAME_POINTS,
+  MAX_GAME_POINTS,
+  VALUE_TO_SWITCH,
+  GAME_TIME,
+  COUNTDOWN_DELAY,
 } from '../const/sprintConst';
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor(user, mainView, parseLearningsWords, dailyStatistics, setUserStatistic, getUserStatistic) {
+  constructor(
+    user,
+    mainView,
+    parseLearningsWords,
+    dailyStatistics,
+    setUserStatistic,
+    getUserStatistic,
+  ) {
     this.view = new SprintView();
     this.model = new SprintModel();
     this.user = user;
@@ -66,14 +77,13 @@ export default class SprintController {
   }
 
   addStartHandler() {
-    document.querySelector('.sprint-button--start')
-      .addEventListener('click', async () => {
-        this.wordsArray = await this.model.getWordsArray(this.round, this.level);
-        this.initialWordsArray = this.model.wordsArray;
-        if (this.wordsArray.length) {
-          this.startGame();
-        }
-      });
+    document.querySelector('.sprint-button--start').addEventListener('click', async () => {
+      this.wordsArray = await this.model.getWordsArray(this.round, this.level);
+      this.initialWordsArray = this.model.wordsArray;
+      if (this.wordsArray.length) {
+        this.startGame();
+      }
+    });
   }
 
   startGame() {
@@ -97,12 +107,16 @@ export default class SprintController {
   }
 
   handleEvent({ code }) {
-    if (code === 'ArrowRight') { this.rightBtn.click(); }
-    if (code === 'ArrowLeft') { this.wrongBtn.click(); }
+    if (code === 'ArrowRight') {
+      this.rightBtn.click();
+    }
+    if (code === 'ArrowLeft') {
+      this.wrongBtn.click();
+    }
   }
 
   clickHandler({ target }) {
-    this.answer = (target.id === 'right') ? 1 : 0;
+    this.answer = target.id === 'right' ? 1 : 0;
     this.accuracy = this.wordsArray[this.currentWordIndex].accuracy;
     this.checkAnswer();
     this.currentWordIndex += 1;
@@ -147,8 +161,9 @@ export default class SprintController {
     const learningArray = this.faultyWords.map((word) => word.id);
     this.parseLearningsWords(learningArray);
     this.addCloseBtnHandler();
-    document.querySelector('.sprint-button--repeat')
-      .addEventListener('click', () => { this.prelaunch(); });
+    document.querySelector('.sprint-button--repeat').addEventListener('click', () => {
+      this.prelaunch();
+    });
   }
 
   async getRecordScore() {

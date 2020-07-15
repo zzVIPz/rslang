@@ -32,6 +32,10 @@
     margin: 10px 0;
 
     color: $user-info-value;
+
+    &--invalid {
+      color: $user-info-subtitle;
+    }
   }
 
   &__button {

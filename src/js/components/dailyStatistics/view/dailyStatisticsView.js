@@ -20,8 +20,6 @@ export default class DailyStatisticsView {
     for (let i = 0; i < dataValues.length; i += 1) {
       generalAxisY.push(dataValues[i][0]);
     }
-
-    console.log('general axis Y is:', generalAxisY);
     renderChartLinear(canvasGeneral, generalAxisX, generalAxisY);
     const gamesAxisX = Object.values(data.optional.games);
     renderChartBar(canvasGames, gamesAxisX);
