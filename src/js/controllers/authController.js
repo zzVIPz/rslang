@@ -4,7 +4,7 @@ import AuthView from '../views/authView';
 import checkEmail from '../utils/checkEmail';
 import checkPassword from '../utils/checkPassword';
 
-export default class IndexController {
+export default class AuthController {
   constructor() {
     this.firebaseModel = new FirebaseModel();
     this.authModel = new AuthModel();

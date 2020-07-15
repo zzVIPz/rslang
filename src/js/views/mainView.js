@@ -56,7 +56,9 @@ export default class MainView {
 
   async renderMain(user) {
     const achievements = await this.getUserAchievements();
-    const formattedTemplate = getMainTemplate(user, MAIN_TEXT, achievements);
+    const userStatus = await this.getUserStatus();
+    const dailyGoalText = userStatus ? MAIN_TEXT.notFinished : MAIN_TEXT.finished;
+    const formattedTemplate = getMainTemplate(user, MAIN_TEXT, achievements, dailyGoalText);
     this.main.innerHTML = formattedTemplate;
     this.btnStartLearning = document.querySelector('.btn-start');
     if (!user.wordPronunciation && !user.textPronunciation) {

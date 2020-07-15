@@ -1,4 +1,3 @@
-/* TODO: remove useless href attribute, translate text to russian */
 const templateStart = `
   <div class="ep-startScreen">
     <div class="ep-startScreen__header">
@@ -7,10 +6,10 @@ const templateStart = `
     <div class="ep-startScreen__wrapper">
       <div class="ep-startScreen__container">
         <div class="ep-startScreen__title">English Puzzle</div>
-        <div class="ep-startScreen__description"><p>Кликай по словам и собирай фразы.</p>
-        <p>Слова можно перетягивать. Выбирай подсказки в меню.</p></div>
+        <div class="ep-startScreen__description"><p>Click on words, collect phrases.</p>
+        <p>Words can be drag and drop. Select tooltips in the menu.</p></div>
         <div class="ep-startScreen__buttons">
-          <button id="startButton" class="ep__startButton">Старт</button>
+          <button id="startButton" class="ep__startButton">Start</button>
         </div>
       </div>
     </div>

@@ -3,25 +3,38 @@ import SprintModel from '../model/sprintModel';
 import addWord from '../utils/addWord';
 import GLOBAL from '../../../constants/global';
 import {
-  MIN_GAME_POINTS, MAX_GAME_POINTS, VALUE_TO_SWITCH, GAME_TIME, COUNTDOWN_DELAY,
+  MIN_GAME_POINTS,
+  MAX_GAME_POINTS,
+  VALUE_TO_SWITCH,
+  GAME_TIME,
+  COUNTDOWN_DELAY,
 } from '../const/sprintConst';
 import randomInteger from '../utils/randomInteger';
 
 export default class SprintController {
-  constructor(user, mainView, parseLearningsWords, dailyStatistics) {
+  constructor(
+    user,
+    mainView,
+    parseLearningsWords,
+    dailyStatistics,
+    setUserStatistic,
+    getUserStatistic,
+  ) {
     this.view = new SprintView();
     this.model = new SprintModel();
     this.user = user;
     this.mainView = mainView;
     this.parseLearningsWords = parseLearningsWords;
     this.dailyStatistics = dailyStatistics;
+    this.setUserStatistic = setUserStatistic;
+    this.getUserStatistic = getUserStatistic;
   }
 
   init() {
     this.prelaunch();
   }
 
-  async prelaunch() {
+  prelaunch() {
     this.level = 0;
     this.round = 0;
     this.currentWordIndex = 0;
@@ -64,14 +77,13 @@ export default class SprintController {
   }
 
   addStartHandler() {
-    document.querySelector('.sprint-button--start')
-      .addEventListener('click', async () => {
-        this.wordsArray = await this.model.getWordsArray(this.round, this.level);
-        this.initialWordsArray = this.model.wordsArray;
-        if (this.wordsArray.length) {
-          this.startGame();
-        }
-      });
+    document.querySelector('.sprint-button--start').addEventListener('click', async () => {
+      this.wordsArray = await this.model.getWordsArray(this.round, this.level);
+      this.initialWordsArray = this.model.wordsArray;
+      if (this.wordsArray.length) {
+        this.startGame();
+      }
+    });
   }
 
   startGame() {
@@ -95,12 +107,16 @@ export default class SprintController {
   }
 
   handleEvent({ code }) {
-    if (code === 'ArrowRight') { this.rightBtn.click(); }
-    if (code === 'ArrowLeft') { this.wrongBtn.click(); }
+    if (code === 'ArrowRight') {
+      this.rightBtn.click();
+    }
+    if (code === 'ArrowLeft') {
+      this.wrongBtn.click();
+    }
   }
 
   clickHandler({ target }) {
-    this.answer = (target.id === 'right') ? 1 : 0;
+    this.answer = target.id === 'right' ? 1 : 0;
     this.accuracy = this.wordsArray[this.currentWordIndex].accuracy;
     this.checkAnswer();
     this.currentWordIndex += 1;
@@ -136,15 +152,35 @@ export default class SprintController {
     }
   }
 
-  endGame() {
+  async endGame() {
     clearTimeout(this.timer);
     document.removeEventListener('keydown', this);
-    this.view.renderFinalStat(this.score, this.faultyWords);
+    this.recordScore = await this.getRecordScore();
+    this.view.renderFinalStat(this.recordScore, this.score, this.faultyWords);
+    this.setRecordScore();
     const learningArray = this.faultyWords.map((word) => word.id);
     this.parseLearningsWords(learningArray);
     this.addCloseBtnHandler();
-    document.querySelector('.sprint-button--repeat')
-      .addEventListener('click', () => { this.prelaunch(); });
+    document.querySelector('.sprint-button--repeat').addEventListener('click', () => {
+      this.prelaunch();
+    });
+  }
+
+  async getRecordScore() {
+    this.gameStat = await this.getUserStatistic();
+    if (!this.gameStat.optional.score) {
+      this.gameStat.optional.score = { sprint: 0 };
+    }
+
+    return this.gameStat.optional.score.sprint;
+  }
+
+  setRecordScore() {
+    if (this.score > this.gameStat.optional.score.sprint) {
+      this.gameStat.optional.score.sprint = this.score;
+      delete this.gameStat.id;
+      this.setUserStatistic(this.gameStat);
+    }
   }
 
   startCountdown(gameTime) {

@@ -77,17 +77,14 @@ export default class MainModel {
   }
 
   setUserSettings = async (settings) => {
-    const rawResponse = await fetch(
+    await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/settings`,
       getBodyRequest('PUT', this.token, settings),
     );
-    const content = await rawResponse.json();
 
     if (this.onSetUserSettings) {
       this.onSetUserSettings(this.currentUser);
     }
-
-    console.log('setUserSettings', content);
   };
 
   getWords = async (currentPage = 0, currentGroup = 0, cardsTotal, wordsPerExample) => {
@@ -104,7 +101,6 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
 
-    console.log('getAllUsersWords', content);
     return content;
   };
 
@@ -115,7 +111,6 @@ export default class MainModel {
     );
     const content = await rawResponse.json();
 
-    console.log('getUsersWordById', content);
     return content;
   };
 
@@ -131,7 +126,6 @@ export default class MainModel {
     const rawResponse = await fetch(url, getBodyRequest('GET', this.token));
     const content = await rawResponse.json();
 
-    console.log('getAggregatedWords', content);
     return content;
   };
 
@@ -141,20 +135,15 @@ export default class MainModel {
       getBodyRequest('GET', this.token),
     );
     const content = await rawResponse.json();
-
-    console.log('getAggregatedWordById', content);
     return content[0];
   };
 
   createUserWord = async (wordId, category, optional = {}) => {
     const description = getWordDescription(category, optional);
-    const rawResponse = await fetch(
+    await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/words/${wordId}`,
       getBodyRequest('POST', this.token, description),
     );
-    const content = await rawResponse.json();
-
-    console.log('createUserWord', content);
   };
 
   updateUserWord = async (wordId, category, optional = {}) => {
@@ -187,17 +176,13 @@ export default class MainModel {
       getBodyRequest('GET', this.token),
     );
     const currentStatistic = await rawResponse.json();
-    console.log('getUserStatistic ', currentStatistic);
     return currentStatistic;
   };
 
   setUserStatistic = async (currentStatistic = DEFAULT_USER_STATISTIC) => {
-    const rawResponse = await fetch(
+    await fetch(
       `${REQUEST_PARAMETERS.url}${this.userId}/statistics`,
       getBodyRequest('PUT', this.token, currentStatistic),
     );
-    const content = await rawResponse.json();
-
-    console.log('setUserStatistic', content);
   };
 }
