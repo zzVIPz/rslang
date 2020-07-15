@@ -116,6 +116,9 @@ const MAIN_TEXT = {
   btnStart: 'START TRAINING',
   progress: 'Your progress :',
   amountCards: '3600',
+  dailyGoal: 'Your daily goal is :',
+  finished: 'done',
+  notFinished: 'not finished',
 };
 
 const AMOUNT_WORDS_PER_PAGE = 19;

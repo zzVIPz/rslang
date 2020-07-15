@@ -1,4 +1,6 @@
-export default function getMainTemplate(user, data, achievements) {
+import { MAIN_TEXT } from '../constants/constMainView';
+
+export default function getMainTemplate(user, data, achievements, state) {
   return `
     <div class="user-info container">
       <h3 class="user-info__title">${data.title}
@@ -16,6 +18,13 @@ export default function getMainTemplate(user, data, achievements) {
       <div class="user-info__container wrapper">
         <p class="user-info__text">${data.studyMode}</p>
         <p class="user-info__value">${user.studyMode}</p>
+      </div>
+      <div class="user-info__container wrapper">
+        <p class="user-info__text">${data.dailyGoal}</p>
+        <p class="user-info__value
+          ${state === MAIN_TEXT.finished ? '' : 'user-info__value--invalid'}">
+            ${state}
+        </p>
       </div>
       <p class="user-info__subtitle">${data.achievements}</p>
       <div class="user-info__container wrapper">

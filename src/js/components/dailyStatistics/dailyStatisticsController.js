@@ -33,7 +33,10 @@ export default class DailyStatisticsController {
       data.optional.progress = {};
     }
     data.learnedWords = this.aggregatedWordsCount.easy;
-    data.optional.progress[this.date] = this.aggregatedWordsCount.easy;
+    const totalWordsLearned = this.aggregatedWordsCount.easy
+      + this.aggregatedWordsCount.difficult
+      + this.aggregatedWordsCount.repeat;
+    data.optional.progress[this.date] = [this.aggregatedWordsCount.easy, totalWordsLearned];
     this.statData = data;
     await this.setData();
   }
@@ -56,7 +59,9 @@ export default class DailyStatisticsController {
 
   async getAggregatedWordsCount() {
     const easy = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'easy' });
-    const difficult = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'difficult' });
+    const difficult = await this.mainModel.getAggregatedWords({
+      'userWord.difficulty': 'difficult',
+    });
     const repeat = await this.mainModel.getAggregatedWords({ 'userWord.difficulty': 'repeat' });
     const easyValue = easy[0].totalCount[0] ? easy[0].totalCount[0].count : 0;
     const difficultValue = difficult[0].totalCount[0] ? difficult[0].totalCount[0].count : 0;
