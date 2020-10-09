@@ -1,0 +1,254 @@
+.english-puzzle {
+  overflow: auto;
+  &__wrapper {
+    max-width: 1200px;
+    min-height: calc(100vh - 113px);
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+}
+
+.ep-levelEnds {
+  background-color: #c7391c;
+}
+
+.container-outer {
+  display: flex;
+}
+
+.container-inner {
+  width: 100%;
+  overflow-x: scroll;
+
+  border-radius: 5px;
+  &::-webkit-scrollbar {
+    width: 1em;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 5px;
+    outline: 1px solid slategrey;
+  }
+}
+
+.ep-background {
+  min-width: 100vw;
+  height: calc(100vh - 93px);
+
+  background: linear-gradient(rgba(8,15,26,.2) 0%, rgba(17,17,46,.5) 100%) center center/cover fixed,url(/src/assets/images/ep-images/ep-background.jpg) center center no-repeat fixed;
+  background-size: cover;
+}
+
+.ep-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+  &__right-side,
+  &__left-side {
+    display: flex;
+  }
+  &__left-side {
+    flex-wrap: nowrap;
+    margin-left: 35px;
+  }
+}
+
+.ep-tips {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__text-translate {
+    font-size: 2rem;
+    text-align: center;
+    color: white;
+  }
+}
+
+.ep-board {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  width: calc(100% - 35px);
+  height: 521px;
+  overflow: hidden;
+
+  background: linear-gradient(rgba(8,15,26,.6) 0%, rgba(17,17,46,.3) 100%);
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+
+  &-wrapper {
+    display: flex;
+    min-width: 750px;
+  }
+
+  & > img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+  &__line {
+    display: flex;
+    width: calc(100% + 22px);
+    min-width: 735px;
+    height: 52px;
+    margin-left: -20px;
+    overflow: hidden;
+
+    border-bottom: 1px solid #ffffff;
+    &_active {
+      height: 53px;
+    }
+    &:last-child {
+      border: none;
+    }
+    &:focus {
+      outline: none;
+    }
+    &_number {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      margin: 17px 10px 10px 0;
+      padding-top: 3px;
+
+      text-align: center;
+      color: white;
+
+      border: 1px solid #ffffff;
+      border-radius: 50%;
+      &-active {
+        padding-top: 1px;
+
+        border: 2px solid #70fdc9;
+        box-shadow: 0 0 3px 3px #70fdc9;
+      }
+    }
+  }
+}
+
+.ep-numbers {
+  display: flex;
+  flex-direction: column;
+  width: 35px;
+}
+
+.ep-wrapper {
+  width: calc(100% - 35px);
+  min-width: 713px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  border: 1px solid lightpink;
+  border-radius: 5px;
+}
+
+.ep-sentences-word {
+  width: 100px;
+  height: 52px;
+
+  font-size: 22px;
+  line-height: 52px;
+  text-align: center;
+  color: #ffffff;
+
+  background-color: #1c283b;
+  border: 1px solid white;
+  cursor: pointer;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+.Block--isClickable {
+  position: relative;
+  top: -52px;
+}
+
+.Block--isClickable:focus {
+  outline: none;
+}
+
+.ep-play__buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ep-select {
+  width: 60px;
+
+  color: white;
+  text-align-last: center;
+
+  background-color: #00cdac;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 3px 3px #70fdc9;
+  }
+}
+
+.ep-label {
+  font-size: 2rem;
+  line-height: 3rem;
+  color: white;
+  &:first-child {
+    margin-right: 20px;
+  }
+}
+
+.ep-wrongPosition {
+  border-color: red;
+}
+
+.ep-rightPosition {
+  border-color: #3be03b;
+}
+
+.ep-hidden {
+  display: none;
+}
+
+.ep-transparent {
+  opacity: 0;
+}
+
+@media screen and (max-width: 555px) {
+  .ep-controls {
+    flex-direction: column-reverse;
+    margin-top: 10px;
+    &__right-side,
+    &__left-side {
+      justify-content: center;
+    }
+    &__left-side {
+      margin-top: 10px;
+      margin-left: 0;
+    }
+  }
+  .ep-tips__text-translate {
+    margin: 10px 0;
+
+    font-size: 1.6rem;
+  }
+  .ep-label {
+    font-size: 1.6rem;
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+  .ep-tips {
+    min-height: 56px;
+  }
+}

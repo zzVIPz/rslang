@@ -1,0 +1,59 @@
+.username {
+  color: $color-username;
+}
+
+.user-info {
+  min-width: 420px;
+
+  @include font($size: 2.2rem, $height: 2.25rem, $weight: normal, $color: #0f1246);
+
+  &__title {
+    margin: 0;
+
+    font-size: 3.5rem;
+    color: $user-info-title;
+
+    @extend %font-title;
+  }
+
+  &__username {
+    font-size: 4.5rem;
+  }
+
+  &__text {
+    margin: 10px 0;
+  }
+
+  &__subtitle {
+    color: $user-info-subtitle;
+  }
+
+  &__value {
+    margin: 10px 0;
+
+    color: $user-info-value;
+
+    &--invalid {
+      color: $user-info-subtitle;
+    }
+  }
+
+  &__button {
+    height: 30px;
+
+    @extend %font-prim;
+  }
+
+  &__buttons {
+    justify-content: center;
+    padding-top: 25px;
+  }
+}
+
+@media (max-width: 450px) {
+  .user-info {
+    min-width: 300px;
+
+    @include font($size: 1.6rem, $height: 1.65rem, $weight: normal, $color: #0f1246);
+  }
+}

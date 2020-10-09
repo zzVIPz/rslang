@@ -1,0 +1,427 @@
+.dictionary {
+  width: 100%;
+  height: 100%;
+  &__controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+}
+
+.controlsBtn {
+  width: 15rem;
+  height: 5rem;
+  margin-right: 2rem;
+  padding-top: 1.4rem;
+
+  font-weight: 100;
+  font-size: 2rem;
+  font-family: inherit;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: .1rem;
+
+  background-color: #00cdac;
+  border-radius: .5rem;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 0;
+  }
+  &:hover {
+    box-shadow: 0 0 4px 1px #00cdac;
+  }
+  &_active {
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 4px 1px #00cdac;
+  }
+}
+
+.wordsData {
+  max-width: 1000px;
+  height: calc(100vh - 192px);
+  margin-top: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 5px;
+  overflow: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  &::-webkit-scrollbar {
+    width: 1em;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 5px;
+    outline: 1px solid slategrey;
+  }
+}
+
+.dict {
+  &__word-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    border-radius: 5px;
+    cursor: default;
+    &:hover {
+      background-color: rgba(0, 205, 172, .2);
+      box-shadow: 0 0 4px 3px rgba(0, 205, 172, .2);
+    }
+  }
+  &__word-data-container {
+    flex: 1;
+  }
+  &__word-line {
+    display: flex;
+  }
+  &__word-buttons-block {
+    display: flex;
+  }
+  &__word-button {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-right: 1rem;
+
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(37, 130, 321, .5);
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px rgba(37, 130, 321, .5);
+    }
+  }
+  &__word-button-info {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-right: 1rem;
+
+    background-size: cover;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(37, 130, 321, .5);
+      border-radius: 50%;
+      box-shadow: 0 0 4px 3px rgba(37, 130, 321, .5);
+    }
+  }
+  &__word-audio {
+    background-image: url(../assets/svg/speaker-active.svg);
+  }
+  &__word-eng-trans {
+    display: flex;
+  }
+  &__word-english {
+    margin-right: 1rem;
+
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: #2582e7;
+    text-transform: uppercase;
+  }
+  &__word-transcription {
+    margin-right: 1rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+  }
+  &__word-translate {
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+  &__word-information {
+    background-image: url(../assets/images/info.png);
+  }
+  &__word-difficult {
+    background-image: url(../assets/images/difficult.png);
+  }
+  &__word-remove {
+    margin-right: 0;
+
+    background-image: url(../assets/images/remove.png);
+  }
+  &__word-restore {
+    margin-right: 0;
+
+    background-image: url(../assets/images/restore.png);
+  }
+  &__no-words {
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #f56714;
+    text-transform: uppercase;
+  }
+  &__optional {
+    display: flex;
+    flex-direction: column;
+  }
+  &__repeatCounter,
+  &__lastTimeRepeat {
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: #2582e7;
+    & > span {
+      color: #000000;
+    }
+  }
+}
+
+.dictModal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+
+  background-color: rgba(0, 0, 0, .6);
+
+  &__body {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 600px;
+    padding: 20px 40px;
+
+    background-color: white;
+    border-radius: 5px;;
+  }
+
+  &__image {
+    width: 340px;
+    height: 240px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+
+    border-radius: 5px;
+  }
+
+  &__word {
+    display: flex;
+    margin-bottom: 1rem;
+
+    &English {
+      max-width: 100%;
+      margin-right: 1rem;
+
+      font-weight: 600;
+      font-size: 1.6rem;
+      line-height: 1.6;
+      color: #2582e7;
+      text-transform: uppercase;
+    }
+    &Transcription {
+      margin-right: 1rem;
+
+      font-size: 1.6rem;
+      line-height: 1.6;
+    }
+    &Translate {
+      margin-right: 1rem;
+
+      font-size: 1.6rem;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+  }
+
+  &__meaning,
+  &__example {
+    margin-bottom: 1rem;
+
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: #00cdac;
+    text-transform: uppercase;
+  }
+
+  &__textMeaning,
+  &__textExample {
+    display: flex;
+    margin-bottom: 1rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+    & > p {
+      margin: 0;
+
+      text-align: justify;
+    }
+  }
+
+  &__textMeaningTranslate,
+  &__textExampleTranslate {
+    margin-bottom: 2rem;
+    margin-left: 2.6rem;
+
+    font-size: 1.6rem;
+    line-height: 1.6;
+  }
+
+  &__textExample {
+    display: flex;
+  }
+
+  &__closeBtn {
+    width: 15rem;
+    height: 5rem;
+    margin-right: 2rem;
+    padding-top: 1.4rem;
+
+    font-weight: 100;
+    font-size: 2rem;
+    font-family: inherit;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: .1rem;
+
+    background-color: #00cdac;
+    border-radius: .5rem;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      box-shadow: 0 0 4px 1px #00cdac;
+    }
+  }
+
+  &_hidden {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .dictModal__body {
+    width: 100%;
+    padding: 10px;
+  }
+  .dictModal__closeBtn {
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .controlsBtn {
+    width: 12rem;
+    height: 4rem;
+
+    font-size: 1.5rem;
+    line-height: 1rem;
+  }
+  .dict__word-button {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+  .dict__word-button-info {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  .dict__word-card {
+    align-items: flex-start;
+  }
+
+  .dict__word-english,
+  .dict__word-transcription,
+  .dict__word-translate,
+  .dictModal__wordEnglish,
+  .dictModal__wordTranscription,
+  .dictModal__wordTranslate,
+  .dictModal__meaning,
+  .dictModal__example,
+  .dictModal__textMeaning,
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExample,
+  .dictModal__textExampleTranslate {
+    margin-right: .5rem;
+
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExampleTranslate {
+    margin-left: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .controlsBtn {
+    width: 9rem;
+    margin-right: 1rem;
+
+    font-size: 1.3rem;
+  }
+
+  .dict__word-button {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: .4rem;
+    margin-bottom: .6rem;
+  }
+  .dict__word-button-info {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: .4rem;
+  }
+  .dict__word-buttons-block {
+    flex-direction: column;
+  }
+
+  .dict__word-english,
+  .dict__word-transcription,
+  .dict__word-translate,
+  .dictModal__wordEnglish,
+  .dictModal__wordTranscription,
+  .dictModal__wordTranslate,
+  .dictModal__meaning,
+  .dictModal__example,
+  .dictModal__textMeaning,
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExample,
+  .dictModal__textExampleTranslate {
+    max-width: 100%;
+    margin-right: .3rem;
+
+    font-size: 1rem;
+    line-height: 1.8rem;
+  }
+  .dictModal__image {
+    width: 270px;
+  }
+  .dictModal__textMeaningTranslate,
+  .dictModal__textExampleTranslate {
+    margin-left: 1.8rem;
+  }
+  .dict__repeatCounter,
+  .dict__lastTimeRepeat {
+    font-size: 1rem;
+  }
+}
+
+.data-preloader {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+
+  background-image: url(../assets/svg/data-preloader.svg);
+  background-size: cover;
+}

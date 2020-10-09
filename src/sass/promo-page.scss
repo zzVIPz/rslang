@@ -1,0 +1,178 @@
+.promo-container {
+  min-width: calc(100vw - 17px);
+  height: 100%;
+
+  background: #148799;
+  background: -webkit-linear-gradient(315deg, #148799, #151f21);
+  background:      -o-linear-gradient(315deg, #148799 0, #151f21 100%);
+  background:         linear-gradient(135deg, #148799, #151f21);
+
+  &__section {
+    width: 100%;
+
+    background: #1a535c;
+    background: -webkit-linear-gradient(315deg, #1a535c, #4ecdc4);
+    background:      -o-linear-gradient(315deg, #1a535c 0, #4ecdc4 100%);
+    background:         linear-gradient(135deg, #1a535c, #4ecdc4);
+
+    -webkit-clip-path: polygon(0 0%, 100% 0, 100% 100%, 0% 99.7%);
+            clip-path: polygon(0 0%, 100% 0, 100% 100%, 0% 99.7%);
+  }
+  &__game {
+    position: relative;
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 65%;
+    min-width: 0;
+    margin: 3em auto;
+    padding-bottom: 2em;
+
+    word-wrap: break-word;
+
+    background-color: #ffffff;
+
+    -webkit-clip-path: polygon(0 2%, 100% 0, 97% 100%, 4% 97%);
+            clip-path: polygon(0 2%, 100% 0, 97% 100%, 4% 97%);
+  }
+  &__image {
+    width: 100%;
+
+    background-color: #ffff00;
+  }
+  &__content {
+    -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+    padding: 1.5em 1.25em;
+
+    text-align: center;
+
+        -ms-flex: 1 1 auto;
+  }
+  &__title {
+    margin: 0;
+
+    font-size: 2em;
+    line-height: 1.3;
+    color: #333333;
+    text-transform: uppercase;
+  }
+  &__description {
+    padding: 0;
+  }
+  &__description p {
+    width: 80%;
+    margin: 3vh auto 4vh auto;
+
+    font-size: 1.3em;
+    line-height: 1.25em;
+    color: #333333;
+    text-transform: none;
+  }
+}
+img {
+  vertical-align: middle;
+
+  border: 0;
+}
+.white-color {
+  color: #f3f3f3;
+}
+.promo-container__section .promo-container__description p {
+  text-align: justify;
+  color: #f3f3f3;
+}
+.features {
+  padding-bottom: 5px;
+
+  background: #ea5455;
+  background: -webkit-linear-gradient(315deg, #feb692, #ea5455);
+  background:      -o-linear-gradient(315deg, #feb692 0, #ea5455 100%);
+  background:         linear-gradient(135deg, #feb692, #ea5455);
+
+  -webkit-clip-path: polygon(0 7%, 100% 0, 100% 100%, 0% 97%);
+          clip-path: polygon(0 7%, 100% 0, 100% 100%, 0% 97%);
+}
+.features .promo-container__title {
+  margin-top: 1.2em;
+}
+.structure .promo-container__title {
+  margin-top: .5em;
+}
+
+.functionality .promo-container__title {
+  margin-top: 1.8em;
+}
+
+.functionality {
+  padding-bottom: 5px;
+
+  background: #db504a;
+  background: -webkit-linear-gradient(315deg, #db504a, #fd9898);
+  background:      -o-linear-gradient(315deg, #db504a 0, #fd9898 100%);
+  background:         linear-gradient(135deg, #db504a, #fd9898);
+
+  -webkit-clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
+          clip-path: polygon(0 4%, 100% 0, 100% 96%, 0% 100%);
+
+  &__image {
+    width: 280px;
+
+    border-radius: 1.5em;
+  }
+}
+
+.screen {
+  width: 90%;
+  margin-top: .7em;
+
+  border-radius: 1.5em;
+}
+.promo-container__video {
+  width: 64%;
+  margin: 0 auto;
+}
+.thumb-wrap {
+  position: relative;
+
+  height: 0;
+  margin-top: 3em;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+.thumb-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-width: 0;
+  outline-width: 0;
+}
+
+.rules .promo-container__finish-text {
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 550px) {
+  .promo-container__video {
+    width: 98%;
+  }
+  .promo-container__game {
+    width: 95%;
+  }
+  .promo-container__description p {
+    width: 100%;
+
+    font-size: 1.2em;
+  }
+  .promo-container__title {
+    font-size: 1.3em;
+  }
+}

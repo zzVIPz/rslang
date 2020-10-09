@@ -1,0 +1,82 @@
+@import "speak_it-constants";
+.raiting_container {
+  position: absolute;
+  top: 70px;
+  right: 0;
+}
+.raiting_row {
+  display: flex;
+
+@extend %raiting_row;
+}
+.text_raiting {
+  top: 40px;
+  right: 47px;
+
+  color: $color_star_choose;
+
+@extend %text;
+
+@extend %raiting_row;
+}
+.result {
+  display: flex;
+
+@extend %raiting_row;
+}
+.group,
+.round {
+  position: relative;
+
+  display: block;
+  width: 25px;
+
+  font-size: 30px;
+
+  cursor: pointer;
+}
+.gold {
+  color: $color_star_choose;
+}
+.gold_strong {
+  color: $color_star_choose!important;
+}
+.star {
+  color: $color_star_main;
+}
+.ress {
+  float: right;
+}
+
+.header_close {
+  position: sticky;
+
+  padding: 0 20px;
+
+  transition: background-color .2s cubic-bezier(0, -1.85, .27, 1.75);
+}
+
+.speakIt_close {
+  opacity: .7;
+}
+.speakIt_close:hover {
+  opacity: 1;
+}
+@media only screen and (max-width: 920px) {
+  .raiting_container {
+    position: inherit;
+    top: 0;
+
+    width: 230px;
+    margin: auto;
+    margin-top: 15px;
+  }
+
+  .raiting_row,
+  .text_raiting,
+  .result {
+    justify-content: center;
+
+    text-align: center;
+  }
+}

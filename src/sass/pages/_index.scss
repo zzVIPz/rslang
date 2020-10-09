@@ -1,0 +1,61 @@
+.title {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+
+  @include font($size: 5.5rem, $height: 5.55rem, $weight: normal, $color: #383e86);
+
+  span {
+    color: #de7437;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 50%;
+    padding: 0 20px;
+
+    @extend %font-title;
+  }
+
+  &__subtitle {
+    height: 36px;
+    margin-bottom: 0;
+
+    font-size: 2.1rem;
+    text-align: center;
+  }
+}
+
+.header {
+  &__container {
+    margin: 0 auto;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    text-decoration: none;
+
+    @extend %font-title;
+    @include font($size: 2.2rem, $height: 2.25rem, $weight: normal, $color: #ffffff);
+  }
+}
+
+@media (max-width: 650px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 0;
+  }
+}

@@ -1,0 +1,115 @@
+.ep__button {
+  width: 200px;
+  height: 40px;
+  margin-left: 10px;
+
+  color: #ffffff;
+
+  background-color: #00cdac;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    background-color: #8ddad5;
+    box-shadow: 2px 2px 3px 1px #00cdac;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.tips__button {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+
+  background-color: #00cdac;
+  background-size: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 0 3px 3px #70fdc9;
+
+    transition: .3s ease-in-out;
+  }
+
+  &_active {
+    box-shadow: 0 0 3px 3px #ffffff;
+  }
+  &_translate {
+    background-image: url(/src/assets/images/ep-icons/ep-phrase.svg);
+  }
+  &_speech {
+    background-image: url(/src/assets/images/ep-icons/ep-speaker.svg);
+  }
+  &_background {
+    background-image: url(/src/assets/images/ep-icons/ep-painting.svg);
+  }
+}
+
+.speech-animation {
+  background-color: rgba(0, 0, 0, 0);
+
+  animation: .7s ease-in-out 0s infinite alternate speech-anim;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;;
+  }
+}
+
+.ep-close_app {
+  position: relative;
+  top: 0;
+  right: 0;
+
+  width: 32px;
+  height: 32px;
+  margin-left: 20px;
+
+  cursor: pointer;
+  opacity: .3;
+  &:before,
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 15px;
+
+    width: 2px;
+    height: 33px;
+
+    background-color: white;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+  &:hover {
+    opacity: 1;
+
+    transition: .3s ease-in-out;
+  }
+}
+
+@keyframes speech-anim {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(.8);
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .ep-close_app {
+    margin-left: 10px;
+  }
+  .tips__button {
+    margin-left: 30px;
+  }
+}

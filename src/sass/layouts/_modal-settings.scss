@@ -1,0 +1,131 @@
+.settings {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 550px;
+  max-height: 80%;
+  padding: 15px;
+  overflow: auto;
+
+  background-image: $color-modal-settings;
+  border-radius: 5px;
+
+  @include font($size: 1.6rem, $height: 1.65rem, $weight: normal);
+
+  .wrapper {
+    padding-bottom: 10px;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    width: 100%;
+    max-width: 1200px;
+
+    input {
+      margin-right: 10px;
+
+      cursor: pointer;
+    }
+  }
+
+  &__title {
+    margin: 0 0 10px;
+
+    text-align: center;
+    color: $user-info-title;
+  }
+  &__subtitle {
+    margin: 0;
+
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    z-index: 5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+
+    background-color: rgba(45, 48, 58, .4);
+
+    transition: opacity ease-in-out .5s;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
+
+  &__button {
+    width: 100px;
+    padding: 7px;
+
+    color: $modal-button-color;
+
+    background: $modal-button-background-color;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .btn-accept {
+    margin-right: 25px;
+
+    background: $modal-button-accept-background;
+  }
+
+  &__input {
+    width: 55px;
+    min-width: 55px;
+  }
+
+  &__description {
+    margin: 0;
+  }
+
+  &__text {
+    text-align: center;
+    color: $user-info-subtitle;
+  }
+
+  &__study-select,
+  &__text-select {
+    width: 150px;
+    min-width: 150px;
+
+    outline: none;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 5px;
+
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 600px) {
+  .settings {
+    justify-content: end;
+
+    .wrapper {
+      flex-direction: column;
+    }
+
+    &__description {
+      padding-bottom: 5px;
+    }
+  }
+}

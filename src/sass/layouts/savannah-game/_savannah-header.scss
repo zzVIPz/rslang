@@ -1,0 +1,71 @@
+.app__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  height: 46px;
+  padding: 0 20px;
+
+  transition: background-color .2s cubic-bezier(0, -1.85, .27, 1.75);
+}
+
+.lives {
+  position: absolute;
+  top: 18px;
+  right: 54px;
+
+  font-size: 1.2em;
+  color: $main-color;
+}
+
+.music {
+  position: absolute;
+  top: 5px;
+  left: 0;
+
+  width: 30px;
+
+  &__icon {
+    width: 100%;
+
+    cursor: pointer;
+  }
+  &__line {
+    position: absolute;
+    top: 3px;
+    left: 14px;
+
+    display: none;
+    width: 3px;
+    height: 30px;
+
+    background-color: black;
+    transform: rotate(-38deg);
+  }
+}
+
+.microphone {
+  width: 30px;
+  height: 60%;
+  padding: 5px;
+
+  background: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  &_active {
+    background: $main-color;
+  }
+}
+
+.savannah-microphone {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+}
+
+#savannah-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

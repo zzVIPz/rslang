@@ -1,0 +1,27 @@
+@import "base/normalize";
+@import "base/animate";
+
+// Abstract
+@import "abstract/constants";
+@import "abstract/placeholders";
+@import "abstract/mixins.scss";
+
+//  Base
+@import "base/base";
+@import "base/fonts";
+
+//  Components
+@import "components/logo";
+@import "components/wrapper";
+@import "components/auth-tool";
+@import "components/form";
+@import "components/contacts";
+
+// Layout
+@import "layouts/header";
+@import "layouts/main";
+@import "layouts/footer";
+@import "layouts/modal-error";
+
+// pages
+@import "pages/index";

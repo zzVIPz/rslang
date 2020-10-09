@@ -1,0 +1,178 @@
+.card {
+  font-size: 1.2em;
+  font-family: monospace;
+
+  &__state {
+    margin: 10px;
+
+    font-size: 1.6rem;
+    color: #a44a3f;
+  }
+
+  &__input-wrapper {
+    position: relative;
+
+    display: inline-block;
+  }
+
+  &__hint-container {
+    position: absolute;
+    top: 6px;
+    left: 4px;
+
+    &--invisible {
+      opacity: .3;
+
+      transition: 4s linear;
+      animation: letters-animation 3s;
+
+      @keyframes letters-animation {
+        from {
+          opacity: 1;
+        }
+
+        to {
+          opacity: .3;
+        }
+      }
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 25px;
+  }
+
+  &__letter {
+    color: $color-letter;
+  }
+
+  &__incorrect-low {
+    color: $color-incorrect-low;
+  }
+
+  &__incorrect-heavy {
+    color: $color-incorrect-heavy;
+  }
+
+  &__text-translate {
+    text-align: justify;
+  }
+
+  &__word-translate {
+    margin-top: 0;
+
+    text-align: center;
+    color: #fd9404;
+  }
+
+  &__transcription {
+    color: #588b8b;
+  }
+
+  &__btn-primary,
+  &__btn-additional,
+  &__btn-check {
+    width: 220px;
+    margin-bottom: 10px;
+    padding: 7px 0;
+
+    color: #ffffff;
+
+    background: #011627;
+    border: none;
+    border-radius: 9px;
+    outline: none;
+
+    &:disabled {
+      filter: saturate(.3);
+    }
+  }
+
+  &__btn-additional {
+    margin: 0 5px 10px;
+  }
+
+  &__btn-know-word,
+  &__btn-easy-word {
+    background: #2ec4b6;
+  }
+
+  &__btn-difficult-word,
+  &__btn-complex-word {
+    background: #e71d36;
+  }
+
+  &__btn-normal-word {
+    background: #7bdff2;
+  }
+
+  &__btn-show-answer,
+  &__btn-repeat-again {
+    background: #ff9f1c;
+  }
+
+  &__btn-check {
+    width: 270px;
+
+    background: #008dff;
+  }
+
+  &__additional-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 460px;
+  }
+
+  .translate-hidden {
+    display: none;
+  }
+}
+
+@media (max-width: 965px) {
+  .card {
+    &__additional-buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
+  }
+}
+
+@media (max-width: 735px) {
+  .card {
+    &__buttons-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__btn-primary {
+      width: 275px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .card {
+    &__image {
+      width: 275px;
+    }
+
+    &__btn-additional {
+      width: 275px;
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-container-rtl .swiper-button-next {
+    left: 0;
+  }
+
+  .swiper-button-next,
+  .swiper-container-rtl .swiper-button-prev {
+    right: 0;
+  }
+}
